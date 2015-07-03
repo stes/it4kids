@@ -1,0 +1,27 @@
+<RCC>
+    <qresource prefix="/snap">
+        <file>Resources/close.png</file>
+        <file>Resources/maximize.png</file>
+        <file>Resources/minimize.png</file>
+        <file>Resources/cloud.png</file>
+        <file>Resources/file.png</file>
+        <file>Resources/options.png</file>
+        <file>Resources/backgroundSnap.png</file>
+        <file>Resources/logo.png</file>
+        <file>Resources/dragndrop.png</file>
+        <file>Resources/freelyRotatable.png</file>
+        <file>Resources/leftrightRotatable.png</file>
+        <file>Resources/nonRotatable.png</file>
+        <file>Resources/tab.png</file>
+        <file>Resources/tabInactive.png</file>
+        <file>Resources/TurtleSprite.png</file>
+        <file>Resources/newCostume.png</file>
+        <file>Resources/newSound.png</file>
+        <file>Resources/sound.png</file>
+        <file>Resources/fullScreenStage.png</file>
+        <file>Resources/maximizeStage.png</file>
+        <file>Resources/pauseScript.png</file>
+        <file>Resources/startScript.png</file>
+        <file>Resources/stopScript.png</file>
+    </qresource>
+</RCC>
