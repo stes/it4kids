@@ -1,65 +1,27 @@
 #include "snapmainwindow.h"
+#include <QDebug>
 
 SnapMainWindow::SnapMainWindow(QWidget* parent) :
     QMainWindow(parent)
 {
-    setStyleSheet("background-color: #373737; padding-top: 0px;");
     setWindowFlags(Qt::FramelessWindowHint);
 
-    _toolBar = new QToolBar(this);
+    QFile styleSheet(":/snap/Resources/style.qss");
+    styleSheet.open(QFile::ReadOnly);
+    QString _styleSheet = QLatin1String(styleSheet.readAll());
+    setStyleSheet(_styleSheet);
 
-    _actionFile = new QAction(QIcon(":/snap/Resources/file.png"), "File", this);
-    _actionCloud = new QAction(QIcon(":/snap/Resources/cloud.png"), "Cloud", this);
-    _actionOptions = new QAction(QIcon(":/snap/Resources/options.png"), "Options", this);
-    _actionMinimize = new QAction(QIcon(":/snap/Resources/minimize.png"), "Minimize", this);
-    _actionMaximize = new QAction(QIcon(":/snap/Resources/maximize.png"), "Maximize", this);
-    _actionClose = new QAction(QIcon(":/snap/Resources/close.png"), "Close", this);
-    _toolBarSpacer = new QWidget();
-    _toolBarSpacer->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    _toolBarLogo = new QLabel();
-    _toolBarLogo->setPixmap(QPixmap(":/snap/Resources/logo.png"));
-    _toolBarLogo->setFixedSize(QSize(125, 27));
-
-    _toolBar->addWidget(_toolBarLogo);
-    _toolBar->addAction(_actionFile);
-    _toolBar->addAction(_actionCloud);
-    _toolBar->addAction(_actionOptions);
-    _toolBar->addWidget(_toolBarSpacer);
-    _toolBar->addAction(_actionMinimize);
-    _toolBar->addAction(_actionMaximize);
-    _toolBar->addAction(_actionClose);
-    _toolBar->setMovable(false);
-    _toolBar->setFloatable(false);
-
+    _toolBar = new SnapToolBar(this);
     addToolBar(Qt::TopToolBarArea ,_toolBar);
-    _toolBar->setStyleSheet("QToolBar {background-color: #373737; border: none; }");
-    _toolBar->setFixedHeight(28);
-    _toolBar->setIconSize(QSize(42, 28));
-
-    connect(_actionMinimize, SIGNAL(triggered(bool)), this, SLOT(showMinimized()));
-    connect(_actionMaximize, SIGNAL(triggered(bool)), this, SLOT(showMaximized()));
-    connect(_actionClose, SIGNAL(triggered(bool)), this, SLOT(close()));
 
     _centralWidget = new QWidget();
     _centralLayout = new QHBoxLayout();
 
-    _leftTab = new QLabel();
-    _leftTab->setObjectName("leftTab");
-    _leftTab->setMinimumWidth(300);
-    _leftTab->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    _leftTab->setStyleSheet("QLabel#leftTab {border-top: 4px solid #272727; border-right: 2px solid #272727;}");
-
-    _leftLayout = new QHBoxLayout();
-    _leftLayout->setAlignment(Qt::AlignLeft);
-    _leftLayout->setContentsMargins(0, 0, 0, 0);
-    _leftLayout->setSpacing(0);
     _snapElementList = new SnapElementWidget(this);
-    _leftLayout->addWidget(_snapElementList);
-    _leftTab->setLayout(_leftLayout);
-    _centralLayout->addWidget(_leftTab);
+    _centralLayout->addWidget(_snapElementList);
 
     _centerArea = new CenterArea(this);
-    _leftLayout->addWidget(_centerArea);
+    _centralLayout->addWidget(_centerArea);
 
     _rightTab = new QLabel();
     _rightTab->setObjectName("rightTab");
@@ -79,38 +41,20 @@ SnapMainWindow::SnapMainWindow(QWidget* parent) :
     _stageBar1->setLayout(stageBarLayout);
     _stageBar1->setAlignment(Qt::AlignLeft);
 
-    QPushButton* maximizeStage = new QPushButton(this);
-    maximizeStage->setObjectName("maximizeStage");
-    maximizeStage->setFixedSize(42, 24);
-    maximizeStage->setStyleSheet("QPushButton#maximizeStage {background-image: url(:/snap/Resources/maximizeStage.png); border-radius: 9px;}");
-    stageBarLayout->addWidget(maximizeStage);
+    _maximizeStage = new SnapRoundButton(":/snap/Resources/maximizestageicon.png");
+    stageBarLayout->addWidget(_maximizeStage);
+    _fullScreenStage = new SnapRoundButton(":/snap/Resources/fullscreenstageicon.png");
+    stageBarLayout->addWidget(_fullScreenStage);
 
-    QPushButton* fullScreenStage = new QPushButton(this);
-    fullScreenStage->setObjectName("fullScreenStage");
-    fullScreenStage->setFixedSize(42, 24);
-    fullScreenStage->setStyleSheet("QPushButton#fullScreenStage {background-image: url(:/snap/Resources/fullScreenStage.png); border-radius: 9px;}");
-    stageBarLayout->addWidget(fullScreenStage);
+    _spacer = new QSpacerItem(0,0, QSizePolicy::Expanding);
+    stageBarLayout->addItem(_spacer);
 
-    QSpacerItem* spacer = new QSpacerItem(0,0, QSizePolicy::Expanding);
-    stageBarLayout->addItem(spacer);
-
-    QPushButton* startScript = new QPushButton(this);
-    startScript->setObjectName("startScript");
-    startScript->setFixedSize(42, 24);
-    startScript->setStyleSheet("QPushButton#startScript {background-image: url(:/snap/Resources/startScript.png); border-radius: 9px;}");
-    stageBarLayout->addWidget(startScript);
-
-    QPushButton* pauseScript = new QPushButton(this);
-    pauseScript->setObjectName("pauseScript");
-    pauseScript->setFixedSize(42, 24);
-    pauseScript->setStyleSheet("QPushButton#pauseScript {background-image: url(:/snap/Resources/pauseScript.png); border-radius: 9px;}");
-    stageBarLayout->addWidget(pauseScript);
-
-    QPushButton* stopScript = new QPushButton(this);
-    stopScript->setObjectName("stopScript");
-    stopScript->setFixedSize(42, 24);
-    stopScript->setStyleSheet("QPushButton#stopScript {background-image: url(:/snap/Resources/stopScript.png); border-radius: 9px;}");
-    stageBarLayout->addWidget(stopScript);
+    _startScript = new SnapRoundButton(":/snap/Resources/startscripticon.png");
+    stageBarLayout->addWidget(_startScript);
+    _pauseScript = new SnapRoundButton(":/snap/Resources/pausescripticon.png");
+    stageBarLayout->addWidget(_pauseScript);
+    _stopScript = new SnapRoundButton(":/snap/Resources/stopscripticon.png");
+    stageBarLayout->addWidget(_stopScript);
 
     _rightLayout->addWidget(_stageBar1);
 

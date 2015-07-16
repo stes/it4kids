@@ -3,10 +3,6 @@
 CostumeArea::CostumeArea(QWidget *parent) :
     QWidget(parent)
 {
-    setStyleSheet("background-color: #474747");
-    setMinimumSize(200, 200);
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
     _layout = new QHBoxLayout();
     _layout->setContentsMargins(0, 0, 0, 0);
     _layout->setSpacing(0);
@@ -26,10 +22,11 @@ CostumeArea::CostumeArea(QWidget *parent) :
     _newCostume->setAlignment(Qt::AlignCenter);
     _newCostume->setStyleSheet("color: #ffffff; font-weight: bold;");
     _costumeListLayout->addWidget(_newCostume);
-    QPushButton* newCostumeButton = new QPushButton(this);
-    newCostumeButton->setFixedSize(95, 24);
-    newCostumeButton->setStyleSheet("background-image: url(:/snap/Resources/newCostume.png); background-repeat: none; margin-left: 26px;");
-    _costumeListLayout->addWidget(newCostumeButton);
+
+    _newCostumeButton = new SnapRoundButton(":/snap/Resources/newcostumeicon.png", this);
+    _newCostumeButton->setStyleSheet("margin-left: 26px;");
+    _costumeListLayout->addWidget(_newCostumeButton);
+
     _costume = new QLabel("<html><img src=':/snap/Resources/TurtleSprite.png'><p align='center' >TestSprite</p></html>");
     _costume->setStyleSheet("color: #ffffff; margin-left: 5px;");
     _costumeListLayout->addWidget(_costume);

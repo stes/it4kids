@@ -14,7 +14,7 @@
 #include "costumearea.h"
 #include "soundarea.h"
 
-class CenterArea : public QWidget
+class CenterArea : public QLabel
 {
     Q_OBJECT
 public:
@@ -22,12 +22,15 @@ public:
     ~CenterArea();
 private:
     QGridLayout* _layout;
+
     QPushButton* _freelyRotatable;
     QPushButton* _leftrightRotatable;
     QPushButton* _nonRotatable;
+
     QLabel* _activeSprite;
     QTextEdit* _spriteName;
     QCheckBox* _draggable;
+
     QTabWidget* _centerTab;
 };
 

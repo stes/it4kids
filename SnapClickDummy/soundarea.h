@@ -5,7 +5,8 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QLabel>
-#include <QPushButton>
+
+#include "snaproundbutton.h"
 
 class SoundArea : public QWidget
 {
@@ -15,11 +16,15 @@ public:
     ~SoundArea();
 protected:
     QHBoxLayout* _layout;
+
     QWidget* _soundListWidget;
     QVBoxLayout* _soundListLayout;
+
+    QLabel* _newSound;
+    SnapRoundButton* _newSoundButton;
+
     QLabel* _sound;
     QLabel* _drawingArea;
-    QLabel* _newsound;
 };
 
 #endif // SOUNDAREA

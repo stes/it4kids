@@ -5,7 +5,8 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QLabel>
-#include <QPushButton>
+
+#include "snaproundbutton.h"
 
 class CostumeArea : public QWidget
 {
@@ -15,11 +16,15 @@ public:
     ~CostumeArea();
 protected:
     QHBoxLayout* _layout;
+
     QWidget* _costumeListWidget;
     QVBoxLayout* _costumeListLayout;
+
+    QLabel* _newCostume;
+    SnapRoundButton* _newCostumeButton;
+
     QLabel* _costume;
     QLabel* _drawingArea;
-    QLabel* _newCostume;
 };
 
 #endif // COSTUMEAREA

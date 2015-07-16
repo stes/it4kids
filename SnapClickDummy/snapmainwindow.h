@@ -2,15 +2,16 @@
 #define SNAPMAINWINDOW
 
 #include <QMainWindow>
-#include <QToolBar>
-#include <QAction>
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QGraphicsView>
+#include <QFile>
 #include <QStyle>
-#include <QGraphicsDropShadowEffect>
+
+#include "snaptoolbar.h"
 
 #include "snapelementwidget.h"
+#include "snaproundbutton.h"
 #include "centerarea.h"
 
 class SnapMainWindow : public QMainWindow
@@ -22,28 +23,29 @@ public:
     ~SnapMainWindow();
 
 private:
-    QToolBar* _toolBar;
-    QAction* _actionFile;
-    QAction* _actionCloud;
-    QAction* _actionOptions;
-    QAction* _actionMinimize;
-    QAction* _actionMaximize;
-    QAction* _actionClose;
-    QWidget* _toolBarSpacer;
-    QLabel* _toolBarLogo;
+    QString _styleSheet;
+
+    SnapToolBar* _toolBar;
 
     QWidget* _centralWidget;
     QHBoxLayout* _centralLayout;
 
-    QLabel* _leftTab;
-    QHBoxLayout* _leftLayout;
     SnapElementWidget* _snapElementList;
     CenterArea* _centerArea;
 
     QLabel* _rightTab;
     QVBoxLayout* _rightLayout;
-    QLabel* _stage;
+
     QLabel* _stageBar1;
+    SnapRoundButton* _maximizeStage;
+    SnapRoundButton* _fullScreenStage;
+    QSpacerItem* _spacer;
+    SnapRoundButton* _startScript;
+    SnapRoundButton* _pauseScript;
+    SnapRoundButton* _stopScript;
+
+    QLabel* _stage;
+
     QLabel* _stageBar2;
     QLabel* _spriteList;
 };

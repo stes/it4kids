@@ -1,11 +1,5 @@
 <RCC>
     <qresource prefix="/snap">
-        <file>Resources/close.png</file>
-        <file>Resources/maximize.png</file>
-        <file>Resources/minimize.png</file>
-        <file>Resources/cloud.png</file>
-        <file>Resources/file.png</file>
-        <file>Resources/options.png</file>
         <file>Resources/backgroundSnap.png</file>
         <file>Resources/logo.png</file>
         <file>Resources/dragndrop.png</file>
@@ -15,13 +9,25 @@
         <file>Resources/tab.png</file>
         <file>Resources/tabInactive.png</file>
         <file>Resources/TurtleSprite.png</file>
-        <file>Resources/newCostume.png</file>
-        <file>Resources/newSound.png</file>
         <file>Resources/sound.png</file>
-        <file>Resources/fullScreenStage.png</file>
-        <file>Resources/maximizeStage.png</file>
-        <file>Resources/pauseScript.png</file>
-        <file>Resources/startScript.png</file>
-        <file>Resources/stopScript.png</file>
+        <file>Resources/fileicon.png</file>
+        <file>Resources/roundbuttonbg.png</file>
+        <file>Resources/roundbuttonbg_hover.png</file>
+        <file>Resources/roundbuttonbg_pressed.png</file>
+        <file>Resources/style.qss</file>
+        <file>Resources/closeicon.png</file>
+        <file>Resources/cloudicon.png</file>
+        <file>Resources/maximizeicon.png</file>
+        <file>Resources/minimizeicon.png</file>
+        <file>Resources/optionsicon.png</file>
+        <file>Resources/fullscreenstageicon.png</file>
+        <file>Resources/maximizestageicon.png</file>
+        <file>Resources/newcostumeicon.png</file>
+        <file>Resources/newsoundicon.png</file>
+        <file>Resources/pausescripticon.png</file>
+        <file>Resources/startscripticon.png</file>
+        <file>Resources/stopscripticon.png</file>
+        <file>Resources/topsnapelement.png</file>
+        <file>Resources/midsnapelement.png</file>
     </qresource>
 </RCC>

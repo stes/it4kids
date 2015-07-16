@@ -26,11 +26,9 @@ public slots:
     void ChangeVisibleCategory(SnapElementCategory* category);
 
 protected:
-    QGridLayout* _mainLayout;
     QGridLayout* _categoryLayout;
 
     SnapElementCategory* _currentActiveCategory;
-    int _snapElementCount;
 };
 
 

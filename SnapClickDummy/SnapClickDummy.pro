@@ -10,7 +10,9 @@ SOURCES += \
     costumearea.cpp \
     soundarea.cpp \
     snapelementwidget.cpp \
-    snapelementcategory.cpp
+    snapelementcategory.cpp \
+    snaproundbutton.cpp \
+    snaptoolbar.cpp
 
 RESOURCES += \
     MainWindow.qrc
@@ -23,4 +25,6 @@ HEADERS += \
     costumearea.h \
     soundarea.h \
     snapelementwidget.h \
-    snapelementcategory.h
+    snapelementcategory.h \
+    snaptoolbar.h \
+    snaproundbutton.h
