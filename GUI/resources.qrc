@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>style.qss</file>
+        <file>Assets/fullScreenOff.png</file>
+        <file>Assets/fullScreenOn.png</file>
+        <file>Assets/greenFlagOff.png</file>
+        <file>Assets/greenFlagOn.png</file>
+        <file>Assets/stopOff.png</file>
+        <file>Assets/stopOn.png</file>
+    </qresource>
+</RCC>
