@@ -7,5 +7,6 @@
         <file>Assets/greenFlagOn.png</file>
         <file>Assets/stopOff.png</file>
         <file>Assets/stopOn.png</file>
+        <file>Assets/clockwise.png</file>
     </qresource>
 </RCC>

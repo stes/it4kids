@@ -18,14 +18,16 @@ SOURCES += main.cpp\
     categoryselect.cpp \
     dragableelement.cpp \
     dragelemcategory.cpp \
-    dragelemlist.cpp
+    dragelemlist.cpp \
+    scriptarea.cpp
 
 HEADERS  += mainwindow.h \
     scene.h \
     categoryselect.h \
     dragableelement.h \
     dragelemcategory.h \
-    dragelemlist.h
+    dragelemlist.h \
+    scriptarea.h
 
 FORMS    += mainwindow.ui
 

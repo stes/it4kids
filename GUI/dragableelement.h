@@ -5,10 +5,12 @@
 #include <QColor>
 #include <QString>
 #include <QLabel>
+#include <QLineEdit>
 #include <QHBoxLayout>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPainterPath>
+#include <QApplication>
 
 class DragableElement : public QWidget
 {
@@ -17,9 +19,10 @@ public:
     DragableElement(const QString& text, const QColor& color, QWidget* parent = 0);
     ~DragableElement();
 
+    QString _text;
 protected:
     QColor _color;
-    QString _text;
+
     QPoint _offset;
     bool _dragged;
     int _width;

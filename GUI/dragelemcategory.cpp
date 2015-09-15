@@ -3,8 +3,7 @@
 DragElemCategory::DragElemCategory(QString name, QColor color, QWidget *parent) : QWidget(parent),
     _label(name, this), _color(color)
 {
-    DragableElement* element = new DragableElement("Fuck this", _color, this);
-    _elemList.push_back(element);
+
 }
 
 void DragElemCategory::toggleActive()
@@ -18,6 +17,10 @@ void DragElemCategory::toggleActive()
 void DragElemCategory::setElemListWidget(DragElemList *elemListWidget)
 {
     _elemListWidget = elemListWidget;
+    DragableElement* element = new DragableElement("gehe *QPixmap(:/Assets/greenFlagOn.png)* Schritte", _color, _elemListWidget);
+    DragableElement* element2 = new DragableElement("drehe dich *QPixmap(:/Assets/clockwise.png)* um *QTextEdit()* Grad", _color, _elemListWidget);
+    _elemList.push_back(element);
+    _elemList.push_back(element2);
 }
 
 void DragElemCategory::paintEvent(QPaintEvent*)
