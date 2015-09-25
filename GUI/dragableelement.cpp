@@ -1,8 +1,8 @@
 #include "dragableelement.h"
 #include <QDebug>
 
-DragableElement::DragableElement(const QString& text, const QColor& color, QWidget* parent) :
-    QWidget(parent), _text(text), _color(color)
+DragableElement::DragableElement(const QString& text, const QColor& color, QWidget* scriptAreaWidget, QWidget* parent) :
+    QWidget(parent), _text(text), _color(color), _scriptAreaWidget(scriptAreaWidget), _dragged(false)
 {
     QLabel* content = new QLabel(this);
     content->setStyleSheet("background-color: none;");
@@ -58,12 +58,17 @@ DragableElement::~DragableElement()
 
 }
 
+void DragableElement::setScriptAreaWidget(QWidget* scriptAreaWidget)
+{
+    _scriptAreaWidget = scriptAreaWidget;
+}
+
 void DragableElement::mousePressEvent(QMouseEvent* event)
 {
     _offset = event->pos();
     if(!_dragged)
     {
-        DragableElement* element = new DragableElement(_text, _color, QApplication::activeWindow());
+        DragableElement* element = new DragableElement(_text, _color, _scriptAreaWidget, QApplication::activeWindow());
         element->_dragged = true;
         element->setFixedHeight(height());
         element->setFixedWidth(width());
@@ -84,6 +89,11 @@ void DragableElement::mouseMoveEvent(QMouseEvent *event)
 void DragableElement::mouseReleaseEvent(QMouseEvent* event)
 {
     releaseMouse();
+    QRect scriptArea = QRect(_scriptAreaWidget->mapToGlobal(QPoint(0,0)), QSize(_scriptAreaWidget->width(), _scriptAreaWidget->height()));
+    if(!scriptArea.contains(QRect(mapToGlobal(QPoint(0, 0)), QSize(width(), height())), true))
+    {
+        delete this;
+    }
 }
 
 void DragableElement::paintEvent(QPaintEvent* event)
@@ -96,7 +106,7 @@ void DragableElement::paintEvent(QPaintEvent* event)
          << QPoint(11, 4) << QPoint(21, 4)
          << QPoint(25, 0) << QPoint(_width+20, 0)
          << QPoint(_width+20, 20) << QPoint(23, 20)
-         << QPoint(21, 24) << QPoint(11, 24)\
+         << QPoint(21, 24) << QPoint(11, 24)
          << QPoint(7, 20) << QPoint(0, 20)
          << QPoint(0, 0);
 

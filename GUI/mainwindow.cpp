@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent) :
     setWindowFlags(Qt::FramelessWindowHint);
 
     ui->categorySelect->setElemListWidget(ui->elementList);
+    ui->categorySelect->setScriptAreaWidget(ui->scriptArea);
 }
 
 MainWindow::~MainWindow()

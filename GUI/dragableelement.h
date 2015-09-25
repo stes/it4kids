@@ -16,16 +16,18 @@ class DragableElement : public QWidget
 {
     Q_OBJECT
 public:
-    DragableElement(const QString& text, const QColor& color, QWidget* parent = 0);
+    DragableElement(const QString& text, const QColor& color, QWidget* scriptAreaWidget = 0, QWidget* parent = 0);
     ~DragableElement();
 
-    QString _text;
+    void setScriptAreaWidget(QWidget* scriptAreaWidget);
 protected:
     QColor _color;
-
+    QString _text;
     QPoint _offset;
     bool _dragged;
     int _width;
+
+    QWidget* _scriptAreaWidget;
 
     void mousePressEvent(QMouseEvent* event);
     void mouseMoveEvent(QMouseEvent* event);

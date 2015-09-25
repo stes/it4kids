@@ -7,7 +7,8 @@
 #include <QGridLayout>
 
 #include "dragelemcategory.h"
-#include "dragelemlist.h"
+
+class DragElemList;
 
 typedef std::vector<DragElemCategory*> CategoryList;
 
@@ -18,10 +19,12 @@ public:
     explicit CategorySelect(QWidget *parent = 0);
 
     void setElemListWidget(DragElemList* elemListWidget);
+    void setScriptAreaWidget(QWidget* scriptArea);
 protected:
     void paintEvent(QPaintEvent *);
 
     DragElemList* _elemListWidget;
+    QWidget* _scriptAreaWidget;
 
     CategoryList _categoryList;
     QGridLayout _layout;

@@ -34,6 +34,15 @@ void CategorySelect::setElemListWidget(DragElemList *elemListWidget)
     }
 }
 
+void CategorySelect::setScriptAreaWidget(QWidget* scriptArea)
+{
+    _scriptAreaWidget = scriptArea;
+    for(CategoryList::iterator category = _categoryList.begin(); category != _categoryList.end(); category++)
+    {
+        (*category)->setScriptAreaWidget(_scriptAreaWidget);
+    }
+}
+
 void CategorySelect::paintEvent(QPaintEvent* event)
 {
 

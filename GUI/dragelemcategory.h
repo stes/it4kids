@@ -16,6 +16,8 @@
 #include "dragableelement.h"
 #include "dragelemlist.h"
 
+class ScriptArea;
+
 typedef std::vector<DragableElement*> ElementList;
 
 class DragElemCategory : public QWidget
@@ -26,6 +28,7 @@ public:
 
     void toggleActive();
     void setElemListWidget(DragElemList* elemListWidget);
+    void setScriptAreaWidget(QWidget* scriptAreaWidget);
 protected:
     void paintEvent(QPaintEvent*);
 
@@ -33,6 +36,7 @@ protected:
 
     ElementList _elemList;
     DragElemList* _elemListWidget;
+    QWidget* _scriptAreaWidget;
 
     QColor _color;
     QLabel _label;
