@@ -8,5 +8,10 @@
         <file>Assets/stopOff.png</file>
         <file>Assets/stopOn.png</file>
         <file>Assets/clockwise.png</file>
+        <file>Assets/Einteilung.js</file>
+        <file>Assets/lang-de.js</file>
+        <file>Assets/objects.js</file>
+        <file>Assets/close.png</file>
+        <file>Assets/minimize.png</file>
     </qresource>
 </RCC>
