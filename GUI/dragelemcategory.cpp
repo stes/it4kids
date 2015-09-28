@@ -41,7 +41,7 @@ void DragElemCategory::paintEvent(QPaintEvent*)
     _label.move(10, 0);
 }
 
-void DragElemCategory::mousePressEvent(QMouseEvent *event)
+void DragElemCategory::mousePressEvent(QMouseEvent*)
 {
     toggleActive();
 }

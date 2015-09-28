@@ -29,11 +29,11 @@ protected:
 
     QWidget* _scriptAreaWidget;
 
-    void mousePressEvent(QMouseEvent* event);
-    void mouseMoveEvent(QMouseEvent* event);
-    void mouseReleaseEvent(QMouseEvent* event);
+    void mousePressEvent(QMouseEvent*);
+    void mouseMoveEvent(QMouseEvent*);
+    void mouseReleaseEvent(QMouseEvent*);
 
-    void paintEvent(QPaintEvent* event);
+    void paintEvent(QPaintEvent*);
 };
 
 #endif // DRAGABLEELEMENT_H

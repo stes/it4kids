@@ -2,7 +2,7 @@
 #include <QDebug>
 
 DragableElement::DragableElement(const QString& text, const QColor& color, QWidget* scriptAreaWidget, QWidget* parent) :
-    QWidget(parent), _text(text), _color(color), _scriptAreaWidget(scriptAreaWidget), _dragged(false)
+    QWidget(parent), _color(color), _text(text), _dragged(false), _scriptAreaWidget(scriptAreaWidget)
 {
     QLabel* content = new QLabel(this);
     content->setStyleSheet("background-color: none;");
@@ -63,7 +63,7 @@ void DragableElement::setScriptAreaWidget(QWidget* scriptAreaWidget)
     _scriptAreaWidget = scriptAreaWidget;
 }
 
-void DragableElement::mousePressEvent(QMouseEvent* event)
+void DragableElement::mousePressEvent(QMouseEvent *event)
 {
     _offset = event->pos();
     if(!_dragged)
@@ -86,7 +86,7 @@ void DragableElement::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
-void DragableElement::mouseReleaseEvent(QMouseEvent* event)
+void DragableElement::mouseReleaseEvent(QMouseEvent*)
 {
     releaseMouse();
     QRect scriptArea = QRect(_scriptAreaWidget->mapToGlobal(QPoint(0,0)), QSize(_scriptAreaWidget->width(), _scriptAreaWidget->height()));
@@ -96,7 +96,7 @@ void DragableElement::mouseReleaseEvent(QMouseEvent* event)
     }
 }
 
-void DragableElement::paintEvent(QPaintEvent* event)
+void DragableElement::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
 

@@ -21,7 +21,7 @@ public:
     void setElemListWidget(DragElemList* elemListWidget);
     void setScriptAreaWidget(QWidget* scriptArea);
 protected:
-    void paintEvent(QPaintEvent *);
+    void paintEvent(QPaintEvent*);
 
     DragElemList* _elemListWidget;
     QWidget* _scriptAreaWidget;

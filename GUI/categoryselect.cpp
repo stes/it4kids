@@ -43,7 +43,7 @@ void CategorySelect::setScriptAreaWidget(QWidget* scriptArea)
     }
 }
 
-void CategorySelect::paintEvent(QPaintEvent* event)
+void CategorySelect::paintEvent(QPaintEvent*)
 {
 
 }

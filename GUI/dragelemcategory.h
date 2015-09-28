@@ -32,14 +32,14 @@ public:
 protected:
     void paintEvent(QPaintEvent*);
 
-    void mousePressEvent(QMouseEvent* event);
+    void mousePressEvent(QMouseEvent*);
 
     ElementList _elemList;
     DragElemList* _elemListWidget;
     QWidget* _scriptAreaWidget;
 
-    QColor _color;
     QLabel _label;
+    QColor _color;
 signals:
 
 public slots:
