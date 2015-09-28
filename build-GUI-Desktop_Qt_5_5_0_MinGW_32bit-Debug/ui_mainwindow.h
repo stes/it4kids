@@ -22,9 +22,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSpacerItem>
-#include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
-#include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include <categoryselect.h>
@@ -37,12 +35,8 @@ QT_BEGIN_NAMESPACE
 class Ui_MainWindow
 {
 public:
-    QAction *actionDatei;
-    QAction *actionBearbeiten;
-    QAction *actionTipps;
-    QAction *actionInfo;
     QWidget *centralWidget;
-    QHBoxLayout *horizontalLayout;
+    QGridLayout *gridLayout_2;
     QFrame *frame;
     QVBoxLayout *verticalLayout;
     QFrame *upperSceneFrame;
@@ -72,29 +66,28 @@ public:
     ScriptArea *scriptArea;
     QWidget *tabCostume;
     QWidget *tabSound;
-    QToolBar *mainToolBar;
-    QStatusBar *statusBar;
+    QFrame *frame_31;
+    QHBoxLayout *horizontalLayout;
+    QPushButton *buttonFile;
+    QPushButton *buttonEdit;
+    QPushButton *buttonHints;
+    QSpacerItem *horizontalSpacer;
+    QPushButton *buttonMinimize;
+    QPushButton *buttonClose;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
         MainWindow->resize(953, 546);
-        actionDatei = new QAction(MainWindow);
-        actionDatei->setObjectName(QStringLiteral("actionDatei"));
-        actionBearbeiten = new QAction(MainWindow);
-        actionBearbeiten->setObjectName(QStringLiteral("actionBearbeiten"));
-        actionTipps = new QAction(MainWindow);
-        actionTipps->setObjectName(QStringLiteral("actionTipps"));
-        actionInfo = new QAction(MainWindow);
-        actionInfo->setObjectName(QStringLiteral("actionInfo"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        horizontalLayout = new QHBoxLayout(centralWidget);
-        horizontalLayout->setSpacing(6);
-        horizontalLayout->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
-        horizontalLayout->setContentsMargins(2, 2, -1, -1);
+        gridLayout_2 = new QGridLayout(centralWidget);
+        gridLayout_2->setSpacing(6);
+        gridLayout_2->setContentsMargins(11, 11, 11, 11);
+        gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
+        gridLayout_2->setHorizontalSpacing(6);
+        gridLayout_2->setContentsMargins(0, 0, 0, -1);
         frame = new QFrame(centralWidget);
         frame->setObjectName(QStringLiteral("frame"));
         frame->setFrameShape(QFrame::StyledPanel);
@@ -223,7 +216,7 @@ public:
         verticalLayout->addWidget(selectionFrame);
 
 
-        horizontalLayout->addWidget(frame);
+        gridLayout_2->addWidget(frame, 1, 0, 1, 1);
 
         centerAreaWidget = new QTabWidget(centralWidget);
         centerAreaWidget->setObjectName(QStringLiteral("centerAreaWidget"));
@@ -277,7 +270,7 @@ public:
         widget_2 = new QWidget(tabScript);
         widget_2->setObjectName(QStringLiteral("widget_2"));
         horizontalLayout_4 = new QHBoxLayout(widget_2);
-        horizontalLayout_4->setSpacing(6);
+        horizontalLayout_4->setSpacing(0);
         horizontalLayout_4->setContentsMargins(11, 11, 11, 11);
         horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
         horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
@@ -303,23 +296,82 @@ public:
         tabSound->setObjectName(QStringLiteral("tabSound"));
         centerAreaWidget->addTab(tabSound, QString());
 
-        horizontalLayout->addWidget(centerAreaWidget);
+        gridLayout_2->addWidget(centerAreaWidget, 1, 1, 1, 1);
+
+        frame_31 = new QFrame(centralWidget);
+        frame_31->setObjectName(QStringLiteral("frame_31"));
+        QSizePolicy sizePolicy6(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        sizePolicy6.setHorizontalStretch(0);
+        sizePolicy6.setVerticalStretch(0);
+        sizePolicy6.setHeightForWidth(frame_31->sizePolicy().hasHeightForWidth());
+        frame_31->setSizePolicy(sizePolicy6);
+        frame_31->setMinimumSize(QSize(0, 23));
+        frame_31->setStyleSheet(QStringLiteral("background-color: #9c9ea2;"));
+        horizontalLayout = new QHBoxLayout(frame_31);
+        horizontalLayout->setSpacing(0);
+        horizontalLayout->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        horizontalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
+        horizontalLayout->setContentsMargins(0, 0, 0, 0);
+        buttonFile = new QPushButton(frame_31);
+        buttonFile->setObjectName(QStringLiteral("buttonFile"));
+        sizePolicy4.setHeightForWidth(buttonFile->sizePolicy().hasHeightForWidth());
+        buttonFile->setSizePolicy(sizePolicy4);
+        buttonFile->setMinimumSize(QSize(0, 20));
+        buttonFile->setFlat(true);
+
+        horizontalLayout->addWidget(buttonFile);
+
+        buttonEdit = new QPushButton(frame_31);
+        buttonEdit->setObjectName(QStringLiteral("buttonEdit"));
+        sizePolicy4.setHeightForWidth(buttonEdit->sizePolicy().hasHeightForWidth());
+        buttonEdit->setSizePolicy(sizePolicy4);
+        buttonEdit->setMinimumSize(QSize(0, 20));
+        buttonEdit->setFlat(true);
+
+        horizontalLayout->addWidget(buttonEdit);
+
+        buttonHints = new QPushButton(frame_31);
+        buttonHints->setObjectName(QStringLiteral("buttonHints"));
+        sizePolicy2.setHeightForWidth(buttonHints->sizePolicy().hasHeightForWidth());
+        buttonHints->setSizePolicy(sizePolicy2);
+        buttonHints->setMinimumSize(QSize(0, 20));
+        buttonHints->setFlat(true);
+
+        horizontalLayout->addWidget(buttonHints);
+
+        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+
+        horizontalLayout->addItem(horizontalSpacer);
+
+        buttonMinimize = new QPushButton(frame_31);
+        buttonMinimize->setObjectName(QStringLiteral("buttonMinimize"));
+        buttonMinimize->setMinimumSize(QSize(0, 20));
+        QIcon icon3;
+        icon3.addFile(QStringLiteral(":/Assets/minimize.png"), QSize(), QIcon::Normal, QIcon::Off);
+        buttonMinimize->setIcon(icon3);
+        buttonMinimize->setFlat(true);
+
+        horizontalLayout->addWidget(buttonMinimize);
+
+        buttonClose = new QPushButton(frame_31);
+        buttonClose->setObjectName(QStringLiteral("buttonClose"));
+        buttonClose->setMinimumSize(QSize(0, 20));
+        QIcon icon4;
+        icon4.addFile(QStringLiteral(":/Assets/close.png"), QSize(), QIcon::Normal, QIcon::Off);
+        buttonClose->setIcon(icon4);
+        buttonClose->setFlat(true);
+
+        horizontalLayout->addWidget(buttonClose);
+
+
+        gridLayout_2->addWidget(frame_31, 0, 0, 1, 2);
 
         MainWindow->setCentralWidget(centralWidget);
-        mainToolBar = new QToolBar(MainWindow);
-        mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
-        mainToolBar->setMovable(false);
-        MainWindow->addToolBar(Qt::TopToolBarArea, mainToolBar);
-        statusBar = new QStatusBar(MainWindow);
-        statusBar->setObjectName(QStringLiteral("statusBar"));
-        MainWindow->setStatusBar(statusBar);
-
-        mainToolBar->addAction(actionDatei);
-        mainToolBar->addAction(actionBearbeiten);
-        mainToolBar->addAction(actionTipps);
-        mainToolBar->addAction(actionInfo);
 
         retranslateUi(MainWindow);
+        QObject::connect(buttonClose, SIGNAL(clicked()), MainWindow, SLOT(close()));
+        QObject::connect(buttonMinimize, SIGNAL(clicked()), MainWindow, SLOT(showMinimized()));
 
         centerAreaWidget->setCurrentIndex(0);
 
@@ -330,10 +382,6 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
-        actionDatei->setText(QApplication::translate("MainWindow", "Datei", 0));
-        actionBearbeiten->setText(QApplication::translate("MainWindow", "Bearbeiten", 0));
-        actionTipps->setText(QApplication::translate("MainWindow", "Tipps", 0));
-        actionInfo->setText(QApplication::translate("MainWindow", "Info", 0));
         buttonFullScreen->setText(QString());
         buttonScriptStart->setText(QString());
         buttonStopScript->setText(QString());
@@ -341,6 +389,11 @@ public:
         centerAreaWidget->setTabText(centerAreaWidget->indexOf(tabScript), QApplication::translate("MainWindow", "Skripte", 0));
         centerAreaWidget->setTabText(centerAreaWidget->indexOf(tabCostume), QApplication::translate("MainWindow", "Kost\303\274me", 0));
         centerAreaWidget->setTabText(centerAreaWidget->indexOf(tabSound), QApplication::translate("MainWindow", "Kl\303\244nge", 0));
+        buttonFile->setText(QApplication::translate("MainWindow", "Datei", 0));
+        buttonEdit->setText(QApplication::translate("MainWindow", "Bearbeiten", 0));
+        buttonHints->setText(QApplication::translate("MainWindow", "Tipps", 0));
+        buttonMinimize->setText(QString());
+        buttonClose->setText(QString());
     } // retranslateUi
 
 };
