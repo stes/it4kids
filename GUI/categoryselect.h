@@ -5,6 +5,8 @@
 
 #include <QWidget>
 #include <QGridLayout>
+#include <QFile>
+#include <QXmlStreamReader>
 
 #include "dragelemcategory.h"
 
@@ -14,12 +16,14 @@ typedef std::vector<DragElemCategory*> CategoryList;
 
 class CategorySelect : public QWidget
 {
+    friend class MainWindow;
     Q_OBJECT
 public:
     explicit CategorySelect(QWidget *parent = 0);
 
     void setElemListWidget(DragElemList* elemListWidget);
     void setScriptAreaWidget(QWidget* scriptArea);
+    void show();
 protected:
     void paintEvent(QPaintEvent*);
 

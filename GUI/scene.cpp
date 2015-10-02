@@ -5,7 +5,7 @@ Scene::Scene(QWidget *parent) : QWidget(parent)
 
 }
 
-void Scene::paintEvent(QPaintEvent* event)
+void Scene::paintEvent(QPaintEvent*)
 {
     QStyleOption opt;
     opt.init(this);
@@ -16,4 +16,3 @@ void Scene::paintEvent(QPaintEvent* event)
     painter.setBrush(Qt::red);
     painter.drawRect(contentsRect());
 }
-

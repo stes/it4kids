@@ -22,9 +22,10 @@ typedef std::vector<DragableElement*> ElementList;
 
 class DragElemCategory : public QWidget
 {
+    friend class MainWindow;
     Q_OBJECT
 public:
-    explicit DragElemCategory(QString name, QColor color, QWidget *parent = 0);
+    explicit DragElemCategory(const QString& name, const QColor& color, QWidget *parent = 0);
 
     void toggleActive();
     void setElemListWidget(DragElemList* elemListWidget);
