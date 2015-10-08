@@ -209,13 +209,13 @@
 		 <parameter default="10" />
 	</dragableelement>
 	<dragableelement name="reportModulus" category="operators" type="reporter" spec="%n mod %n" />
-	<dragableelement name="reportLessThan" category="operators" type="predicate" spec="%s < %s" />
+	<dragableelement name="reportLessThan" category="operators" type="predicate" spec="%s &lt; %s" />
 	<dragableelement name="reportRandom" category="operators" type="reporter" spec="pick random %n to %n">
 		 <parameter default="1" />
 		 <parameter default="10" />
 	</dragableelement>
 	<dragableelement name="reportEquals" category="operators" type="predicate" spec="%s = %s" />
-	<dragableelement name="reportGreaterThan" category="operators" type="predicate" spec="%s > %s" />
+	<dragableelement name="reportGreaterThan" category="operators" type="predicate" spec="%s &gt; %s" />
 	<dragableelement name="reportAnd" category="operators" type="predicate" spec="%b and %b" />
 	<dragableelement name="reportOr" category="operators" type="predicate" spec="%b or %b" />
 	<dragableelement name="reportNot" category="operators" type="predicate" spec="not %b" />
@@ -252,7 +252,7 @@
 	</dragableelement>
 	<dragableelement name="reportTextFunction" category="operators" type="reporter" spec="%txtfun of %s">
 		 <parameter default="null" />
-		 <parameter default="Abelson & Sussman" />
+		 <parameter default="Abelson &amp; Sussman" />
 	</dragableelement>
 	<dragableelement name="doSetVar" category="variables" type="command" spec="set %var to %s">
 		 <parameter default="null" />
@@ -297,7 +297,7 @@
 	</dragableelement>
 	<dragableelement name="doMapCodeOrHeader" category="other" type="command" spec="map %cmdRing to %codeKind %code" />
 	<dragableelement name="doMapStringCode" category="other" type="command" spec="map String to code %code">
-		 <parameter default="<#1>" />
+		 <parameter default="&lt;#1&gt;" />
 	</dragableelement>
 	<dragableelement name="doMapListCode" category="other" type="command" spec="map %codeListPart of %codeListKind to code %code" />
 	<dragableelement name="reportMappedCode" category="other" type="reporter" spec="code of %cmdRing" />
