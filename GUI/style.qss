@@ -60,6 +60,34 @@ DragElemCategory QRect {
 	border: none;
 }
 
+DragElemList {
+	background-color: #e7e9e9;
+	border: none;
+}
+
+DragElemList QWidget#elemListWidget {
+	background-color: #e7e9e9;
+}
+
+
+DragableElement QLabel {
+	background-color: none;
+	color: #ffffff;
+}
+DragableElement QComboBox {
+	min-height: 15px;
+	max-height: 15px;
+	font-family: "Courier";
+	font-size: 10px;
+}
+
+ParamNumber {
+	border-radius: 6px;
+}
+ParamListId {
+	border-radius: 6px;
+}
+
 
 QFrame#selectionFrame {
 	border: 1px solid #d0d1d2;

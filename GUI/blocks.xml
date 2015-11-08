@@ -8,15 +8,14 @@
 	<dragelemcategory name="operators" color="#62c213" />
 	<dragelemcategory name="pen" color="#00a178" />
 	<dragelemcategory name="variables" color="#f3761d" />
-	<dragelemcategory name="lists" color="#d94d11" />
-	<dragelemcategory name="other" color="#969696" />
+	<!--<dragelemcategory name="other" color="#969696" />-->
 	<dragableelement name="forward" category="motion" type="command" spec="move %n steps" only="SpriteMorph">
 		 <parameter default="10" />
 	</dragableelement>
-	<dragableelement name="turn" category="motion" type="command" spec="turn %clockwise %n degrees" only="SpriteMorph">
+	<dragableelement name="turn" category="motion" type="command" spec="turn %Pixmap:/Assets/clockwise.png %n degrees" only="SpriteMorph">
 		 <parameter default="15" />
 	</dragableelement>
-	<dragableelement name="turnLeft" category="motion" type="command" spec="turn %counterclockwise %n degrees" only="SpriteMorph">
+	<dragableelement name="turnLeft" category="motion" type="command" spec="turn %Pixmap:/Assets/counterclockwise.png %n degrees" only="SpriteMorph">
 		 <parameter default="15" />
 	</dragableelement>
 	<dragableelement name="setHeading" category="motion" type="command" spec="point in direction %dir" only="SpriteMorph" />
@@ -86,12 +85,7 @@
 	<dragableelement name="goBack" category="looks" type="command" spec="go back %n layers" only="SpriteMorph">
 		 <parameter default="1" />
 	</dragableelement>
-	<dragableelement name="doScreenshot" category="looks" type="command" spec="save %imgsource as costume named %s">
-		 <parameter default="pen trails" />
-		 <parameter default="0" />
-	</dragableelement>
 	<dragableelement name="reportCostumes" category="looks" type="reporter" spec="wardrobe" />
-	<dragableelement name="alert" category="looks" type="command" spec="alert %mult%s" />
 	<dragableelement name="log" category="looks" type="command" spec="console log %mult%s" />
 	<dragableelement name="playSound" category="sound" type="command" spec="play sound %snd" />
 	<dragableelement name="doPlaySoundUntilDone" category="sound" type="command" spec="play sound %snd until done" />
@@ -134,12 +128,12 @@
 		 <parameter default="1" />
 	</dragableelement>
 	<dragableelement name="doStamp" category="pen" type="command" spec="stamp" only="SpriteMorph" />
-	<dragableelement name="receiveGo" category="control" type="hat" spec="when %greenflag clicked" />
-	<dragableelement name="receiveKey" category="control" type="hat" spec="when %keyHat key pressed" />
+	<dragableelement name="receiveGo" category="control" type="hat" spec="when %Pixmap:/Assets/greenFlagOn.png clicked" />
+	<dragableelement name="receiveKey" category="control" type="hat" spec="when %key key pressed" />
 	<dragableelement name="receiveInteraction" category="control" type="hat" spec="when I am %interaction">
 		 <parameter default="clicked" />
 	</dragableelement>
-	<dragableelement name="receiveMessage" category="control" type="hat" spec="when I receive %msgHat" />
+	<dragableelement name="receiveMessage" category="control" type="hat" spec="when I receive %msg" />
 	<dragableelement name="doBroadcast" category="control" type="command" spec="broadcast %msg" />
 	<dragableelement name="doBroadcastAndWait" category="control" type="command" spec="broadcast %msg and wait" />
 	<dragableelement name="getLastMessage" category="control" type="reporter" spec="message" />
@@ -147,26 +141,17 @@
 		 <parameter default="1" />
 	</dragableelement>
 	<dragableelement name="doWaitUntil" category="control" type="command" spec="wait until %b" />
-	<dragableelement name="doForever" category="control" type="command" spec="forever %c" />
-	<dragableelement name="doRepeat" category="control" type="command" spec="repeat %n %c">
+	<dragableelement name="doForever" category="control" type="wrapper" spec="forever %c" />
+	<dragableelement name="doRepeat" category="control" type="wrapper" spec="repeat %n %c">
 		 <parameter default="10" />
 	</dragableelement>
-	<dragableelement name="doUntil" category="control" type="command" spec="repeat until %b %c" />
-	<dragableelement name="doIf" category="control" type="command" spec="if %b %c" />
-	<dragableelement name="doIfElse" category="control" type="command" spec="if %b %c else %c" />
+	<dragableelement name="doUntil" category="control" type="wrapper" spec="repeat until %b %c" />
+	<dragableelement name="doIf" category="control" type="wrapper" spec="if %b %c" />
+	<dragableelement name="doIfElse" category="control" type="wrapper" spec="if %b %c else %c" />
 	<dragableelement name="doStopThis" category="control" type="command" spec="stop %stopChoices" />
-	<dragableelement name="doStopOthers" category="control" type="command" spec="stop %stopOthersChoices" />
-	<dragableelement name="doRun" category="control" type="command" spec="run %cmdRing %inputs" />
-	<dragableelement name="fork" category="control" type="command" spec="launch %cmdRing %inputs" />
-	<dragableelement name="evaluate" category="control" type="reporter" spec="call %repRing %inputs" />
-	<dragableelement name="doReport" category="control" type="command" spec="report %s" />
-	<dragableelement name="doCallCC" category="control" type="command" spec="run %cmdRing w/continuation" />
-	<dragableelement name="reportCallCC" category="control" type="reporter" spec="call %cmdRing w/continuation" />
-	<dragableelement name="doWarp" category="other" type="command" spec="warp %c" />
 	<dragableelement name="receiveOnClone" category="control" type="hat" spec="when I start as a clone" />
 	<dragableelement name="createClone" category="control" type="command" spec="create a clone of %cln" />
 	<dragableelement name="removeClone" category="control" type="command" spec="delete this clone" />
-	<dragableelement name="doPauseAll" category="control" type="command" spec="pause all %pause" />
 	<dragableelement name="reportTouchingObject" category="sensing" type="predicate" spec="touching %col ?" only="SpriteMorph" />
 	<dragableelement name="reportTouchingColor" category="sensing" type="predicate" spec="touching %clr ?" only="SpriteMorph" />
 	<dragableelement name="reportColorIsTouchingColor" category="sensing" type="predicate" spec="color %clr is touching %clr ?" only="SpriteMorph" />
@@ -196,12 +181,9 @@
 	<dragableelement name="reportIsFastTracking" category="sensing" type="predicate" spec="turbo mode?" />
 	<dragableelement name="doSetFastTracking" category="sensing" type="command" spec="set turbo mode to %b" />
 	<dragableelement name="reportDate" category="sensing" type="reporter" spec="current %dates" />
-	<dragableelement name="reifyScript" category="other" type="ring" spec="%rc %ringparms" />
-	<dragableelement name="reifyReporter" category="other" type="ring" spec="%rr %ringparms" />
-	<dragableelement name="reifyPredicate" category="other" type="ring" spec="%rp %ringparms" />
 	<dragableelement name="reportSum" category="operators" type="reporter" spec="%n + %n" />
-	<dragableelement name="reportDifference" category="operators" type="reporter" spec="%n − %n" />
-	<dragableelement name="reportProduct" category="operators" type="reporter" spec="%n × %n" />
+	<dragableelement name="reportDifference" category="operators" type="reporter" spec="%n - %n" />
+	<dragableelement name="reportProduct" category="operators" type="reporter" spec="%n * %n" />
 	<dragableelement name="reportQuotient" category="operators" type="reporter" spec="%n / %n" />
 	<dragableelement name="reportRound" category="operators" type="reporter" spec="round %n" />
 	<dragableelement name="reportMonadic" category="operators" type="reporter" spec="%fun of %n">
@@ -246,13 +228,9 @@
 		 <parameter default="0 0" />
 		 <parameter default=" " />
 	</dragableelement>
-	<dragableelement name="reportJSFunction" category="operators" type="reporter" spec="JavaScript function ( %mult%s ) { %code }" />
+	<!--<dragableelement name="reportJSFunction" category="operators" type="reporter" spec="JavaScript function ( %mult%s ) { %code }" /> -->
 	<dragableelement name="reportTypeOf" category="operators" type="reporter" spec="type of %s">
 		 <parameter default="5" />
-	</dragableelement>
-	<dragableelement name="reportTextFunction" category="operators" type="reporter" spec="%txtfun of %s">
-		 <parameter default="null" />
-		 <parameter default="Abelson &amp; Sussman" />
 	</dragableelement>
 	<dragableelement name="doSetVar" category="variables" type="command" spec="set %var to %s">
 		 <parameter default="null" />
@@ -264,35 +242,33 @@
 	</dragableelement>
 	<dragableelement name="doShowVar" category="variables" type="command" spec="show variable %var" />
 	<dragableelement name="doHideVar" category="variables" type="command" spec="hide variable %var" />
-	<dragableelement name="doDeclareVariables" category="other" type="command" spec="script variables %scriptVars" />
-	<dragableelement name="reportNewList" category="lists" type="reporter" spec="list %exp" />
-	<dragableelement name="reportCONS" category="lists" type="reporter" spec="%s in front of %l" />
-	<dragableelement name="reportListItem" category="lists" type="reporter" spec="item %idx of %l">
+	<dragableelement name="reportCONS" category="variables" type="reporter" spec="%s in front of %l" />
+	<dragableelement name="reportListItem" category="variables" type="reporter" spec="item %idx of %l">
 		 <parameter default="1" />
 	</dragableelement>
-	<dragableelement name="reportCDR" category="lists" type="reporter" spec="all but first of %l" />
-	<dragableelement name="reportListLength" category="lists" type="reporter" spec="length of %l" />
-	<dragableelement name="reportListContainsItem" category="lists" type="predicate" spec="%l contains %s">
+	<dragableelement name="reportCDR" category="variables" type="reporter" spec="all but first of %l" />
+	<dragableelement name="reportListLength" category="variables" type="reporter" spec="length of %l" />
+	<dragableelement name="reportListContainsItem" category="variables" type="predicate" spec="%l contains %s">
 		 <parameter default="null" />
 		 <parameter default="0" />
 	</dragableelement>
-	<dragableelement name="doAddToList" category="lists" type="command" spec="add %s to %l">
+	<dragableelement name="doAddToList" category="variables" type="command" spec="add %s to %l">
 		 <parameter default="0" />
 	</dragableelement>
-	<dragableelement name="doDeleteFromList" category="lists" type="command" spec="delete %ida of %l">
+	<dragableelement name="doDeleteFromList" category="variables" type="command" spec="delete %idx of %l">
 		 <parameter default="1" />
 	</dragableelement>
-	<dragableelement name="doInsertInList" category="lists" type="command" spec="insert %s at %idx of %l">
+	<dragableelement name="doInsertInList" category="variables" type="command" spec="insert %s at %idx of %l">
 		 <parameter default="0" />
 		 <parameter default="1" />
 	</dragableelement>
-	<dragableelement name="doReplaceInList" category="lists" type="command" spec="replace item %idx of %l with %s">
+	<dragableelement name="doReplaceInList" category="variables" type="command" spec="replace item %idx of %l with %s">
 		 <parameter default="1" />
 		 <parameter default="null" />
 		 <parameter default="0" />
 	</dragableelement>
-	<dragableelement name="reportMap" category="lists" type="reporter" spec="map %repRing over %l" />
-	<dragableelement name="doForEach" category="lists" type="command" spec="for %upvar in %l %cs">
+	<!--<dragableelement name="reportMap" category="variables" type="reporter" spec="map %repRing over %l" />
+	<dragableelement name="doForEach" category="variables" type="command" spec="for %upvar in %l %cs"> 
 		 <parameter default="0" />
 	</dragableelement>
 	<dragableelement name="doMapCodeOrHeader" category="other" type="command" spec="map %cmdRing to %codeKind %code" />
@@ -301,4 +277,10 @@
 	</dragableelement>
 	<dragableelement name="doMapListCode" category="other" type="command" spec="map %codeListPart of %codeListKind to code %code" />
 	<dragableelement name="reportMappedCode" category="other" type="reporter" spec="code of %cmdRing" />
+	<dragableelement name="doWarp" category="other" type="command" spec="warp %c" />
+		<dragableelement name="reifyScript" category="other" type="ring" spec="%rc %ringparms" />
+	<dragableelement name="reifyReporter" category="other" type="ring" spec="%rr %ringparms" />
+	<dragableelement name="reifyPredicate" category="other" type="ring" spec="%rp %ringparms" />
+	<dragableelement name="doDeclareVariables" category="other" type="command" spec="script variables %scriptVars" />
+	-->
 </elements>

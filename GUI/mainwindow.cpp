@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QDebug>
+
+#include "reporterde.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -23,24 +24,43 @@ void MainWindow::InitializeDragElem(const QString& path)
     QXmlStreamReader xmlReader(xml);
     QXmlStreamAttributes attributes;
 
-    int j = 0;
-    int i = 0;
+    DragableElement* lastElement;
+
     while(!xmlReader.atEnd())
     {
-        j++;
-        qDebug() << "J" << j;
         if(xmlReader.readNext() == QXmlStreamReader::StartElement)
         {
-            i++;
-            qDebug() << "i" << i;
             QString type = xmlReader.name().toString();
             if(type == "dragableelement")
             {
                 attributes = xmlReader.attributes();
                 DragElemCategory* category = GetCategoryByName(attributes.value("category").toString());
-                DragableElement* element = new DragableElement(attributes.value("spec").toString(), category->_color, ui->scriptArea);
-                qDebug() << attributes.value("spec");
-                category->_elemList.push_back(element);
+                if(attributes.value("type").toString() == "command")
+                {
+                    lastElement = new CommandDE(attributes.value("spec").toString(), category->_color,attributes.value("type").toString(), ui->scriptArea, this);
+                }
+                else if(attributes.value("type").toString() == "hat")
+                {
+                    lastElement = new HatDE(attributes.value("spec").toString(), category->_color,attributes.value("type").toString(), ui->scriptArea, this);
+                }
+                else if(attributes.value("type").toString() == "wrapper")
+                {
+                    lastElement = new WrapperDE(attributes.value("spec").toString(), category->_color,attributes.value("type").toString(), ui->scriptArea, this);
+                }
+                else if(attributes.value("type").toString() == "predicate")
+                {
+                    lastElement = new PredicateDE(attributes.value("spec").toString(), category->_color,attributes.value("type").toString(), ui->scriptArea, this);
+                }
+                else if(attributes.value("type").toString() == "reporter")
+                {
+                    lastElement = new ReporterDE(attributes.value("spec").toString(), category->_color,attributes.value("type").toString(), ui->scriptArea, this);
+                }
+                category->_elemList.push_back(lastElement);
+            }
+            else if(type == "parameter")
+            {
+                attributes = xmlReader.attributes();
+                lastElement->_defaultValues.push_back(attributes.value("default").toString());
             }
             else if(type == "dragelemcategory")
             {
@@ -59,6 +79,7 @@ DragElemCategory* MainWindow::GetCategoryByName(const QString& name)
     {
         if((*category)->_label.text() == name) return (*category);
     }
+    return 0;
 }
 
 MainWindow::~MainWindow()

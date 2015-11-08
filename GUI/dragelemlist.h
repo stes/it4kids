@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include <QScrollArea>
 #include <QWidget>
 #include <QVBoxLayout>
 
@@ -10,7 +11,7 @@
 
 typedef std::vector<DragableElement*> ElementList;
 
-class DragElemList : public QWidget
+class DragElemList : public QScrollArea
 {
     Q_OBJECT
 public:
@@ -18,6 +19,7 @@ public:
 
     void changeActiveList(ElementList* elemList);
 protected:
+    QWidget _elemListWidget;
     QVBoxLayout _layout;
 signals:
 

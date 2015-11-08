@@ -22,13 +22,13 @@ public:
     explicit CategorySelect(QWidget *parent = 0);
 
     void setElemListWidget(DragElemList* elemListWidget);
-    void setScriptAreaWidget(QWidget* scriptArea);
+    void setScriptAreaWidget(ScriptArea *scriptArea);
     void show();
 protected:
     void paintEvent(QPaintEvent*);
 
     DragElemList* _elemListWidget;
-    QWidget* _scriptAreaWidget;
+    ScriptArea* _scriptAreaWidget;
 
     CategoryList _categoryList;
     QGridLayout _layout;

@@ -1,0 +1,40 @@
+#include "commandde.h"
+#include "qdebug.h"
+CommandDE::CommandDE(const QString& text, const QColor& color, const QString& type, ScriptArea *scriptAreaWidget, QWidget* parent) :
+        DragableElement(text, color, type, scriptAreaWidget, parent)
+{
+    parseText(text, this);
+    _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+    _layout.setContentsMargins(4, 0, 0, 0);
+    _layout.setSizeConstraint(QLayout::SetFixedSize);
+
+    resize();
+}
+
+DragableElement* CommandDE::getCurrentElement(QWidget *parent)
+{
+    return new CommandDE(_text, _color, _type, _scriptAreaWidget, parent);
+}
+
+void CommandDE::resize()
+{
+    show();
+
+    getLayoutSize();
+    _path = QPainterPath();
+    _path.lineTo(7, 0);
+    _path.lineTo(11, 4);
+    _path.lineTo(21, 4);
+    _path.lineTo(25, 0);
+    _path.lineTo(_width+5, 0);
+    _path.lineTo(_width+5, _height+5);
+    _path.lineTo(25, _height+5);
+    _path.lineTo(22, _height+9);
+    _path.lineTo(11, _height+9);
+    _path.lineTo(7, _height+5);
+    _path.lineTo(0, _height+5);
+
+    setFixedSize(_width+5, _height+9);
+
+    hide();
+}

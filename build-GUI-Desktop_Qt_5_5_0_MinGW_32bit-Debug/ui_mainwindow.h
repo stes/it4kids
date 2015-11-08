@@ -37,7 +37,30 @@ class Ui_MainWindow
 public:
     QWidget *centralWidget;
     QGridLayout *gridLayout_2;
+    QTabWidget *centerAreaWidget;
+    QWidget *tabScript;
+    QHBoxLayout *horizontalLayout_3;
+    QFrame *CategorySelectFrame;
+    QVBoxLayout *verticalLayout_2;
+    CategorySelect *categorySelect;
+    DragElemList *elementList;
+    ScriptArea *scriptArea;
+    QHBoxLayout *horizontalLayout_4;
+    QWidget *tabCostume;
+    QHBoxLayout *horizontalLayout_5;
     QFrame *frame;
+    QVBoxLayout *verticalLayout_3;
+    QLabel *NewCostume;
+    QFrame *frame_3;
+    QHBoxLayout *horizontalLayout_6;
+    QPushButton *pushButton;
+    QPushButton *pushButton_2;
+    QPushButton *pushButton_3;
+    QPushButton *pushButton_4;
+    QWidget *widget;
+    QFrame *frame_2;
+    QWidget *tabSound;
+    QFrame *leftAreaFrame;
     QVBoxLayout *verticalLayout;
     QFrame *upperSceneFrame;
     QHBoxLayout *horizontalLayout_2;
@@ -45,7 +68,7 @@ public:
     QLineEdit *lineEdit;
     QPushButton *buttonScriptStart;
     QPushButton *buttonStopScript;
-    Scene *widget;
+    Scene *scene;
     QLabel *labelCoordinates;
     QFrame *selectionFrame;
     QGridLayout *gridLayout;
@@ -53,20 +76,7 @@ public:
     QWidget *selectionBackground;
     QFrame *upperSpriteFrame;
     QFrame *selectionPaddingFrame;
-    QTabWidget *centerAreaWidget;
-    QWidget *tabScript;
-    QHBoxLayout *horizontalLayout_3;
-    QFrame *frame_3;
-    QVBoxLayout *verticalLayout_2;
-    CategorySelect *categorySelect;
-    DragElemList *elementList;
-    QSpacerItem *verticalSpacer;
-    QWidget *widget_2;
-    QHBoxLayout *horizontalLayout_4;
-    ScriptArea *scriptArea;
-    QWidget *tabCostume;
-    QWidget *tabSound;
-    QFrame *frame_31;
+    QFrame *toolBarFrame;
     QHBoxLayout *horizontalLayout;
     QPushButton *buttonFile;
     QPushButton *buttonEdit;
@@ -88,22 +98,192 @@ public:
         gridLayout_2->setObjectName(QStringLiteral("gridLayout_2"));
         gridLayout_2->setHorizontalSpacing(6);
         gridLayout_2->setContentsMargins(0, 0, 0, -1);
-        frame = new QFrame(centralWidget);
+        centerAreaWidget = new QTabWidget(centralWidget);
+        centerAreaWidget->setObjectName(QStringLiteral("centerAreaWidget"));
+        centerAreaWidget->setMinimumSize(QSize(200, 0));
+        centerAreaWidget->setTabBarAutoHide(false);
+        tabScript = new QWidget();
+        tabScript->setObjectName(QStringLiteral("tabScript"));
+        horizontalLayout_3 = new QHBoxLayout(tabScript);
+        horizontalLayout_3->setSpacing(0);
+        horizontalLayout_3->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
+        horizontalLayout_3->setContentsMargins(0, 5, 0, 0);
+        CategorySelectFrame = new QFrame(tabScript);
+        CategorySelectFrame->setObjectName(QStringLiteral("CategorySelectFrame"));
+        CategorySelectFrame->setFrameShape(QFrame::StyledPanel);
+        CategorySelectFrame->setFrameShadow(QFrame::Raised);
+        verticalLayout_2 = new QVBoxLayout(CategorySelectFrame);
+        verticalLayout_2->setSpacing(0);
+        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
+        verticalLayout_2->setContentsMargins(0, 0, 0, 0);
+        categorySelect = new CategorySelect(CategorySelectFrame);
+        categorySelect->setObjectName(QStringLiteral("categorySelect"));
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Expanding);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(categorySelect->sizePolicy().hasHeightForWidth());
+        categorySelect->setSizePolicy(sizePolicy);
+        categorySelect->setMinimumSize(QSize(200, 0));
+
+        verticalLayout_2->addWidget(categorySelect);
+
+        elementList = new DragElemList(CategorySelectFrame);
+        elementList->setObjectName(QStringLiteral("elementList"));
+        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Expanding);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(elementList->sizePolicy().hasHeightForWidth());
+        elementList->setSizePolicy(sizePolicy1);
+        elementList->setMinimumSize(QSize(200, 50));
+
+        verticalLayout_2->addWidget(elementList);
+
+
+        horizontalLayout_3->addWidget(CategorySelectFrame);
+
+        scriptArea = new ScriptArea(tabScript);
+        scriptArea->setObjectName(QStringLiteral("scriptArea"));
+        QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::Preferred);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(scriptArea->sizePolicy().hasHeightForWidth());
+        scriptArea->setSizePolicy(sizePolicy2);
+        horizontalLayout_4 = new QHBoxLayout(scriptArea);
+        horizontalLayout_4->setSpacing(0);
+        horizontalLayout_4->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
+        horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
+
+        horizontalLayout_3->addWidget(scriptArea);
+
+        centerAreaWidget->addTab(tabScript, QString());
+        tabCostume = new QWidget();
+        tabCostume->setObjectName(QStringLiteral("tabCostume"));
+        horizontalLayout_5 = new QHBoxLayout(tabCostume);
+        horizontalLayout_5->setSpacing(6);
+        horizontalLayout_5->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_5->setObjectName(QStringLiteral("horizontalLayout_5"));
+        frame = new QFrame(tabCostume);
         frame->setObjectName(QStringLiteral("frame"));
         frame->setFrameShape(QFrame::StyledPanel);
         frame->setFrameShadow(QFrame::Raised);
-        verticalLayout = new QVBoxLayout(frame);
+        verticalLayout_3 = new QVBoxLayout(frame);
+        verticalLayout_3->setSpacing(0);
+        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
+        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
+        verticalLayout_3->setContentsMargins(0, 0, 0, 0);
+        NewCostume = new QLabel(frame);
+        NewCostume->setObjectName(QStringLiteral("NewCostume"));
+        NewCostume->setStyleSheet(QLatin1String("font-weight: bold;\n"
+"color: #5c5d5f;"));
+        NewCostume->setAlignment(Qt::AlignCenter);
+
+        verticalLayout_3->addWidget(NewCostume);
+
+        frame_3 = new QFrame(frame);
+        frame_3->setObjectName(QStringLiteral("frame_3"));
+        frame_3->setFrameShape(QFrame::StyledPanel);
+        frame_3->setFrameShadow(QFrame::Raised);
+        horizontalLayout_6 = new QHBoxLayout(frame_3);
+        horizontalLayout_6->setSpacing(0);
+        horizontalLayout_6->setContentsMargins(11, 11, 11, 11);
+        horizontalLayout_6->setObjectName(QStringLiteral("horizontalLayout_6"));
+        horizontalLayout_6->setContentsMargins(0, 0, 0, 0);
+        pushButton = new QPushButton(frame_3);
+        pushButton->setObjectName(QStringLiteral("pushButton"));
+        QSizePolicy sizePolicy3(QSizePolicy::Fixed, QSizePolicy::Fixed);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(pushButton->sizePolicy().hasHeightForWidth());
+        pushButton->setSizePolicy(sizePolicy3);
+        pushButton->setStyleSheet(QStringLiteral(""));
+        QIcon icon;
+        icon.addFile(QStringLiteral(":/Assets/libraryOff.png"), QSize(), QIcon::Normal, QIcon::Off);
+        pushButton->setIcon(icon);
+        pushButton->setFlat(true);
+
+        horizontalLayout_6->addWidget(pushButton);
+
+        pushButton_2 = new QPushButton(frame_3);
+        pushButton_2->setObjectName(QStringLiteral("pushButton_2"));
+        sizePolicy3.setHeightForWidth(pushButton_2->sizePolicy().hasHeightForWidth());
+        pushButton_2->setSizePolicy(sizePolicy3);
+        QIcon icon1;
+        icon1.addFile(QStringLiteral(":/Assets/paintbrushOff.png"), QSize(), QIcon::Normal, QIcon::Off);
+        pushButton_2->setIcon(icon1);
+        pushButton_2->setFlat(true);
+
+        horizontalLayout_6->addWidget(pushButton_2);
+
+        pushButton_3 = new QPushButton(frame_3);
+        pushButton_3->setObjectName(QStringLiteral("pushButton_3"));
+        sizePolicy3.setHeightForWidth(pushButton_3->sizePolicy().hasHeightForWidth());
+        pushButton_3->setSizePolicy(sizePolicy3);
+        QIcon icon2;
+        icon2.addFile(QStringLiteral(":/Assets/importOff.png"), QSize(), QIcon::Normal, QIcon::Off);
+        pushButton_3->setIcon(icon2);
+        pushButton_3->setFlat(true);
+
+        horizontalLayout_6->addWidget(pushButton_3);
+
+        pushButton_4 = new QPushButton(frame_3);
+        pushButton_4->setObjectName(QStringLiteral("pushButton_4"));
+        sizePolicy3.setHeightForWidth(pushButton_4->sizePolicy().hasHeightForWidth());
+        pushButton_4->setSizePolicy(sizePolicy3);
+        QIcon icon3;
+        icon3.addFile(QStringLiteral(":/Assets/landscapeOff.png"), QSize(), QIcon::Normal, QIcon::Off);
+        pushButton_4->setIcon(icon3);
+        pushButton_4->setFlat(true);
+
+        horizontalLayout_6->addWidget(pushButton_4);
+
+
+        verticalLayout_3->addWidget(frame_3);
+
+        widget = new QWidget(frame);
+        widget->setObjectName(QStringLiteral("widget"));
+        QSizePolicy sizePolicy4(QSizePolicy::Preferred, QSizePolicy::Expanding);
+        sizePolicy4.setHorizontalStretch(0);
+        sizePolicy4.setVerticalStretch(0);
+        sizePolicy4.setHeightForWidth(widget->sizePolicy().hasHeightForWidth());
+        widget->setSizePolicy(sizePolicy4);
+
+        verticalLayout_3->addWidget(widget);
+
+
+        horizontalLayout_5->addWidget(frame);
+
+        frame_2 = new QFrame(tabCostume);
+        frame_2->setObjectName(QStringLiteral("frame_2"));
+        sizePolicy2.setHeightForWidth(frame_2->sizePolicy().hasHeightForWidth());
+        frame_2->setSizePolicy(sizePolicy2);
+        frame_2->setFrameShape(QFrame::StyledPanel);
+        frame_2->setFrameShadow(QFrame::Raised);
+
+        horizontalLayout_5->addWidget(frame_2);
+
+        centerAreaWidget->addTab(tabCostume, QString());
+        tabSound = new QWidget();
+        tabSound->setObjectName(QStringLiteral("tabSound"));
+        centerAreaWidget->addTab(tabSound, QString());
+
+        gridLayout_2->addWidget(centerAreaWidget, 1, 1, 1, 1);
+
+        leftAreaFrame = new QFrame(centralWidget);
+        leftAreaFrame->setObjectName(QStringLiteral("leftAreaFrame"));
+        leftAreaFrame->setFrameShape(QFrame::StyledPanel);
+        leftAreaFrame->setFrameShadow(QFrame::Raised);
+        verticalLayout = new QVBoxLayout(leftAreaFrame);
         verticalLayout->setSpacing(0);
         verticalLayout->setContentsMargins(11, 11, 11, 11);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
         verticalLayout->setContentsMargins(0, 0, 0, 0);
-        upperSceneFrame = new QFrame(frame);
+        upperSceneFrame = new QFrame(leftAreaFrame);
         upperSceneFrame->setObjectName(QStringLiteral("upperSceneFrame"));
-        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(upperSceneFrame->sizePolicy().hasHeightForWidth());
-        upperSceneFrame->setSizePolicy(sizePolicy);
+        sizePolicy3.setHeightForWidth(upperSceneFrame->sizePolicy().hasHeightForWidth());
+        upperSceneFrame->setSizePolicy(sizePolicy3);
         upperSceneFrame->setMinimumSize(QSize(482, 30));
         upperSceneFrame->setFrameShape(QFrame::StyledPanel);
         upperSceneFrame->setFrameShadow(QFrame::Raised);
@@ -114,10 +294,10 @@ public:
         horizontalLayout_2->setContentsMargins(0, 0, 0, 0);
         buttonFullScreen = new QPushButton(upperSceneFrame);
         buttonFullScreen->setObjectName(QStringLiteral("buttonFullScreen"));
-        QIcon icon;
-        icon.addFile(QStringLiteral(":/Assets/fullScreenOff.png"), QSize(), QIcon::Normal, QIcon::Off);
-        icon.addFile(QStringLiteral(":/Assets/fullScreenOff.png"), QSize(), QIcon::Normal, QIcon::On);
-        buttonFullScreen->setIcon(icon);
+        QIcon icon4;
+        icon4.addFile(QStringLiteral(":/Assets/fullScreenOff.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon4.addFile(QStringLiteral(":/Assets/fullScreenOff.png"), QSize(), QIcon::Normal, QIcon::On);
+        buttonFullScreen->setIcon(icon4);
         buttonFullScreen->setFlat(true);
 
         horizontalLayout_2->addWidget(buttonFullScreen);
@@ -129,18 +309,18 @@ public:
 
         buttonScriptStart = new QPushButton(upperSceneFrame);
         buttonScriptStart->setObjectName(QStringLiteral("buttonScriptStart"));
-        QIcon icon1;
-        icon1.addFile(QStringLiteral(":/Assets/greenFlagOff.png"), QSize(), QIcon::Normal, QIcon::Off);
-        buttonScriptStart->setIcon(icon1);
+        QIcon icon5;
+        icon5.addFile(QStringLiteral(":/Assets/greenFlagOff.png"), QSize(), QIcon::Normal, QIcon::Off);
+        buttonScriptStart->setIcon(icon5);
         buttonScriptStart->setFlat(true);
 
         horizontalLayout_2->addWidget(buttonScriptStart);
 
         buttonStopScript = new QPushButton(upperSceneFrame);
         buttonStopScript->setObjectName(QStringLiteral("buttonStopScript"));
-        QIcon icon2;
-        icon2.addFile(QStringLiteral("../../scratch-flash/src/assets/UI/buttons/stopOn.png"), QSize(), QIcon::Normal, QIcon::Off);
-        buttonStopScript->setIcon(icon2);
+        QIcon icon6;
+        icon6.addFile(QStringLiteral("../../scratch-flash/src/assets/UI/buttons/stopOn.png"), QSize(), QIcon::Normal, QIcon::Off);
+        buttonStopScript->setIcon(icon6);
         buttonStopScript->setFlat(true);
 
         horizontalLayout_2->addWidget(buttonStopScript);
@@ -148,23 +328,23 @@ public:
 
         verticalLayout->addWidget(upperSceneFrame);
 
-        widget = new Scene(frame);
-        widget->setObjectName(QStringLiteral("widget"));
-        sizePolicy.setHeightForWidth(widget->sizePolicy().hasHeightForWidth());
-        widget->setSizePolicy(sizePolicy);
-        widget->setMinimumSize(QSize(482, 360));
+        scene = new Scene(leftAreaFrame);
+        scene->setObjectName(QStringLiteral("scene"));
+        sizePolicy3.setHeightForWidth(scene->sizePolicy().hasHeightForWidth());
+        scene->setSizePolicy(sizePolicy3);
+        scene->setMinimumSize(QSize(482, 360));
 
-        verticalLayout->addWidget(widget);
+        verticalLayout->addWidget(scene);
 
-        labelCoordinates = new QLabel(frame);
+        labelCoordinates = new QLabel(leftAreaFrame);
         labelCoordinates->setObjectName(QStringLiteral("labelCoordinates"));
-        sizePolicy.setHeightForWidth(labelCoordinates->sizePolicy().hasHeightForWidth());
-        labelCoordinates->setSizePolicy(sizePolicy);
+        sizePolicy3.setHeightForWidth(labelCoordinates->sizePolicy().hasHeightForWidth());
+        labelCoordinates->setSizePolicy(sizePolicy3);
         labelCoordinates->setMinimumSize(QSize(482, 18));
 
         verticalLayout->addWidget(labelCoordinates);
 
-        selectionFrame = new QFrame(frame);
+        selectionFrame = new QFrame(leftAreaFrame);
         selectionFrame->setObjectName(QStringLiteral("selectionFrame"));
         selectionFrame->setFrameShape(QFrame::StyledPanel);
         selectionFrame->setFrameShadow(QFrame::Raised);
@@ -180,22 +360,22 @@ public:
 
         selectionBackground = new QWidget(selectionFrame);
         selectionBackground->setObjectName(QStringLiteral("selectionBackground"));
-        QSizePolicy sizePolicy1(QSizePolicy::Fixed, QSizePolicy::Preferred);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(selectionBackground->sizePolicy().hasHeightForWidth());
-        selectionBackground->setSizePolicy(sizePolicy1);
+        QSizePolicy sizePolicy5(QSizePolicy::Fixed, QSizePolicy::Preferred);
+        sizePolicy5.setHorizontalStretch(0);
+        sizePolicy5.setVerticalStretch(0);
+        sizePolicy5.setHeightForWidth(selectionBackground->sizePolicy().hasHeightForWidth());
+        selectionBackground->setSizePolicy(sizePolicy5);
         selectionBackground->setMinimumSize(QSize(75, 0));
 
         gridLayout->addWidget(selectionBackground, 1, 0, 1, 1);
 
         upperSpriteFrame = new QFrame(selectionFrame);
         upperSpriteFrame->setObjectName(QStringLiteral("upperSpriteFrame"));
-        QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Fixed);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(upperSpriteFrame->sizePolicy().hasHeightForWidth());
-        upperSpriteFrame->setSizePolicy(sizePolicy2);
+        QSizePolicy sizePolicy6(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        sizePolicy6.setHorizontalStretch(0);
+        sizePolicy6.setVerticalStretch(0);
+        sizePolicy6.setHeightForWidth(upperSpriteFrame->sizePolicy().hasHeightForWidth());
+        upperSpriteFrame->setSizePolicy(sizePolicy6);
         upperSpriteFrame->setMinimumSize(QSize(0, 40));
         upperSpriteFrame->setFrameShape(QFrame::StyledPanel);
         upperSpriteFrame->setFrameShadow(QFrame::Raised);
@@ -204,8 +384,8 @@ public:
 
         selectionPaddingFrame = new QFrame(selectionFrame);
         selectionPaddingFrame->setObjectName(QStringLiteral("selectionPaddingFrame"));
-        sizePolicy2.setHeightForWidth(selectionPaddingFrame->sizePolicy().hasHeightForWidth());
-        selectionPaddingFrame->setSizePolicy(sizePolicy2);
+        sizePolicy6.setHeightForWidth(selectionPaddingFrame->sizePolicy().hasHeightForWidth());
+        selectionPaddingFrame->setSizePolicy(sizePolicy6);
         selectionPaddingFrame->setMinimumSize(QSize(0, 40));
         selectionPaddingFrame->setFrameShape(QFrame::StyledPanel);
         selectionPaddingFrame->setFrameShadow(QFrame::Raised);
@@ -216,125 +396,48 @@ public:
         verticalLayout->addWidget(selectionFrame);
 
 
-        gridLayout_2->addWidget(frame, 1, 0, 1, 1);
+        gridLayout_2->addWidget(leftAreaFrame, 1, 0, 1, 1);
 
-        centerAreaWidget = new QTabWidget(centralWidget);
-        centerAreaWidget->setObjectName(QStringLiteral("centerAreaWidget"));
-        centerAreaWidget->setMinimumSize(QSize(200, 0));
-        centerAreaWidget->setTabBarAutoHide(false);
-        tabScript = new QWidget();
-        tabScript->setObjectName(QStringLiteral("tabScript"));
-        horizontalLayout_3 = new QHBoxLayout(tabScript);
-        horizontalLayout_3->setSpacing(0);
-        horizontalLayout_3->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout_3->setObjectName(QStringLiteral("horizontalLayout_3"));
-        horizontalLayout_3->setContentsMargins(5, 5, 0, 0);
-        frame_3 = new QFrame(tabScript);
-        frame_3->setObjectName(QStringLiteral("frame_3"));
-        frame_3->setFrameShape(QFrame::StyledPanel);
-        frame_3->setFrameShadow(QFrame::Raised);
-        verticalLayout_2 = new QVBoxLayout(frame_3);
-        verticalLayout_2->setSpacing(0);
-        verticalLayout_2->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        verticalLayout_2->setContentsMargins(0, 0, 0, 0);
-        categorySelect = new CategorySelect(frame_3);
-        categorySelect->setObjectName(QStringLiteral("categorySelect"));
-        QSizePolicy sizePolicy3(QSizePolicy::Fixed, QSizePolicy::Expanding);
-        sizePolicy3.setHorizontalStretch(0);
-        sizePolicy3.setVerticalStretch(0);
-        sizePolicy3.setHeightForWidth(categorySelect->sizePolicy().hasHeightForWidth());
-        categorySelect->setSizePolicy(sizePolicy3);
-        categorySelect->setMinimumSize(QSize(200, 0));
-
-        verticalLayout_2->addWidget(categorySelect);
-
-        elementList = new DragElemList(frame_3);
-        elementList->setObjectName(QStringLiteral("elementList"));
-        QSizePolicy sizePolicy4(QSizePolicy::Minimum, QSizePolicy::Fixed);
-        sizePolicy4.setHorizontalStretch(0);
-        sizePolicy4.setVerticalStretch(0);
-        sizePolicy4.setHeightForWidth(elementList->sizePolicy().hasHeightForWidth());
-        elementList->setSizePolicy(sizePolicy4);
-        elementList->setMinimumSize(QSize(200, 50));
-
-        verticalLayout_2->addWidget(elementList);
-
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
-
-        verticalLayout_2->addItem(verticalSpacer);
-
-
-        horizontalLayout_3->addWidget(frame_3);
-
-        widget_2 = new QWidget(tabScript);
-        widget_2->setObjectName(QStringLiteral("widget_2"));
-        horizontalLayout_4 = new QHBoxLayout(widget_2);
-        horizontalLayout_4->setSpacing(0);
-        horizontalLayout_4->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout_4->setObjectName(QStringLiteral("horizontalLayout_4"));
-        horizontalLayout_4->setContentsMargins(0, 0, 0, 0);
-        scriptArea = new ScriptArea(widget_2);
-        scriptArea->setObjectName(QStringLiteral("scriptArea"));
-        QSizePolicy sizePolicy5(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy5.setHorizontalStretch(0);
-        sizePolicy5.setVerticalStretch(0);
-        sizePolicy5.setHeightForWidth(scriptArea->sizePolicy().hasHeightForWidth());
-        scriptArea->setSizePolicy(sizePolicy5);
-        scriptArea->setMinimumSize(QSize(50, 50));
-
-        horizontalLayout_4->addWidget(scriptArea);
-
-
-        horizontalLayout_3->addWidget(widget_2);
-
-        centerAreaWidget->addTab(tabScript, QString());
-        tabCostume = new QWidget();
-        tabCostume->setObjectName(QStringLiteral("tabCostume"));
-        centerAreaWidget->addTab(tabCostume, QString());
-        tabSound = new QWidget();
-        tabSound->setObjectName(QStringLiteral("tabSound"));
-        centerAreaWidget->addTab(tabSound, QString());
-
-        gridLayout_2->addWidget(centerAreaWidget, 1, 1, 1, 1);
-
-        frame_31 = new QFrame(centralWidget);
-        frame_31->setObjectName(QStringLiteral("frame_31"));
-        QSizePolicy sizePolicy6(QSizePolicy::Expanding, QSizePolicy::Fixed);
-        sizePolicy6.setHorizontalStretch(0);
-        sizePolicy6.setVerticalStretch(0);
-        sizePolicy6.setHeightForWidth(frame_31->sizePolicy().hasHeightForWidth());
-        frame_31->setSizePolicy(sizePolicy6);
-        frame_31->setMinimumSize(QSize(0, 23));
-        frame_31->setStyleSheet(QStringLiteral("background-color: #9c9ea2;"));
-        horizontalLayout = new QHBoxLayout(frame_31);
+        toolBarFrame = new QFrame(centralWidget);
+        toolBarFrame->setObjectName(QStringLiteral("toolBarFrame"));
+        QSizePolicy sizePolicy7(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        sizePolicy7.setHorizontalStretch(0);
+        sizePolicy7.setVerticalStretch(0);
+        sizePolicy7.setHeightForWidth(toolBarFrame->sizePolicy().hasHeightForWidth());
+        toolBarFrame->setSizePolicy(sizePolicy7);
+        toolBarFrame->setMinimumSize(QSize(0, 23));
+        toolBarFrame->setStyleSheet(QStringLiteral("background-color: #9c9ea2;"));
+        horizontalLayout = new QHBoxLayout(toolBarFrame);
         horizontalLayout->setSpacing(0);
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
         horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
         horizontalLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
         horizontalLayout->setContentsMargins(0, 0, 0, 0);
-        buttonFile = new QPushButton(frame_31);
+        buttonFile = new QPushButton(toolBarFrame);
         buttonFile->setObjectName(QStringLiteral("buttonFile"));
-        sizePolicy4.setHeightForWidth(buttonFile->sizePolicy().hasHeightForWidth());
-        buttonFile->setSizePolicy(sizePolicy4);
+        QSizePolicy sizePolicy8(QSizePolicy::Minimum, QSizePolicy::Fixed);
+        sizePolicy8.setHorizontalStretch(0);
+        sizePolicy8.setVerticalStretch(0);
+        sizePolicy8.setHeightForWidth(buttonFile->sizePolicy().hasHeightForWidth());
+        buttonFile->setSizePolicy(sizePolicy8);
         buttonFile->setMinimumSize(QSize(0, 20));
         buttonFile->setFlat(true);
 
         horizontalLayout->addWidget(buttonFile);
 
-        buttonEdit = new QPushButton(frame_31);
+        buttonEdit = new QPushButton(toolBarFrame);
         buttonEdit->setObjectName(QStringLiteral("buttonEdit"));
-        sizePolicy4.setHeightForWidth(buttonEdit->sizePolicy().hasHeightForWidth());
-        buttonEdit->setSizePolicy(sizePolicy4);
+        sizePolicy8.setHeightForWidth(buttonEdit->sizePolicy().hasHeightForWidth());
+        buttonEdit->setSizePolicy(sizePolicy8);
         buttonEdit->setMinimumSize(QSize(0, 20));
         buttonEdit->setFlat(true);
 
         horizontalLayout->addWidget(buttonEdit);
 
-        buttonHints = new QPushButton(frame_31);
+        buttonHints = new QPushButton(toolBarFrame);
         buttonHints->setObjectName(QStringLiteral("buttonHints"));
-        sizePolicy2.setHeightForWidth(buttonHints->sizePolicy().hasHeightForWidth());
-        buttonHints->setSizePolicy(sizePolicy2);
+        sizePolicy6.setHeightForWidth(buttonHints->sizePolicy().hasHeightForWidth());
+        buttonHints->setSizePolicy(sizePolicy6);
         buttonHints->setMinimumSize(QSize(0, 20));
         buttonHints->setFlat(true);
 
@@ -344,28 +447,28 @@ public:
 
         horizontalLayout->addItem(horizontalSpacer);
 
-        buttonMinimize = new QPushButton(frame_31);
+        buttonMinimize = new QPushButton(toolBarFrame);
         buttonMinimize->setObjectName(QStringLiteral("buttonMinimize"));
         buttonMinimize->setMinimumSize(QSize(0, 20));
-        QIcon icon3;
-        icon3.addFile(QStringLiteral(":/Assets/minimize.png"), QSize(), QIcon::Normal, QIcon::Off);
-        buttonMinimize->setIcon(icon3);
+        QIcon icon7;
+        icon7.addFile(QStringLiteral(":/Assets/minimize.png"), QSize(), QIcon::Normal, QIcon::Off);
+        buttonMinimize->setIcon(icon7);
         buttonMinimize->setFlat(true);
 
         horizontalLayout->addWidget(buttonMinimize);
 
-        buttonClose = new QPushButton(frame_31);
+        buttonClose = new QPushButton(toolBarFrame);
         buttonClose->setObjectName(QStringLiteral("buttonClose"));
         buttonClose->setMinimumSize(QSize(0, 20));
-        QIcon icon4;
-        icon4.addFile(QStringLiteral(":/Assets/close.png"), QSize(), QIcon::Normal, QIcon::Off);
-        buttonClose->setIcon(icon4);
+        QIcon icon8;
+        icon8.addFile(QStringLiteral(":/Assets/close.png"), QSize(), QIcon::Normal, QIcon::Off);
+        buttonClose->setIcon(icon8);
         buttonClose->setFlat(true);
 
         horizontalLayout->addWidget(buttonClose);
 
 
-        gridLayout_2->addWidget(frame_31, 0, 0, 1, 2);
+        gridLayout_2->addWidget(toolBarFrame, 0, 0, 1, 2);
 
         MainWindow->setCentralWidget(centralWidget);
 
@@ -382,13 +485,18 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
+        centerAreaWidget->setTabText(centerAreaWidget->indexOf(tabScript), QApplication::translate("MainWindow", "Skripte", 0));
+        NewCostume->setText(QApplication::translate("MainWindow", "Neues Kost\303\274m:", 0));
+        pushButton->setText(QString());
+        pushButton_2->setText(QString());
+        pushButton_3->setText(QString());
+        pushButton_4->setText(QString());
+        centerAreaWidget->setTabText(centerAreaWidget->indexOf(tabCostume), QApplication::translate("MainWindow", "Kost\303\274me", 0));
+        centerAreaWidget->setTabText(centerAreaWidget->indexOf(tabSound), QApplication::translate("MainWindow", "Kl\303\244nge", 0));
         buttonFullScreen->setText(QString());
         buttonScriptStart->setText(QString());
         buttonStopScript->setText(QString());
         labelCoordinates->setText(QApplication::translate("MainWindow", "TextLabel", 0));
-        centerAreaWidget->setTabText(centerAreaWidget->indexOf(tabScript), QApplication::translate("MainWindow", "Skripte", 0));
-        centerAreaWidget->setTabText(centerAreaWidget->indexOf(tabCostume), QApplication::translate("MainWindow", "Kost\303\274me", 0));
-        centerAreaWidget->setTabText(centerAreaWidget->indexOf(tabSound), QApplication::translate("MainWindow", "Kl\303\244nge", 0));
         buttonFile->setText(QApplication::translate("MainWindow", "Datei", 0));
         buttonEdit->setText(QApplication::translate("MainWindow", "Bearbeiten", 0));
         buttonHints->setText(QApplication::translate("MainWindow", "Tipps", 0));

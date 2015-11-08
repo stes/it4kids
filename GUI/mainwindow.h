@@ -2,9 +2,13 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QPainterPath>
 
 #include "dragelemcategory.h"
-#include "dragableelement.h"
+#include "commandde.h"
+#include "hatde.h"
+#include "wrapperde.h"
+#include "predicatede.h"
 
 class DragElemCategory;
 

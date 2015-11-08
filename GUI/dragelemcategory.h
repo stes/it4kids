@@ -29,7 +29,7 @@ public:
 
     void toggleActive();
     void setElemListWidget(DragElemList* elemListWidget);
-    void setScriptAreaWidget(QWidget* scriptAreaWidget);
+    void setScriptAreaWidget(ScriptArea *scriptAreaWidget);
 protected:
     void paintEvent(QPaintEvent*);
 
@@ -37,7 +37,7 @@ protected:
 
     ElementList _elemList;
     DragElemList* _elemListWidget;
-    QWidget* _scriptAreaWidget;
+    ScriptArea* _scriptAreaWidget;
 
     QLabel _label;
     QColor _color;

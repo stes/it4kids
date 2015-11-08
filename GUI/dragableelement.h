@@ -6,34 +6,57 @@
 #include <QString>
 #include <QLabel>
 #include <QLineEdit>
+#include <QComboBox>
 #include <QHBoxLayout>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPainterPath>
 #include <QApplication>
 
+#include "scriptarea.h"
+
+#include <vector>
+
 class DragableElement : public QWidget
 {
+    friend class MainWindow;
+
     Q_OBJECT
 public:
-    DragableElement(const QString& text, const QColor& color, QWidget* scriptAreaWidget = 0, QWidget* parent = 0);
+    DragableElement(const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget = 0, QWidget* parent = 0);
     ~DragableElement();
 
-    void setScriptAreaWidget(QWidget* scriptAreaWidget);
+    void setScriptAreaWidget(ScriptArea *scriptAreaWidget);
+
+    virtual void resize() = 0;
 protected:
     QColor _color;
     QString _text;
     QPoint _offset;
     bool _dragged;
     int _width;
+    int _height;
 
-    QWidget* _scriptAreaWidget;
+    ScriptArea* _scriptAreaWidget;
 
-    void mousePressEvent(QMouseEvent*);
-    void mouseMoveEvent(QMouseEvent*);
-    void mouseReleaseEvent(QMouseEvent*);
+    QPainterPath _path;
+    QString _type;
 
-    void paintEvent(QPaintEvent*);
+    QHBoxLayout _layout;
+
+    std::vector<QString> _defaultValues;
+
+    virtual void mousePressEvent(QMouseEvent*);
+    virtual void mouseMoveEvent(QMouseEvent*);
+    virtual void mouseReleaseEvent(QMouseEvent*);
+
+    virtual void paintEvent(QPaintEvent*);
+
+    virtual DragableElement* getCurrentElement(QWidget* parent) = 0;
+
+    void getLayoutSize();
+
+    static void parseText(const QString& text, DragableElement* element);
 };
 
 #endif // DRAGABLEELEMENT_H

@@ -19,7 +19,7 @@ void DragElemCategory::setElemListWidget(DragElemList *elemListWidget)
     _elemListWidget = elemListWidget;
 }
 
-void DragElemCategory::setScriptAreaWidget(QWidget *scriptAreaWidget)
+void DragElemCategory::setScriptAreaWidget(ScriptArea *scriptAreaWidget)
 {
     _scriptAreaWidget = scriptAreaWidget;
     for(ElementList::iterator element = _elemList.begin(); element != _elemList.end(); element++)

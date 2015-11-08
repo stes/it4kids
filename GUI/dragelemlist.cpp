@@ -1,9 +1,13 @@
 #include "dragelemlist.h"
 #include <QDebug>
 
-DragElemList::DragElemList(QWidget *parent) : QWidget(parent)
+DragElemList::DragElemList(QWidget *parent) : QScrollArea(parent), _elemListWidget(this)
 {
-    setLayout(&_layout);
+    _elemListWidget.setObjectName("elemListWidget");
+    _elemListWidget.setLayout(&_layout);
+    _elemListWidget.setStyleSheet("");
+    _layout.setSizeConstraint(QLayout::SetMinAndMaxSize);
+    setWidget(&_elemListWidget);
 }
 
 void DragElemList::changeActiveList(ElementList *elemList)
@@ -16,7 +20,7 @@ void DragElemList::changeActiveList(ElementList *elemList)
     }
     for(ElementList::iterator element = elemList->begin(); element != elemList->end(); element++)
     {
-        _layout.addWidget(*element);
+         _layout.addWidget(*element);
         (*element)->show();
     }
 }
