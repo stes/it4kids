@@ -1,4 +1,4 @@
-#include "paramInteraction.h"
+#include "paraminteraction.h"
 
 ParamInteraction::ParamInteraction(QWidget *parent) : QComboBox(parent)
 {

@@ -1,6 +1,6 @@
 #include "paramjoinwords.h"
 
-#include "paramJoinWords.h"
+#include "paramjoinwords.h"
 
 #include <QGuiApplication>
 #include <QScreen>

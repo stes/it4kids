@@ -1,6 +1,6 @@
 #include "paramdock.h"
 #include "predicatede.h"
-#include "qDebug.h"
+//#include "qDebug.h"
 
 ParamDock::ParamDock(QColor color, ScriptArea* scriptAreaWidget, QWidget *parent) : QWidget(parent),
     _dockedElem(0), _scriptArea(scriptAreaWidget)
