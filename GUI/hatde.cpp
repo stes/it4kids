@@ -8,6 +8,8 @@ HatDE::HatDE(const QString& text, const QColor& color, const QString& type, Scri
     _layout.setContentsMargins(4, 4, 0, 0);
     _layout.setSizeConstraint(QLayout::SetFixedSize);
 
+    _lowerDock = new ScriptDock(scriptAreaWidget, ScriptDock::Lower, this);
+
     resize();
 }
 

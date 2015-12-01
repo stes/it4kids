@@ -4,6 +4,7 @@
 #include <QStyle>
 
 #include <QDebug>
+#include "sprite.h"
 
 int main(int argc, char *argv[])
 {

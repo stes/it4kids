@@ -20,7 +20,6 @@ SOURCES += main.cpp\
     dragelemcategory.cpp \
     dragelemlist.cpp \
     scriptarea.cpp \
-    figure.cpp \
     hatde.cpp \
     commandde.cpp \
     wrapperde.cpp \
@@ -47,7 +46,11 @@ SOURCES += main.cpp\
     paramdelim.cpp \
     paramvariables.cpp \
     paramlistselec.cpp \
-    paramlistid.cpp
+    paramlistid.cpp \
+    dockingarea.cpp \
+    scriptdock.cpp \
+    spriteselect.cpp \
+    sprite.cpp
 
 HEADERS  += mainwindow.h \
     scene.h \
@@ -56,7 +59,6 @@ HEADERS  += mainwindow.h \
     dragelemcategory.h \
     dragelemlist.h \
     scriptarea.h \
-    figure.h \
     hatde.h \
     commandde.h \
     wrapperde.h \
@@ -84,7 +86,11 @@ HEADERS  += mainwindow.h \
     paramdelim.h \
     paramvariables.h \
     paramlistselec.h \
-    paramlistid.h
+    paramlistid.h \
+    dockingarea.h \
+    scriptdock.h \
+    spriteselect.h \
+    sprite.h
 
 FORMS    += mainwindow.ui
 

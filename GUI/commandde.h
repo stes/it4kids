@@ -11,6 +11,8 @@ public:
 
     void resize();
 protected:
+    virtual void mouseReleaseEvent(QMouseEvent* event);
+
     DragableElement* getCurrentElement(QWidget* parent);
 };
 

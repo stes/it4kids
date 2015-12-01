@@ -1,9 +1,11 @@
 #include "predicatede.h"
 #include "paramdock.h"
+#include "QDebug"
 
 PredicateDE::PredicateDE(const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget, QWidget* parent) :
     DragableElement(text, color, type, scriptAreaWidget, parent)
 {
+    _currentDock = 0;
     parseText(text, this);
     _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     _layout.setContentsMargins(10, 0, 0, 0);
@@ -16,8 +18,7 @@ void PredicateDE::resize()
 {
     show();
 
-    _width = _layout.geometry().normalized().width();
-    _height = _layout.geometry().normalized().height();
+    getLayoutSize();
     _path = QPainterPath();
     _path.moveTo(0, (_height+4)/2);
     _path.lineTo(10, 0);
@@ -30,35 +31,6 @@ void PredicateDE::resize()
     setFixedSize(_width+20, _height+4);
 
     hide();
-}
-
-void PredicateDE::mouseMoveEvent(QMouseEvent* event)
-{
-    DragableElement::mouseMoveEvent(event);
-    HitTestVector* vector = _scriptAreaWidget->getHitTestVector();
-    for(HitTestVector::iterator element = vector->begin(); element != vector->end(); element++)
-    {
-        QRect rectDock((*element)->mapToGlobal(pos()), QSize((*element)->width(), (*element)->height()));
-        QRect rectDE(mapToGlobal(pos()), QSize(width(), height()));
-        if(rectDock.intersects(rectDE))
-        {
-        }
-    }
-}
-
-void PredicateDE::mouseReleaseEvent(QMouseEvent* event)
-{
-    DragableElement::mouseReleaseEvent(event);
-    HitTestVector* vector = _scriptAreaWidget->getHitTestVector();
-    for(HitTestVector::iterator element = vector->begin(); element != vector->end(); element++)
-    {
-        QRect rectDock((*element)->mapToGlobal(pos()), QSize((*element)->width(), (*element)->height()));
-        QRect rectDE(mapToGlobal(pos()), QSize(width(), height()));
-        if(rectDock.intersects(rectDE))
-        {
-            ((ParamDock*) (*element))->dock(this);
-        }
-    }
 }
 
 DragableElement* PredicateDE::getCurrentElement(QWidget *parent)

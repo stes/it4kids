@@ -8,6 +8,9 @@ CommandDE::CommandDE(const QString& text, const QColor& color, const QString& ty
     _layout.setContentsMargins(4, 0, 0, 0);
     _layout.setSizeConstraint(QLayout::SetFixedSize);
 
+    _upperDock = new ScriptDock(scriptAreaWidget, ScriptDock::Upper, this);
+    _lowerDock = new ScriptDock(scriptAreaWidget, ScriptDock::Lower, this);
+
     resize();
 }
 
@@ -37,4 +40,11 @@ void CommandDE::resize()
     setFixedSize(_width+5, _height+9);
 
     hide();
+}
+
+void CommandDE::mouseReleaseEvent(QMouseEvent* event)
+{
+    DragableElement::mouseReleaseEvent(event);
+    _upperDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) - QPoint(0, 10), QSize(_width, _height)));
+    _lowerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(0, _height), QSize(_width, _height)));
 }

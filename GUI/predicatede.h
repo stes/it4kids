@@ -3,6 +3,8 @@
 
 #include "dragableelement.h"
 
+class ParamDock;
+
 class PredicateDE : public DragableElement
 {
     Q_OBJECT
@@ -11,9 +13,6 @@ public:
 
     void resize();
 protected:
-    void mouseMoveEvent(QMouseEvent* event);
-    void mouseReleaseEvent(QMouseEvent*);
-
     DragableElement* getCurrentElement(QWidget* parent);
 };
 

@@ -2,15 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QPainterPath>
-
-#include "dragelemcategory.h"
-#include "commandde.h"
-#include "hatde.h"
-#include "wrapperde.h"
-#include "predicatede.h"
 
 class DragElemCategory;
+class DragableElement;
+class ScriptAreaWidget;
 
 namespace Ui {
 class MainWindow;
@@ -22,6 +17,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+
     ~MainWindow();
 private:
     void InitializeDragElem(const QString& path);

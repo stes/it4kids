@@ -6,7 +6,12 @@
 #include <QWidget>
 #include <QPainter>
 
-typedef std::vector<QWidget*> HitTestVector;
+class DragableElement;
+class DockingArea;
+class Sprite;
+
+typedef std::vector<DockingArea*> HitTestVector;
+typedef std::vector<DragableElement*> DragElemVector;
 
 class ScriptArea : public QWidget
 {
@@ -14,17 +19,23 @@ class ScriptArea : public QWidget
 public:
     explicit ScriptArea(QWidget *parent = 0);
 
-    void paintEvent(QPaintEvent* event);
+    void setCurrentSprite(Sprite* sprite);
 
-    void addToHitTest(QWidget* widget);
-    void removeFromHitTest(QWidget* widget);
+    void addToHitTest(DockingArea* widget);
+    void removeFromHitTest(DockingArea* widget);
+    void performHitTest(DragableElement* elem);
     HitTestVector* getHitTestVector();
-signals:
 
-public slots:
+    void addToDragElem(DragableElement* elem);
+    void removeFromDragElem(DragableElement* elem);
+    DragElemVector* getDragElemVector();
 
 protected:
-    HitTestVector _hitTestVector;
+    virtual void hideEvent(QHideEvent*);
+    virtual void showEvent(QShowEvent*);
+    void paintEvent(QPaintEvent* event);
+
+    Sprite* _currentSprite;
 };
 
 #endif // SCRIPTAREA_H
