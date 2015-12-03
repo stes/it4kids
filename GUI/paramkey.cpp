@@ -7,7 +7,7 @@ ParamKey::ParamKey(QWidget *parent) : QComboBox(parent)
     addItem("c");
     addItem("d");
     addItem("e");
-    #warning "Add Key list to ParamKey"
+    //#warning "Add Key list to ParamKey"
 }
 
 QString ParamKey::getValue()

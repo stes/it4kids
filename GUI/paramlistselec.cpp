@@ -3,7 +3,7 @@
 ParamListSelec::ParamListSelec(QWidget *parent) : QComboBox(parent)
 {
     addItem("a");
-    #warning "Add ListSelec list to ParamListSelec"
+    //#warning "Add ListSelec list to ParamListSelec"
 }
 
 QString ParamListSelec::getValue()

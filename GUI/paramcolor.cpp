@@ -40,7 +40,7 @@ void ParamColor::mouseMoveEvent(QMouseEvent* event)
     }
 }
 
-void ParamColor::mouseReleaseEvent(QMouseEvent* event)
+void ParamColor::mouseReleaseEvent(QMouseEvent *)
 {
     if(_active)
     {

@@ -3,7 +3,7 @@
 ParamTouch::ParamTouch(QWidget *parent) : QComboBox(parent)
 {
     addItem("mouse");
-    #warning "Add Touch list to ParamTouch"
+    //#warning "Add Touch list to ParamTouch"
 }
 
 QString ParamTouch::getValue()
