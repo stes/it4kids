@@ -11,12 +11,9 @@ class Scene : public QWidget
 public:
     explicit Scene(QWidget* parent = 0);
 
+    ~Scene();
 protected:
     void paintEvent(QPaintEvent* event);
-
-signals:
-
-public slots:
 };
 
 #endif // SCENE_H

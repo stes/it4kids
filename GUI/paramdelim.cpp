@@ -7,6 +7,7 @@ ParamDelim::ParamDelim(QWidget *parent) : QComboBox(parent)
     addItem("line");
     addItem("tab");
     addItem("cr");
+    #pragma message("Fix GetValue")
 }
 
 QString ParamDelim::getValue()

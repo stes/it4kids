@@ -14,8 +14,12 @@ void SpriteSelect::showEvent(QShowEvent*)
     int i = 0;
     for(SpriteVector::iterator it = _spriteVector.begin(); it != _spriteVector.end(); ++it)
     {
-        qDebug() << "test";
         _layout.addWidget(*it, i/5, i % 5, Qt::AlignLeft | Qt::AlignTop);
         ++i;
     }
+}
+
+SpriteSelect::~SpriteSelect()
+{
+
 }

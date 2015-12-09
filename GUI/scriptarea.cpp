@@ -103,3 +103,8 @@ void ScriptArea::paintEvent(QPaintEvent*)
     painter.setBrush(QBrush(QColor("#dddede")));
     painter.drawRect(contentsRect());
 }
+
+ScriptArea::~ScriptArea()
+{
+
+}

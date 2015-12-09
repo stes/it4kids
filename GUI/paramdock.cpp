@@ -17,6 +17,8 @@ ParamDock::ParamDock(QColor color, ScriptArea* scriptAreaWidget, QWidget *parent
     setFixedSize(24, 12);
 
     _scriptArea->addToHitTest(this);
+
+    #pragma message("Fix GetValue")
 }
 
 void ParamDock::dock(DragableElement* dragElem)
@@ -78,7 +80,7 @@ QString ParamDock::getValue()
 
 ParamDock::~ParamDock()
 {
-    _scriptArea->removeFromHitTest(this);
+
 }
 
 void ParamDock::paintEvent(QPaintEvent*)

@@ -15,6 +15,7 @@ ParamJoinWords::ParamJoinWords(QWidget *parent) : QWidget(parent), _first(this),
     _layout.setContentsMargins(0, 0, 0, 0);
     _layout.setSpacing(5);
     setLayout(&_layout);
+    #pragma message("Fix GetValue")
 }
 
 QString ParamJoinWords::getValue()

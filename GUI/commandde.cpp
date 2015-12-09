@@ -42,9 +42,27 @@ void CommandDE::resize()
     hide();
 }
 
-void CommandDE::mouseReleaseEvent(QMouseEvent* event)
+void CommandDE::moveEvent(QMoveEvent *)
 {
-    DragableElement::mouseReleaseEvent(event);
-    _upperDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) - QPoint(0, 10), QSize(_width, _height)));
-    _lowerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(0, _height), QSize(_width, _height)));
+    if(_upperDock) _upperDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) - QPoint(0, 10), QSize(_width, _height)));
+    if(_lowerDock) _lowerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(0, _height), QSize(_width, _height)));
+    if(_nextElem) _nextElem->move(_lowerDock->getRect()->topLeft() + QPoint(0, 5));
+
+}
+
+void CommandDE::mouseReleaseEvent(QMouseEvent *event)
+{
+
+    _lowerDock->deactivate();
+    _upperDock->deactivate();
+    _scriptAreaWidget->performHitTest(this);
+
+    if(!_nextElem) _lowerDock->activate();
+    if(!_prevElem) _upperDock->activate();
+        DragableElement::mouseReleaseEvent(event);
+}
+
+CommandDE::~CommandDE()
+{
+
 }

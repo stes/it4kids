@@ -24,6 +24,8 @@ public:
     void setElemListWidget(DragElemList* elemListWidget);
     void setScriptAreaWidget(ScriptArea *scriptArea);
     void show();
+
+    ~CategorySelect();
 protected:
     void paintEvent(QPaintEvent*);
 
@@ -32,9 +34,6 @@ protected:
 
     CategoryList _categoryList;
     QGridLayout _layout;
-signals:
-
-public slots:
 };
 
 #endif // CATEGORYSELECT_H

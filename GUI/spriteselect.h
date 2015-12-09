@@ -19,6 +19,7 @@ public:
     inline void addSprite(Sprite* sprite) {_spriteVector.push_back(sprite);}
     inline void removeSprite(Sprite* sprite) {_spriteVector.erase(std::remove(_spriteVector.begin(), _spriteVector.end(), sprite), _spriteVector.end());}
 
+    ~SpriteSelect();
 protected:
     void showEvent(QShowEvent*);
 

@@ -30,6 +30,7 @@ public:
     void removeFromDragElem(DragableElement* elem);
     DragElemVector* getDragElemVector();
 
+    ~ScriptArea();
 protected:
     virtual void hideEvent(QHideEvent*);
     virtual void showEvent(QShowEvent*);

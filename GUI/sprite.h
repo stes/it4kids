@@ -22,6 +22,7 @@ class Sprite : public QWidget
 public:
     explicit Sprite(ScriptArea* scriptArea, const QString& name = "Sprite", QWidget *parent = 0);
 
+    ~Sprite();
 private:
     void mousePressEvent(QMouseEvent*);
 

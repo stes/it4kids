@@ -9,6 +9,7 @@ ParamType::ParamType(QWidget *parent) : QComboBox(parent)
     addItem("command");
     addItem("reporter");
     addItem("predicate");
+    #pragma message("Fix GetValue")
 }
 
 QString ParamType::getValue()

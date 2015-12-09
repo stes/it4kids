@@ -16,6 +16,8 @@ public:
 
     virtual void dock(DragableElement* elem) = 0;
     virtual void undock() = 0;
+
+    virtual ~DockingArea();
 protected:
     QRect _dockingAreaGlobal;
     DragableElement* _dockedElem;

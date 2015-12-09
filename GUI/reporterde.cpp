@@ -35,3 +35,7 @@ void ReporterDE::resize()
     hide();
 }
 
+ReporterDE::~ReporterDE()
+{
+
+}

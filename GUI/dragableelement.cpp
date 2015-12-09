@@ -27,45 +27,12 @@
 DragableElement::DragableElement(const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget, QWidget* parent) :
     QWidget(parent), _color(color), _text(text), _dragged(false),
     _width(0), _height(0), _scriptAreaWidget(scriptAreaWidget), _path(QPoint(0, 0)),
-    _type(type), _currentDock(0), _upperDock(0), _lowerDock(0), _prevElem(0), _nextElem(0)
+    _type(type), _currentDock(0), _prevElem(0), _nextElem(0)
 {
     _layout.setSpacing(5);
     setLayout(&_layout);
     hide();
 }
-
-DragableElement::~DragableElement()
-{
-
-}
-
-void DragableElement::setPrevElem(DragableElement* elem)
-{
-    if(elem)
-    {
-        _prevElem = elem;
-        if(_upperDock) _upperDock->deactivate();
-    } else
-    {
-        _prevElem = 0;
-        if(_upperDock) _upperDock->activate();
-    }
-}
-
-void DragableElement::setNextElem(DragableElement* elem)
-{
-    if(elem)
-    {
-        _nextElem = elem;
-        if(_lowerDock) _lowerDock->deactivate();
-    } else
-    {
-        _nextElem = 0;
-        if(_lowerDock) _lowerDock->activate();
-    }
-}
-
-
 
 void DragableElement::mousePressEvent(QMouseEvent *event)
 {
@@ -95,14 +62,24 @@ void DragableElement::mouseReleaseEvent(QMouseEvent*)
     releaseMouse();
     QRect scriptArea = QRect(_scriptAreaWidget->mapToGlobal(QPoint(0,0)), QSize(_scriptAreaWidget->width(), _scriptAreaWidget->height()));
     _scriptAreaWidget->addToDragElem(this);
-    _scriptAreaWidget->performHitTest(this);
     if(!scriptArea.contains(QRect(mapToGlobal(QPoint(0, 0)), QSize(width(), height())), true))
     {
         _scriptAreaWidget->removeFromDragElem(this);
+        if(_nextElem)
+        {
+            DragableElement* current = _nextElem;
+            DragableElement* next = 0;
+            while(current)
+            {
+                _scriptAreaWidget->removeFromDragElem(current);
+                next = current->_nextElem;
+                delete current;
+                current = next;
+            }
+        }
         delete this;
+        return;
     }
-    if(_upperDock && !_upperDock->getDockedElem() && !_prevElem) _upperDock->activate();
-    if(_lowerDock && !_lowerDock->getDockedElem() && !_nextElem) _lowerDock->activate();
 }
 
 void DragableElement::paintEvent(QPaintEvent*)
@@ -269,4 +246,9 @@ void DragableElement::parseText(const QString &text, DragableElement *element)
 
         }
     }
+}
+
+DragableElement::~DragableElement()
+{
+
 }

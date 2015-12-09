@@ -28,3 +28,8 @@ void Sprite::mousePressEvent(QMouseEvent*)
     _scriptArea->setCurrentSprite(this);
 }
 
+Sprite::~Sprite()
+{
+
+}
+

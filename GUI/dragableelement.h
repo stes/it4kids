@@ -25,19 +25,25 @@ class DockingArea;
 class DragableElement : public QWidget
 {
     friend class MainWindow;
+    friend class ScriptDock;
 
     Q_OBJECT
 public:
     DragableElement(const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget = 0, QWidget* parent = 0);
-    ~DragableElement();
 
     inline virtual void setScriptAreaWidget(ScriptArea *scriptAreaWidget) {_scriptAreaWidget = scriptAreaWidget;}
 
-    inline virtual void setCurrentDock(DockingArea* dock) {_currentDock = dock;}
-    virtual void setPrevElem(DragableElement* elem);
-    virtual void setNextElem(DragableElement* elem);
+    inline void setCurrentDock(DockingArea* dock) {_currentDock = dock;}
+    inline void setPrevElem(DragableElement* elem) {_prevElem = elem;}
+    inline DragableElement* getPrevElem() {return _prevElem;}
+    inline void setNextElem(DragableElement* elem) {_nextElem = elem;}
+    inline DragableElement* getNextElem() {return _nextElem;}
+
+    inline int getHeight() {return _height;}
 
     virtual void resize() = 0;
+
+    virtual ~DragableElement();
 protected:
     QColor _color;
     QString _text;
@@ -56,8 +62,6 @@ protected:
     std::vector<QString> _defaultValues;
 
     DockingArea* _currentDock;
-    ScriptDock* _upperDock;
-    ScriptDock* _lowerDock;
     DragableElement* _prevElem;
     DragableElement* _nextElem;
 

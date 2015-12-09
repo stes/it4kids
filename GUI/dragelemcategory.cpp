@@ -41,3 +41,8 @@ void DragElemCategory::mousePressEvent(QMouseEvent*)
 {
     toggleActive();
 }
+
+DragElemCategory::~DragElemCategory()
+{
+
+}

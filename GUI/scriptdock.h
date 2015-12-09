@@ -5,6 +5,7 @@
 
 #define LOWEROFFSET QPoint(0, 5)
 #define UPPEROFFSET QPoint(0, -8)
+#define UPPEROFFSETHAT QPoint(0, -21)
 
 class QPoint;
 class ScriptArea;
@@ -15,7 +16,8 @@ public:
     enum Type
     {
         Upper,
-        Lower
+        Lower,
+        Inner
     };
 
     ScriptDock(ScriptArea* scriptArea, Type type, DragableElement *parent);
@@ -25,6 +27,8 @@ public:
 
     virtual void dock(DragableElement* elem);
     virtual void undock();
+
+    ~ScriptDock();
 protected:
     ScriptArea* _scriptArea;
     Type _type;
