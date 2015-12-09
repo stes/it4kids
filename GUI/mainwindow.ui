@@ -36,7 +36,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <property name="tabBarAutoHide">
        <bool>false</bool>
@@ -374,7 +374,7 @@ color: #5c5d5f;</string>
          </property>
          <property name="minimumSize">
           <size>
-           <width>482</width>
+           <width>480</width>
            <height>30</height>
           </size>
          </property>
@@ -459,7 +459,7 @@ color: #5c5d5f;</string>
          </property>
          <property name="minimumSize">
           <size>
-           <width>482</width>
+           <width>480</width>
            <height>360</height>
           </size>
          </property>
@@ -475,7 +475,7 @@ color: #5c5d5f;</string>
          </property>
          <property name="minimumSize">
           <size>
-           <width>482</width>
+           <width>480</width>
            <height>0</height>
           </size>
          </property>

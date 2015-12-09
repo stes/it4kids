@@ -98,3 +98,15 @@ DISTFILES +=
 
 RESOURCES += \
     resources.qrc
+
+win32: LIBS += -LC:/Python27/libs/ -lpython27
+
+INCLUDEPATH += C:/Python27/include
+DEPENDPATH += C:/Python27/include
+
+Release:pythondata.commands = $(COPY_DIR) $$shell_path($$PWD/python) $$shell_path($$OUT_PWD/release)
+Debug:pythondata.commands = $(COPY_DIR) $$shell_path($$PWD/python) $$shell_path($$OUT_PWD/debug)
+first.depends = $(first) pythondata
+export(first.depends)
+export(pythondata.commands)
+QMAKE_EXTRA_TARGETS += first pythondata
