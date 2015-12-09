@@ -3,6 +3,8 @@
 
 #include "dragableelement.h"
 
+class ParamDock;
+
 class PredicateDE : public DragableElement
 {
     Q_OBJECT
@@ -10,10 +12,9 @@ public:
     PredicateDE(const QString& text, const QColor& color, const QString& type, ScriptArea *scriptAreaWidget = 0, QWidget* parent = 0);
 
     void resize();
-protected:
-    void mouseMoveEvent(QMouseEvent* event);
-    void mouseReleaseEvent(QMouseEvent*);
 
+    ~PredicateDE();
+protected:
     DragableElement* getCurrentElement(QWidget* parent);
 };
 

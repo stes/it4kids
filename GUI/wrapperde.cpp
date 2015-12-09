@@ -15,6 +15,11 @@ WrapperDE::WrapperDE(const QString& text, const QColor& color, const QString& ty
     _label->setLayout(&_layout);
     //_label->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _label->show();
+
+    _upperDock = new ScriptDock(scriptAreaWidget, ScriptDock::Upper, this);
+    _lowerDock = new ScriptDock(scriptAreaWidget, ScriptDock::Lower, this);
+    _innerDock = new ScriptDock(scriptAreaWidget, ScriptDock::Inner, this);
+
     resize();
 }
 
@@ -41,28 +46,46 @@ void WrapperDE::resize()
     _path.lineTo(22, _height+5);
     _path.lineTo(15, _height+5);
 
-    int elements = getNumberElements();
-    if(elements != 0)
+    _innerHeight = 0;
+    DragableElement* inner = _innerDock->getDockedElem();
+    while(inner)
     {
-        _path.lineTo(15, _height+elements*20+5);
-        _path.lineTo(_width+20, _height+elements*20+5);
-        _path.lineTo(_width+20, _height+22+elements*20+5);
-        _path.lineTo(0, _height+22+elements*20+5);
-        _layout.setSizeConstraint(QLayout::SetNoConstraint);
-        setFixedSize(_width+5, 22+elements*20+_height+5);
-        _label->setMinimumWidth(_width+5);
-    } else {
-        _path.lineTo(15, _height+8+5);
-        _path.lineTo(_width+20, _height+8+5);
-        _path.lineTo(_width+20, _height+22+8+5);
-        _path.lineTo(0, _height+22+8+5);
-        setFixedSize(_width+20, _height+22+8+5);
-        _layout.setSizeConstraint(QLayout::SetNoConstraint);
-        setFixedSize(_width+5, 22+8+_height+5);
-        _label->setMinimumWidth(_width+5);
+        _innerHeight += inner->getHeight()+5;
+        inner = inner->getNextElem();
     }
 
+    if(!_innerHeight) _innerHeight = 8;
+    _path.lineTo(15, _height+_innerHeight+5);
+    _path.lineTo(_width+20, _height+_innerHeight+5);
+    _path.lineTo(_width+20, _height+22+_innerHeight+5);
+
+    _path.lineTo(25, _height+22+_innerHeight+5);
+    _path.lineTo(22, _height+22+_innerHeight+9);
+    _path.lineTo(11, _height+22+_innerHeight+9);
+    _path.lineTo(7, _height+22+_innerHeight+5);
+    _path.lineTo(0, _height+22+_innerHeight+5);
+
+    _layout.setSizeConstraint(QLayout::SetNoConstraint);
+    setFixedSize(_width+5, 22+_innerHeight+_height+9);
+    _label->setMinimumWidth(_width+5);
+
+    _upperDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) - QPoint(0, 10), QSize(_width, _height)));
+    _innerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(15, _height), QSize(_width, _height)));
+    _lowerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(0, _height+22+_innerHeight), QSize(_width, _height)));
+    if(_nextElem) _nextElem->move(_lowerDock->getRect()->topLeft() + QPoint(0, 5));
+    if(_innerDock->getDockedElem()) _innerDock->getDockedElem()->move(_innerDock->getRect()->topLeft() + QPoint(0, 5));
+
     hide();
+}
+
+void WrapperDE::moveEvent(QMoveEvent *)
+{
+    _upperDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) - QPoint(0, 10), QSize(_width, _height)));
+    _innerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(15, _height), QSize(_width, _height)));
+    _lowerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(0, _height+22+_innerHeight), QSize(_width, _height)));
+
+    if(_nextElem) _nextElem->move(_lowerDock->getRect()->topLeft() + QPoint(0, 5));
+    if(_innerDock->getDockedElem()) _innerDock->getDockedElem()->move(_innerDock->getRect()->topLeft() + QPoint(0, 5));
 }
 
 void WrapperDE::paintEvent(QPaintEvent* event)
@@ -70,18 +93,24 @@ void WrapperDE::paintEvent(QPaintEvent* event)
     DragableElement::paintEvent(event);
 }
 
-void WrapperDE::mousePressEvent(QMouseEvent* event)
+void WrapperDE::mouseReleaseEvent(QMouseEvent* event)
 {
-    if(_dragged == true)
-    {
-        _numberElements++;
-    }
-    DragableElement::mousePressEvent(event);
-    resize();
-    show();
+     DragableElement::mouseReleaseEvent(event);
+    _lowerDock->deactivate();
+    _upperDock->deactivate();
+    _scriptAreaWidget->performHitTest(this);
+
+    if(!_innerDock->getDockedElem()) _innerDock->activate();
+    if(!_nextElem) _lowerDock->activate();
+    if(!_prevElem) _upperDock->activate();
 }
 
 int WrapperDE::getNumberElements()
 {
     return _numberElements;
+}
+
+WrapperDE::~WrapperDE()
+{
+
 }

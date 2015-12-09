@@ -10,6 +10,8 @@ public:
     ReporterDE(const QString& text, const QColor& color, const QString& type, ScriptArea *scriptAreaWidget = 0, QWidget* parent = 0);
 
     void resize();
+
+    ~ReporterDE();
 protected:
     DragableElement* getCurrentElement(QWidget* parent);
 };

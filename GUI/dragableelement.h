@@ -14,21 +14,36 @@
 #include <QApplication>
 
 #include "scriptarea.h"
+#include "scriptdock.h"
 
 #include <vector>
+
+#include <QDebug>
+
+class DockingArea;
 
 class DragableElement : public QWidget
 {
     friend class MainWindow;
+    friend class ScriptDock;
 
     Q_OBJECT
 public:
     DragableElement(const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget = 0, QWidget* parent = 0);
-    ~DragableElement();
 
-    void setScriptAreaWidget(ScriptArea *scriptAreaWidget);
+    inline virtual void setScriptAreaWidget(ScriptArea *scriptAreaWidget) {_scriptAreaWidget = scriptAreaWidget;}
+
+    inline void setCurrentDock(DockingArea* dock) {_currentDock = dock;}
+    inline void setPrevElem(DragableElement* elem) {_prevElem = elem;}
+    inline DragableElement* getPrevElem() {return _prevElem;}
+    inline void setNextElem(DragableElement* elem) {_nextElem = elem;}
+    inline DragableElement* getNextElem() {return _nextElem;}
+
+    inline int getHeight() {return _height;}
 
     virtual void resize() = 0;
+
+    virtual ~DragableElement();
 protected:
     QColor _color;
     QString _text;
@@ -45,6 +60,10 @@ protected:
     QHBoxLayout _layout;
 
     std::vector<QString> _defaultValues;
+
+    DockingArea* _currentDock;
+    DragableElement* _prevElem;
+    DragableElement* _nextElem;
 
     virtual void mousePressEvent(QMouseEvent*);
     virtual void mouseMoveEvent(QMouseEvent*);

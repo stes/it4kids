@@ -30,6 +30,8 @@ public:
     void toggleActive();
     void setElemListWidget(DragElemList* elemListWidget);
     void setScriptAreaWidget(ScriptArea *scriptAreaWidget);
+
+    ~DragElemCategory();
 protected:
     void paintEvent(QPaintEvent*);
 

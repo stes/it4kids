@@ -16,3 +16,8 @@ void Scene::paintEvent(QPaintEvent*)
     painter.setBrush(Qt::red);
     painter.drawRect(contentsRect());
 }
+
+Scene::~Scene()
+{
+
+}

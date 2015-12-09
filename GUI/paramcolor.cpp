@@ -9,6 +9,7 @@
 ParamColor::ParamColor(QWidget *parent) : QWidget(parent), _color("#ff00ff"), _active(false)
 {
     setFixedSize(15, 15);
+     #pragma message("Fix GetValue")
 }
 
 QString ParamColor::getValue()
@@ -40,7 +41,7 @@ void ParamColor::mouseMoveEvent(QMouseEvent* event)
     }
 }
 
-void ParamColor::mouseReleaseEvent(QMouseEvent* event)
+void ParamColor::mouseReleaseEvent(QMouseEvent *)
 {
     if(_active)
     {

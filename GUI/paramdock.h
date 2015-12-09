@@ -5,19 +5,21 @@
 #include <QPainterPath>
 #include <QPainter>
 
+#include "dockingarea.h"
 #include "param.h"
-#include "dragableelement.h"
 
 class PredicateDE;
 class DragableElement;
+class ScriptArea;
 
-class ParamDock : public QWidget, public Param
+class ParamDock : public QWidget, public Param, public DockingArea
 {
     Q_OBJECT
 public:
     explicit ParamDock(QColor color, ScriptArea* scriptAreaWidget, QWidget *parent = 0);
 
     void dock(DragableElement* dragelem);
+    void undock();
 
     QString getValue();
 
@@ -32,7 +34,6 @@ protected:
     QPainterPath _path;
     QColor _color;
 
-    DragableElement* _dockedElem;
     ScriptArea* _scriptArea;
 };
 

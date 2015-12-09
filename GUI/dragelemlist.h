@@ -21,9 +21,6 @@ public:
 protected:
     QWidget _elemListWidget;
     QVBoxLayout _layout;
-signals:
-
-public slots:
 };
 
 #endif // DRAGELEMLIST_H

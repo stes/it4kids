@@ -89,7 +89,7 @@ ParamListId {
 }
 
 
-QFrame#selectionFrame {
+SpriteSelect {
 	border: 1px solid #d0d1d2;
 	border-top-left-radius: 6px;
 	border-top-right-radius: 6px;

@@ -25,21 +25,13 @@
 #include "paramvariables.h"
 
 DragableElement::DragableElement(const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget, QWidget* parent) :
-    QWidget(parent), _color(color), _text(text), _dragged(false), _width(0), _height(0), _scriptAreaWidget(scriptAreaWidget), _path(QPoint(0, 0)), _type(type)
+    QWidget(parent), _color(color), _text(text), _dragged(false),
+    _width(0), _height(0), _scriptAreaWidget(scriptAreaWidget), _path(QPoint(0, 0)),
+    _type(type), _currentDock(0), _prevElem(0), _nextElem(0)
 {
     _layout.setSpacing(5);
     setLayout(&_layout);
     hide();
-}
-
-DragableElement::~DragableElement()
-{
-
-}
-
-void DragableElement::setScriptAreaWidget(ScriptArea* scriptAreaWidget)
-{
-    _scriptAreaWidget = scriptAreaWidget;
 }
 
 void DragableElement::mousePressEvent(QMouseEvent *event)
@@ -52,6 +44,7 @@ void DragableElement::mousePressEvent(QMouseEvent *event)
         element->update();
         element->grabMouse();
     }
+    if(_currentDock) _currentDock->undock();
 }
 
 void DragableElement::mouseMoveEvent(QMouseEvent *event)
@@ -68,9 +61,24 @@ void DragableElement::mouseReleaseEvent(QMouseEvent*)
 {
     releaseMouse();
     QRect scriptArea = QRect(_scriptAreaWidget->mapToGlobal(QPoint(0,0)), QSize(_scriptAreaWidget->width(), _scriptAreaWidget->height()));
+    _scriptAreaWidget->addToDragElem(this);
     if(!scriptArea.contains(QRect(mapToGlobal(QPoint(0, 0)), QSize(width(), height())), true))
     {
+        _scriptAreaWidget->removeFromDragElem(this);
+        if(_nextElem)
+        {
+            DragableElement* current = _nextElem;
+            DragableElement* next = 0;
+            while(current)
+            {
+                _scriptAreaWidget->removeFromDragElem(current);
+                next = current->_nextElem;
+                delete current;
+                current = next;
+            }
+        }
         delete this;
+        return;
     }
 }
 
@@ -96,7 +104,6 @@ void DragableElement::getLayoutSize()
 {
     _width = 0;
     _height = 0;
-
     for(int i = 0; i < _layout.count(); i++)
     {
         _width += _layout.itemAt(i)->widget()->width() + 5;
@@ -239,4 +246,9 @@ void DragableElement::parseText(const QString &text, DragableElement *element)
 
         }
     }
+}
+
+DragableElement::~DragableElement()
+{
+
 }

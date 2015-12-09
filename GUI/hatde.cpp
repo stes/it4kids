@@ -8,6 +8,8 @@ HatDE::HatDE(const QString& text, const QColor& color, const QString& type, Scri
     _layout.setContentsMargins(4, 4, 0, 0);
     _layout.setSizeConstraint(QLayout::SetFixedSize);
 
+    _lowerDock = new ScriptDock(scriptAreaWidget, ScriptDock::Lower, this);
+
     resize();
 }
 
@@ -34,4 +36,17 @@ void HatDE::resize()
     _path.lineTo(0, 16+_height);
     setFixedSize(_width+5, _height+20);
     hide();
+}
+
+void HatDE::moveEvent(QMoveEvent *)
+{
+    if(_lowerDock) _lowerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(0, _height+10), QSize(_width, _height)));
+    if(_nextElem) _nextElem->move(_lowerDock->getRect()->topLeft() + QPoint(0, 5));
+}
+
+void HatDE::mouseReleaseEvent(QMouseEvent *event)
+{
+    if(!_nextElem) _lowerDock->activate();
+    _scriptAreaWidget->performHitTest(this);
+    DragableElement::mouseReleaseEvent(event);
 }

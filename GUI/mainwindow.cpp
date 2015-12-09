@@ -1,6 +1,15 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QPainterPath>
+#include <QDebug>
+
+#include "dragelemcategory.h"
+#include "commandde.h"
+#include "hatde.h"
+#include "sprite.h"
+#include "wrapperde.h"
+#include "predicatede.h"
 #include "reporterde.h"
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -10,7 +19,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint);
 
+    Sprite* figure = new Sprite(ui->scriptArea);
+    Sprite* sprite = new Sprite(ui->scriptArea);
+    ui->spriteSelect->addSprite(figure);
+    ui->spriteSelect->addSprite(sprite);
+    ui->scriptArea->setCurrentSprite(figure);
+
     InitializeDragElem(":/blocks.xml");
+
     ui->categorySelect->setElemListWidget(ui->elementList);
     ui->categorySelect->setScriptAreaWidget(ui->scriptArea);
 }
