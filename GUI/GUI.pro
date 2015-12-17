@@ -99,13 +99,32 @@ DISTFILES +=
 RESOURCES += \
     resources.qrc
 
-win32: LIBS += -LC:/Python27/libs/ -lpython27
+unix{
+    CONFIG += link_pkgconfig
+    PKGCONFIG += python
+}
 
-INCLUDEPATH += C:/Python27/include
-DEPENDPATH += C:/Python27/include
+win32:{
+   PY_VERSIONS = 2.7 2.6
+   for(PY_VERSION, PY_VERSIONS){
+       system(reg query HKLM\\SOFTWARE\\Python\\PythonCore\\$$PY_VERSION\\InstallPath /ve) {
+           PY_HOME = $$quote($$system(reg query HKLM\\SOFTWARE\\Python\\PythonCore\\$$PY_VERSION\\InstallPath /ve))
+           PY_HOME ~= s/.*(\\w:.*)/\\1
+           !exists($$PY_HOME\\include\\Python.h):next()
+           INCLUDEPATH *= $$PY_HOME\\include
+ 
+           PY_LIB_BASENAME = python$${PY_VERSION}
+           PY_LIB_BASENAME ~= s/\\./
+           CONFIG(debug, debug|release):PY_LIB_BASENAME = $${PY_LIB_BASENAME}_d
+           LIBS *= $$PY_HOME\\libs\\$${PY_LIB_BASENAME}.lib
+           message(Python$$PY_VERSION found at $$PY_HOME)
+           break()
+       }
+   }
+}
 
-Release:pythondata.commands = $(COPY_DIR) $$shell_path($$PWD/python) $$shell_path($$OUT_PWD/release)
-Debug:pythondata.commands = $(COPY_DIR) $$shell_path($$PWD/python) $$shell_path($$OUT_PWD/debug)
+Release:pythondata.commands = $(COPY_DIR) $$shell_path($$PWD/python) $$shell_path($$OUT_PWD/release/python)
+Debug:pythondata.commands = $(COPY_DIR) $$shell_path($$PWD/python) $$shell_path($$OUT_PWD/debug/python)
 first.depends = $(first) pythondata
 export(first.depends)
 export(pythondata.commands)

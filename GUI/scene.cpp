@@ -1,5 +1,6 @@
 #include "scene.h"
 
+#include <QCoreApplication>
 #include <QTimer>
 
 Scene::Scene(QWidget *parent) : QOpenGLWidget(parent)
@@ -14,6 +15,13 @@ Scene::Scene(QWidget *parent) : QOpenGLWidget(parent)
     PyObject *pName;
 
     Py_Initialize();
+
+    PyObject *pSysPath = PySys_GetObject((char*)"path");
+    QByteArray path = QCoreApplication::applicationDirPath().append("/python").toLatin1();
+    PyObject *pScriptPath = PyString_FromString(path.data());
+    PyList_Append(pSysPath, pScriptPath);
+    Py_DECREF(pScriptPath);
+
     pName = PyString_FromString("example");
     m_pModule = PyImport_Import(pName);
     Py_DECREF(pName);

@@ -4,6 +4,7 @@ pyglet.options['shadow_window'] = False
 pyglet.options['debug_gl'] = False
 from pyglet import gl
 from struct import unpack
+import os
 
 background = pyglet.graphics.OrderedGroup(0)
 foreground = pyglet.graphics.OrderedGroup(1)
@@ -66,6 +67,8 @@ class App(object):
 			self.window = pyglet.window.Window(resizable=True)
 			dispatcher = self.window
 		else:
+			pyglet.resource.path = [os.getcwd() + '/python']
+			pyglet.resource.reindex()
 			context = FakeContext()
 			context.set_current()
 			dispatcher = widget
