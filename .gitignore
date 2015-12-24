@@ -29,6 +29,8 @@
 
 # Build directories
 build*
+bin*
+generated*
 
 # Python specific files
 *.pyc
