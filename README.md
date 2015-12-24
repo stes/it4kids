@@ -33,17 +33,17 @@ Für den Buildprozess muss zusätzlich **qmake** installiert sein.
 
 Das Programm kann per
 
-´´´
-qmake GUI
-make GUI
-./GUI
-´´´
+```
+qmake
+make
+```
 
 erstellt und per 
 
-´´´
-./GUI
-´´´
+```
+cd bin
+./it4kids-editor
+```
 
 ausgeführt werden.
 
