@@ -1,5 +1,8 @@
 # IT4Kids Code Editor
 
+[![Build Status](https://travis-ci.org/stes/it4kids.svg?branch=master)](https://travis-ci.org/stes/it4kids)
+[![Build Status](https://travis-ci.org/stes/it4kids.svg?branch=dev-pyglet)](https://travis-ci.org/stes/it4kids)
+
 Du hast gerade das Repo des **IT4Kids Code Editors** gefunden!
 
 ## Die Idee hinter IT4Kids
