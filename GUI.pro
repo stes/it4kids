@@ -143,4 +143,8 @@ pythondata.commands = $(COPY_DIR) $$shell_path($$PYPATH) $$shell_path($$OUT_PWD/
 first.depends = $(first) pythondata
 export(first.depends)
 export(pythondata.commands)
-QMAKE_EXTRA_TARGETS += first pythondata
+
+test.commands = echo tests not yet implemented 
+export(test.commands)
+
+QMAKE_EXTRA_TARGETS += first pythondata test
