@@ -30,4 +30,8 @@
 # Build directories
 build*
 
+# Python specific files
+*.pyc
+
+# Other
 *.user

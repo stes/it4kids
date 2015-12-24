@@ -17,6 +17,40 @@ Aktuell verwenden wir [Scratch](https://scratch.mit.edu) und [Snap](code.it-for-
 - Schnelles Ausführen von Projekten durch [Pyglet](https://bitbucket.org/pyglet/pyglet/wiki/Home) Backend (nutzt OpenGL)
 - Nahtloser Übergang von der der grafischen Programmierung zur direkten Python-Programmierung - alles in einem Editor!
 
+## Build
+
+### Abhängigkeiten
+
+Bevor das Programm erstellt werden kann, müssen folgende Abhängigkeiten erfüllt sein:
+
+- python=2.7
+- pyglet
+- Qt>=5.4
+
+Für den Buildprozess muss zusätzlich **qmake** installiert sein.
+
+### Erstellen
+
+Das Programm kann per
+
+´´´
+qmake GUI
+make GUI
+./GUI
+´´´
+
+erstellt und per 
+
+´´´
+./GUI
+´´´
+
+ausgeführt werden.
+
+## Aktueller Stand
+
+Aktuell befindet sich der Editor in aktiver Entwicklung. Eine erste Alpha Version wird voraussichtlich im Januar 2016 erscheinen.
+
 ## Kontakt
 
 *IT4Kids* wurde von Studenten der RWTH Aachen gegründet. Weitere Infos unter www.it-for-kids.org.
