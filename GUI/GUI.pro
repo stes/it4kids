@@ -99,9 +99,11 @@ DISTFILES +=
 RESOURCES += \
     resources.qrc
 
-unix{
+unix:!arch {
     CONFIG += link_pkgconfig
-    PKGCONFIG += python
+# Depending on distibution, python 2.7 is either called "python" or "python2"
+    PKGCONFIG += python2
+    # PKGCONFIG += python
 }
 
 win32:{
@@ -123,8 +125,7 @@ win32:{
    }
 }
 
-Release:pythondata.commands = $(COPY_DIR) $$shell_path($$PWD/python) $$shell_path($$OUT_PWD/release/python)
-Debug:pythondata.commands = $(COPY_DIR) $$shell_path($$PWD/python) $$shell_path($$OUT_PWD/debug/python)
+pythondata.commands = $(COPY_DIR) $$shell_path($$PWD/python) $$shell_path($$OUT_PWD/python)
 first.depends = $(first) pythondata
 export(first.depends)
 export(pythondata.commands)
