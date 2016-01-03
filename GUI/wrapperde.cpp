@@ -78,14 +78,18 @@ void WrapperDE::resize()
     hide();
 }
 
-void WrapperDE::moveEvent(QMoveEvent *)
+void WrapperDE::moveEvent(QMoveEvent* event)
 {
     _upperDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) - QPoint(0, 10), QSize(_width, _height)));
     _innerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(15, _height), QSize(_width, _height)));
     _lowerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(0, _height+22+_innerHeight), QSize(_width, _height)));
 
     if(_nextElem) _nextElem->move(_lowerDock->getRect()->topLeft() + QPoint(0, 5));
-    if(_innerDock->getDockedElem()) _innerDock->getDockedElem()->move(_innerDock->getRect()->topLeft() + QPoint(0, 5));
+    if(_innerDock->getDockedElem())
+    {
+        _innerDock->getDockedElem()->move(_innerDock->getRect()->topLeft() + QPoint(0, 5));
+        _innerDock->getDockedElem()->moveNextElems(event->pos() - event->oldPos());
+    }
 }
 
 void WrapperDE::paintEvent(QPaintEvent* event)
@@ -96,18 +100,24 @@ void WrapperDE::paintEvent(QPaintEvent* event)
 void WrapperDE::mouseReleaseEvent(QMouseEvent* event)
 {
      DragableElement::mouseReleaseEvent(event);
-    _lowerDock->deactivate();
-    _upperDock->deactivate();
-    _scriptAreaWidget->performHitTest(this);
 
-    if(!_innerDock->getDockedElem()) _innerDock->activate();
-    if(!_nextElem) _lowerDock->activate();
-    if(!_prevElem) _upperDock->activate();
 }
 
 int WrapperDE::getNumberElements()
 {
     return _numberElements;
+}
+
+void WrapperDE::hitTest()
+{
+    _lowerDock->deactivate();
+    _upperDock->deactivate();
+    _innerDock->deactivate();
+    _scriptAreaWidget->performHitTest(this);
+
+    if(!_innerDock->getDockedElem()) _innerDock->activate();
+    if(!_nextElem) _lowerDock->activate();
+    if(!_prevElem) _upperDock->activate();
 }
 
 WrapperDE::~WrapperDE()

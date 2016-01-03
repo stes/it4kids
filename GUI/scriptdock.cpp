@@ -39,25 +39,23 @@ void ScriptDock::dock(DragableElement* elem)
         QString elemClass(elem->metaObject()->className());
         if(elemClass == "CommandDE" && elem->_nextElem == 0)
         {
+            QPoint oldPos = elem->pos();
             elem->move(_dockingAreaGlobal.topLeft() + UPPEROFFSET);
+            elem->movePrevElems(-(oldPos - elem->pos()));
             ((CommandDE*) elem)->_lowerDock->deactivate();
             ((CommandDE*) elem)->_lowerDock->_dockedElem = _parent;
             _parent->setCurrentDock(((CommandDE*) elem)->_lowerDock);
-
             elem->setNextElem(_parent);
             _parent->setPrevElem(elem);
 
             deactivate();
         }
-        qDebug() << "test";
         if(elemClass == "HatDE" && elem->_nextElem == 0)
         {
-            qDebug() << "rest";
             elem->move(_dockingAreaGlobal.topLeft() + UPPEROFFSETHAT);
             ((HatDE*) elem)->_lowerDock->deactivate();
             (((HatDE*) elem)->_lowerDock->_dockedElem) = _parent;
             _parent->setCurrentDock(((HatDE*) elem)->_lowerDock);
-
             elem->setNextElem(_parent);
             _parent->setPrevElem(elem);
             deactivate();
@@ -68,7 +66,9 @@ void ScriptDock::dock(DragableElement* elem)
         QString elemClass(elem->metaObject()->className());
         if(elemClass == "CommandDE" && elem->_prevElem == 0)
         {
+            QPoint oldPos = elem->pos();
             elem->move(_dockingAreaGlobal.topLeft() + LOWEROFFSET);
+            elem->moveNextElems(-(oldPos - elem->pos()));
             ((CommandDE*) elem)->_upperDock->deactivate();
             _dockedElem = elem;
             elem->setCurrentDock(this);
@@ -80,13 +80,13 @@ void ScriptDock::dock(DragableElement* elem)
     }
     else if(_type == Inner && !elem->_prevElem)
     {
+        QPoint oldPos = elem->pos();
         elem->move(_dockingAreaGlobal.topLeft() + LOWEROFFSET);
+        elem->moveNextElems(-(oldPos - elem->pos()));
         ((CommandDE*) elem)->_upperDock->deactivate();
         _dockedElem = elem;
         elem->setCurrentDock(this);
-
         elem->setPrevElem(_parent);
-
         deactivate();
     }
 

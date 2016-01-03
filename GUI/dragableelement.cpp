@@ -52,6 +52,7 @@ void DragableElement::mouseMoveEvent(QMouseEvent *event)
     if(event->buttons() & Qt::LeftButton)
     {
         move(mapToParent(event->pos() - _offset));
+        moveNextElems(event->pos() - _offset);
         show();
         update();
     }
@@ -79,6 +80,13 @@ void DragableElement::mouseReleaseEvent(QMouseEvent*)
         }
         delete this;
         return;
+    }
+    hitTest();
+    if(_nextElem)
+    {
+        DragableElement* next = _nextElem;
+        while(next->_nextElem) next = next->_nextElem;
+        next->hitTest();
     }
 }
 
@@ -110,6 +118,26 @@ void DragableElement::getLayoutSize()
         _height = _layout.itemAt(i)->widget()->height() > _height ? _layout.itemAt(i)->widget()->height() : _height;
     }
     _layout.setSizeConstraint(QLayout::SetNoConstraint);
+}
+
+void DragableElement::moveNextElems(QPoint offset)
+{
+    DragableElement* nextElem = _nextElem;
+    while(nextElem)
+    {
+        nextElem->move(nextElem->pos() + offset);
+        nextElem = nextElem->_nextElem;
+    }
+}
+
+void DragableElement::movePrevElems(QPoint offset)
+{
+    DragableElement* prevElem = _prevElem;
+    while(prevElem)
+    {
+        prevElem->move(prevElem->pos() + offset);
+        prevElem = prevElem->_prevElem;
+    }
 }
 
 void DragableElement::parseText(const QString &text, DragableElement *element)

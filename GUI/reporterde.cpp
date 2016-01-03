@@ -35,6 +35,11 @@ void ReporterDE::resize()
     hide();
 }
 
+void ReporterDE::hitTest()
+{
+
+}
+
 ReporterDE::~ReporterDE()
 {
 

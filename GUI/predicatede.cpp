@@ -38,6 +38,11 @@ DragableElement* PredicateDE::getCurrentElement(QWidget *parent)
     return new PredicateDE(_text, _color, _type, _scriptAreaWidget, parent);
 }
 
+void PredicateDE::hitTest()
+{
+    _scriptAreaWidget->performHitTest(this);
+}
+
 PredicateDE::~PredicateDE()
 {
 

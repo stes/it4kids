@@ -17,9 +17,9 @@ public:
     ~CommandDE();
 protected:
     DragableElement* getCurrentElement(QWidget* parent);
+    void hitTest();
 
     void moveEvent(QMoveEvent*);
-    void mouseReleaseEvent(QMouseEvent* event);
 
     ScriptDock* _upperDock;
     ScriptDock* _lowerDock;

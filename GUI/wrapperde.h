@@ -15,8 +15,9 @@ public:
     ~WrapperDE();
 protected:
     DragableElement* getCurrentElement(QWidget* parent);
+    void hitTest();
 
-    virtual void moveEvent(QMoveEvent *);
+    virtual void moveEvent(QMoveEvent *event);
     virtual void paintEvent(QPaintEvent* event);
     virtual void mouseReleaseEvent(QMouseEvent* event);
 

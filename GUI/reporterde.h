@@ -14,6 +14,7 @@ public:
     ~ReporterDE();
 protected:
     DragableElement* getCurrentElement(QWidget* parent);
+    void hitTest();
 };
 
 #endif // REPORTERDE_H

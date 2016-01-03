@@ -15,9 +15,9 @@ public:
     void resize();
 protected:
     DragableElement* getCurrentElement(QWidget* parent);
+    void hitTest();
 
     void moveEvent(QMoveEvent *);
-    void mouseReleaseEvent(QMouseEvent* event);
 
     ScriptDock* _lowerDock;
 };

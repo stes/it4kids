@@ -16,6 +16,7 @@ public:
     ~PredicateDE();
 protected:
     DragableElement* getCurrentElement(QWidget* parent);
+    void hitTest();
 };
 
 #endif // PREDICATEDE_H

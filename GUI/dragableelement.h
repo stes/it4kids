@@ -43,6 +43,9 @@ public:
 
     virtual void resize() = 0;
 
+    virtual void moveNextElems(QPoint offset);
+    virtual void movePrevElems(QPoint offset);
+
     virtual ~DragableElement();
 protected:
     QColor _color;
@@ -72,6 +75,7 @@ protected:
     virtual void paintEvent(QPaintEvent*);
 
     virtual DragableElement* getCurrentElement(QWidget* parent) = 0;
+    virtual void hitTest() = 0;
 
     void getLayoutSize();
 

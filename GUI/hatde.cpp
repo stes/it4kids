@@ -44,9 +44,9 @@ void HatDE::moveEvent(QMoveEvent *)
     if(_nextElem) _nextElem->move(_lowerDock->getRect()->topLeft() + QPoint(0, 5));
 }
 
-void HatDE::mouseReleaseEvent(QMouseEvent *event)
+void HatDE::hitTest()
 {
-    if(!_nextElem) _lowerDock->activate();
+    _lowerDock->deactivate();
     _scriptAreaWidget->performHitTest(this);
-    DragableElement::mouseReleaseEvent(event);
+    if(!_nextElem) _lowerDock->activate();
 }
