@@ -22,5 +22,7 @@
         <file>Assets/paintbrushOn.png</file>
         <file>Assets/clockwise.png</file>
         <file>Assets/counterclockwise.png</file>
+        <file>Assets/recordOff.png</file>
+        <file>Assets/soundlibraryOff.png</file>
     </qresource>
 </RCC>

@@ -9,7 +9,7 @@
 ParamColor::ParamColor(QWidget *parent) : QWidget(parent), _color("#ff00ff"), _active(false)
 {
     setFixedSize(15, 15);
-     #pragma message("Fix GetValue")
+    #pragma message("Fix GetValue")
 }
 
 QString ParamColor::getValue()

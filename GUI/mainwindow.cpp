@@ -1,9 +1,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QFileDialog>
+#include <QFont>
+#include <QFontMetrics>
 #include <QPainterPath>
 #include <QDebug>
 
+#include "audioengine.h"
+#include "costume.h"
 #include "dragelemcategory.h"
 #include "commandde.h"
 #include "hatde.h"
@@ -11,6 +16,7 @@
 #include "wrapperde.h"
 #include "predicatede.h"
 #include "reporterde.h"
+#include "Qsci/qscilexerpython.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -24,11 +30,43 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->spriteSelect->addSprite(figure);
     ui->spriteSelect->addSprite(sprite);
     ui->scriptArea->setCurrentSprite(figure);
+    _currentSprite = figure;
+
+    _backgroundSprite = new Sprite();
+
+    _audioEngine = new AudioEngine(this);
+    _audioEngine->setCurrentSprite(figure);
 
     InitializeDragElem(":/blocks.xml");
 
     ui->categorySelect->setElemListWidget(ui->elementList);
     ui->categorySelect->setScriptAreaWidget(ui->scriptArea);
+
+    connect(this, SIGNAL(newSound()), ui->soundSelect, SLOT(updateSoundList()));
+    connect(this, SIGNAL(newCostume()), ui->costumeSelect, SLOT(updateCostumeList()));
+    ui->soundSelect->changeCurrentSprite(figure);
+    ui->costumeSelect->changeCurrentSprite(figure);
+
+    QFont font;
+    font.setFamily("Consolas");
+    font.setFixedPitch(true);
+    font.setPointSize(10);
+    QFontMetrics fm = QFontMetrics(font);
+    ui->codeEditor->setFont(font);
+    ui->codeEditor->setMarginsFont(font);
+    ui->codeEditor->setMarginWidth(0, fm.width( "00000" ) + 5);
+    ui->codeEditor->setMarginLineNumbers(0, true);
+    ui->codeEditor->setFolding(QsciScintilla::BoxedTreeFoldStyle);
+    ui->codeEditor->setBraceMatching(QsciScintilla::SloppyBraceMatch);
+    ui->codeEditor->setCaretLineVisible(true);
+    ui->codeEditor->setCaretLineBackgroundColor(QColor("#ffe4e4"));
+    ui->codeEditor->setMarginsBackgroundColor(QColor("#333333"));
+    ui->codeEditor->setMarginsForegroundColor(QColor("#CCCCCC"));
+    ui->codeEditor->setFoldMarginColors(QColor("#99CC66"), QColor("#333300"));
+
+    QsciLexerPython lexer;
+    lexer.setDefaultFont(font);
+    ui->codeEditor->setLexer(&lexer);
 }
 
 void MainWindow::InitializeDragElem(const QString& path)
@@ -101,4 +139,28 @@ DragElemCategory* MainWindow::GetCategoryByName(const QString& name)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::on_soundFromFile_clicked()
+{
+    const QString dir;
+    const QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Open WAV file"), dir, "*.wav");
+    if (fileNames.count())
+    {
+        _audioEngine->loadFile(fileNames.front());
+    }
+    emit newSound();
+}
+
+void MainWindow::on_costumeFromFile_clicked()
+{
+    const QString dir;
+    const QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Open PNG file"), dir, "*.png");
+    if (fileNames.count())
+    {
+        Costume* costume = new Costume(_currentSprite);
+        costume->open(fileNames.front());
+        _currentSprite->getCostumeVector()->push_back(costume);
+    }
+    emit newCostume();
 }

@@ -3,7 +3,7 @@
 ParamClone::ParamClone(QWidget *parent) : QComboBox(parent)
 {
     addItem("myself");
-    //#warning "Add Sprite list to ParamClone"
+    #pragma message("Add sprite list")
 }
 
 QString ParamClone::getValue()
