@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->scriptArea->setCurrentSprite(figure);
     _currentSprite = figure;
 
-    _backgroundSprite = new Sprite();
+    _backgroundSprite = new Sprite(ui->scriptArea);
 
     _audioEngine = new AudioEngine(this);
     _audioEngine->setCurrentSprite(figure);
