@@ -67,6 +67,8 @@ MainWindow::MainWindow(QWidget *parent) :
     QsciLexerPython lexer;
     lexer.setDefaultFont(font);
     ui->codeEditor->setLexer(&lexer);
+
+    CodeGenerator Cgen= new CodeGenerator(this);
 }
 
 void MainWindow::InitializeDragElem(const QString& path)

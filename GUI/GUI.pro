@@ -55,7 +55,9 @@ SOURCES += main.cpp\
     dragelem/predicatede.cpp \
     dragelem/reporterde.cpp \
     dragelem/scriptdock.cpp \
-    dragelem/wrapperde.cpp
+    dragelem/wrapperde.cpp \
+    codegenerator.cpp \
+    structs.cpp
 
 HEADERS  += mainwindow.h \
     scene.h \
@@ -101,7 +103,9 @@ HEADERS  += mainwindow.h \
     dragelem/predicatede.h \
     dragelem/reporterde.h \
     dragelem/scriptdock.h \
-    dragelem/wrapperde.h
+    dragelem/wrapperde.h \
+    codegenerator.h \
+    structs.h
 
 FORMS    += mainwindow.ui
 
