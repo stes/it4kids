@@ -1,0 +1,21 @@
+language: cpp
+sudo: required
+dist: trusty
+
+os:
+  - linux
+
+install:
+  - sudo apt-add-repository -y ppa:beineri/opt-qt542-trusty
+  - sudo apt-get -qq update
+  - sudo apt-get -qq install g++-4.8 libc6-i386 qt54location qt54multimedia qt54sensors qt54svg qt54tools qt54webchannel qt54webkit 
+  - sudo apt-get install -y qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev
+  - sudo apt-get install -y qt5-default qttools5-dev-tools
+  - sudo apt-get install -y libqt5opengl5-dev 
+  - sudo apt-get -qq install g++-4.8 libc6-i386
+  - sudo apt-get -qq install qt54base qt54connectivity qt54declarative qt54doc qt54graphicaleffects qt54imageformats qt54location qt54multimedia qt54quick1 qt54quickcontrols qt54script qt54sensors qt54serialport qt54svg qt54tools qt54translations qt54webchannel qt54webengine qt54webkit-examples qt54websockets qt54x11extras qt54xmlpatterns
+
+script:
+    - source /opt/qt54/bin/qt54-env.sh
+    - qmake
+    - make
