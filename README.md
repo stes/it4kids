@@ -1,7 +1,6 @@
 # IT4Kids Code Editor
 
-[![Build Status](https://travis-ci.org/stes/it4kids.svg?branch=master)](https://travis-ci.org/stes/it4kids)
-[![Build Status](https://travis-ci.org/stes/it4kids.svg?branch=dev-pyglet)](https://travis-ci.org/stes/it4kids)
+[![master](https://travis-ci.org/stes/it4kids.svg?branch=master)](https://travis-ci.org/stes/it4kids)
 
 Du hast gerade das Repo des **IT4Kids Code Editors** gefunden!
 
@@ -53,6 +52,13 @@ ausgeführt werden.
 ## Aktueller Stand
 
 Aktuell befindet sich der Editor in aktiver Entwicklung. Eine erste Alpha Version wird voraussichtlich im Januar 2016 erscheinen.
+
+|    Build Status der einzelnen Zweige                                                                                ||
+|-------|--------------------------------------------------------------------------------------------------------------|
+|master | [![master](https://travis-ci.org/stes/it4kids.svg?branch=master)](https://travis-ci.org/stes/it4kids)        |
+|pyglet | [![dev-pyglet](https://travis-ci.org/stes/it4kids.svg?branch=dev-pyglet)](https://travis-ci.org/stes/it4kids)|
+|GUI    | [![GUI](https://travis-ci.org/stes/it4kids.svg?branch=GUI)](https://travis-ci.org/stes/it4kids)       |
+|devKM  | [![devKM](https://travis-ci.org/stes/it4kids.svg?branch=devKM)](https://travis-ci.org/stes/it4kids)       |
 
 ## Kontakt
 
