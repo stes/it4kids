@@ -774,7 +774,7 @@ public:
         QObject::connect(buttonClose, SIGNAL(clicked()), MainWindow, SLOT(close()));
         QObject::connect(buttonMinimize, SIGNAL(clicked()), MainWindow, SLOT(showMinimized()));
 
-        centerAreaWidget->setCurrentIndex(3);
+        centerAreaWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);

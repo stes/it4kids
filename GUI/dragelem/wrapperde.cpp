@@ -1,4 +1,6 @@
 #include "wrapperde.h"
+#include "commandde.h"
+#include "hatde.h"
 #include "qdebug.h"
 WrapperDE::WrapperDE(const QString& text, const QColor& color, const QString& type, ScriptArea *scriptAreaWidget, QWidget* parent) :
     DragableElement(text, color, type, scriptAreaWidget, parent), _numberElements(0), _label(new QWidget(this))
@@ -28,8 +30,29 @@ DragableElement* WrapperDE::getCurrentElement(QWidget *parent)
     return new WrapperDE(_text, _color, _type, _scriptAreaWidget, parent);
 }
 
+void WrapperDE::moveNextElems(QPoint offset)
+{
+    DragableElement* nextElem = _nextElem;
+    while(nextElem)
+    {
+        nextElem->move(nextElem->pos() + offset);
+        nextElem = nextElem->getNextElem();
+    }
+    nextElem = _innerDock->getDockedElem();
+    while(nextElem)
+    {
+        nextElem->move(nextElem->pos() + offset);
+        nextElem = nextElem->getNextElem();
+    }
+}
+
 void WrapperDE::resize()
 {
+    if(_prevElem)
+    {
+        _prevElem->resize();
+        _prevElem->show();
+    }
     show();
 
     getLayoutSize();
@@ -83,24 +106,6 @@ void WrapperDE::moveEvent(QMoveEvent* event)
     _upperDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) - QPoint(0, 10), QSize(_width, _height)));
     _innerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(15, _height), QSize(_width, _height)));
     _lowerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(0, _height+22+_innerHeight), QSize(_width, _height)));
-
-    if(_nextElem) _nextElem->move(_lowerDock->getRect()->topLeft() + QPoint(0, 5));
-    if(_innerDock->getDockedElem())
-    {
-        _innerDock->getDockedElem()->move(_innerDock->getRect()->topLeft() + QPoint(0, 5));
-        _innerDock->getDockedElem()->moveNextElems(event->pos() - event->oldPos());
-    }
-}
-
-void WrapperDE::paintEvent(QPaintEvent* event)
-{
-    DragableElement::paintEvent(event);
-}
-
-void WrapperDE::mouseReleaseEvent(QMouseEvent* event)
-{
-     DragableElement::mouseReleaseEvent(event);
-
 }
 
 int WrapperDE::getNumberElements()
@@ -113,6 +118,19 @@ void WrapperDE::hitTest()
     _lowerDock->deactivate();
     _upperDock->deactivate();
     _innerDock->deactivate();
+    DragableElement* next = _innerDock->getDockedElem();
+    if(next)
+    {
+        while(next->getNextElem()) next = next->getNextElem();
+        QString elemClass(next->metaObject()->className());
+        if(elemClass == "CommandDE") ((CommandDE*) next)->_lowerDock->deactivate();
+        else if(elemClass == "WrapperDE")
+        {
+            ((WrapperDE*) next)->_lowerDock->deactivate();
+            ((WrapperDE*) next)->_innerDock->deactivate();
+        }
+        else if(elemClass == "HatDE") ((HatDE*) next)->_lowerDock->deactivate();
+    }
     _scriptAreaWidget->performHitTest(this);
 
     if(!_innerDock->getDockedElem()) _innerDock->activate();

@@ -39,7 +39,7 @@ public:
     inline void setNextElem(DragableElement* elem) {_nextElem = elem;}
     inline DragableElement* getNextElem() {return _nextElem;}
 
-    inline int getHeight() {return _height;}
+    virtual inline int getHeight() {return _height;}
 
     virtual void resize() = 0;
 

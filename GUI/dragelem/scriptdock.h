@@ -24,6 +24,7 @@ public:
 
     void activate();
     void deactivate();
+    inline DragableElement* getParent() {return _parent;}
 
     virtual void dock(DragableElement* elem);
     virtual void undock();

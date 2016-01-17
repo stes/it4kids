@@ -37,7 +37,7 @@ void ScriptDock::dock(DragableElement* elem)
     if(_type == Upper && !elem->_nextElem)
     {
         QString elemClass(elem->metaObject()->className());
-        if(elemClass == "CommandDE" && elem->_nextElem == 0)
+        if(elemClass == "CommandDE")
         {
             QPoint oldPos = elem->pos();
             elem->move(_dockingAreaGlobal.topLeft() + UPPEROFFSET);
@@ -50,7 +50,7 @@ void ScriptDock::dock(DragableElement* elem)
 
             deactivate();
         }
-        if(elemClass == "HatDE" && elem->_nextElem == 0)
+        if(elemClass == "HatDE")
         {
             elem->move(_dockingAreaGlobal.topLeft() + UPPEROFFSETHAT);
             ((HatDE*) elem)->_lowerDock->deactivate();
@@ -63,43 +63,35 @@ void ScriptDock::dock(DragableElement* elem)
     }
     else if(_type == Lower && !elem->_prevElem)
     {
+        elem->raise();
         QString elemClass(elem->metaObject()->className());
-        if(elemClass == "CommandDE" && elem->_prevElem == 0)
-        {
-            QPoint oldPos = elem->pos();
-            elem->move(_dockingAreaGlobal.topLeft() + LOWEROFFSET);
-            elem->moveNextElems(-(oldPos - elem->pos()));
-            ((CommandDE*) elem)->_upperDock->deactivate();
-            _dockedElem = elem;
-            elem->setCurrentDock(this);
-
-            elem->setPrevElem(_parent);
-            _parent->setNextElem(elem);
-            deactivate();
-        }
-    }
-    else if(_type == Inner && !elem->_prevElem)
-    {
         QPoint oldPos = elem->pos();
         elem->move(_dockingAreaGlobal.topLeft() + LOWEROFFSET);
         elem->moveNextElems(-(oldPos - elem->pos()));
-        ((CommandDE*) elem)->_upperDock->deactivate();
+        if(elemClass == "CommandDE") ((CommandDE*) elem)->_upperDock->deactivate();
+        else if(elemClass == "WrapperDE") ((WrapperDE*) elem)->_upperDock->deactivate();
         _dockedElem = elem;
         elem->setCurrentDock(this);
         elem->setPrevElem(_parent);
+        _parent->setNextElem(elem);
         deactivate();
     }
-
-    if(elem->_prevElem)
+    else if(_type == Inner && !elem->_prevElem)
     {
-    QString elemClass(elem->metaObject()->className());
-    while(elemClass != "WrapperDE" && elem->_prevElem)
-    {
-        elem = elem->_prevElem;
-        elemClass = elem->metaObject()->className();
-    }
-    elem->resize();
-    elem->show();
+            qDebug() << "dock";
+        elem->raise();
+        QPoint oldPos = elem->pos();
+        elem->move(_dockingAreaGlobal.topLeft() + LOWEROFFSET);
+        elem->moveNextElems(-(oldPos - elem->pos()));
+        QString elemClass(elem->metaObject()->className());
+        if(elemClass == "CommandDE") ((CommandDE*) elem)->_upperDock->deactivate();
+        else if(elemClass == "WrapperDE") ((WrapperDE*) elem)->_upperDock->deactivate();
+        _dockedElem = elem;
+        elem->setCurrentDock(this);
+        elem->setPrevElem(_parent);
+        _parent->resize();
+        _parent->show();
+        deactivate();
     }
 }
 
@@ -109,9 +101,17 @@ void ScriptDock::undock()
     {
         _dockedElem->setPrevElem(0);
         _dockedElem->setCurrentDock(0);
-        _parent->setNextElem(0);
-        activate();
         _dockedElem = 0;
+        if(_type == Inner)
+        {
+            _parent->resize();
+            _parent->show();
+        }
+        else
+        {
+            _parent->setNextElem(0);
+        }
+        activate();
     }
 }
 

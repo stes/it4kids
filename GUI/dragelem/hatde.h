@@ -8,6 +8,7 @@ class ScriptDock;
 class HatDE : public DragableElement
 {
     friend class ScriptDock;
+    friend class WrapperDE;
     Q_OBJECT
 public:
     HatDE(const QString& text, const QColor& color, const QString& type, ScriptArea *scriptAreaWidget = 0, QWidget* parent = 0);
