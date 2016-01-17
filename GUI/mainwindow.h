@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMenu>
 
 #include <Qsci/qsciscintilla.h>
 
@@ -32,6 +33,10 @@ private slots:
     void on_soundFromFile_clicked();
     void on_costumeFromFile_clicked();
 
+    void on_buttonFile_clicked();
+
+    void on_buttonEdit_clicked();
+
 private:
     void InitializeDragElem(const QString& path);
     DragElemCategory* GetCategoryByName(const QString& name);
@@ -42,6 +47,9 @@ private:
     Sprite* _currentSprite;
 
     Sprite* _backgroundSprite;
+
+    QMenu _dateiMenu;
+    QMenu _bearbeitenMenu;
 };
 
 #endif // MAINWINDOW_H

@@ -19,7 +19,7 @@
 #include "Qsci/qscilexerpython.h"
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
+    QMainWindow(parent), _dateiMenu(this), _bearbeitenMenu(this),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -67,6 +67,16 @@ MainWindow::MainWindow(QWidget *parent) :
     QsciLexerPython lexer;
     lexer.setDefaultFont(font);
     ui->codeEditor->setLexer(&lexer);
+
+    _dateiMenu.addAction("Neu");
+    _dateiMenu.addAction("Hochladen von deinem Computer");
+    _dateiMenu.addAction("Herunterladen auf deinen Computer");
+    _dateiMenu.addAction("Zurücksetzen");
+
+    _bearbeitenMenu.addAction("Löschen rückgängig");
+    _bearbeitenMenu.addAction("Kleine Bühnengröße");
+    _bearbeitenMenu.addAction("Turbo-Modus");
+
 }
 
 void MainWindow::InitializeDragElem(const QString& path)
@@ -163,4 +173,14 @@ void MainWindow::on_costumeFromFile_clicked()
         _currentSprite->getCostumeVector()->push_back(costume);
     }
     emit newCostume();
+}
+
+void MainWindow::on_buttonFile_clicked()
+{
+    _dateiMenu.popup(ui->buttonFile->pos()+QPoint(0, 23));
+}
+
+void MainWindow::on_buttonEdit_clicked()
+{
+    _bearbeitenMenu.popup(ui->buttonEdit->pos()+QPoint(0, 23));
 }

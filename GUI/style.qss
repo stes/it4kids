@@ -1,6 +1,13 @@
 QMainWindow#MainWindow {
 	background-color: #ffffff;
 }
+
+QMenu
+{
+	color: #ffffff;
+	background-color: #9c9ea2;
+}
+
 QFrame > QPushButton {
 	color: #ffffff;
 	font-weight: bold;

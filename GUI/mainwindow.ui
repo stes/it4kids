@@ -1041,7 +1041,12 @@ color: #5c5d5f;</string>
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: #9c9ea2;</string>
+       <string notr="true">QFrame#toolBarFrame
+{
+	background-color: #9c9ea2;
+}
+
+</string>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <property name="spacing">
@@ -1075,6 +1080,12 @@ color: #5c5d5f;</string>
            <width>0</width>
            <height>20</height>
           </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QMenu
+{
+	background-color: #9c9ea2;
+}</string>
          </property>
          <property name="text">
           <string>Datei</string>
