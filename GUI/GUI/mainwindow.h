@@ -32,11 +32,12 @@ signals:
 private slots:
     void on_soundFromFile_clicked();
     void on_costumeFromFile_clicked();
-
     void on_buttonFile_clicked();
-
     void on_buttonEdit_clicked();
+    void on_buttonAddDragElem_clicked();
 
+    void customContextMenuRequestedAddDragElem(const QPoint &pos);
+    void eraseItemAddDragElem();
 private:
     void InitializeDragElem(const QString& path);
     DragElemCategory* GetCategoryByName(const QString& name);

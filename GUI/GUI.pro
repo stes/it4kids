@@ -13,115 +13,119 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-    mainwindow.cpp \
-    scene.cpp \
-    scriptarea.cpp \
-    dockingarea.cpp \
-    spriteselect.cpp \
-    sprite.cpp \
-    param/paramclone.cpp \
-    param/paramcolor.cpp \
-    param/paramcostume.cpp \
-    param/paramdelim.cpp \
-    param/paramdestination.cpp \
-    param/paramdirection.cpp \
-    param/paramdock.cpp \
-    param/parameffect.cpp \
-    param/paraminteraction.cpp \
-    param/paramjoinwords.cpp \
-    param/paramkey.cpp \
-    param/paramlistid.cpp \
-    param/paramlistselec.cpp \
-    param/parammath.cpp \
-    param/parammessage.cpp \
-    param/paramnumber.cpp \
-    param/paramsound.cpp \
-    param/paramstopchoices.cpp \
-    param/paramstring.cpp \
-    param/paramtouch.cpp \
-    param/paramtype.cpp \
-    param/paramvariables.cpp \
-    audio/audioengine.cpp \
-    audio/wavfile.cpp \
-    audio/soundselect.cpp \
-    costume/costume.cpp \
-    costume/costumeselect.cpp \
-    dragelem/categoryselect.cpp \
-    dragelem/commandde.cpp \
-    dragelem/dragableelement.cpp \
-    dragelem/dragelemcategory.cpp \
-    dragelem/dragelemlist.cpp \
-    dragelem/hatde.cpp \
-    dragelem/predicatede.cpp \
-    dragelem/reporterde.cpp \
-    dragelem/scriptdock.cpp \
-    dragelem/wrapperde.cpp
+    GUI/mainwindow.cpp \
+    GUI/scene.cpp \
+    GUI/scriptarea.cpp \
+    GUI/dockingarea.cpp \
+    GUI/spriteselect.cpp \
+    GUI/sprite.cpp \
+    GUI/param/paramclone.cpp \
+    GUI/param/paramcolor.cpp \
+    GUI/param/paramcostume.cpp \
+    GUI/param/paramdelim.cpp \
+    GUI/param/paramdestination.cpp \
+    GUI/param/paramdirection.cpp \
+    GUI/param/paramdock.cpp \
+    GUI/param/parameffect.cpp \
+    GUI/param/paraminteraction.cpp \
+    GUI/param/paramjoinwords.cpp \
+    GUI/param/paramkey.cpp \
+    GUI/param/paramlistid.cpp \
+    GUI/param/paramlistselec.cpp \
+    GUI/param/parammath.cpp \
+    GUI/param/parammessage.cpp \
+    GUI/param/paramnumber.cpp \
+    GUI/param/paramsound.cpp \
+    GUI/param/paramstopchoices.cpp \
+    GUI/param/paramstring.cpp \
+    GUI/param/paramtouch.cpp \
+    GUI/param/paramtype.cpp \
+    GUI/param/paramvariables.cpp \
+    GUI/audio/audioengine.cpp \
+    GUI/audio/wavfile.cpp \
+    GUI/audio/soundselect.cpp \
+    GUI/costume/costume.cpp \
+    GUI/costume/costumeselect.cpp \
+    GUI/dragelem/categoryselect.cpp \
+    GUI/dragelem/commandde.cpp \
+    GUI/dragelem/dragableelement.cpp \
+    GUI/dragelem/dragelemcategory.cpp \
+    GUI/dragelem/dragelemlist.cpp \
+    GUI/dragelem/hatde.cpp \
+    GUI/dragelem/predicatede.cpp \
+    GUI/dragelem/reporterde.cpp \
+    GUI/dragelem/scriptdock.cpp \
+    GUI/dragelem/wrapperde.cpp \
+    GUI/teacher/studentlist.cpp
 
-HEADERS  += mainwindow.h \
-    scene.h \
-    scriptarea.h \
-    dockingarea.h \
-    scriptdock.h \
-    spriteselect.h \
-    sprite.h \
-    param/param.h \
-    param/paramclone.h \
-    param/paramcolor.h \
-    param/paramcostume.h \
-    param/paramdelim.h \
-    param/paramdestination.h \
-    param/paramdirection.h \
-    param/paramdock.h \
-    param/parameffect.h \
-    param/paraminteraction.h \
-    param/paramjoinwords.h \
-    param/paramkey.h \
-    param/paramlistid.h \
-    param/paramlistselec.h \
-    param/parammath.h \
-    param/parammessage.h \
-    param/paramnumber.h \
-    param/paramsound.h \
-    param/paramstopchoices.h \
-    param/paramstring.h \
-    param/paramtouch.h \
-    param/paramtype.h \
-    param/paramvariables.h \
-    audio/audioengine.h \
-    audio/wavfile.h \
-    audio/soundselect.h \
-    costume/costume.h \
-    costume/costumeselect.h \
-    dragelem/categoryselect.h \
-    dragelem/commandde.h \
-    dragelem/dragableelement.h \
-    dragelem/dragelemcategory.h \
-    dragelem/dragelemlist.h \
-    dragelem/hatde.h \
-    dragelem/predicatede.h \
-    dragelem/reporterde.h \
-    dragelem/scriptdock.h \
-    dragelem/wrapperde.h
+HEADERS  += GUI/mainwindow.h \
+    GUI/scene.h \
+    GUI/scriptarea.h \
+    GUI/dockingarea.h \
+    GUI/scriptdock.h \
+    GUI/spriteselect.h \
+    GUI/sprite.h \
+    GUI/param/param.h \
+    GUI/param/paramclone.h \
+    GUI/param/paramcolor.h \
+    GUI/param/paramcostume.h \
+    GUI/param/paramdelim.h \
+    GUI/param/paramdestination.h \
+    GUI/param/paramdirection.h \
+    GUI/param/paramdock.h \
+    GUI/param/parameffect.h \
+    GUI/param/paraminteraction.h \
+    GUI/param/paramjoinwords.h \
+    GUI/param/paramkey.h \
+    GUI/param/paramlistid.h \
+    GUI/param/paramlistselec.h \
+    GUI/param/parammath.h \
+    GUI/param/parammessage.h \
+    GUI/param/paramnumber.h \
+    GUI/param/paramsound.h \
+    GUI/param/paramstopchoices.h \
+    GUI/param/paramstring.h \
+    GUI/param/paramtouch.h \
+    GUI/param/paramtype.h \
+    GUI/param/paramvariables.h \
+    GUI/audio/audioengine.h \
+    GUI/audio/wavfile.h \
+    GUI/audio/soundselect.h \
+    GUI/costume/costume.h \
+    GUI/costume/costumeselect.h \
+    GUI/dragelem/categoryselect.h \
+    GUI/dragelem/commandde.h \
+    GUI/dragelem/dragableelement.h \
+    GUI/dragelem/dragelemcategory.h \
+    GUI/dragelem/dragelemlist.h \
+    GUI/dragelem/hatde.h \
+    GUI/dragelem/predicatede.h \
+    GUI/dragelem/reporterde.h \
+    GUI/dragelem/scriptdock.h \
+    GUI/dragelem/wrapperde.h \
+    GUI/teacher/studentlist.h
 
-FORMS    += mainwindow.ui
+FORMS    += GUI/mainwindow.ui
 
 DISTFILES +=
 
 RESOURCES += \
-    resources.qrc
+    GUI/resources.qrc
 
 
-win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/QScintilla/ -lqscintilla2
-else:win32:CONFIG(release, debug|release): LIBS += -L$$PWD/QScintilla/ -lqscintilla2
-else:unix: LIBS += -L$$PWD/QScintilla/ -lqscintilla2
+win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/GUI/QScintilla/ -lqscintilla2
+else:win32:CONFIG(release, debug|release): LIBS += -L$$PW/DGUI/QScintilla/ -lqscintilla2
+else:unix: LIBS += -L$$PWD/GUI/QScintilla/ -lqscintilla2
 
-INCLUDEPATH += $$PWD/QScintilla \
-    $$PWD/audio \
-    $$PWD/costume \
-    $$PWD/param \
-    $$PWD/dragelem
+INCLUDEPATH += $$PWD/GUI/QScintilla \
+    $$PWD/GUI/audio \
+    $$PWD/GUI/costume \
+    $$PWD/GUI/param \
+    $$PWD/GUI/dragelem \
+    $$PWD/GUI/teacher
 DEPENDPATH += $$PWD/QScintilla \
-    $$PWD/audio \
-    $$PWD/costume \
-    $$PWD/param \
-    $$PWD/dragelem
+    $$PWD/GUI/audio \
+    $$PWD/GUI/costume \
+    $$PWD/GUI/param \
+    $$PWD/GUI/dragelem \
+    $$PWD/GUI/teacher

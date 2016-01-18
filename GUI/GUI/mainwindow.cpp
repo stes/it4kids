@@ -4,6 +4,7 @@
 #include <QFileDialog>
 #include <QFont>
 #include <QFontMetrics>
+#include <QListWidgetItem>
 #include <QPainterPath>
 #include <QDebug>
 
@@ -77,6 +78,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _bearbeitenMenu.addAction("Kleine Bühnengröße");
     _bearbeitenMenu.addAction("Turbo-Modus");
 
+    //connect(ui->listAddDragElem, SIGNAL(customContextMenuRequested(QPoint), this, SLOT(customContextMenuRequestedAddDragElem(QPoint));
 }
 
 void MainWindow::InitializeDragElem(const QString& path)
@@ -183,4 +185,48 @@ void MainWindow::on_buttonFile_clicked()
 void MainWindow::on_buttonEdit_clicked()
 {
     _bearbeitenMenu.popup(ui->buttonEdit->pos()+QPoint(0, 23));
+}
+
+void MainWindow::on_buttonAddDragElem_clicked()
+{
+    const QString dir;
+    const QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Open PNG file"), dir, "*.xml");
+    if (fileNames.count())
+    {
+        QFile addElem(fileNames.first());
+        addElem.open(QFile::ReadOnly);
+        QString xml = QLatin1String(addElem.readAll());
+
+        QXmlStreamReader xmlReader(xml);
+        QXmlStreamAttributes attributes;
+
+        while(!xmlReader.atEnd())
+        {
+            if(xmlReader.readNext() == QXmlStreamReader::StartElement)
+            {
+                QString type = xmlReader.name().toString();
+                if(type == "dragableelement")
+                {
+                    attributes = xmlReader.attributes();
+                    ui->listAddDragElem->insertItem(ui->listAddDragElem->count(),
+                        new QListWidgetItem(attributes.value("spec").toString(), ui->listAddDragElem));
+                }
+            }
+        }
+    }
+}
+
+void MainWindow::customContextMenuRequestedAddDragElem(const QPoint &pos)
+{
+    QPoint globalPos = ui->listAddDragElem->mapToGlobal(pos);
+
+    QMenu myMenu;
+    myMenu.addAction("Löschen",  this, SLOT(eraseItemAddDragElem()));
+
+    myMenu.exec(globalPos);
+}
+
+void MainWindow::eraseItemAddDragElem()
+{
+    qDeleteAll(ui->listAddDragElem->selectedItems());
 }

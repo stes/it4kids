@@ -43,6 +43,7 @@ INPUT(
 ./debug\reporterde.o
 ./debug\scriptdock.o
 ./debug\wrapperde.o
+./debug\studentlist.o
 ./debug\qrc_resources.o
 ./debug\moc_mainwindow.o
 ./debug\moc_scene.o
@@ -85,4 +86,5 @@ INPUT(
 ./debug\moc_predicatede.o
 ./debug\moc_reporterde.o
 ./debug\moc_wrapperde.o
+./debug\moc_studentlist.o
 );

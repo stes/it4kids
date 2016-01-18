@@ -43,6 +43,7 @@ INPUT(
 ./release\reporterde.o
 ./release\scriptdock.o
 ./release\wrapperde.o
+./release\studentlist.o
 ./release\qrc_resources.o
 ./release\moc_mainwindow.o
 ./release\moc_scene.o
@@ -85,4 +86,5 @@ INPUT(
 ./release\moc_predicatede.o
 ./release\moc_reporterde.o
 ./release\moc_wrapperde.o
+./release\moc_studentlist.o
 );
