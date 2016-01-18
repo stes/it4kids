@@ -4,6 +4,7 @@
 #include <QMainWindow>
 
 #include <Qsci/qsciscintilla.h>
+#include "codegenerator.h"
 
 class AudioEngine;
 class DragElemCategory;

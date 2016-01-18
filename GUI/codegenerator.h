@@ -11,7 +11,7 @@ public:
     CodeGenerator(MainWindow * main);
 private:
     void generateFile();
-    Qstring generateCode(DragableElement* element, int sub);
+    QString generateCode(DragableElement* element, int sub);
     ArgumentStruct* CodeGenerator::getCommand();
     QString dict(ArgumentStruct* argument);
     MainWindow* _Mainwindow;
