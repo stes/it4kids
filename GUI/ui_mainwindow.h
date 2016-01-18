@@ -704,7 +704,12 @@ public:
         sizePolicy7.setHeightForWidth(toolBarFrame->sizePolicy().hasHeightForWidth());
         toolBarFrame->setSizePolicy(sizePolicy7);
         toolBarFrame->setMinimumSize(QSize(0, 23));
-        toolBarFrame->setStyleSheet(QStringLiteral("background-color: #9c9ea2;"));
+        toolBarFrame->setStyleSheet(QLatin1String("QFrame#toolBarFrame\n"
+"{\n"
+"	background-color: #9c9ea2;\n"
+"}\n"
+"\n"
+""));
         horizontalLayout = new QHBoxLayout(toolBarFrame);
         horizontalLayout->setSpacing(0);
         horizontalLayout->setContentsMargins(11, 11, 11, 11);
@@ -719,6 +724,10 @@ public:
         sizePolicy8.setHeightForWidth(buttonFile->sizePolicy().hasHeightForWidth());
         buttonFile->setSizePolicy(sizePolicy8);
         buttonFile->setMinimumSize(QSize(0, 20));
+        buttonFile->setStyleSheet(QLatin1String("QMenu\n"
+"{\n"
+"	background-color: #9c9ea2;\n"
+"}"));
         buttonFile->setFlat(true);
 
         horizontalLayout->addWidget(buttonFile);
@@ -774,7 +783,7 @@ public:
         QObject::connect(buttonClose, SIGNAL(clicked()), MainWindow, SLOT(close()));
         QObject::connect(buttonMinimize, SIGNAL(clicked()), MainWindow, SLOT(showMinimized()));
 
-        centerAreaWidget->setCurrentIndex(3);
+        centerAreaWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);

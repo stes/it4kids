@@ -19,7 +19,6 @@ Sprite::Sprite(ScriptArea* scriptArea, const QString &name, QWidget *parent) : Q
     _layout.addWidget(&_imageLabel);
     _layout.addWidget(&_label);
 
-    _costumeVector.push_back(cos);
     _label.setText(_name);
 }
 

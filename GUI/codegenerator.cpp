@@ -8,33 +8,33 @@ CodeGenerator::CodeGenerator(MainWindow * main)
 
 void CodeGenerator::generateFile(){
     //Per Figure
-    for (QObject &element : _Mainwindow.children())
+    for (QObject *element : _Mainwindow->children())
     {
-        if (element->isWidgetType())
+        /*if (element->isWidgetType())
         {
-           QMetaObject meta = element->metaObject();
-           qDebug() << meta.className();
+           const QMetaObject *meta = element->metaObject();
+           qDebug() << meta->className();
            //todo chek if Block, else return
            //receiveGo receiveKey receiveInteraction receiveMessage define start Kommands
            if ((element->_text == "receiveGo") or (element->_text == "receiveKey") or (element->_text == "receiveInteraction") or (element->_text =="receiveMessage"))
            {
                 Qstring s = generateCode(element);
            }
-        }
+        }*/
     }
 }
 
 
-Qstring CodeGenerator::generateCode(DragableElement* element, int sub)
+QString CodeGenerator::generateCode(DragableElement* element, int sub)
 {
     DragableElement* next = element;
         QString ret = "";
         ArgumentStruct* argument;
         //int sublvl = sub;
-        while (next != null)
+        while (next != (void*)0)
         {
             //add command
-            argument = next.getCommand();
+         /*   argument = next.getCommand();
             ret += subident(sublvl) + dict(argument) + "\n";
 
 
@@ -46,30 +46,32 @@ Qstring CodeGenerator::generateCode(DragableElement* element, int sub)
 
             //add next
             next = next.child;
-            ret +=next.getCommand() + "\n";
+            ret +=next.getCommand() + "\n";*/
 
         }
+        return "";
 }
 
 ArgumentStruct* CodeGenerator::getCommand()
 {
     //todo get arg struct von diesem block
+    return new ArgumentStruct;
 }
 
 //einrückungen etc.
-QString subident(int sub)
+QString CodeGenerator::subident(int sub)
 {
     QString str ="";
     for (int i = 0; i<sub;i++)
     {
-        str += dict(tab);
+        str += map["tab"];
     }
     return str;
 }
 
 //translate ccommand in reqired language
 //uses special commands :start, end, tab
-QString dict(ArgumentStruct* argument)
+QString CodeGenerator::dict(ArgumentStruct* argument)
 {
 
     if (argument->arg1 == "")

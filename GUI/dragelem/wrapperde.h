@@ -12,16 +12,17 @@ public:
 
     void resize();
 
+    void moveNextElems(QPoint offset);
+    inline int getHeight() {return _height+22+_innerHeight;}
+    int getNumberElements();
+
     ~WrapperDE();
 protected:
     DragableElement* getCurrentElement(QWidget* parent);
     void hitTest();
 
     virtual void moveEvent(QMoveEvent *event);
-    virtual void paintEvent(QPaintEvent* event);
-    virtual void mouseReleaseEvent(QMouseEvent* event);
 
-    int getNumberElements();
     int _numberElements;
     int _innerHeight;
     QWidget* _label;

@@ -1,6 +1,7 @@
 #ifndef STRUCTS_H
 #define STRUCTS_H
 
+#include <qstring.h>
 
 struct ArgumentStruct
 {

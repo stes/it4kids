@@ -16,6 +16,7 @@ public:
 
     virtual void dock(DragableElement* elem) = 0;
     virtual void undock() = 0;
+    virtual inline DragableElement* getParent() {return 0;}
 
     virtual ~DockingArea();
 protected:

@@ -6,6 +6,8 @@
 #include <QWidget>
 #include <vector>
 
+#include "wavfile.h"
+
 class Costume;
 class DragableElement;
 class DockingArea;
@@ -31,7 +33,7 @@ public:
     inline CostumeVector* getCostumeVector() {return &_costumeVector;}
     inline void addCostume(Costume* costume) {_costumeVector.push_back(costume);}
     void setCurrentCostume(Costume* costume);
-    inline void getCurrentConstume() {return _costumeVector[_currentCostumeIndex]; }
+    inline Costume* getCurrentConstume() {return _costumeVector[_currentCostumeIndex]; }
 
     ~Sprite();
 signals:
