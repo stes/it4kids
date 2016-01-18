@@ -485,11 +485,7 @@ QMenu
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton#buttonFile
-{
-	width: 35px;
-}
-</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Datei</string>
@@ -517,10 +513,7 @@ QMenu
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton#buttonEdit
-{
-	width: 65px;
-}</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Bearbeiten</string>
@@ -548,10 +541,7 @@ QMenu
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">QPushButton#buttonHints
-{
-	width: 35px;
-}</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Tipps</string>

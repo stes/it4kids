@@ -24,8 +24,6 @@ Scene {
 	border: 1px solid #d0d1d2;
 }
 
-
-
 QTabWidget#centerAreaWidget::pane {	
 	border: 1px solid #d0d1d2;
 	border-top: none;
