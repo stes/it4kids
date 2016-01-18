@@ -4,14 +4,12 @@
 #
 #-------------------------------------------------
 
-<<<<<<< HEAD
 QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
-TARGET = GUI
+TARGET = it4kids-editor
 TEMPLATE = app
-
 
 SOURCES += src/main.cpp\
     src/GUI/mainwindow.cpp \
@@ -107,17 +105,8 @@ HEADERS  += src/GUI/mainwindow.h \
     src/GUI/teacher/studentlist.h
 
 FORMS    += src/GUI/mainwindow.ui
-=======
-QT       += core gui
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
-TARGET = it4kids-editor
-TEMPLATE = app
 
 # Build paths
-
-INCLUDEPATH += src
 DESTDIR=bin #Target file directory
 OBJECTS_DIR=generated #Intermediate object files directory
 MOC_DIR=generated #Intermediate moc files directory
@@ -127,96 +116,9 @@ PYPATH = $$PWD/src/python
 
 # C Files
 
-SOURCES += \
-    src/main.cpp\
-    src/mainwindow.cpp \
-    src/scene.cpp \
-    src/categoryselect.cpp \
-    src/dragableelement.cpp \
-    src/dragelemcategory.cpp \
-    src/dragelemlist.cpp \
-    src/scriptarea.cpp \
-    src/hatde.cpp \
-    src/commandde.cpp \
-    src/wrapperde.cpp \
-    src/predicatede.cpp \
-    src/paramdock.cpp \
-    src/paramnumber.cpp \
-    src/paramstring.cpp \
-    src/paramdirection.cpp \
-    src/paramdestination.cpp \
-    src/paramkey.cpp \
-    src/paraminteraction.cpp \
-    src/parammessage.cpp \
-    src/paramstopchoices.cpp \
-    src/paramclone.cpp \
-    src/paramcostume.cpp \
-    src/parameffect.cpp \
-    src/paramtouch.cpp \
-    src/paramcolor.cpp \
-    src/paramsound.cpp \
-    src/reporterde.cpp \
-    src/parammath.cpp \
-    src/paramjoinwords.cpp \
-    src/paramtype.cpp \
-    src/paramdelim.cpp \
-    src/paramvariables.cpp \
-    src/paramlistselec.cpp \
-    src/paramlistid.cpp \
-    src/dockingarea.cpp \
-    src/scriptdock.cpp \
-    src/spriteselect.cpp \
-    src/sprite.cpp
-
-HEADERS  += \
-    src/mainwindow.h \
-    src/scene.h \
-    src/categoryselect.h \
-    src/dragableelement.h \
-    src/dragelemcategory.h \
-    src/dragelemlist.h \
-    src/scriptarea.h \
-    src/hatde.h \
-    src/commandde.h \
-    src/wrapperde.h \
-    src/predicatede.h \
-    src/paramdock.h \
-    src/paramnumber.h \
-    src/param.h \
-    src/paramstring.h \
-    src/paramdirection.h \
-    src/paramdestination.h \
-    src/paramkey.h \
-    src/paraminteraction.h \
-    src/parammessage.h \
-    src/paramstopchoices.h \
-    src/paramclone.h \
-    src/paramcostume.h \
-    src/parameffect.h \
-    src/paramtouch.h \
-    src/paramcolor.h \
-    src/paramsound.h \
-    src/reporterde.h \
-    src/parammath.h \
-    src/paramjoinwords.h \
-    src/paramtype.h \
-    src/paramdelim.h \
-    src/paramvariables.h \
-    src/paramlistselec.h \
-    src/paramlistid.h \
-    src/dockingarea.h \
-    src/scriptdock.h \
-    src/spriteselect.h \
-    src/sprite.h
-
-FORMS    += \
-    src/mainwindow.ui
->>>>>>> 963445a14c4f2618b25414805133de1cc92c0ddf
-
 DISTFILES +=
 
 RESOURCES += \
-<<<<<<< HEAD
     src/GUI/resources.qrc
 
 
@@ -225,6 +127,7 @@ else:win32:CONFIG(release, debug|release): LIBS += -L$$PWD/src/GUI/QScintilla/ -
 else:unix: LIBS += -L$$PWD/src/GUI/QScintilla/ -lqscintilla2
 
 INCLUDEPATH += $$PWD/src/GUI/QScintilla \
+    $$PWD/src \
     $$PWD/src/GUI \
     $$PWD/src/GUI/audio \
     $$PWD/src/GUI/costume \
@@ -232,14 +135,13 @@ INCLUDEPATH += $$PWD/src/GUI/QScintilla \
     $$PWD/src/GUI/dragelem \
     $$PWD/src/GUI/teacher
 DEPENDPATH += $$PWD/QScintilla \
+    $$PWD/src \
     $$PWD/src/GUI \
     $$PWD/src/GUI/audio \
     $$PWD/src/GUI/costume \
     $$PWD/src/GUI/param \
     $$PWD/src/GUI/dragelem \
     $$PWD/src/GUI/teacher
-=======
-    src/resources.qrc
 
 unix:!arch {
     CONFIG += link_pkgconfig
@@ -276,4 +178,3 @@ test.commands = echo tests not yet implemented
 export(test.commands)
 
 QMAKE_EXTRA_TARGETS += first pythondata test
->>>>>>> 963445a14c4f2618b25414805133de1cc92c0ddf
