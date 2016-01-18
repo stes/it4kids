@@ -1,7 +1,7 @@
 #include "hatde.h"
 
-HatDE::HatDE(const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget, QWidget* parent) :
-     DragableElement(text, color, type, scriptAreaWidget, parent)
+HatDE::HatDE(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget, QWidget* parent) :
+     DragableElement(identifier, text, color, type, scriptAreaWidget, parent)
 {
     parseText(text, this);
     _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
@@ -15,7 +15,7 @@ HatDE::HatDE(const QString& text, const QColor& color, const QString& type, Scri
 
 DragableElement* HatDE::getCurrentElement(QWidget* parent)
 {
-    return new HatDE(_text, _color, _type, _scriptAreaWidget, parent);
+    return new HatDE(_identifier, _text, _color, _type, _scriptAreaWidget, parent);
 }
 
 void HatDE::resize()

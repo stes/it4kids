@@ -34,7 +34,8 @@ public:
     inline void addCostume(Costume* costume) {_costumeVector.push_back(costume);}
     void setCurrentCostume(Costume* costume);
     inline Costume* getCurrentConstume() {return _costumeVector[_currentCostumeIndex]; }
-
+    DragElemVector* getDragElemVector() {return &_dragElemVector;}
+    QString getName() {return _name;}
     ~Sprite();
 signals:
     void currentCostumeChanged(Sprite* sprite);

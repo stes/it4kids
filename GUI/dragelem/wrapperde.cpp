@@ -2,8 +2,8 @@
 #include "commandde.h"
 #include "hatde.h"
 #include "qdebug.h"
-WrapperDE::WrapperDE(const QString& text, const QColor& color, const QString& type, ScriptArea *scriptAreaWidget, QWidget* parent) :
-    DragableElement(text, color, type, scriptAreaWidget, parent), _numberElements(0), _label(new QWidget(this))
+WrapperDE::WrapperDE(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea *scriptAreaWidget, QWidget* parent) :
+    DragableElement(identifier, text, color, type, scriptAreaWidget, parent), _numberElements(0), _label(new QWidget(this))
 {
     QString spec(text);
     spec.remove("%c");
@@ -27,7 +27,7 @@ WrapperDE::WrapperDE(const QString& text, const QColor& color, const QString& ty
 
 DragableElement* WrapperDE::getCurrentElement(QWidget *parent)
 {
-    return new WrapperDE(_text, _color, _type, _scriptAreaWidget, parent);
+    return new WrapperDE(_identifier, _text, _color, _type, _scriptAreaWidget, parent);
 }
 
 void WrapperDE::moveNextElems(QPoint offset)
@@ -101,7 +101,7 @@ void WrapperDE::resize()
     hide();
 }
 
-void WrapperDE::moveEvent(QMoveEvent* event)
+void WrapperDE::moveEvent(QMoveEvent*)
 {
     _upperDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) - QPoint(0, 10), QSize(_width, _height)));
     _innerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(15, _height), QSize(_width, _height)));
@@ -136,6 +136,11 @@ void WrapperDE::hitTest()
     if(!_innerDock->getDockedElem()) _innerDock->activate();
     if(!_nextElem) _lowerDock->activate();
     if(!_prevElem) _upperDock->activate();
+}
+
+DragableElement* WrapperDE::getWrapElem()
+{
+    return _innerDock->getDockedElem();
 }
 
 WrapperDE::~WrapperDE()

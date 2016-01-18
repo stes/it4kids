@@ -1,7 +1,7 @@
 #include "commandde.h"
 #include "qdebug.h"
-CommandDE::CommandDE(const QString& text, const QColor& color, const QString& type, ScriptArea *scriptAreaWidget, QWidget* parent) :
-        DragableElement(text, color, type, scriptAreaWidget, parent)
+CommandDE::CommandDE(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea *scriptAreaWidget, QWidget* parent) :
+        DragableElement(identifier, text, color, type, scriptAreaWidget, parent)
 {
     parseText(text, this);
     _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
@@ -16,7 +16,7 @@ CommandDE::CommandDE(const QString& text, const QColor& color, const QString& ty
 
 DragableElement* CommandDE::getCurrentElement(QWidget *parent)
 {
-    return new CommandDE(_text, _color, _type, _scriptAreaWidget, parent);
+    return new CommandDE(_identifier, _text, _color, _type, _scriptAreaWidget, parent);
 }
 
 void CommandDE::resize()
@@ -47,7 +47,7 @@ void CommandDE::resize()
     hide();
 }
 
-void CommandDE::moveEvent(QMoveEvent* event)
+void CommandDE::moveEvent(QMoveEvent*)
 {
     if(_upperDock) _upperDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) - QPoint(0, 10), QSize(_width, _height)));
     if(_lowerDock) _lowerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(0, _height), QSize(_width, _height)));

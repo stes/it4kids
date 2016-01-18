@@ -8,13 +8,14 @@ class WrapperDE : public DragableElement
     friend class ScriptDock;
     Q_OBJECT
 public:
-    WrapperDE(const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget = 0, QWidget* parent = 0);
+    WrapperDE(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget = 0, QWidget* parent = 0);
 
     void resize();
 
     void moveNextElems(QPoint offset);
     inline int getHeight() {return _height+22+_innerHeight;}
     int getNumberElements();
+    DragableElement* getWrapElem();
 
     ~WrapperDE();
 protected:

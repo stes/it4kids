@@ -11,7 +11,7 @@ class HatDE : public DragableElement
     friend class WrapperDE;
     Q_OBJECT
 public:
-    HatDE(const QString& text, const QColor& color, const QString& type, ScriptArea *scriptAreaWidget = 0, QWidget* parent = 0);
+    HatDE(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea *scriptAreaWidget = 0, QWidget* parent = 0);
 
     void resize();
 protected:

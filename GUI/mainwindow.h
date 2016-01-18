@@ -13,6 +13,9 @@ class DragableElement;
 class ScriptAreaWidget;
 class Sprite;
 
+
+typedef std::vector<Sprite*> SpriteVector;
+
 namespace Ui {
 class MainWindow;
 }
@@ -23,6 +26,7 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+    SpriteVector* getSpriteVector();
 
     ~MainWindow();
 
@@ -38,6 +42,8 @@ private slots:
 
     void on_buttonEdit_clicked();
 
+    void on_buttonScriptStart_clicked();
+
 private:
     void InitializeDragElem(const QString& path);
     DragElemCategory* GetCategoryByName(const QString& name);
@@ -51,6 +57,8 @@ private:
 
     QMenu _dateiMenu;
     QMenu _bearbeitenMenu;
+
+    CodeGenerator * _Cgen;
 };
 
 #endif // MAINWINDOW_H

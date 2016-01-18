@@ -18,6 +18,11 @@
 #include "reporterde.h"
 #include "Qsci/qscilexerpython.h"
 
+SpriteVector* MainWindow::getSpriteVector()
+{
+   return ui->spriteSelect->getSpriteVector();
+}
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent), _dateiMenu(this), _bearbeitenMenu(this),
     ui(new Ui::MainWindow)
@@ -69,7 +74,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->codeEditor->setLexer(&lexer);
 
 
-    CodeGenerator* Cgen= new CodeGenerator(this);
+    _Cgen= new CodeGenerator(this);
 
     _dateiMenu.addAction("Neu");
     _dateiMenu.addAction("Hochladen von deinem Computer");
@@ -105,23 +110,23 @@ void MainWindow::InitializeDragElem(const QString& path)
                 DragElemCategory* category = GetCategoryByName(attributes.value("category").toString());
                 if(attributes.value("type").toString() == "command")
                 {
-                    lastElement = new CommandDE(attributes.value("spec").toString(), category->_color,attributes.value("type").toString(), ui->scriptArea, this);
+                    lastElement = new CommandDE(attributes.value("name").toString(), attributes.value("spec").toString(), category->_color,attributes.value("type").toString(), ui->scriptArea, this);
                 }
                 else if(attributes.value("type").toString() == "hat")
                 {
-                    lastElement = new HatDE(attributes.value("spec").toString(), category->_color,attributes.value("type").toString(), ui->scriptArea, this);
+                    lastElement = new HatDE(attributes.value("name").toString(), attributes.value("spec").toString(), category->_color,attributes.value("type").toString(), ui->scriptArea, this);
                 }
                 else if(attributes.value("type").toString() == "wrapper")
                 {
-                    lastElement = new WrapperDE(attributes.value("spec").toString(), category->_color,attributes.value("type").toString(), ui->scriptArea, this);
+                    lastElement = new WrapperDE(attributes.value("name").toString(), attributes.value("spec").toString(), category->_color,attributes.value("type").toString(), ui->scriptArea, this);
                 }
                 else if(attributes.value("type").toString() == "predicate")
                 {
-                    lastElement = new PredicateDE(attributes.value("spec").toString(), category->_color,attributes.value("type").toString(), ui->scriptArea, this);
+                    lastElement = new PredicateDE(attributes.value("name").toString(), attributes.value("spec").toString(), category->_color,attributes.value("type").toString(), ui->scriptArea, this);
                 }
                 else if(attributes.value("type").toString() == "reporter")
                 {
-                    lastElement = new ReporterDE(attributes.value("spec").toString(), category->_color,attributes.value("type").toString(), ui->scriptArea, this);
+                    lastElement = new ReporterDE(attributes.value("name").toString(), attributes.value("spec").toString(), category->_color,attributes.value("type").toString(), ui->scriptArea, this);
                 }
                 category->_elemList.push_back(lastElement);
             }
@@ -187,4 +192,9 @@ void MainWindow::on_buttonFile_clicked()
 void MainWindow::on_buttonEdit_clicked()
 {
     _bearbeitenMenu.popup(ui->buttonEdit->pos()+QPoint(0, 23));
+}
+
+void MainWindow::on_buttonScriptStart_clicked()
+{
+    _Cgen->generateFile();
 }

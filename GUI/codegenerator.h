@@ -1,21 +1,23 @@
 #ifndef CODEGENERATOR_H
 #define CODEGENERATOR_H
 
-#include "mainwindow.h"
 #include "dragableelement.h"
 #include "structs.h"
 #include <QMap>
+
+class MainWindow;
 
 class CodeGenerator
 {
 public:
     CodeGenerator(MainWindow * main);
-private:
     void generateFile();
+private:
     QString generateCode(DragableElement* element, int sub);
     ArgumentStruct* CodeGenerator::getCommand();
     QString dict(ArgumentStruct* argument);
     QString subident(int sub);
+    void generateMap();
 
     MainWindow* _Mainwindow;
     QMap<QString, QString> map;
