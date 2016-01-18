@@ -29,7 +29,7 @@ class DragableElement : public QWidget
 
     Q_OBJECT
 public:
-    DragableElement(const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget = 0, QWidget* parent = 0);
+    DragableElement(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget = 0, QWidget* parent = 0);
 
     inline virtual void setScriptAreaWidget(ScriptArea *scriptAreaWidget) {_scriptAreaWidget = scriptAreaWidget;}
 
@@ -50,6 +50,7 @@ public:
 protected:
     QColor _color;
     QString _text;
+    QString _identifier;
     QPoint _offset;
     bool _dragged;
     int _width;

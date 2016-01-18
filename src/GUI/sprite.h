@@ -36,7 +36,7 @@ public:
     inline Costume* getCurrentConstume() {return _costumeVector[_currentCostumeIndex]; }
 
     ~Sprite();
-signals:
+Q_SIGNALS:
     void currentCostumeChanged(Sprite* sprite);
 protected:
     explicit Sprite(ScriptArea* scriptArea, const QString& name = "Sprite", QWidget *parent = 0);

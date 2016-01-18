@@ -25,11 +25,11 @@ public:
 
     ~MainWindow();
 
-signals:
+Q_SIGNALS:
     void newSound();
     void newCostume();
 
-private slots:
+private Q_SLOTS:
     void on_soundFromFile_clicked();
     void on_costumeFromFile_clicked();
     void on_buttonFile_clicked();

@@ -1,7 +1,7 @@
 #include "reporterde.h"
 
-ReporterDE::ReporterDE(const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget, QWidget* parent) :
-     DragableElement(text, color, type, scriptAreaWidget, parent)
+ReporterDE::ReporterDE(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget, QWidget* parent) :
+     DragableElement(identifier, text, color, type, scriptAreaWidget, parent)
 {
     parseText(text, this);
     _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
@@ -13,7 +13,7 @@ ReporterDE::ReporterDE(const QString& text, const QColor& color, const QString& 
 
 DragableElement* ReporterDE::getCurrentElement(QWidget* parent)
 {
-    return new ReporterDE(_text, _color, _type, _scriptAreaWidget, parent);
+    return new ReporterDE(_identifier, _text, _color, _type, _scriptAreaWidget, parent);
 }
 
 void ReporterDE::resize()

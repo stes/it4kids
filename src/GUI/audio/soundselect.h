@@ -12,7 +12,7 @@ class SoundSelect : public QWidget
 public:
     explicit SoundSelect(QWidget *parent = 0);
 
-public slots:
+public Q_SLOTS:
     void changeCurrentSprite(Sprite* sprite);
     void updateSoundList();
 

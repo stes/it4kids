@@ -11,9 +11,9 @@ class StudentList : public QWidget
 public:
     explicit StudentList(QWidget *parent = 0);
 
-signals:
+Q_SIGNALS:
 
-public slots:
+public Q_SLOTS:
 
 protected:
     QGridLayout _gridLayout;

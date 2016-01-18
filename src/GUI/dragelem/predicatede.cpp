@@ -2,8 +2,8 @@
 #include "paramdock.h"
 #include "QDebug"
 
-PredicateDE::PredicateDE(const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget, QWidget* parent) :
-    DragableElement(text, color, type, scriptAreaWidget, parent)
+PredicateDE::PredicateDE(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget, QWidget* parent) :
+    DragableElement(identifier, text, color, type, scriptAreaWidget, parent)
 {
     _currentDock = 0;
     parseText(text, this);
@@ -35,7 +35,7 @@ void PredicateDE::resize()
 
 DragableElement* PredicateDE::getCurrentElement(QWidget *parent)
 {
-    return new PredicateDE(_text, _color, _type, _scriptAreaWidget, parent);
+    return new PredicateDE(_identifier, _text, _color, _type, _scriptAreaWidget, parent);
 }
 
 void PredicateDE::hitTest()

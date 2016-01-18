@@ -12,7 +12,7 @@ class CostumeSelect : public QWidget
 public:
     explicit CostumeSelect(QWidget *parent = 0);
 
-public slots:
+public Q_SLOTS:
     void changeCurrentSprite(Sprite* sprite);
     void updateCostumeList();
 

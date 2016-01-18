@@ -12,16 +12,6 @@ QFrame > QPushButton {
 	color: #ffffff;
 	font-weight: bold;
 }
-QPushButton#buttonFile {
-	max-width: 35px;
-}
-QPushButton#buttonEdit {
-	max-width: 65px;
-}
-QPushButton#buttonHints {
-	max-width: 35px;
-}
-
 
 QFrame#upperSceneFrame {
 	border: 1px solid #d0d1d2;

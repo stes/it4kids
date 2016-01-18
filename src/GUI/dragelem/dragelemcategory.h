@@ -43,9 +43,6 @@ protected:
 
     QLabel _label;
     QColor _color;
-signals:
-
-public slots:
 };
 
 #endif // DRAGELEMCATEGORY_H

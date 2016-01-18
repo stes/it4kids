@@ -106,18 +106,6 @@ HEADERS  += src/GUI/mainwindow.h \
 
 FORMS    += src/GUI/mainwindow.ui
 
-# Build paths
-DESTDIR=bin #Target file directory
-OBJECTS_DIR=generated #Intermediate object files directory
-MOC_DIR=generated #Intermediate moc files directory
-
-# Location of python files
-PYPATH = $$PWD/src/python
-
-# C Files
-
-DISTFILES +=
-
 RESOURCES += \
     src/GUI/resources.qrc
 
@@ -134,7 +122,7 @@ INCLUDEPATH += $$PWD/src/GUI/QScintilla \
     $$PWD/src/GUI/param \
     $$PWD/src/GUI/dragelem \
     $$PWD/src/GUI/teacher
-DEPENDPATH += $$PWD/QScintilla \
+DEPENDPATH += $$PWD/src/GUI/QScintilla \
     $$PWD/src \
     $$PWD/src/GUI \
     $$PWD/src/GUI/audio \
@@ -143,38 +131,3 @@ DEPENDPATH += $$PWD/QScintilla \
     $$PWD/src/GUI/dragelem \
     $$PWD/src/GUI/teacher
 
-unix:!arch {
-    CONFIG += link_pkgconfig
-# Depending on distibution, python 2.7 is either called "python" or "python2"
-    PKGCONFIG += python2
-    # PKGCONFIG += python
-}
-
-win32:{
-   PY_VERSIONS = 2.7 2.6
-   for(PY_VERSION, PY_VERSIONS){
-       system(reg query HKLM\\SOFTWARE\\Python\\PythonCore\\$$PY_VERSION\\InstallPath /ve) {
-           PY_HOME = $$quote($$system(reg query HKLM\\SOFTWARE\\Python\\PythonCore\\$$PY_VERSION\\InstallPath /ve))
-           PY_HOME ~= s/.*(\\w:.*)/\\1
-           !exists($$PY_HOME\\include\\Python.h):next()
-           INCLUDEPATH *= $$PY_HOME\\include
- 
-           PY_LIB_BASENAME = python$${PY_VERSION}
-           PY_LIB_BASENAME ~= s/\\./
-           CONFIG(debug, debug|release):PY_LIB_BASENAME = $${PY_LIB_BASENAME}_d
-           LIBS *= $$PY_HOME\\libs\\$${PY_LIB_BASENAME}.lib
-           message(Python$$PY_VERSION found at $$PY_HOME)
-           break()
-       }
-   }
-}
-
-pythondata.commands = $(COPY_DIR) $$shell_path($$PYPATH) $$shell_path($$OUT_PWD/$$DESTDIR/python)
-first.depends = $(first) pythondata
-export(first.depends)
-export(pythondata.commands)
-
-test.commands = echo tests not yet implemented 
-export(test.commands)
-
-QMAKE_EXTRA_TARGETS += first pythondata test

@@ -24,8 +24,8 @@
 #include "paramtype.h"
 #include "paramvariables.h"
 
-DragableElement::DragableElement(const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget, QWidget* parent) :
-    QWidget(parent), _color(color), _text(text), _dragged(false),
+DragableElement::DragableElement(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget, QWidget* parent) :
+    QWidget(parent), _color(color), _text(text), _identifier(identifier), _dragged(false),
     _width(0), _height(0), _scriptAreaWidget(scriptAreaWidget), _path(QPoint(0, 0)),
     _type(type), _currentDock(0), _prevElem(0), _nextElem(0)
 {

@@ -265,7 +265,7 @@ public:
     bool writeSettings(QSettings &qs,
                const char *prefix = "/Scintilla") const;
 
-public slots:
+public Q_SLOTS:
     //! The auto-indentation style is set to \a autoindentstyle.
     //!
     //! \sa autoIndentStyle(), QsciScintilla::AiMaintain,
@@ -288,7 +288,7 @@ public slots:
     //! \a style is -1 then the colour is set for all styles.
     virtual void setPaper(const QColor &c,int style = -1);
 
-signals:
+Q_SIGNALS:
     //! This signal is emitted when the foreground colour of style number
     //! \a style has changed.  The new colour is \a c.
     void colorChanged(const QColor &c,int style);

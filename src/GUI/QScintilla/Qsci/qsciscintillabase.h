@@ -3340,7 +3340,7 @@ public:
     //! \internal
     static int commandKey(int qt_key, int &modifiers);
 
-signals:
+Q_SIGNALS:
     //! This signal is emitted when text is selected or de-selected.
     //! \a yes is true if text has been selected and false if text has been
     //! deselected.
@@ -3589,7 +3589,7 @@ protected:
     //! \internal Convert encoded bytes to a QString.
     QString bytesAsText(const char *bytes) const;
 
-private slots:
+private Q_SLOTS:
     void handleVSb(int value);
     void handleHSb(int value);
     void handleSelection();

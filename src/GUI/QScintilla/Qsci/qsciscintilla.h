@@ -1493,7 +1493,7 @@ public:
     //! \sa read()
     bool write(QIODevice *io) const;
 
-public slots:
+public Q_SLOTS:
     //! Appends the text \a text to the end of the text edit.  Note that the
     //! undo/redo history is cleared by this function.
     virtual void append(const QString &text);
@@ -1928,7 +1928,7 @@ public slots:
     //! \sa zoomIn(), zoomOut()
     virtual void zoomTo(int size);
 
-signals:
+Q_SIGNALS:
     //! This signal is emitted whenever the cursor position changes.  \a line
     //! contains the line number and \a index contains the character index
     //! within the line.
@@ -2010,7 +2010,7 @@ protected:
     //! \reimp
     virtual void contextMenuEvent(QContextMenuEvent *e);
 
-private slots:
+private Q_SLOTS:
     void handleCallTipClick(int dir);
     void handleCharAdded(int charadded);
     void handleIndicatorClick(int pos, int modifiers);

@@ -261,7 +261,7 @@ public:
     //! \sa setV3BytesAllowed()
     bool v3BytesAllowed() const {return v3_bytes;}
 
-public slots:
+public Q_SLOTS:
     //! If \a fold is true then indented comment blocks can be folded.  The
     //! default is false.
     //!
