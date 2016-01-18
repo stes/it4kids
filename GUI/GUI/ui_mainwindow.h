@@ -30,7 +30,7 @@
 #include <categoryselect.h>
 #include <costumeselect.h>
 #include <dragelemlist.h>
-#include <qsci/qsciscintilla.h>
+#include <Qsci/qsciscintilla.h>
 #include <scene.h>
 #include <scriptarea.h>
 #include <soundselect.h>
