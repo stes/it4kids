@@ -20,8 +20,8 @@
 #include "Qsci/qscilexerpython.h"
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent), _dateiMenu(this), _bearbeitenMenu(this),
-    ui(new Ui::MainWindow)
+    QMainWindow(parent),
+    ui(new Ui::MainWindow), _dateiMenu(this), _bearbeitenMenu(this)
 {
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint);

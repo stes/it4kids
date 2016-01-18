@@ -101,7 +101,7 @@ void WrapperDE::resize()
     hide();
 }
 
-void WrapperDE::moveEvent(QMoveEvent* event)
+void WrapperDE::moveEvent(QMoveEvent*)
 {
     _upperDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) - QPoint(0, 10), QSize(_width, _height)));
     _innerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(15, _height), QSize(_width, _height)));

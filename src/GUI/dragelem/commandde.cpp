@@ -47,7 +47,7 @@ void CommandDE::resize()
     hide();
 }
 
-void CommandDE::moveEvent(QMoveEvent* event)
+void CommandDE::moveEvent(QMoveEvent*)
 {
     if(_upperDock) _upperDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) - QPoint(0, 10), QSize(_width, _height)));
     if(_lowerDock) _lowerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(0, _height), QSize(_width, _height)));

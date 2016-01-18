@@ -22,4 +22,5 @@ bool Costume::open(const QString &fileName)
     _costume.load(fileName);
     _costumeLabel.setPixmap(QPixmap::fromImage(_costume).scaled(40, 40));
     hide();
+    return true;
 }
