@@ -114,16 +114,18 @@ RESOURCES += \
 
 
 win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/GUI/QScintilla/ -lqscintilla2
-else:win32:CONFIG(release, debug|release): LIBS += -L$$PW/DGUI/QScintilla/ -lqscintilla2
+else:win32:CONFIG(release, debug|release): LIBS += -L$$PWD/GUI/QScintilla/ -lqscintilla2
 else:unix: LIBS += -L$$PWD/GUI/QScintilla/ -lqscintilla2
 
 INCLUDEPATH += $$PWD/GUI/QScintilla \
+    $$PWD/GUI/ \
     $$PWD/GUI/audio \
     $$PWD/GUI/costume \
     $$PWD/GUI/param \
     $$PWD/GUI/dragelem \
     $$PWD/GUI/teacher
 DEPENDPATH += $$PWD/QScintilla \
+    $$PWD/GUI/ \
     $$PWD/GUI/audio \
     $$PWD/GUI/costume \
     $$PWD/GUI/param \
