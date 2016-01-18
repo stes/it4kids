@@ -1,0 +1,28 @@
+<RCC>
+    <qresource prefix="/">
+        <file>style.qss</file>
+        <file>Assets/fullScreenOff.png</file>
+        <file>Assets/fullScreenOn.png</file>
+        <file>Assets/greenFlagOff.png</file>
+        <file>Assets/greenFlagOn.png</file>
+        <file>Assets/stopOff.png</file>
+        <file>Assets/stopOn.png</file>
+        <file>Assets/close.png</file>
+        <file>Assets/minimize.png</file>
+        <file>blocks.xml</file>
+        <file>Assets/cameraOff.png</file>
+        <file>Assets/cameraOn.png</file>
+        <file>Assets/importOff.png</file>
+        <file>Assets/importOn.png</file>
+        <file>Assets/landscapeOff.png</file>
+        <file>Assets/landscapeOn.png</file>
+        <file>Assets/libraryOff.png</file>
+        <file>Assets/libraryOn.png</file>
+        <file>Assets/paintbrushOff.png</file>
+        <file>Assets/paintbrushOn.png</file>
+        <file>Assets/clockwise.png</file>
+        <file>Assets/counterclockwise.png</file>
+        <file>Assets/recordOff.png</file>
+        <file>Assets/soundlibraryOff.png</file>
+    </qresource>
+</RCC>

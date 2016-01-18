@@ -4,129 +4,130 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui multimedia
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 TARGET = GUI
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp \
-    scene.cpp \
-    categoryselect.cpp \
-    dragableelement.cpp \
-    dragelemcategory.cpp \
-    dragelemlist.cpp \
-    scriptarea.cpp \
-    hatde.cpp \
-    commandde.cpp \
-    wrapperde.cpp \
-    predicatede.cpp \
-    paramdock.cpp \
-    paramnumber.cpp \
-    paramstring.cpp \
-    paramdirection.cpp \
-    paramdestination.cpp \
-    paramkey.cpp \
-    paraminteraction.cpp \
-    parammessage.cpp \
-    paramstopchoices.cpp \
-    paramclone.cpp \
-    paramcostume.cpp \
-    parameffect.cpp \
-    paramtouch.cpp \
-    paramcolor.cpp \
-    paramsound.cpp \
-    reporterde.cpp \
-    parammath.cpp \
-    paramjoinwords.cpp \
-    paramtype.cpp \
-    paramdelim.cpp \
-    paramvariables.cpp \
-    paramlistselec.cpp \
-    paramlistid.cpp \
-    dockingarea.cpp \
-    scriptdock.cpp \
-    spriteselect.cpp \
-    sprite.cpp
+    GUI/mainwindow.cpp \
+    GUI/scene.cpp \
+    GUI/scriptarea.cpp \
+    GUI/dockingarea.cpp \
+    GUI/spriteselect.cpp \
+    GUI/sprite.cpp \
+    GUI/param/paramclone.cpp \
+    GUI/param/paramcolor.cpp \
+    GUI/param/paramcostume.cpp \
+    GUI/param/paramdelim.cpp \
+    GUI/param/paramdestination.cpp \
+    GUI/param/paramdirection.cpp \
+    GUI/param/paramdock.cpp \
+    GUI/param/parameffect.cpp \
+    GUI/param/paraminteraction.cpp \
+    GUI/param/paramjoinwords.cpp \
+    GUI/param/paramkey.cpp \
+    GUI/param/paramlistid.cpp \
+    GUI/param/paramlistselec.cpp \
+    GUI/param/parammath.cpp \
+    GUI/param/parammessage.cpp \
+    GUI/param/paramnumber.cpp \
+    GUI/param/paramsound.cpp \
+    GUI/param/paramstopchoices.cpp \
+    GUI/param/paramstring.cpp \
+    GUI/param/paramtouch.cpp \
+    GUI/param/paramtype.cpp \
+    GUI/param/paramvariables.cpp \
+    GUI/audio/audioengine.cpp \
+    GUI/audio/wavfile.cpp \
+    GUI/audio/soundselect.cpp \
+    GUI/costume/costume.cpp \
+    GUI/costume/costumeselect.cpp \
+    GUI/dragelem/categoryselect.cpp \
+    GUI/dragelem/commandde.cpp \
+    GUI/dragelem/dragableelement.cpp \
+    GUI/dragelem/dragelemcategory.cpp \
+    GUI/dragelem/dragelemlist.cpp \
+    GUI/dragelem/hatde.cpp \
+    GUI/dragelem/predicatede.cpp \
+    GUI/dragelem/reporterde.cpp \
+    GUI/dragelem/scriptdock.cpp \
+    GUI/dragelem/wrapperde.cpp \
+    GUI/teacher/studentlist.cpp
 
-HEADERS  += mainwindow.h \
-    scene.h \
-    categoryselect.h \
-    dragableelement.h \
-    dragelemcategory.h \
-    dragelemlist.h \
-    scriptarea.h \
-    hatde.h \
-    commandde.h \
-    wrapperde.h \
-    predicatede.h \
-    paramdock.h \
-    paramnumber.h \
-    param.h \
-    paramstring.h \
-    paramdirection.h \
-    paramdestination.h \
-    paramkey.h \
-    paraminteraction.h \
-    parammessage.h \
-    paramstopchoices.h \
-    paramclone.h \
-    paramcostume.h \
-    parameffect.h \
-    paramtouch.h \
-    paramcolor.h \
-    paramsound.h \
-    reporterde.h \
-    parammath.h \
-    paramjoinwords.h \
-    paramtype.h \
-    paramdelim.h \
-    paramvariables.h \
-    paramlistselec.h \
-    paramlistid.h \
-    dockingarea.h \
-    scriptdock.h \
-    spriteselect.h \
-    sprite.h
+HEADERS  += GUI/mainwindow.h \
+    GUI/scene.h \
+    GUI/scriptarea.h \
+    GUI/dockingarea.h \
+    GUI/scriptdock.h \
+    GUI/spriteselect.h \
+    GUI/sprite.h \
+    GUI/param/param.h \
+    GUI/param/paramclone.h \
+    GUI/param/paramcolor.h \
+    GUI/param/paramcostume.h \
+    GUI/param/paramdelim.h \
+    GUI/param/paramdestination.h \
+    GUI/param/paramdirection.h \
+    GUI/param/paramdock.h \
+    GUI/param/parameffect.h \
+    GUI/param/paraminteraction.h \
+    GUI/param/paramjoinwords.h \
+    GUI/param/paramkey.h \
+    GUI/param/paramlistid.h \
+    GUI/param/paramlistselec.h \
+    GUI/param/parammath.h \
+    GUI/param/parammessage.h \
+    GUI/param/paramnumber.h \
+    GUI/param/paramsound.h \
+    GUI/param/paramstopchoices.h \
+    GUI/param/paramstring.h \
+    GUI/param/paramtouch.h \
+    GUI/param/paramtype.h \
+    GUI/param/paramvariables.h \
+    GUI/audio/audioengine.h \
+    GUI/audio/wavfile.h \
+    GUI/audio/soundselect.h \
+    GUI/costume/costume.h \
+    GUI/costume/costumeselect.h \
+    GUI/dragelem/categoryselect.h \
+    GUI/dragelem/commandde.h \
+    GUI/dragelem/dragableelement.h \
+    GUI/dragelem/dragelemcategory.h \
+    GUI/dragelem/dragelemlist.h \
+    GUI/dragelem/hatde.h \
+    GUI/dragelem/predicatede.h \
+    GUI/dragelem/reporterde.h \
+    GUI/dragelem/scriptdock.h \
+    GUI/dragelem/wrapperde.h \
+    GUI/teacher/studentlist.h
 
-FORMS    += mainwindow.ui
+FORMS    += GUI/mainwindow.ui
 
 DISTFILES +=
 
 RESOURCES += \
-    resources.qrc
+    GUI/resources.qrc
 
-unix:!arch {
-    CONFIG += link_pkgconfig
-# Depending on distibution, python 2.7 is either called "python" or "python2"
-    PKGCONFIG += python2
-    # PKGCONFIG += python
-}
 
-win32:{
-   PY_VERSIONS = 2.7 2.6
-   for(PY_VERSION, PY_VERSIONS){
-       system(reg query HKLM\\SOFTWARE\\Python\\PythonCore\\$$PY_VERSION\\InstallPath /ve) {
-           PY_HOME = $$quote($$system(reg query HKLM\\SOFTWARE\\Python\\PythonCore\\$$PY_VERSION\\InstallPath /ve))
-           PY_HOME ~= s/.*(\\w:.*)/\\1
-           !exists($$PY_HOME\\include\\Python.h):next()
-           INCLUDEPATH *= $$PY_HOME\\include
- 
-           PY_LIB_BASENAME = python$${PY_VERSION}
-           PY_LIB_BASENAME ~= s/\\./
-           CONFIG(debug, debug|release):PY_LIB_BASENAME = $${PY_LIB_BASENAME}_d
-           LIBS *= $$PY_HOME\\libs\\$${PY_LIB_BASENAME}.lib
-           message(Python$$PY_VERSION found at $$PY_HOME)
-           break()
-       }
-   }
-}
+win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/GUI/QScintilla/ -lqscintilla2
+else:win32:CONFIG(release, debug|release): LIBS += -L$$PWD/GUI/QScintilla/ -lqscintilla2
+else:unix: LIBS += -L$$PWD/GUI/QScintilla/ -lqscintilla2
 
-pythondata.commands = $(COPY_DIR) $$shell_path($$PWD/python) $$shell_path($$OUT_PWD/python)
-first.depends = $(first) pythondata
-export(first.depends)
-export(pythondata.commands)
-QMAKE_EXTRA_TARGETS += first pythondata
+INCLUDEPATH += $$PWD/GUI/QScintilla \
+    $$PWD/GUI/ \
+    $$PWD/GUI/audio \
+    $$PWD/GUI/costume \
+    $$PWD/GUI/param \
+    $$PWD/GUI/dragelem \
+    $$PWD/GUI/teacher
+DEPENDPATH += $$PWD/QScintilla \
+    $$PWD/GUI/ \
+    $$PWD/GUI/audio \
+    $$PWD/GUI/costume \
+    $$PWD/GUI/param \
+    $$PWD/GUI/dragelem \
+    $$PWD/GUI/teacher
