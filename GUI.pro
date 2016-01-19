@@ -61,7 +61,7 @@ HEADERS  += src/GUI/mainwindow.h \
     src/GUI/scene.h \
     src/GUI/scriptarea.h \
     src/GUI/dockingarea.h \
-    src/GUI/scriptdock.h \
+    src/GUI/dragelem/scriptdock.h \
     src/GUI/spriteselect.h \
     src/GUI/sprite.h \
     src/GUI/param/param.h \
@@ -112,17 +112,16 @@ RESOURCES += \
 
 win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/src/GUI/QScintilla/ -lqscintilla2
 else:win32:CONFIG(release, debug|release): LIBS += -L$$PWD/src/GUI/QScintilla/ -lqscintilla2
-else:unix: LIBS += -L$$PWD/src/GUI/QScintilla/ -lqscintilla2
+else:unix: LIBS += -lqt5scintilla2
 
-INCLUDEPATH += $$PWD/src/GUI/QScintilla \
-    $$PWD/src \
+INCLUDEPATH += $$PWD/src \
     $$PWD/src/GUI \
     $$PWD/src/GUI/audio \
     $$PWD/src/GUI/costume \
     $$PWD/src/GUI/param \
     $$PWD/src/GUI/dragelem \
     $$PWD/src/GUI/teacher
-DEPENDPATH += $$PWD/src/GUI/QScintilla \
+DEPENDPATH += \
     $$PWD/src \
     $$PWD/src/GUI \
     $$PWD/src/GUI/audio \

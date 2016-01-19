@@ -1,8 +1,8 @@
-#include "AudioEngine.h"
+#include "audioengine.h"
 
 #include "sprite.h"
 #include "wavfile.h"
-#include "qdebug.h"
+#include <QtCore/QDebug>
 
 #include <QAudioFormat>
 #include <QAudioOutput>

@@ -38,6 +38,8 @@ generated*
 # Other
 *.user
 bin
+Makefile
+ui_mainwindow.h
 
 # Python gitignore
 # Byte-compiled / optimized / DLL files
