@@ -25,7 +25,7 @@ class DragElemCategory : public QWidget
     friend class MainWindow;
     Q_OBJECT
 public:
-    explicit DragElemCategory(const QString& name, const QColor& color, QWidget *parent = 0);
+    explicit DragElemCategory(DragElemList *elemListWidget, const QString& name, const QColor& color, QWidget *parent = 0);
 
     void toggleActive();
     void setElemListWidget(DragElemList* elemListWidget);
@@ -34,8 +34,8 @@ public:
     ~DragElemCategory();
 protected:
     void paintEvent(QPaintEvent*);
-
     void mousePressEvent(QMouseEvent*);
+    void showEvent(QShowEvent*);
 
     ElementList _elemList;
     DragElemList* _elemListWidget;

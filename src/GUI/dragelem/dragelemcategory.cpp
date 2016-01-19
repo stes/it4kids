@@ -1,6 +1,7 @@
 #include "dragelemcategory.h"
 #include <QDebug>
-DragElemCategory::DragElemCategory(const QString& name, const QColor& color, QWidget *parent) : QWidget(parent),
+DragElemCategory::DragElemCategory(DragElemList *elemListWidget, const QString& name, const QColor& color, QWidget *parent) :
+    QWidget(parent), _elemListWidget(elemListWidget),
     _label(name, this), _color(color)
 {
 
@@ -40,6 +41,14 @@ void DragElemCategory::paintEvent(QPaintEvent*)
 void DragElemCategory::mousePressEvent(QMouseEvent*)
 {
     toggleActive();
+}
+
+void DragElemCategory::showEvent(QShowEvent *)
+{
+    if(_label.text() == "motion")
+    {
+        toggleActive();
+    }
 }
 
 DragElemCategory::~DragElemCategory()

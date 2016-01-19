@@ -19,6 +19,7 @@ WavFile::WavFile(QWidget *parent) : QWidget(parent),
     _layout.addWidget(pixmapLabel);
 
     _layout.addWidget(&_nameLabel);
+    _nameLabel.setAlignment(Qt::AlignHCenter);
 }
 
 bool WavFile::open(const QString &fileName)

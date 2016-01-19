@@ -12,7 +12,7 @@ SoundSelect::SoundSelect(QWidget *parent) : QWidget(parent)
     _layout.setAlignment(Qt::AlignTop | Qt::AlignHCenter);
 }
 
-void SoundSelect::changeCurrentSprite(Sprite* sprite)
+void SoundSelect::setCurrentSprite(Sprite* sprite)
 {
     _currentSprite = sprite;
     updateSoundList();

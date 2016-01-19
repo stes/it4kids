@@ -15,5 +15,7 @@ public:
     inline bool setValue(const QString &) {return 0;}
 
     ~ParamCostume();
+public slots:
+    void updateCostumeList();
 };
 #endif // PARAMCOSTUME_H

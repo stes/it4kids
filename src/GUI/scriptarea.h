@@ -19,7 +19,7 @@ class ScriptArea : public QWidget
 public:
     explicit ScriptArea(QWidget *parent = 0);
 
-    void setCurrentSprite(Sprite* sprite);
+    //void setCurrentSprite(Sprite* sprite);
 
     void addToHitTest(DockingArea* widget);
     void removeFromHitTest(DockingArea* widget);
@@ -31,6 +31,10 @@ public:
     DragElemVector* getDragElemVector();
 
     ~ScriptArea();
+
+public slots:
+    void setCurrentSprite(Sprite* sprite);
+
 protected:
     virtual void hideEvent(QHideEvent*);
     virtual void showEvent(QShowEvent*);

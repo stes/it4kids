@@ -15,9 +15,10 @@ class AudioEngine : public QObject
 public:
     explicit AudioEngine(QWidget* parent = 0);
 
-    void setCurrentSprite(Sprite* sprite);
-
     bool loadFile(const QString &fileName);
+
+public slots:
+    void setCurrentSprite(Sprite* sprite);
 
 protected:
     Sprite* _currentSprite;

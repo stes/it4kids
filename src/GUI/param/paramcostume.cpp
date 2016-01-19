@@ -8,11 +8,8 @@ extern MainWindow* _sMainWindow;
 
 ParamCostume::ParamCostume(QWidget *parent) : QComboBox(parent)
 {
-    CostumeVector* cV = _sMainWindow->getCurrentSprite()->getCostumeVector();
-    for(uint i = 0; i < cV->size(); i++)
-    {
-        addItem(cV->at(i)->getName());
-    }
+    connect(_sMainWindow, SIGNAL(newCostume()), this, SLOT(updateCostumeList()));
+    updateCostumeList();
 }
 
 QString ParamCostume::getValue()
@@ -23,6 +20,15 @@ QString ParamCostume::getValue()
 ParamCostume::~ParamCostume()
 {
 
+}
+
+void ParamCostume::updateCostumeList()
+{
+    CostumeVector* cV = _sMainWindow->getCurrentSprite()->getCostumeVector();
+    for(uint i = 0; i < cV->size(); i++)
+    {
+        addItem(cV->at(i)->getName());
+    }
 }
 
 

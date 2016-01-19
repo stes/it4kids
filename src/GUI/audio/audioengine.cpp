@@ -12,11 +12,6 @@ AudioEngine::AudioEngine(QWidget *parent) : QObject(parent),
 {
 }
 
-void AudioEngine::setCurrentSprite(Sprite *sprite)
-{
-    _currentSprite = sprite;
-}
-
 bool AudioEngine::loadFile(const QString &fileName)
 {
     WavFile* sound = new WavFile();
@@ -57,3 +52,7 @@ bool AudioEngine::loadFile(const QString &fileName)
     return true;
 }
 
+void AudioEngine::setCurrentSprite(Sprite *sprite)
+{
+    _currentSprite = sprite;
+}
