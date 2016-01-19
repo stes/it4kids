@@ -10,7 +10,7 @@ install:
   - sudo apt-get -qq update
   - sudo apt-get -qq install g++-4.8 libc6-i386 qt54location qt54multimedia qt54sensors qt54svg qt54tools qt54webchannel qt54webkit 
   - sudo apt-get install -y qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev
-  - sudo apt-get install -y qscintella2
+  - sudo apt-get install -y libqt5scintilla2-dev
   - sudo apt-get install -y qt5-default qttools5-dev-tools
   - sudo apt-get install -y libqt5opengl5-dev 
   - sudo apt-get -qq install g++-4.8 libc6-i386
