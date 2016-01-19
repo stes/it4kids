@@ -13,16 +13,21 @@
 #include "dragelemcategory.h"
 #include "commandde.h"
 #include "hatde.h"
+#include "param.h"
 #include "sprite.h"
 #include "wrapperde.h"
 #include "predicatede.h"
 #include "reporterde.h"
 #include "Qsci/qscilexerpython.h"
 
+MainWindow* _sMainWindow = 0;
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow), _dateiMenu(this), _bearbeitenMenu(this)
 {
+    _sMainWindow = this;
+
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint);
 
@@ -81,6 +86,11 @@ MainWindow::MainWindow(QWidget *parent) :
     //connect(ui->listAddDragElem, SIGNAL(customContextMenuRequested(QPoint), this, SLOT(customContextMenuRequestedAddDragElem(QPoint));
 }
 
+SpriteVector* MainWindow::getSpriteVector()
+{
+    return ui->spriteSelect->getSpriteVector();
+}
+
 void MainWindow::InitializeDragElem(const QString& path)
 {
     QFile styleSheet(path);
@@ -92,6 +102,7 @@ void MainWindow::InitializeDragElem(const QString& path)
 
     DragableElement* lastElement;
 
+    uint paramIndex = 0;
     while(!xmlReader.atEnd())
     {
         if(xmlReader.readNext() == QXmlStreamReader::StartElement)
@@ -99,6 +110,7 @@ void MainWindow::InitializeDragElem(const QString& path)
             QString type = xmlReader.name().toString();
             if(type == "dragableelement")
             {
+                paramIndex = 0;
                 attributes = xmlReader.attributes();
                 DragElemCategory* category = GetCategoryByName(attributes.value("category").toString());
                 if(attributes.value("type").toString() == "command")
@@ -126,7 +138,10 @@ void MainWindow::InitializeDragElem(const QString& path)
             else if(type == "parameter")
             {
                 attributes = xmlReader.attributes();
-                lastElement->_defaultValues.push_back(attributes.value("default").toString());
+                while(paramIndex < lastElement->_paramsVector.size() &&
+                      !lastElement->_paramsVector[paramIndex]->setValue(
+                          attributes.value("default").toString())) paramIndex++;
+                paramIndex++;
             }
             else if(type == "dragelemcategory")
             {

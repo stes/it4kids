@@ -7,12 +7,11 @@ ParamMath::ParamMath(QWidget *parent) : QComboBox(parent)
     addItem("tan");
     addItem("cotan");
     addItem("e^");
-    //#warning "Add Math list to ParamMath"
 }
 
 QString ParamMath::getValue()
 {
-    return QString("ParamMath");
+    return currentText();
 }
 
 ParamMath::~ParamMath()

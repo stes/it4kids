@@ -120,7 +120,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="buttonStopScript">
+           <widget class="QPushButton" name="pushButton_3">
             <property name="text">
              <string/>
             </property>
@@ -619,7 +619,7 @@ QMenu
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>4</number>
       </property>
       <property name="tabBarAutoHide">
        <bool>false</bool>

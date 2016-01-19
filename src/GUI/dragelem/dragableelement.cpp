@@ -1,6 +1,7 @@
 #include "dragableelement.h"
 #include <QDebug>
 
+#include "param.h"
 #include "paramcolor.h"
 #include "paramclone.h"
 #include "paramcostume.h"
@@ -40,6 +41,10 @@ void DragableElement::mousePressEvent(QMouseEvent *event)
     if(!_dragged)
     {
         DragableElement* element = getCurrentElement(QApplication::activeWindow());
+        for(uint i = 0; i < element->_paramsVector.size(); i++)
+        {
+            element->_paramsVector[i]->setValue(_paramsVector[i]->getValue());
+        }
         element->_dragged = true;
         element->update();
         element->grabMouse();
@@ -160,36 +165,43 @@ void DragableElement::parseText(const QString &text, DragableElement *element)
         {
             ParamDirection* selecBox = new ParamDirection(element);
             element->_layout.addWidget(selecBox);
+            element->_paramsVector.push_back(selecBox);
         }
         else if(stringList.at(i).contains("%dst"))
         {
             ParamDestination* selecBox = new ParamDestination(element);
             element->_layout.addWidget(selecBox);
+            element->_paramsVector.push_back(selecBox);
         }
         else if(stringList.at(i).contains("%key"))
         {
             ParamKey* selecBox = new ParamKey(element);
             element->_layout.addWidget(selecBox);
+            element->_paramsVector.push_back(selecBox);
         }
         else if(stringList.at(i).contains("%interaction"))
         {
             ParamInteraction* selecBox = new ParamInteraction(element);
             element->_layout.addWidget(selecBox);
+            element->_paramsVector.push_back(selecBox);
         }
         else if(stringList.at(i).contains("%msg"))
         {
             ParamMessage* selecBox = new ParamMessage(element);
             element->_layout.addWidget(selecBox);
+            element->_paramsVector.push_back(selecBox);
         }
         else if(stringList.at(i).contains("%stopChoices"))
         {
             ParamStopChoices* selecBox = new ParamStopChoices(element);
             element->_layout.addWidget(selecBox);
+            element->_paramsVector.push_back(selecBox);
         }
         else if(stringList.at(i).contains("%cln"))
         {
             ParamClone* selecBox = new ParamClone(element);
             element->_layout.addWidget(selecBox);
+            element->_paramsVector.push_back(selecBox);
         }
         else if( stringList.at(i).contains("%cst"))
         {
@@ -200,78 +212,91 @@ void DragableElement::parseText(const QString &text, DragableElement *element)
         {
             ParamEffect* selecBox = new ParamEffect(element);
             element->_layout.addWidget(selecBox);
+            element->_paramsVector.push_back(selecBox);
         }
         else if( stringList.at(i).contains("%col"))
         {
             ParamTouch* selecBox = new ParamTouch(element);
             element->_layout.addWidget(selecBox);
+            element->_paramsVector.push_back(selecBox);
         }
         else if( stringList.at(i).contains("%clr"))
         {
             ParamColor* selecBox = new ParamColor(element);
             element->_layout.addWidget(selecBox);
+            element->_paramsVector.push_back(selecBox);
         }
         else if( stringList.at(i).contains("%snd"))
         {
             ParamSound* selecBox = new ParamSound(element);
             element->_layout.addWidget(selecBox);
+            element->_paramsVector.push_back(selecBox);
         }
         else if( stringList.at(i).contains("%fun"))
         {
             ParamMath* selecBox = new ParamMath(element);
             element->_layout.addWidget(selecBox);
+            element->_paramsVector.push_back(selecBox);
         }
         else if( stringList.at(i).contains("%words"))
         {
             ParamJoinWords* selecBox = new ParamJoinWords(element);
             element->_layout.addWidget(selecBox);
+            element->_paramsVector.push_back(selecBox);
         }
         else if( stringList.at(i).contains("%typ"))
         {
             ParamType* selecBox = new ParamType(element);
             element->_layout.addWidget(selecBox);
+            element->_paramsVector.push_back(selecBox);
         }
         else if( stringList.at(i).contains("%delim"))
         {
             ParamDelim* selecBox = new ParamDelim(element);
             element->_layout.addWidget(selecBox);
+            element->_paramsVector.push_back(selecBox);
         }
         else if( stringList.at(i).contains("%var"))
         {
             ParamVariables* selecBox = new ParamVariables(element);
             element->_layout.addWidget(selecBox);
+            element->_paramsVector.push_back(selecBox);
         }
         else if(stringList.at(i).contains("%idx"))
         {
             ParamListId* tE = new ParamListId(element);
             element->_layout.addWidget(tE);
+            element->_paramsVector.push_back(tE);
         }
         else if(stringList.at(i).contains("%n"))
         {
             ParamNumber* tE = new ParamNumber(element);
             element->_layout.addWidget(tE);
+            element->_paramsVector.push_back(tE);
         }
         else if(stringList.at(i).contains("%s"))
         {
             ParamString* tE = new ParamString(element);
             element->_layout.addWidget(tE);
+            element->_paramsVector.push_back(tE);
         }
         else if(stringList.at(i).contains("%l"))
         {
             ParamListSelec* tE = new ParamListSelec(element);
             element->_layout.addWidget(tE);
+            element->_paramsVector.push_back(tE);
         }
         else if(stringList.at(i).contains("%b"))
         {
              ParamDock* dock = new ParamDock(element->_color, element->_scriptAreaWidget, element);
              element->_layout.addWidget(dock);
+             element->_paramsVector.push_back(dock);
         }
         else
         {
             QLabel* text = new QLabel(stringList.at(i), element);
             text->setFont(QFont("Helvetica", -1, QFont::Bold));
             element->_layout.addWidget(text);
-
         }
     }
 }

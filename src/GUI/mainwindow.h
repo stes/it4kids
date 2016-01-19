@@ -3,8 +3,9 @@
 
 #include <QMainWindow>
 #include <QMenu>
-
 #include <Qsci/qsciscintilla.h>
+
+#include "spriteselect.h"
 
 class AudioEngine;
 class DragElemCategory;
@@ -24,6 +25,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
 
     ~MainWindow();
+
+    SpriteVector* getSpriteVector();
+    inline Sprite* getCurrentSprite() {return _currentSprite;}
 
 Q_SIGNALS:
     void newSound();

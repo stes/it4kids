@@ -10,7 +10,14 @@ ParamString::ParamString(QWidget *parent) : QLineEdit(parent)
 
 QString ParamString::getValue()
 {
-    return QString("ParamString");
+    return text();
+}
+
+bool ParamString::setValue(const QString &value)
+{
+    if(value == "0") setText("Hello!");
+    else setText(value);
+    return 1;
 }
 
 ParamString::~ParamString()

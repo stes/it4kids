@@ -27,6 +27,7 @@ class Sprite : public QWidget
     friend class MainWindow;
     Q_OBJECT
 public:
+    inline QString getName() {return _name;}
     inline SoundVector* getSoundVector() {return &_soundVector;}
     inline void addSound(WavFile* sound) {_soundVector.push_back(sound);}
     inline void playSound(int index) {_soundVector[index]->play(); }

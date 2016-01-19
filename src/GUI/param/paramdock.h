@@ -22,6 +22,7 @@ public:
     void undock();
 
     QString getValue();
+    inline bool setValue(const QString &) {return 0; }
 
     ~ParamDock();
 signals:

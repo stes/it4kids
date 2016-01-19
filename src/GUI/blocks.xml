@@ -172,15 +172,11 @@
 	<dragableelement name="doResetTimer" category="sensing" type="command" spec="reset timer" />
 	<dragableelement name="reportTimer" category="sensing" type="reporter" spec="timer" />
 	<dragableelement name="getTimer" category="sensing" type="reporter" spec="timer" />
-	<dragableelement name="reportAttributeOf" category="sensing" type="reporter" spec="%att of %spr">
-		 <parameter default="costume #" />
-	</dragableelement>
 	<dragableelement name="reportURL" category="sensing" type="reporter" spec="http:// %s">
 		 <parameter default="snap.berkeley.edu" />
 	</dragableelement>
 	<dragableelement name="reportIsFastTracking" category="sensing" type="predicate" spec="turbo mode?" />
 	<dragableelement name="doSetFastTracking" category="sensing" type="command" spec="set turbo mode to %b" />
-	<dragableelement name="reportDate" category="sensing" type="reporter" spec="current %dates" />
 	<dragableelement name="reportSum" category="operators" type="reporter" spec="%n + %n" />
 	<dragableelement name="reportDifference" category="operators" type="reporter" spec="%n - %n" />
 	<dragableelement name="reportProduct" category="operators" type="reporter" spec="%n * %n" />

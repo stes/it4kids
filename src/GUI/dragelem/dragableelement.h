@@ -21,6 +21,7 @@
 #include <QDebug>
 
 class DockingArea;
+class Param;
 
 class DragableElement : public QWidget
 {
@@ -38,6 +39,8 @@ public:
     inline DragableElement* getPrevElem() {return _prevElem;}
     inline void setNextElem(DragableElement* elem) {_nextElem = elem;}
     inline DragableElement* getNextElem() {return _nextElem;}
+    inline QString getIdentifier() {return _identifier;}
+    inline std::vector<Param*>* getParamsVector() {return &_paramsVector; }
 
     virtual inline int getHeight() {return _height;}
 
@@ -63,7 +66,7 @@ protected:
 
     QHBoxLayout _layout;
 
-    std::vector<QString> _defaultValues;
+    std::vector<Param*> _paramsVector;
 
     DockingArea* _currentDock;
     DragableElement* _prevElem;

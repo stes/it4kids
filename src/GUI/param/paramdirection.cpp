@@ -6,12 +6,11 @@ ParamDirection::ParamDirection(QWidget *parent) : QComboBox(parent)
     addItem("left");
     addItem("up");
     addItem("down");
-    #pragma message("Fix GetValue")
 }
 
 QString ParamDirection::getValue()
 {
-    return QString("ParamDirection");
+    return currentText();
 }
 
 ParamDirection::~ParamDirection()

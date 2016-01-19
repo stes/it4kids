@@ -12,6 +12,7 @@ public:
     ParamNumber(QWidget *parent);
 
     QString getValue();
+    inline bool setValue(const QString& value) {setText(value); return 1;}
 
     ~ParamNumber();
 };

@@ -6,12 +6,11 @@ ParamInteraction::ParamInteraction(QWidget *parent) : QComboBox(parent)
     addItem("dragged");
     addItem("dropped");
     addItem("hover");
-    #pragma message("Fix GetValue")
 }
 
 QString ParamInteraction::getValue()
 {
-    return QString("ParamInteraction");
+    return currentText();
 }
 
 ParamInteraction::~ParamInteraction()

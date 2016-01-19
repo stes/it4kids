@@ -2,7 +2,7 @@
 
 ParamNumber::ParamNumber(QWidget* parent) : QLineEdit(parent)
 {
-    setInputMask("9999");
+    //setInputMask("9999");
     setFixedSize(20, 15);
     setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     setFont(QFont("Courier", 7));
@@ -10,7 +10,7 @@ ParamNumber::ParamNumber(QWidget* parent) : QLineEdit(parent)
 
 QString ParamNumber::getValue()
 {
-    return QString("ParamNumber");
+    return text();
 }
 
 ParamNumber::~ParamNumber()

@@ -12,6 +12,7 @@ public:
     ParamType(QWidget* parent);
 
     QString getValue();
+    inline bool setValue(const QString &) {return 0; }
 
     ~ParamType();
 };

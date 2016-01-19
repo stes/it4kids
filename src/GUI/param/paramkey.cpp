@@ -7,12 +7,45 @@ ParamKey::ParamKey(QWidget *parent) : QComboBox(parent)
     addItem("c");
     addItem("d");
     addItem("e");
-    //#warning "Add Key list to ParamKey"
+    addItem("f");
+    addItem("g");
+    addItem("h");
+    addItem("i");
+    addItem("k");
+    addItem("l");
+    addItem("m");
+    addItem("n");
+    addItem("o");
+    addItem("p");
+    addItem("q");
+    addItem("r");
+    addItem("s");
+    addItem("t");
+    addItem("u");
+    addItem("v");
+    addItem("w");
+    addItem("x");
+    addItem("y");
+    addItem("z");
+    addItem("1");
+    addItem("2");
+    addItem("3");
+    addItem("4");
+    addItem("5");
+    addItem("6");
+    addItem("7");
+    addItem("8");
+    addItem("9");
+    addItem("0");
+    addItem("Left Arrow");
+    addItem("Right Arrow");
+    addItem("Up Arrow");
+    addItem("Down Arrow");
 }
 
 QString ParamKey::getValue()
 {
-    return QString("ParamKey");
+    return currentText();
 }
 
 ParamKey::~ParamKey()

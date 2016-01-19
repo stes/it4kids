@@ -15,6 +15,7 @@ public:
 
     bool open(const QString &fileName);
     inline QImage* getImage() {return &_costume;}
+    inline QString getName() {return _name;}
 
 protected:
     QImage _costume;

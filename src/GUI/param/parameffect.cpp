@@ -8,16 +8,14 @@ ParamEffect::ParamEffect(QWidget *parent) : QComboBox(parent)
     addItem("comic");
     addItem("duplicate");
     addItem("confetti");
-    #pragma message("Fix GetValue")
 }
 
 QString ParamEffect::getValue()
 {
-    return QString("ParamEffect");
+    return currentText();
 }
 
 ParamEffect::~ParamEffect()
 {
 
 }
-
