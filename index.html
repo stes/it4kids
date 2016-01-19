@@ -1,0 +1,136 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>IT4Kids Code Editor by stes</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>IT4Kids Code Editor</h1>
+        <p></p>
+
+        <p class="view"><a href="https://github.com/stes/it4kids">View the Project on GitHub <small>stes/it4kids</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/stes/it4kids/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/stes/it4kids/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/stes/it4kids">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>
+<a id="it4kids-code-editor" class="anchor" href="#it4kids-code-editor" aria-hidden="true"><span class="octicon octicon-link"></span></a>IT4Kids Code Editor</h1>
+
+<p><a href="https://travis-ci.org/stes/it4kids"><img src="https://travis-ci.org/stes/it4kids.svg?branch=master" alt="master"></a></p>
+
+<p>Du hast gerade das Repo des <strong>IT4Kids Code Editors</strong> gefunden!</p>
+
+<h2>
+<a id="die-idee-hinter-it4kids" class="anchor" href="#die-idee-hinter-it4kids" aria-hidden="true"><span class="octicon octicon-link"></span></a>Die Idee hinter IT4Kids</h2>
+
+<p>Informatik hat in unserer Gesellschaft einen hohen Stellenwert. Sie umgibt uns ständig im Alltag - und bestimmt diesen in vielen Bereichen mit. Dennoch wird an vielen Schulen Informatik erst zu einem sehr späten Zeitpunkt als Fach angeboten. Ziel des Projekts IT4Kids ist es, an möglichst vielen Schulen Arbeitsgruppen einzurichten, in denen die Grundlagen der Informatik und des Programmierens auf ansprechende Weise schon jungen Schülerinnen und Schülern vermittelt werden.</p>
+
+<p>Wir bringen dazu Studierende, interessierte Lehrkräfte und Eltern mit Schulen zusammen, um dort Arbeitsgruppen einzurichten. Die Organisation, das Erstellen von Materialien und die Weiterentwicklung der im Kurs behandelten Themen werden von uns übernommen. Für die Kursbetreuung zahlen wir eine Aufwandsentschädigung.</p>
+
+<h2>
+<a id="der-it4kids-code-editor" class="anchor" href="#der-it4kids-code-editor" aria-hidden="true"><span class="octicon octicon-link"></span></a>Der IT4Kids Code Editor</h2>
+
+<p>Aktuell verwenden wir <a href="https://scratch.mit.edu">Scratch</a> und <a href="code.it-for-kids.org">Snap</a> in unseren Kursen. Der IT4Kids Code Editor setzt optisch auf diesen beiden Programmen auf, bietet aber einige Zusatzfunktionen, die im Kursbetrieb nützlich sind:</p>
+
+<ul>
+<li>Virtuelle Klassenräume mit Lehrer- und Schüleraccounts</li>
+<li>Konvertieren der Projekte in direkt ausführbare Python Skripte</li>
+<li>Schnelles Ausführen von Projekten durch <a href="https://bitbucket.org/pyglet/pyglet/wiki/Home">Pyglet</a> Backend (nutzt OpenGL)</li>
+<li>Nahtloser Übergang von der der grafischen Programmierung zur direkten Python-Programmierung - alles in einem Editor!</li>
+</ul>
+
+<h2>
+<a id="build" class="anchor" href="#build" aria-hidden="true"><span class="octicon octicon-link"></span></a>Build</h2>
+
+<h3>
+<a id="abhängigkeiten" class="anchor" href="#abh%C3%A4ngigkeiten" aria-hidden="true"><span class="octicon octicon-link"></span></a>Abhängigkeiten</h3>
+
+<p>Bevor das Programm erstellt werden kann, müssen folgende Abhängigkeiten erfüllt sein:</p>
+
+<ul>
+<li>python=2.7</li>
+<li>pyglet</li>
+<li>Qt&gt;=5.4</li>
+</ul>
+
+<p>Für den Buildprozess muss zusätzlich <strong>qmake</strong> installiert sein.</p>
+
+<h3>
+<a id="erstellen" class="anchor" href="#erstellen" aria-hidden="true"><span class="octicon octicon-link"></span></a>Erstellen</h3>
+
+<p>Das Programm kann per</p>
+
+<pre><code>qmake
+make
+</code></pre>
+
+<p>erstellt und per </p>
+
+<pre><code>cd bin
+./it4kids-editor
+</code></pre>
+
+<p>ausgeführt werden.</p>
+
+<h2>
+<a id="aktueller-stand" class="anchor" href="#aktueller-stand" aria-hidden="true"><span class="octicon octicon-link"></span></a>Aktueller Stand</h2>
+
+<p>Aktuell befindet sich der Editor in aktiver Entwicklung. Eine erste Alpha Version wird voraussichtlich im Januar 2016 erscheinen.</p>
+
+<table>
+<thead>
+<tr>
+<th>Build Status der einzelnen Zweige</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>master</td>
+<td><a href="https://travis-ci.org/stes/it4kids"><img src="https://travis-ci.org/stes/it4kids.svg?branch=master" alt="master"></a></td>
+</tr>
+<tr>
+<td>pyglet</td>
+<td><a href="https://travis-ci.org/stes/it4kids"><img src="https://travis-ci.org/stes/it4kids.svg?branch=dev-pyglet" alt="dev-pyglet"></a></td>
+</tr>
+<tr>
+<td>GUI</td>
+<td><a href="https://travis-ci.org/stes/it4kids"><img src="https://travis-ci.org/stes/it4kids.svg?branch=GUI" alt="GUI"></a></td>
+</tr>
+<tr>
+<td>devKM</td>
+<td><a href="https://travis-ci.org/stes/it4kids"><img src="https://travis-ci.org/stes/it4kids.svg?branch=devKM" alt="devKM"></a></td>
+</tr>
+</tbody>
+</table>
+
+<h2>
+<a id="kontakt" class="anchor" href="#kontakt" aria-hidden="true"><span class="octicon octicon-link"></span></a>Kontakt</h2>
+
+<p><em>IT4Kids</em> wurde von Studenten der RWTH Aachen gegründet. Weitere Infos unter <a href="http://www.it-for-kids.org">www.it-for-kids.org</a>.
+Bei Fragen oder Interesse, unsere Arbeit zu unterstützen, melde dich bei <a href="mailto:info@it-for-kids.org">info@it-for-kids.org</a></p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/stes">stes</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
