@@ -1,10 +1,10 @@
 #include "mainwindow.h"
+#include "sprite.h"
+
 #include <QApplication>
 #include <QFile>
 #include <QStyle>
-
 #include <QDebug>
-#include "sprite.h"
 
 int main(int argc, char *argv[])
 {
