@@ -8,6 +8,7 @@
 #include <QWidget>
 
 class QSound;
+class QImage;
 
 typedef struct  WAV_HEADER
 {
@@ -46,12 +47,15 @@ private:
     /*WavHeader _wavHeader;
     QByteArray* _dataBuffer;*/
 
+    void mousePressEvent(QMouseEvent*);
+
     QSound* _sound;
 
     QVBoxLayout _layout;
     QPixmap _soundPixmap;
     QString _name;
     QLabel _nameLabel;
+    QImage* _waveForm;
 };
 
 #endif // WAVFILE_H

@@ -1,8 +1,8 @@
 #include "wavfile.h"
+#include <QDebug>
 
 #include <iostream>
-
-#include <QDebug>
+#include <QPainter>
 #include <QStringList>
 
 WavFile::WavFile(QWidget *parent) : QWidget(parent),
@@ -37,13 +37,39 @@ bool WavFile::open(const QString &fileName)
         return false;
     }
 
-    fread(&_wavHeader, 1, sizeof(WavHeader), wavFile);
+    WavHeader wavHeader;
+    fread(&wavHeader, 1, sizeof(WavHeader), wavFile);
 
-    _dataBuffer = new QByteArray(_wavHeader._dataSize, 0);
-    fread(_dataBuffer->data(), 1, _wavHeader._dataSize, wavFile);
+    QByteArray dataBuffer(wavHeader._dataSize, 0);
+    fread(dataBuffer.data(), 1, wavHeader._dataSize, wavFile);
 
-    fclose(wavFile);*/
+    fclose(wavFile);
+
+    _waveForm = new QImage(wavHeader._dataSize*8/wavHeader._bitsPerSample, 400, QImage::Format_ARGB32);
+    QPainter painter(_waveForm);
+    painter.setPen(Qt::black);
+
+    int offset = (wavHeader._bitsPerSample/8)*16;
+    int number = (wavHeader._dataSize*8/wavHeader._bitsPerSample) /16;
+    qDebug() << wavHeader._audioFormat;
+    for(int i = 0; i < number; i++)
+    {
+        const char* base = dataBuffer.constData();
+        quint16 pcm = *(base + i * offset);
+        pcm = pcm ? pcm -32767 : 0;
+        qDebug()  << pcm;
+        double value = ((float) pcm)/32768;
+        painter.drawLine(i, 200, i, 200+value*200);
+    }
+    QLabel* label = new QLabel();
+    label->setPixmap(QPixmap::fromImage(*_waveForm));
+    label->show();*/
 
     return true;
+}
+
+void WavFile::mousePressEvent(QMouseEvent *)
+{
+    play();
 }
 
