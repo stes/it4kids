@@ -14,7 +14,6 @@ public:
     void generateFile();
 private:
     QString generateCode(DragableElement* element, int sub);
-    ArgumentStruct* CodeGenerator::getCommand();
     QString dict(ArgumentStruct* argument);
     QString subident(int sub);
     void generateMap();

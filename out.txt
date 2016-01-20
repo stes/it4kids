@@ -1,0 +1,18 @@
+
+class sprite(Entity):
+    def receiveGO():
+        NSE: doForever
+            forward(10)
+            forward(10)
+    def receiveGO():
+        NSE: doForever
+            forward(10)
+            forward(10)
+    def receiveGO():
+        NSE: doForever
+            forward(10)
+            forward(10)
+    def receiveGO():
+        NSE: doForever
+            forward(10)
+            forward(10)
