@@ -25,11 +25,15 @@ def get_pixel(image, x, y):
 class Entity(object):
 	
 	_scale = 1
+	_speed = 40
 	
 	def __init__(self, image, group=foreground, draggable=True):
 		self.group = group
+		image.anchor_x = image.width / 2
+		image.anchor_y = image.height / 2
 		self.sprite = pyglet.sprite.Sprite(image, group=self.group)
 		self.draggable = draggable
+		self.move_to_scaled(0, 0)
 	
 	def scale(self, scale):
 		self.sprite.x *= scale / self._scale
@@ -40,9 +44,9 @@ class Entity(object):
 	def check_pos(self, x, y):
 		tmpx = x - self.sprite.x
 		tmpy = y - self.sprite.y
-		x = tmpx * math.cos(math.radians(self.sprite.rotation)) - tmpy * math.sin(math.radians(self.sprite.rotation));
-		y = tmpx * math.sin(math.radians(self.sprite.rotation)) + tmpy * math.cos(math.radians(self.sprite.rotation));
-		if x > 0 and y > 0 and x < self.sprite.width and y < self.sprite.height:
+		if abs(tmpx) < self.sprite.width / 2 and abs(tmpy) < self.sprite.height / 2:
+			x = tmpx * math.cos(math.radians(self.sprite.rotation)) - tmpy * math.sin(math.radians(self.sprite.rotation)) + self.sprite.width / 2
+			y = tmpx * math.sin(math.radians(self.sprite.rotation)) + tmpy * math.cos(math.radians(self.sprite.rotation)) + self.sprite.height / 2
 			ix = int(x / self.sprite.scale)
 			iy = int(y / self.sprite.scale)
 			data = get_pixel(self.sprite.image, ix, iy)
@@ -57,6 +61,15 @@ class Entity(object):
 		self.sprite.x = x
 		self.sprite.y = y
 	
+	def move_scaled(self, x, y):
+		self.sprite.x += x * self._scale
+		self.sprite.y += y * self._scale
+	
+	def move_to_scaled(self, x, y):
+		global mainApp
+		self.sprite.x = (x + mainApp.size[0] / 2) * self._scale
+		self.sprite.y = (y + mainApp.size[1] / 2) * self._scale
+	
 	def set_group(self, group=None):
 		if group:
 			self.sprite.group = group
@@ -65,29 +78,29 @@ class Entity(object):
 	
 	def forward(self, len):
 		self.sprite.x += len * math.cos(math.radians(self.sprite.rotation))
-		self.sprite.y += len * math.sin(math.radians(self.sprite.rotation))
-		time.sleep(0.05) # animation
+		self.sprite.y += len * math.sin(-math.radians(self.sprite.rotation))
+		time.sleep(1/self._speed) # animation
 	
 	def turnRight(self, degrees):
 		self.sprite.rotation += degrees
-		time.sleep(0.05) # animation
+		time.sleep(1/self._speed) # animation
 	
 	def turnLeft(self, degrees):
 		self.sprite.rotation -= degrees
-		time.sleep(0.05) # animation
+		time.sleep(1/self._speed) # animation
 	
 	def gotoXY(self, x, y):
-		self.move_to(x, y)
-		time.sleep(0.05) # animation
+		self.move_to_scaled(x, y)
+		time.sleep(1/self._speed) # animation
 	
 	def doGlide(self, seconds, x, y):
-		steps = seconds / 0.05
-		diffX = (x - self.sprite.x) / steps
-		diffY = (y - self.sprite.y) / steps
+		steps = seconds * self._speed
+		diffX = (x + mainApp.size[0] / 2 - self.sprite.x) / steps
+		diffY = (y + mainApp.size[1] / 2 - self.sprite.y) / steps
 		for i in range(int(steps)):
-			self.move(diffX, diffY)
-			time.sleep(0.05) # animation
-		self.move_to(x, y)
+			self.move_scaled(diffX, diffY)
+			time.sleep(1/self._speed) # animation
+		self.move_to_scaled(x, y)
 	
 	def receiveGO(self):
 		pass
@@ -96,9 +109,7 @@ class App(object):
 
 	_scale = 1
 
-	def __init__(self, background_file, create_window=True):
-		global mainApp
-		mainApp = self
+	def __init__(self, create_window=True):
 		if create_window:
 			self.window = pyglet.window.Window(resizable=True)
 			dispatcher = self.window
@@ -120,13 +131,10 @@ class App(object):
 		
 		self.batch = pyglet.graphics.Batch()
 		
-		background_img = pyglet.resource.image(background_file)
-		self.size = (background_img.width, background_img.height)
+		self.size = (480, 360)
 		self.dragging = None
 		
 		self.entities = []
-		
-		self.add_entity(Entity(background_img, background, draggable=False))
 	
 	def add_entity(self, entity):
 		entity.sprite.batch = self.batch
@@ -237,12 +245,18 @@ def mouse_drag(x, y, dx, dy, buttons, modifiers):
 	widget.dispatch_event('on_mouse_drag', x, y, dx, dy, pyglet.window.mouse.LEFT, modifiers)
 	
 def start():
+	global mainApp
 	if mainApp:
 		mainApp.on_start()
 
-def reset():
+def init(background_file, create_window=True):
+	global mainApp
 	if mainApp:
 		mainApp.reset()
+	else:
+		mainApp = App(create_window=create_window)
+	mainApp.add_entity(Entity(pyglet.resource.image(background_file), background, draggable=False))  # TODO: store this
+	return mainApp
 
 Widget.register_event_type('on_draw')
 Widget.register_event_type('on_resize')

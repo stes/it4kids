@@ -49,10 +49,7 @@ void Scene::loadApp(const char *pAppName)
         Py_DECREF(pName);
     }
     else
-    {
-        reset();
         m_pModule = PyImport_ReloadModule(m_pModule);
-    }
 
     if(m_pModule == NULL)
     {
@@ -170,38 +167,6 @@ void Scene::sendGO()
     if(m_pIT4KModule)
     {
         pFunc = PyObject_GetAttrString(m_pIT4KModule, "start");
-
-        if(pFunc && PyCallable_Check(pFunc))
-        {
-            pValue = PyObject_CallObject(pFunc, 0);
-            if(pValue != NULL)
-            {
-                //printf("Result of draw: %ld\n", PyInt_AsLong(pValue));
-                Py_DECREF(pValue);
-            }
-            else
-            {
-                PyErr_Print();
-                fprintf(stderr, "Call failed\n");
-            }
-        }
-        else
-        {
-            if(PyErr_Occurred())
-                PyErr_Print();
-            fprintf(stderr, "Cannot find function\n");
-        }
-        Py_XDECREF(pFunc);
-    }
-}
-
-void Scene::reset()
-{
-    PyObject *pValue, *pFunc;
-
-    if(m_pIT4KModule)
-    {
-        pFunc = PyObject_GetAttrString(m_pIT4KModule, "reset");
 
         if(pFunc && PyCallable_Check(pFunc))
         {

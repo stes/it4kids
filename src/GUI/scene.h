@@ -28,7 +28,6 @@ public:
 
     void loadApp(const char *pAppName);
     void sendGO();
-    void reset();
 };
 
 #endif // SCENE_H

@@ -29,7 +29,7 @@ class Dragon(it4k.Entity):
 		self.turnLeft(15)
 
 def init(create_window=False):
-	myApp = it4k.App('Assets/Backgrounds/desert.gif', create_window=create_window)
+	myApp = it4k.init('Assets/Backgrounds/desert.gif', create_window=create_window)
 	entities = inspect.getmembers(sys.modules[__name__], inspect.isclass)
 	for entity in entities:
 		myApp.add_entity((entity[1])())
