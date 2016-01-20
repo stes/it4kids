@@ -8,12 +8,12 @@ class Dog(it4k.Entity):
 		image = pyglet.resource.image('Assets/Costumes/dog2-a.png')
 		it4k.Entity.__init__(self, image)
 	
-	def receiveGO():
-		forward(10)
+	def receiveGO(self):
+		self.forward(10)
 		for a in range(10):
-			forward(10)
-			turnRight(15)
-		turnLeft(15)
+			self.forward(10)
+			self.turnRight(15)
+		self.turnLeft(15)
 
 class Dragon(it4k.Entity):
 	
@@ -21,12 +21,12 @@ class Dragon(it4k.Entity):
 		image = pyglet.resource.image('Assets/Costumes/dragon1-a.png')
 		it4k.Entity.__init__(self, image)
 	
-	def receiveGO():
-		forward(10)
+	def receiveGO(self):
+		self.forward(10)
 		for a in range(10):
-			forward(10)
-			turnRight(15)
-		turnLeft(15)
+			self.forward(10)
+			self.turnRight(15)
+		self.turnLeft(15)
 
 def init(create_window=False):
 	myApp = it4k.App('Assets/Backgrounds/desert.gif', create_window=create_window)

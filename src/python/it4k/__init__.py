@@ -4,6 +4,7 @@ pyglet.options['shadow_window'] = False
 pyglet.options['debug_gl'] = False
 from pyglet import gl
 from struct import unpack
+import threading
 import os, math, time
 
 background = pyglet.graphics.OrderedGroup(0)
@@ -37,8 +38,10 @@ class Entity(object):
 		self._scale = scale
 	
 	def check_pos(self, x, y):
-		x -= self.sprite.x
-		y -= self.sprite.y
+		tmpx = x - self.sprite.x
+		tmpy = y - self.sprite.y
+		x = tmpx * math.cos(math.radians(self.sprite.rotation)) - tmpy * math.sin(math.radians(self.sprite.rotation));
+		y = tmpx * math.sin(math.radians(self.sprite.rotation)) + tmpy * math.cos(math.radians(self.sprite.rotation));
 		if x > 0 and y > 0 and x < self.sprite.width and y < self.sprite.height:
 			ix = int(x / self.sprite.scale)
 			iy = int(y / self.sprite.scale)
@@ -76,7 +79,7 @@ class Entity(object):
 	def receiveGO(self):
 		pass
 
-class App(pyglet.event.EventDispatcher):
+class App(object):
 
 	_scale = 1
 
@@ -114,7 +117,6 @@ class App(pyglet.event.EventDispatcher):
 		self.add_entity(Entity(background_img, background, draggable=False))
 	
 	def add_entity(self, entity):
-		self.push_handlers(on_start=entity.receiveGO)
 		entity.sprite.batch = self.batch
 		entity.scale(self._scale)
 		self.entities.append(entity)
@@ -148,7 +150,8 @@ class App(pyglet.event.EventDispatcher):
 
 	def on_start(self):
 		for entity in self.entities:
-			entity.receiveGO()
+			t = threading.Thread(target=entity.receiveGO)
+			t.start()
 
 class FakeContext(gl.Context):
 	def __init__(self, config=None, context_share=None):
@@ -220,12 +223,10 @@ def mouse_drag(x, y, dx, dy, buttons, modifiers):
 	
 def start():
 	if mainApp:
-		mainApp.dispatch_event('on_start')
+		mainApp.on_start()
 
 Widget.register_event_type('on_draw')
 Widget.register_event_type('on_resize')
 Widget.register_event_type('on_mouse_press')
 Widget.register_event_type('on_mouse_release')
 Widget.register_event_type('on_mouse_drag')
-
-App.register_event_type('on_start')

@@ -158,7 +158,7 @@ void Scene::sendGO()
 
     if(m_pIT4KModule)
     {
-        pFunc = PyObject_GetAttrString(m_pIT4KModule, "on_start");
+        pFunc = PyObject_GetAttrString(m_pIT4KModule, "start");
 
         if(pFunc && PyCallable_Check(pFunc))
         {

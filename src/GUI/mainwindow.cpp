@@ -223,6 +223,8 @@ void MainWindow::on_buttonScriptStart_clicked()
     //qDebug() << s;
     ui->codeEditor->setText(in.readAll());
     file.close();
+
+    ui->scene->sendGO();
 }
 
 void MainWindow::on_buttonAddDragElem_clicked()
