@@ -1,0 +1,8 @@
+receiveGo@@def receiveGO():
+forward@@forward(%1)
+turn@@turn(%1)
+turnLeft@@turnLeft(%1)
+doRepeat@@for a in range(%1):
+gotoXY@@gotoXY(%1, %2)
+doGlide@@doGlide(%1, %2, %3)
+badabumpaff
