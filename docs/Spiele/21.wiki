@@ -1,0 +1,30 @@
+= Was soll ich anziehen? =
+
+Erforderliche Kompetenzen:
+
+== Beschreibung ==
+
+Dies ist ein Spaßprojekt: Auf der Bühne gibt es eine Figur und eine Menge von Kleidungsstücken. Die Figur soll vom Spieler angezogen werden, indem dieser auf die verschiedenen Kleidungsstücke klickt.
+
+== Durchführung ==
+
+=== Phase 1: Planung ===
+
+* Präsentation eines komplett fertigen Projekts
+* Überlegungen und Ideensammlung für Hintergrund, Figur, etc.
+* Erläuterung des &quot;Gehe-zu&quot;-Befehls
+* Wie müssen sich die Figur einerseits und die Kleidungsstücke andererseits verhalten?
+
+=== Phase 2: Objekte und Hintergrund zeichnen ===
+
+Zeichnen von Hintergründen, Figuren etc. Man kann, wie es im Beispiel gezeigt ist, auch den Hintergrund weiß lassen, aber besonders spaßig ist es nicht.
+
+=== Phase 3: Programmieren ===
+
+# Das Erscheinen von Figur und Kleidungsstücken
+# Die korrekte Bewegung des jeweiligen Kleidungsstücks zur Figur auf Klick
+
+=== Phase 4: Testen und vorstellen ===
+
+Wie immer.
+

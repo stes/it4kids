@@ -1,0 +1,40 @@
+= Buchstaben =
+
+'''Erforderliche Kompetenzen:''' Scratch-Umgebung kennen
+
+'''Gewonnene Kompetenzen:'''<br />
+Figuren auswählen/bearbeiten, Ereignisse, Bewegung (gehe zu, drehe dich), Steuerung {Wiederholungen (wiederhole)}
+
+== Beschreibung ==
+
+Es soll ein Programm erstellet werden, in welchen beliebige Figuren (beisielsweise Buchstaben) wackelnd, drehend, größer oder kleiner werdend, … zu einer sinnvollen Endposition (einem Wort) gleiten.
+
+== Durchführung ==
+
+In der Planungsphase werden mit den Schülern die folgenden Punkte besprochen:
+
+=== Phase 1: Planung ===
+
+* Welche Möglichkeiten stehen mit bei den Figuren zur Verfügung? Wie wähle ich diese aus?
+* Wie Programmiere ich eine spezielle Figur und nicht versehentlich eine andere?
+* Was sind Koordinaten und Winkel? Wie kann ich diese ablesen?
+
+=== Phase 2: Vorbereitungen ===
+
+In der Vorbereitungsphase suchen sich die Schüler die Figuren aus. Diese können sie auch noch beliebig bearbeiten und ihrer Kreativität freien Lauf lassen indem sie z.B. auch weitere Figuren selber malen.
+
+=== Phase 3: Programmierung ===
+
+Die nötigen Schritte sind:
+
+* Beim Start Figuren zum Chaospunkt Position springen lassen.
+* Figuren drehend, … zum geordneten Position bewegen.
+
+=== Phase 4: Testen und vorstellen ===
+
+In der Vorstellungsphase können die Schüler ihre eigenständig Programmierten Spiele vorstellen, um den anderen Ihre Kreativität zu zeigen und den anderen dadurch weitere Anregungen für die nächste Stunde zu geben.
+
+== Erweiterungen ==
+
+Als Erweiterung zu Buchstaben besteht die Möglichkeit den Schülern das Projekt mit Musik hinterlegen zu lassen, oder die Figuren mit kleinen Änderungen mehrmals einfügen, um diese dann geschickt wechselnd eine Bewegung Simulieren zu lassen oder einfach nur die Farbe ändernd.
+

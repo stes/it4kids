@@ -1,0 +1,49 @@
+= Pacman =
+
+Erforderliche Kompetenzen: BEWEGUNGEN, FÜHLEN, BEDINGUNGEN<br />
+Erworbene Kompetenzen: Fortgeschritten
+
+== Beschreibung ==
+
+Dieses Projekt ist deutlich fortgeschrittener. Es geht um die Programmierung des bekannten Spiels “Pacman”. Die Schülerinnen und Schüler haben hier die Möglichkeit, von der Planungsphase des Projekts über das Zeichnen von Hintergrund und Gestaltung der Figur alle wesentlichen Abläufe der Spieleprogrammierung kennenzulernen.
+
+Es ist besonders bei diesem Projekt sehr wichtig, dass die Schülerinnen und Schüler zu jedem Zeitpunkt sehr klare Vorstellungen über ihre nächste Aufgabe haben und nicht tatenlos am PC sitzen. Daher gibt es einige Erweiterungen für besonders schnelle Schülerinnen und Schüler.
+
+== Durchführung ==
+
+Im Folgenden ist die Durchführung des Projekts geschildert. Sollte es triftige Gründe geben, kann die Lehrperson gerne auch ein alternatives Konzept heranziehen.
+
+=== Phase 1: Planung ===
+
+Die Planungsphase wird in den ganzen Gruppe vollzogen. Die Lehrperson erläutert das Projekt und die Ziele der aktuellen Stunde werden geklärt. Beim Projekt Pacman müssen konkret geplant werden:
+
+* Präsentation eines komplett fertigen Spiels
+* Überlegungen und Ideensammlung für Hintergrund, Figur, etc.
+* Überlegungen zur Programmierung und der nötigen Aufgaben:
+** Bewegungen der Spielfigur auf Tastendruck: Umsetzung durch entsprechende Ereignisse
+** Anstoßen der Spielfigur an die Ränder des Spielfelds
+** Anstoßen der Spielfigur an die Mauern
+** “Essen” der Spielfigur
+** Punktezähler und dessen Funktionsweise
+* Nach dem Sammeln der Ideen bestimmen einer sinnvollen Reihenfolge, diese TODO Liste könnte z.B. an die Tafel geschrieben werden.
+
+Mit der nun entstandenen Aufgabenliste können die Schüler mit der eigentlichen Umsetzung des Projekts beginnen.
+
+=== Phase 2: Objekte und Hintergrund zeichnen ===
+
+Es bietet sich auch aus Zeitgründen an, im Anschluss an die Planung mit dem Zeichnen von Hintergründen, Figuren etc. die erste Stunde abzuschließen, da dies relativ leicht umsetzbare Aufgaben sind. Besonders schnelle Schülerinnen und Schüler können anschließend direkt mit der Programmierung beginnen.
+
+=== Phase 3: Programmieren ===
+
+Hier werden die zuvor besprochenen Aufgaben in Programmcode umgesetzt. Es macht Sinn, dabei die folgende Reihenfolge einzuhalten:
+
+# ''Steuerung der Figur:'' Zuerst programmieren die Schülerinnen und Schüler die Bewegung der Spielfigur. Die Figur soll sich dabei konstant in Vorwärtsrichtung bewegen (in einer Endlosschleife, dem ''Game Loop''). Auf Tastendruck (wird über Steuerungsblöcke abgegriffen) findet eine Drehung statt. Es können die Tasten A, S, D, F oder das Steuerkreuz verwendet werden.
+# ''Anstoßen der Spielfigur an den Rand:'' Beim Anstoßen an den Spielfeldrand soll sich die Figur nicht weiterbewegen
+# ''Anstoßen der Spielfigur an die Wände:'' Wenn die Spielfigur die Wände des Spielfelds (gezeichnet in einer möglichst einmalig vorhandenen Farbe) berührt, soll das Spiel als verloren gezählt werden.
+# ''Essen'' …
+# ''Punktezähler:'' Der Punktezähler wird über eine Variable realisiert. Die Variable muss angelegt und benannt werden und anschließend im Modus ''Groß'' auf dem Spielfeld angezeigt werden. Bei Neustart des Spiels wird die Variable auf null gesetzt, bei dem Essen eines Elements wird sie entsprechend erhöht.
+
+=== Phase 4: Testen und vorstellen ===
+
+In der letzten Phase, die auch zweimal durchgeführt werden kann, müssen alle (bei großen Gruppen: ausgewählte) Schülerinnen und Schüler ihr Projekt vorstellen. Hier bietet es sich an, wenn eine dritte Person das Programm bedienen muss und nicht die Programmiererin oder der Programmierer. Der restliche Kurs schaut bei der Vorstellung zu und gibt hinterher eine Rückmeldung. Für jedes Projekt kann so analysiert werden, was gut und was weniger gut funktioniert und noch verbessert werden muss. Wichtig vor allem bei jüngeren Klassenstufen: Die guten Teile des Programmes besonders hervorheben!
+
