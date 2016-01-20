@@ -4,11 +4,13 @@ pyglet.options['shadow_window'] = False
 pyglet.options['debug_gl'] = False
 from pyglet import gl
 from struct import unpack
-import os
+import os, math, time
 
 background = pyglet.graphics.OrderedGroup(0)
 foreground = pyglet.graphics.OrderedGroup(1)
 overlay = pyglet.graphics.OrderedGroup(2)
+
+mainApp = None
 
 def get_pixel(image, x, y):
 	rawimage = image.get_image_data()
@@ -57,12 +59,31 @@ class Entity(object):
 			self.sprite.group = group
 		else:
 			self.sprite.group = self.group
+	
+	def forward(self, len):
+		self.sprite.x += len * math.cos(math.radians(self.sprite.rotation))
+		self.sprite.y += len * math.sin(math.radians(self.sprite.rotation))
+		time.sleep(0.05) # animation
+	
+	def turnRight(self, degrees):
+		self.sprite.rotation += degrees
+		time.sleep(0.05) # animation
+	
+	def turnLeft(self, degrees):
+		self.sprite.rotation -= degrees
+		time.sleep(0.05) # animation
 
-class App(object):
+	def receiveGO(self):
+		pass
+
+class App(pyglet.event.EventDispatcher):
 
 	_scale = 1
 
 	def __init__(self, background_file, create_window=True):
+		global mainApp
+		if not mainApp:
+			mainApp = self
 		if create_window:
 			self.window = pyglet.window.Window(resizable=True)
 			dispatcher = self.window
@@ -79,7 +100,7 @@ class App(object):
 			on_resize=self.on_resize,
 			on_mouse_press=self.on_mouse_press,
 			on_mouse_release=self.on_mouse_release,
-			on_mouse_drag=self.on_mouse_drag
+			on_mouse_drag=self.on_mouse_drag,
 		)
 		
 		self.batch = pyglet.graphics.Batch()
@@ -93,6 +114,7 @@ class App(object):
 		self.add_entity(Entity(background_img, background, draggable=False))
 	
 	def add_entity(self, entity):
+		self.push_handlers(on_start=entity.receiveGO)
 		entity.sprite.batch = self.batch
 		entity.scale(self._scale)
 		self.entities.append(entity)
@@ -123,6 +145,10 @@ class App(object):
 	def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
 		if buttons & pyglet.window.mouse.LEFT and self.dragging:
 			self.dragging.move(dx, dy)
+
+	def on_start(self):
+		for entity in self.entities:
+			entity.receiveGO()
 
 class FakeContext(gl.Context):
 	def __init__(self, config=None, context_share=None):
@@ -191,9 +217,15 @@ def mouse_release(x, y, buttons, modifiers):
 
 def mouse_drag(x, y, dx, dy, buttons, modifiers):
 	widget.dispatch_event('on_mouse_drag', x, y, dx, dy, pyglet.window.mouse.LEFT, modifiers)
+	
+def start():
+	if mainApp:
+		mainApp.dispatch_event('on_start')
 
 Widget.register_event_type('on_draw')
 Widget.register_event_type('on_resize')
 Widget.register_event_type('on_mouse_press')
 Widget.register_event_type('on_mouse_release')
 Widget.register_event_type('on_mouse_drag')
+
+App.register_event_type('on_start')

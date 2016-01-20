@@ -25,6 +25,8 @@ public:
     void mousePressEvent(QMouseEvent* event);
     void mouseReleaseEvent(QMouseEvent* event);
     void mouseMoveEvent(QMouseEvent* event);
+
+    void sendGO();
 };
 
 #endif // SCENE_H
