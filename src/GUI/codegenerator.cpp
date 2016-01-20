@@ -13,11 +13,16 @@ void CodeGenerator::generateFile(){
     QString str = "";
     SpriteVector* spriteVec = _Mainwindow->getSpriteVector();
 
+    str += readMap("$import");
+
     //every Sprite
     for(SpriteVector::iterator it = spriteVec->begin(); it != spriteVec->end(); ++it)
     {
         //create class file
-        str += "class " + (*it)->getName() + "(Entity):\n";
+        str += "class " + (*it)->getName() + "(it4k.Entity):\n\n";
+
+        str += readMap("$construct");
+        //str+= "    def __init__(self):\n        image = pyglet.resource.image('Assets/Costumes/dog2-a.png')\n        it4k.Entity.__init__(self, image)\n\n";
 
         //check every block for "header"-Block
         DragElemVector * eleVec = (*it)->getDragElemVector();
@@ -31,6 +36,10 @@ void CodeGenerator::generateFile(){
                 //qDebug() << generateCode(*it2,0);
             }
         }
+
+        str += "\n" + readMap("$append");
+        //str += "def init(create_window=False):\n    myApp = it4k.App('Assets/Backgrounds/desert.gif', create_window=create_window)\n    entities = inspect.getmembers(sys.modules[__name__], inspect.isclass)\n    for entity in entities:\n        myApp.add_entity((entity[1])())\nif  __name__ ==  \"__main__\":\n    init(True)\n    pyglet.app.run()";
+
         str += "\n";
     }
 
@@ -75,7 +84,7 @@ QString CodeGenerator::subident(int sub)
     QString str ="";
     for (int i = 0; i<sub;i++)
     {
-        str += "    ";//map["tab"];
+        str += readMap("$tab");
     }
     return str;
 }
@@ -118,6 +127,7 @@ void CodeGenerator::generateMap()
     while (!file.atEnd()) {
         QString line = file.readLine();
         line.replace("\n","");
+        line.replace("\\n", "\n");
 
         QStringList list = line.split("@@",QString::SkipEmptyParts);
 
@@ -134,4 +144,12 @@ void CodeGenerator::generateMap()
         n++;
     }
     qDebug() << n-err << "/" << n << "lines loadet";
+}
+
+QString CodeGenerator::readMap(QString arg)
+{
+    if (map.contains(arg))
+    {
+        return map[arg];
+    }
 }

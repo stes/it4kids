@@ -17,6 +17,7 @@ private:
     QString dict(ArgumentStruct* argument);
     QString subident(int sub);
     void generateMap();
+    QString readMap(QString arg);
 
     MainWindow* _Mainwindow;
     QMap<QString, QString> map;
