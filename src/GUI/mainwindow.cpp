@@ -18,7 +18,7 @@
 #include "wrapperde.h"
 #include "predicatede.h"
 #include "reporterde.h"
-#include "Qsci/qscilexerpython.h"
+#include "qscilexerpython.h"
 
 MainWindow* _sMainWindow = 0;
 
