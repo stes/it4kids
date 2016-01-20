@@ -16,7 +16,7 @@ class SpriteSelect : public QWidget
 public:
     SpriteSelect(QWidget* parent = 0);
 
-    inline void addSprite(Sprite* sprite) {_spriteVector.push_back(sprite);}
+    inline void addSprite(Sprite* sprite) {_spriteVector.push_back(sprite); hide(); show();}
     inline void removeSprite(Sprite* sprite) {_spriteVector.erase(std::remove(_spriteVector.begin(), _spriteVector.end(), sprite), _spriteVector.end());}
     inline SpriteVector* getSpriteVector() {return &_spriteVector;}
 
