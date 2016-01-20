@@ -75,7 +75,20 @@ class Entity(object):
 	def turnLeft(self, degrees):
 		self.sprite.rotation -= degrees
 		time.sleep(0.05) # animation
-
+	
+	def gotoXY(self, x, y):
+		self.move_to(x, y)
+		time.sleep(0.05) # animation
+	
+	def doGlide(self, seconds, x, y):
+		steps = seconds / 0.05
+		diffX = (x - self.sprite.x) / steps
+		diffY = (y - self.sprite.y) / steps
+		for i in range(int(steps)):
+			self.move(diffX, diffY)
+			time.sleep(0.05) # animation
+		self.move_to(x, y)
+	
 	def receiveGO(self):
 		pass
 
@@ -85,8 +98,7 @@ class App(object):
 
 	def __init__(self, background_file, create_window=True):
 		global mainApp
-		if not mainApp:
-			mainApp = self
+		mainApp = self
 		if create_window:
 			self.window = pyglet.window.Window(resizable=True)
 			dispatcher = self.window
@@ -120,6 +132,9 @@ class App(object):
 		entity.sprite.batch = self.batch
 		entity.scale(self._scale)
 		self.entities.append(entity)
+	
+	def reset(self):
+		del self.entities[:]
 	
 	def on_draw(self):
 		if self.window:
@@ -224,6 +239,10 @@ def mouse_drag(x, y, dx, dy, buttons, modifiers):
 def start():
 	if mainApp:
 		mainApp.on_start()
+
+def reset():
+	if mainApp:
+		mainApp.reset()
 
 Widget.register_event_type('on_draw')
 Widget.register_event_type('on_resize')

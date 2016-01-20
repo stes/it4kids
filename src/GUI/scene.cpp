@@ -22,15 +22,7 @@ Scene::Scene(QWidget *parent) : QOpenGLWidget(parent)
     PyList_Append(pSysPath, pScriptPath);
     Py_DECREF(pScriptPath);
 
-    pName = PyString_FromString("example");
-    m_pModule = PyImport_Import(pName);
-    Py_DECREF(pName);
-
-    if(m_pModule == NULL)
-    {
-        PyErr_Print();
-        fprintf(stderr, "Failed to load module\n");
-    }
+    m_pModule = NULL;
 
     pName = PyString_FromString("it4k");
     m_pIT4KModule = PyImport_Import(pName);
@@ -47,13 +39,27 @@ Scene::Scene(QWidget *parent) : QOpenGLWidget(parent)
     timer->start();
 }
 
-void Scene::initializeGL()
+void Scene::loadApp(const char *pAppName)
 {
-    initializeOpenGLFunctions();
+    PyObject *pName, *pValue, *pFunc;
+    if(m_pModule == NULL)
+    {
+        pName = PyString_FromString(pAppName);
+        m_pModule = PyImport_Import(pName);
+        Py_DECREF(pName);
+    }
+    else
+    {
+        reset();
+        m_pModule = PyImport_ReloadModule(m_pModule);
+    }
 
-    PyObject *pValue, *pFunc;
-
-    if(m_pModule)
+    if(m_pModule == NULL)
+    {
+        PyErr_Print();
+        fprintf(stderr, "Failed to load module\n");
+    }
+    else
     {
         pFunc = PyObject_GetAttrString(m_pModule, "init");
 
@@ -79,6 +85,11 @@ void Scene::initializeGL()
         }
         Py_XDECREF(pFunc);
     }
+}
+
+void Scene::initializeGL()
+{
+    initializeOpenGLFunctions();
 }
 
 void Scene::resizeGL(int w, int h)
@@ -159,6 +170,38 @@ void Scene::sendGO()
     if(m_pIT4KModule)
     {
         pFunc = PyObject_GetAttrString(m_pIT4KModule, "start");
+
+        if(pFunc && PyCallable_Check(pFunc))
+        {
+            pValue = PyObject_CallObject(pFunc, 0);
+            if(pValue != NULL)
+            {
+                //printf("Result of draw: %ld\n", PyInt_AsLong(pValue));
+                Py_DECREF(pValue);
+            }
+            else
+            {
+                PyErr_Print();
+                fprintf(stderr, "Call failed\n");
+            }
+        }
+        else
+        {
+            if(PyErr_Occurred())
+                PyErr_Print();
+            fprintf(stderr, "Cannot find function\n");
+        }
+        Py_XDECREF(pFunc);
+    }
+}
+
+void Scene::reset()
+{
+    PyObject *pValue, *pFunc;
+
+    if(m_pIT4KModule)
+    {
+        pFunc = PyObject_GetAttrString(m_pIT4KModule, "reset");
 
         if(pFunc && PyCallable_Check(pFunc))
         {

@@ -26,7 +26,9 @@ public:
     void mouseReleaseEvent(QMouseEvent* event);
     void mouseMoveEvent(QMouseEvent* event);
 
+    void loadApp(const char *pAppName);
     void sendGO();
+    void reset();
 };
 
 #endif // SCENE_H

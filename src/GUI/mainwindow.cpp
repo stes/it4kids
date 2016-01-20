@@ -214,7 +214,7 @@ void MainWindow::on_buttonScriptStart_clicked()
 {
     _Cgen->generateFile();
 
-    QFile file("out.txt");
+    QFile file("python/out.py");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
 
@@ -224,6 +224,7 @@ void MainWindow::on_buttonScriptStart_clicked()
     ui->codeEditor->setText(in.readAll());
     file.close();
 
+    ui->scene->loadApp("out");
     ui->scene->sendGO();
 }
 
