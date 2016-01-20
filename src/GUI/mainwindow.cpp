@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QDialog>
 #include <QFileDialog>
 #include <QFont>
 #include <QFontMetrics>
@@ -19,6 +20,7 @@
 #include "predicatede.h"
 #include "reporterde.h"
 #include "Qsci/qscilexerpython.h"
+#include "newspritename.h"
 
 MainWindow* _sMainWindow = 0;
 
@@ -34,14 +36,17 @@ MainWindow::MainWindow(QWidget *parent) :
     _audioEngine = new AudioEngine(this);
     connect(this, SIGNAL(currentSpriteChanged(Sprite*)), _audioEngine, SLOT(setCurrentSprite(Sprite*)));
 
-    Sprite* figure = new Sprite(this);
-    Sprite* sprite = new Sprite(this);
-    ui->spriteSelect->addSprite(figure);
+    Sprite* sprite = new Sprite("sprite", this);
+    Costume* costume = new Costume(sprite);
+    costume->open(":/Assets/libraryOn.png");
+    costume->hide();
+    sprite->setCurrentCostume(costume);
+
     ui->spriteSelect->addSprite(sprite);
-    _currentSprite = figure;
+    _currentSprite = sprite;
     _backgroundSprite = new Sprite(this);
     ((QHBoxLayout*) ui->selectionBackground->layout())->insertWidget(0, _backgroundSprite);
-    emit currentSpriteChanged(figure);
+    emit changeCurrentSprite(sprite);
 
     InitializeDragElem(":/blocks.xml");
 
@@ -230,6 +235,33 @@ void MainWindow::on_buttonAddDragElem_clicked()
     }
 }
 
+void MainWindow::on_spriteFromFile_clicked()
+{
+    NewSpriteName dialog;
+    dialog.exec();
+
+    Sprite* sprite = new Sprite(dialog.getName(), this);
+    ui->spriteSelect->addSprite(sprite);
+
+    const QString dir;
+    const QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Open PNG file"), dir, "*.png");
+    if (fileNames.count())
+    {
+        Costume* costume = new Costume(sprite);
+        costume->open(fileNames.front());
+        sprite->setCurrentCostume(costume);
+    }
+
+    changeCurrentSprite(sprite);
+}
+
+void MainWindow::changeCurrentSprite(Sprite *sprite)
+{
+    _currentSprite = sprite;
+    setCurrentCostume(sprite->getCostumeVector()->at(0));
+    emit currentSpriteChanged(sprite);
+}
+
 void MainWindow::customContextMenuRequestedAddDragElem(const QPoint &pos)
 {
     QPoint globalPos = ui->listAddDragElem->mapToGlobal(pos);
@@ -245,7 +277,7 @@ void MainWindow::eraseItemAddDragElem()
     qDeleteAll(ui->listAddDragElem->selectedItems());
 }
 
-void MainWindow::on_MainWindow_currentSpriteChanged(Sprite *)
+void MainWindow::setCurrentCostume(Costume *costume)
 {
-
+    ui->costumeLabel->setPixmap(QPixmap::fromImage(costume->getImage()->scaled(400, 400)));
 }

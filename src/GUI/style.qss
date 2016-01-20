@@ -105,3 +105,8 @@ QFrame#upperSpriteFrame {
 QWidget#selectionSprite {
 	border-left: 1px solid #d0d1d2;
 }
+
+QPushButton
+{
+	color: #000000;
+}

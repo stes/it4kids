@@ -15,7 +15,7 @@
 Sprite::Sprite(const QString &name, MainWindow* parent) : QWidget(parent),
     _name(name)
 {
-    connect(this, SIGNAL(spriteSelected(Sprite*)), parent, SIGNAL(currentSpriteChanged(Sprite*)));
+    connect(this, SIGNAL(spriteSelected(Sprite*)), parent, SLOT(changeCurrentSprite(Sprite*)));
 
     setFixedSize(73, 73);
     setLayout(&_layout);
@@ -30,7 +30,7 @@ Sprite::Sprite(const QString &name, MainWindow* parent) : QWidget(parent),
 
 Sprite::Sprite(MainWindow* parent) : QWidget(parent)
 {
-    connect(this, SIGNAL(spriteSelected(Sprite*)), parent, SIGNAL(currentSpriteChanged(Sprite*)));
+    connect(this, SIGNAL(spriteSelected(Sprite*)), parent, SLOT(changeCurrentSprite(Sprite*)));
 
     setFixedSize(73, 73);
     setLayout(&_layout);
@@ -40,7 +40,6 @@ Sprite::Sprite(MainWindow* parent) : QWidget(parent)
 
     _name = "Bühne";
     _label.setText(_name);
-
     Costume* costume = new Costume(this);
     costume->hide();
     _costumeVector.push_back(costume);
@@ -63,7 +62,7 @@ void Sprite::setCurrentCostume(Costume *costume)
     if(!exists)
     {
         addCostume(costume);
-        _currentCostumeIndex = _costumeVector.size();
+        _currentCostumeIndex = _costumeVector.size() - 1;
     }
     _imageLabel.setPixmap(QPixmap::fromImage(_costumeVector[_currentCostumeIndex]->getImage()->scaled(40, 40)));
     emit currentCostumeChanged(this);

@@ -8,6 +8,7 @@
 #include "spriteselect.h"
 
 class AudioEngine;
+class Costume;
 class DragElemCategory;
 class DragableElement;
 class ScriptAreaWidget;
@@ -40,10 +41,12 @@ private slots:
     void on_buttonFile_clicked();
     void on_buttonEdit_clicked();
     void on_buttonAddDragElem_clicked();
+    void on_spriteFromFile_clicked();
 
+    void changeCurrentSprite(Sprite* sprite);
     void customContextMenuRequestedAddDragElem(const QPoint &pos);
     void eraseItemAddDragElem();
-    void on_MainWindow_currentSpriteChanged(Sprite *);
+    void setCurrentCostume(Costume* costume);
 private:
     void InitializeDragElem(const QString& path);
     DragElemCategory* GetCategoryByName(const QString& name);

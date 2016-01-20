@@ -55,7 +55,8 @@ SOURCES += src/main.cpp\
     src/GUI/dragelem/reporterde.cpp \
     src/GUI/dragelem/scriptdock.cpp \
     src/GUI/dragelem/wrapperde.cpp \
-    src/GUI/teacher/studentlist.cpp
+    src/GUI/teacher/studentlist.cpp \
+    src/GUI/newspritename.cpp
 
 HEADERS  += src/GUI/mainwindow.h \
     src/GUI/scene.h \
@@ -102,9 +103,11 @@ HEADERS  += src/GUI/mainwindow.h \
     src/GUI/dragelem/reporterde.h \
     src/GUI/dragelem/scriptdock.h \
     src/GUI/dragelem/wrapperde.h \
-    src/GUI/teacher/studentlist.h
+    src/GUI/teacher/studentlist.h \
+    src/GUI/newspritename.h
 
-FORMS    += src/GUI/mainwindow.ui
+FORMS    += src/GUI/mainwindow.ui \
+    src/GUI/newspritename.ui
 
 RESOURCES += \
     src/GUI/resources.qrc
@@ -113,7 +116,7 @@ RESOURCES += \
 win32:LIBS += -L$$PWD/src/GUI/QScintilla/ -lqscintilla2
 else:unix: LIBS += -lqt5scintilla2
 
-win32:INCLUDEPATH += $$PWD/src/GUI/QScintilla \
+win32:INCLUDEPATH += $$PWD/src/GUI/QScintilla
 INCLUDEPATH += $$PWD/src \
     $$PWD/src/GUI \
     $$PWD/src/GUI/audio \

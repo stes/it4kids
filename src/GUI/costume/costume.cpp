@@ -1,10 +1,14 @@
 #include "costume.h"
 
+#include "mainwindow.h"
 #include "sprite.h"
+
+extern MainWindow* _sMainWindow;
 
 Costume::Costume(Sprite* parent) : QWidget(parent), _costume(400, 400, QImage::Format_ARGB32)
 {
     connect(this, SIGNAL(costumeSelected(Costume*)), parent, SLOT(setCurrentCostume(Costume*)));
+    connect(this, SIGNAL(costumeSelected(Costume*)), _sMainWindow, SLOT(setCurrentCostume(Costume*)));
 
     setLayout(&_layout);
     setFixedWidth(88);
