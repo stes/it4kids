@@ -13,12 +13,18 @@ void CodeGenerator::generateFile(){
     QString str = "";
     SpriteVector* spriteVec = _Mainwindow->getSpriteVector();
 
+    str += readMap("$import");
+
+    //every Sprite
     for(SpriteVector::iterator it = spriteVec->begin(); it != spriteVec->end(); ++it)
     {
         //create class file
-        str += "\nclass " + (*it)->getName() + "(Entity):\n";
+        str += "class " + (*it)->getName() + "(it4k.Entity):\n\n";
 
+        str += readMap("$construct");
+        //str+= "    def __init__(self):\n        image = pyglet.resource.image('Assets/Costumes/dog2-a.png')\n        it4k.Entity.__init__(self, image)\n\n";
 
+        //check every block for "header"-Block
         DragElemVector * eleVec = (*it)->getDragElemVector();
         for(DragElemVector::iterator it2 = eleVec->begin(); it2 != eleVec->end(); ++it2)
         {
@@ -30,6 +36,11 @@ void CodeGenerator::generateFile(){
                 //qDebug() << generateCode(*it2,0);
             }
         }
+
+        str += "\n" + readMap("$append");
+        //str += "def init(create_window=False):\n    myApp = it4k.App('Assets/Backgrounds/desert.gif', create_window=create_window)\n    entities = inspect.getmembers(sys.modules[__name__], inspect.isclass)\n    for entity in entities:\n        myApp.add_entity((entity[1])())\nif  __name__ ==  \"__main__\":\n    init(True)\n    pyglet.app.run()";
+
+        str += "\n";
     }
 
     //write to file
@@ -73,7 +84,7 @@ QString CodeGenerator::subident(int sub)
     QString str ="";
     for (int i = 0; i<sub;i++)
     {
-        str += "    ";//map["tab"];
+        str += readMap("$tab");
     }
     return str;
 }
@@ -94,19 +105,51 @@ QString CodeGenerator::dict(ArgumentStruct* argument)
     }
 
     str.replace("%1",argument->arg1);
+    str.replace("%2",argument->arg2);
+    str.replace("%3",argument->arg3);
+    str.replace("%4",argument->arg4);
+    str.replace("%5",argument->arg5);
 
     return str;
 }
 
 void CodeGenerator::generateMap()
 {
-    //todo from file
-    map.insert("receiveGo","def receiveGO():");
-    map.insert("forward", "forward(%1)");
-    map.insert("turn","turn(%1)");
-    map.insert("turnLeft","turnLeft(%1)");
-    map.insert("doRepeat","for a in range(%1):");
-   // map.insert(,);
+    QFile file("..\\it4kids\\src\\in.txt");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        qDebug() << "Python datei konnte nicht geladen werden";
+        return;
+    }
+    int n = 0;
+    int err = 0;
 
+    while (!file.atEnd()) {
+        QString line = file.readLine();
+        line.replace("\n","");
+        line.replace("\\n", "\n");
 
+        QStringList list = line.split("@@",QString::SkipEmptyParts);
+
+        if (list.length() == 2)
+        {
+            map.insert(list[0], list[1]);
+
+        }
+        else
+        {
+            qDebug() << "invalide command line: " << line;
+            err++;
+        }
+        n++;
+    }
+    qDebug() << n-err << "/" << n << "lines loadet";
+}
+
+QString CodeGenerator::readMap(QString arg)
+{
+    if (map.contains(arg))
+    {
+        return map[arg];
+    }
 }

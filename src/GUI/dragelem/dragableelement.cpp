@@ -310,11 +310,42 @@ ArgumentStruct* DragableElement::getArguments()
 
     std::vector<Param*>* v =  this->getParamsVector();
 
-    if (v->size() != 1)
+    if (v->size() == 0)
     {
-        qDebug() << "#params: " << v->size();
-    } else {
+       //nothing
+    } else if (v->size() == 1)
+    {
         stru->arg1 = ((*v)[0])->getValue();
+    }
+    else if (v->size() == 2)
+    {
+        stru->arg1 = ((*v)[0])->getValue();
+        stru->arg2 = ((*v)[1])->getValue();
+    }
+    else if (v->size() == 3)
+    {
+        stru->arg1 = ((*v)[0])->getValue();
+        stru->arg2 = ((*v)[1])->getValue();
+        stru->arg3 = ((*v)[2])->getValue();
+    }
+    else if (v->size() == 4)
+    {
+        stru->arg1 = ((*v)[0])->getValue();
+        stru->arg2 = ((*v)[1])->getValue();
+        stru->arg3 = ((*v)[2])->getValue();
+        stru->arg4 = ((*v)[3])->getValue();
+    }
+    else if (v->size() == 5)
+    {
+        stru->arg1 = ((*v)[0])->getValue();
+        stru->arg2 = ((*v)[1])->getValue();
+        stru->arg3 = ((*v)[2])->getValue();
+        stru->arg4 = ((*v)[3])->getValue();
+        stru->arg5 = ((*v)[4])->getValue();
+    }
+    else
+    {
+         qDebug() << "#params to high: " << v->size();
     }
 
     return stru;
