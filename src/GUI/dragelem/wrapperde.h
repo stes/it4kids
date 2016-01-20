@@ -15,6 +15,7 @@ public:
     void moveNextElems(QPoint offset);
     inline int getHeight() {return _height+22+_innerHeight;}
     int getNumberElements();
+    DragableElement* getWrapElem();
 
     ~WrapperDE();
 protected:
