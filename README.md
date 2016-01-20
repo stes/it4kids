@@ -61,7 +61,9 @@ Aktuell befindet sich der Editor in aktiver Entwicklung. Eine erste Alpha Versio
 ## Das IT4Kids Lehrkonzept
 
 Unser Lehrkonzept ist unser der Creative Commons Lizenz verfügbar und findet sich hier im Repository im Ordner
-```docs```
+```
+docs
+```
 
 Das Material wird [auf unserer Homepage](www.it-for-kids.org/projects) gesammelt. Auf dieser Grundlage wird in regelmäßigen Abständen der Inhalt im Repo aktualisiert. Wir arbeiten an einer Synchronisation zwischen dem Inhalt auf unserer Homepage, unserem Repository und dem [deutschsprachigen Scratch-Wiki](http://scratch-dach.info/wiki/Kategorie:IT4Kids_Projektsammlung).
 
