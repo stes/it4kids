@@ -8,8 +8,6 @@ QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
-
-
 INCLUDEPATH += src
 DESTDIR=bin #Target file directory
 OBJECTS_DIR=generated #Intermediate object files directory
@@ -124,6 +122,7 @@ win32:LIBS += -L$$PWD/src/GUI/QScintilla/ -lqscintilla2
 else:unix: LIBS += -lqt5scintilla2
 
 win32:INCLUDEPATH += $$PWD/src/GUI/QScintilla
+unix:INCLUDEPATH += /usr/include/qt/Qsci
 
 INCLUDEPATH += $$PWD/src \
     $$PWD/src/GUI \
