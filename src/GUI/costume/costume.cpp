@@ -1,7 +1,11 @@
 #include "costume.h"
 
-Costume::Costume(QWidget* parent) : QWidget(parent)
+#include "sprite.h"
+
+Costume::Costume(Sprite* parent) : QWidget(parent), _costume(400, 400, QImage::Format_ARGB32)
 {
+    connect(this, SIGNAL(costumeSelected(Costume*)), parent, SLOT(setCurrentCostume(Costume*)));
+
     setLayout(&_layout);
     setFixedWidth(88);
     _layout.setAlignment(Qt::AlignTop | Qt::AlignHCenter);
@@ -11,6 +15,10 @@ Costume::Costume(QWidget* parent) : QWidget(parent)
     _costumeLabel.setFixedSize(40, 40);
 
     _layout.addWidget(&_nameLabel);
+    _nameLabel.setAlignment(Qt::AlignHCenter);
+
+    _costume.fill(Qt::red);
+    _costumeLabel.setPixmap(QPixmap::fromImage(_costume).scaled(40, 40));
 }
 
 bool Costume::open(const QString &fileName)
@@ -23,4 +31,9 @@ bool Costume::open(const QString &fileName)
     _costumeLabel.setPixmap(QPixmap::fromImage(_costume).scaled(40, 40));
     hide();
     return true;
+}
+
+void Costume::mousePressEvent(QMouseEvent *)
+{
+    emit costumeSelected(this);
 }

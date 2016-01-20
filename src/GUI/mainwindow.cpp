@@ -31,27 +31,25 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint);
 
-    Sprite* figure = new Sprite(ui->scriptArea);
-    Sprite* sprite = new Sprite(ui->scriptArea);
+    _audioEngine = new AudioEngine(this);
+    connect(this, SIGNAL(currentSpriteChanged(Sprite*)), _audioEngine, SLOT(setCurrentSprite(Sprite*)));
+
+    Sprite* figure = new Sprite(this);
+    Sprite* sprite = new Sprite(this);
     ui->spriteSelect->addSprite(figure);
     ui->spriteSelect->addSprite(sprite);
-    ui->scriptArea->setCurrentSprite(figure);
     _currentSprite = figure;
-
-    _backgroundSprite = new Sprite(ui->scriptArea);
-
-    _audioEngine = new AudioEngine(this);
-    _audioEngine->setCurrentSprite(figure);
+    _backgroundSprite = new Sprite(this);
+    ((QHBoxLayout*) ui->selectionBackground->layout())->insertWidget(0, _backgroundSprite);
+    emit currentSpriteChanged(figure);
 
     InitializeDragElem(":/blocks.xml");
 
-    ui->categorySelect->setElemListWidget(ui->elementList);
+    //ui->categorySelect->setElemListWidget(ui->elementList);
     ui->categorySelect->setScriptAreaWidget(ui->scriptArea);
 
     connect(this, SIGNAL(newSound()), ui->soundSelect, SLOT(updateSoundList()));
     connect(this, SIGNAL(newCostume()), ui->costumeSelect, SLOT(updateCostumeList()));
-    ui->soundSelect->changeCurrentSprite(figure);
-    ui->costumeSelect->changeCurrentSprite(figure);
 
     QFont font;
     font.setFamily("Consolas");
@@ -83,7 +81,8 @@ MainWindow::MainWindow(QWidget *parent) :
     _bearbeitenMenu.addAction("Kleine Bühnengröße");
     _bearbeitenMenu.addAction("Turbo-Modus");
 
-    //connect(ui->listAddDragElem, SIGNAL(customContextMenuRequested(QPoint), this, SLOT(customContextMenuRequestedAddDragElem(QPoint));
+    connect(ui->listAddDragElem, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequestedAddDragElem(QPoint)));
+
 }
 
 SpriteVector* MainWindow::getSpriteVector()
@@ -146,7 +145,7 @@ void MainWindow::InitializeDragElem(const QString& path)
             else if(type == "dragelemcategory")
             {
                 attributes = xmlReader.attributes();
-                DragElemCategory* category = new DragElemCategory(attributes.value("name").toString(), QColor(attributes.value("color").toString()), this);
+                DragElemCategory* category = new DragElemCategory(ui->elementList, attributes.value("name").toString(), QColor(attributes.value("color").toString()), this);
                 ui->categorySelect->_categoryList.push_back(category);
             }
         }
@@ -176,7 +175,7 @@ void MainWindow::on_soundFromFile_clicked()
     {
         _audioEngine->loadFile(fileNames.front());
     }
-    Q_EMIT newSound();
+    emit newSound();
 }
 
 void MainWindow::on_costumeFromFile_clicked()
@@ -244,4 +243,9 @@ void MainWindow::customContextMenuRequestedAddDragElem(const QPoint &pos)
 void MainWindow::eraseItemAddDragElem()
 {
     qDeleteAll(ui->listAddDragElem->selectedItems());
+}
+
+void MainWindow::on_MainWindow_currentSpriteChanged(Sprite *)
+{
+
 }

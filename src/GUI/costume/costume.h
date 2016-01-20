@@ -7,17 +7,25 @@
 #include <QVBoxLayout>
 #include <QWidget>
 
+class Sprite;
+
 class Costume : public QWidget
 {
     Q_OBJECT
 public:
-    Costume(QWidget* parent = 0);
+    Costume(Sprite* parent = 0);
 
     bool open(const QString &fileName);
     inline QImage* getImage() {return &_costume;}
+    inline void createBlank() { }
     inline QString getName() {return _name;}
 
+signals:
+    void costumeSelected(Costume* costume);
+
 protected:
+    void mousePressEvent(QMouseEvent*);
+
     QImage _costume;
 
     QVBoxLayout _layout;

@@ -1,4 +1,5 @@
 #include "costumeselect.h"
+#include "QDebug"
 
 #include "costume.h"
 #include "sprite.h"
@@ -10,7 +11,7 @@ CostumeSelect::CostumeSelect(QWidget *parent) : QWidget(parent)
     _layout.setAlignment(Qt::AlignTop | Qt::AlignHCenter);
 }
 
-void CostumeSelect::changeCurrentSprite(Sprite* sprite)
+void CostumeSelect::setCurrentSprite(Sprite* sprite)
 {
     _currentSprite = sprite;
     updateCostumeList();

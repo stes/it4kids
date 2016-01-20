@@ -24,4 +24,3 @@ void DragElemList::changeActiveList(ElementList *elemList)
         (*element)->show();
     }
 }
-

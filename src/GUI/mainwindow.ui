@@ -188,22 +188,6 @@
           <property name="spacing">
            <number>0</number>
           </property>
-          <item row="1" column="0">
-           <widget class="QWidget" name="selectionBackground" native="true">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>75</width>
-              <height>0</height>
-             </size>
-            </property>
-           </widget>
-          </item>
           <item row="0" column="1">
            <widget class="QFrame" name="upperSpriteFrame">
             <property name="sizePolicy">
@@ -343,7 +327,7 @@
                </property>
                <property name="icon">
                 <iconset resource="resources.qrc">
-                 <normaloff>:/Assets/landscapeOff.png</normaloff>:/Assets/landscapeOff.png</iconset>
+                 <normaloff>:/Assets/cameraOff.png</normaloff>:/Assets/cameraOff.png</iconset>
                </property>
                <property name="flat">
                 <bool>true</bool>
@@ -376,7 +360,14 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QFrame" name="frame_5">
+           <widget class="QFrame" name="spriteSelectionFrame">
+            <property name="styleSheet">
+             <string notr="true">QFrame#spriteSelectionFrame
+{
+	background-color: rgb(231, 233, 233);
+	border-left: 1px solid #d0d1d2;
+}</string>
+            </property>
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
             </property>
@@ -411,6 +402,151 @@
                 <size>
                  <width>40</width>
                  <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QFrame" name="selectionBackground">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>75</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QFrame#selectionBackground
+{
+	background-color: rgb(231, 233, 233);
+} </string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_8">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="newBg">
+               <property name="text">
+                <string>Neues Bühnenbild</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QFrame" name="bgFrame">
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_18">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QPushButton" name="bgFromLibaray">
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="resources.qrc">
+                    <normaloff>:/Assets/landscapeOff.png</normaloff>:/Assets/landscapeOff.png</iconset>
+                  </property>
+                  <property name="flat">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="bgFromDraw">
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="resources.qrc">
+                    <normaloff>:/Assets/paintbrushOff.png</normaloff>:/Assets/paintbrushOff.png</iconset>
+                  </property>
+                  <property name="flat">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="bgFromFile">
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="resources.qrc">
+                    <normaloff>:/Assets/importOff.png</normaloff>:/Assets/importOff.png</iconset>
+                  </property>
+                  <property name="flat">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="bgFromPhoto">
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="resources.qrc">
+                    <normaloff>:/Assets/cameraOff.png</normaloff>:/Assets/cameraOff.png</iconset>
+                  </property>
+                  <property name="flat">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
                 </size>
                </property>
               </spacer>
@@ -619,7 +755,7 @@ QMenu
        </size>
       </property>
       <property name="currentIndex">
-       <number>4</number>
+       <number>2</number>
       </property>
       <property name="tabBarAutoHide">
        <bool>false</bool>
@@ -1089,21 +1225,61 @@ color: #5c5d5f;</string>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_10">
               <item>
-               <widget class="QLineEdit" name="lineEdit_2"/>
+               <widget class="QLineEdit" name="lineEdit_2">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+               </widget>
               </item>
               <item>
                <widget class="QPushButton" name="pushButton_10">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
-                 <string>PushButton</string>
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources.qrc">
+                  <normaloff>:/Assets/undoOff.png</normaloff>:/Assets/undoOff.png</iconset>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QPushButton" name="pushButton_9">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
                 <property name="text">
-                 <string>PushButton</string>
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources.qrc">
+                  <normaloff>:/Assets/redoOff.png</normaloff>:/Assets/redoOff.png</iconset>
                 </property>
                </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_4">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
               </item>
              </layout>
             </widget>
@@ -1144,41 +1320,132 @@ color: #5c5d5f;</string>
              <layout class="QHBoxLayout" name="horizontalLayout_12">
               <item>
                <widget class="QPushButton" name="pushButton_11">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
                 <property name="text">
-                 <string>PushButton</string>
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources.qrc">
+                  <normaloff>:/Assets/playOff.png</normaloff>:/Assets/playOff.png</iconset>
+                </property>
+                <property name="flat">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QPushButton" name="pushButton_12">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
                 <property name="text">
-                 <string>PushButton</string>
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources.qrc">
+                  <normaloff>:/Assets/soundStopOff.png</normaloff>:/Assets/soundStopOff.png</iconset>
+                </property>
+                <property name="flat">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QPushButton" name="pushButton_14">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
                 <property name="text">
-                 <string>PushButton</string>
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources.qrc">
+                  <normaloff>:/Assets/pauseOff.png</normaloff>:/Assets/pauseOff.png</iconset>
+                </property>
+                <property name="flat">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QPushButton" name="pushButton_15">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
                 <property name="text">
-                 <string>PushButton</string>
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources.qrc">
+                  <normaloff>:/Assets/rewindOff.png</normaloff>:/Assets/rewindOff.png</iconset>
+                </property>
+                <property name="flat">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QPushButton" name="pushButton_13">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>0</height>
+                 </size>
+                </property>
                 <property name="text">
-                 <string>PushButton</string>
+                 <string/>
+                </property>
+                <property name="icon">
+                 <iconset resource="resources.qrc">
+                  <normaloff>:/Assets/forwardOff.png</normaloff>:/Assets/forwardOff.png</iconset>
+                </property>
+                <property name="flat">
+                 <bool>true</bool>
                 </property>
                </widget>
               </item>
+              <item>
+               <spacer name="horizontalSpacer_5">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
              </layout>
             </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </widget>
@@ -1446,6 +1713,9 @@ color: #5c5d5f;</string>
    <extends>QWidget</extends>
    <header location="global">scriptarea.h</header>
    <container>1</container>
+   <slots>
+    <slot>setCurrentSprite(Sprite*)</slot>
+   </slots>
   </customwidget>
   <customwidget>
    <class>SpriteSelect</class>
@@ -1458,12 +1728,18 @@ color: #5c5d5f;</string>
    <extends>QWidget</extends>
    <header location="global">soundselect.h</header>
    <container>1</container>
+   <slots>
+    <slot>setCurrentSprite(Sprite*)</slot>
+   </slots>
   </customwidget>
   <customwidget>
    <class>CostumeSelect</class>
    <extends>QWidget</extends>
    <header location="global">costumeselect.h</header>
    <container>1</container>
+   <slots>
+    <slot>setCurrentSprite(Sprite*)</slot>
+   </slots>
   </customwidget>
   <customwidget>
    <class>QsciScintilla</class>
@@ -1530,8 +1806,57 @@ color: #5c5d5f;</string>
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>MainWindow</sender>
+   <signal>currentSpriteChanged(Sprite*)</signal>
+   <receiver>scriptArea</receiver>
+   <slot>setCurrentSprite(Sprite*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>848</x>
+     <y>27</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>841</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MainWindow</sender>
+   <signal>currentSpriteChanged(Sprite*)</signal>
+   <receiver>soundSelect</receiver>
+   <slot>setCurrentSprite(Sprite*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>476</x>
+     <y>272</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>544</x>
+     <y>206</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>MainWindow</sender>
+   <signal>currentSpriteChanged(Sprite*)</signal>
+   <receiver>costumeSelect</receiver>
+   <slot>setCurrentSprite(Sprite*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>476</x>
+     <y>272</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>544</x>
+     <y>311</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
+  <signal>currentSpriteChanged(Sprite*)</signal>
   <slot>loadSoundFromFile()</slot>
   <slot>customContextMenuRequestedAddDragElem(QPoint)</slot>
  </slots>

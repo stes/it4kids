@@ -15,6 +15,8 @@ public:
     inline bool setValue(const QString &) {return 0;}
 
     ~ParamSound();
+public slots:
+    void updateSoundList();
 };
 
 #endif // PARAMSOUND_H

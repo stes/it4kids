@@ -29,11 +29,12 @@ public:
     SpriteVector* getSpriteVector();
     inline Sprite* getCurrentSprite() {return _currentSprite;}
 
-Q_SIGNALS:
+signals:
+    void currentSpriteChanged(Sprite* sprite);
     void newSound();
     void newCostume();
 
-private Q_SLOTS:
+private slots:
     void on_soundFromFile_clicked();
     void on_costumeFromFile_clicked();
     void on_buttonFile_clicked();
@@ -42,6 +43,7 @@ private Q_SLOTS:
 
     void customContextMenuRequestedAddDragElem(const QPoint &pos);
     void eraseItemAddDragElem();
+    void on_MainWindow_currentSpriteChanged(Sprite *);
 private:
     void InitializeDragElem(const QString& path);
     DragElemCategory* GetCategoryByName(const QString& name);

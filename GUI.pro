@@ -120,9 +120,10 @@ RESOURCES += \
     src/GUI/resources.qrc
 
 
-win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/src/GUI/QScintilla/ -lqscintilla2
-else:win32:CONFIG(release, debug|release): LIBS += -L$$PWD/src/GUI/QScintilla/ -lqscintilla2
+win32:LIBS += -L$$PWD/src/GUI/QScintilla/ -lqscintilla2
 else:unix: LIBS += -lqt5scintilla2
+
+win32:INCLUDEPATH += $$PWD/src/GUI/QScintilla
 
 INCLUDEPATH += $$PWD/src \
     $$PWD/src/GUI \
