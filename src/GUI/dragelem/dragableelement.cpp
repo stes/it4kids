@@ -24,6 +24,7 @@
 #include "paramtouch.h"
 #include "paramtype.h"
 #include "paramvariables.h"
+#include "structs.h"
 
 DragableElement::DragableElement(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget, QWidget* parent) :
     QWidget(parent), _color(color), _text(text), _identifier(identifier), _dragged(false),
@@ -299,6 +300,24 @@ void DragableElement::parseText(const QString &text, DragableElement *element)
             element->_layout.addWidget(text);
         }
     }
+}
+
+ArgumentStruct* DragableElement::getArguments()
+{
+    ArgumentStruct* stru = new ArgumentStruct;
+    stru->type = (_type == "hat");
+    stru->name = _identifier;
+
+    std::vector<Param*>* v =  this->getParamsVector();
+
+    if (v->size() != 1)
+    {
+        qDebug() << "#params: " << v->size();
+    } else {
+        stru->arg1 = ((*v)[0])->getValue();
+    }
+
+    return stru;
 }
 
 DragableElement::~DragableElement()

@@ -19,15 +19,14 @@
 #include "wrapperde.h"
 #include "predicatede.h"
 #include "reporterde.h"
+<<<<<<< HEAD
 #include "qscilexerpython.h"
+=======
+#include "Qsci/qscilexerpython.h"
 #include "newspritename.h"
+>>>>>>> ff84895f1300d3e1f58a63b925f71aef2438b1a0
 
 MainWindow* _sMainWindow = 0;
-
-SpriteVector* MainWindow::getSpriteVector()
-{
-   return ui->spriteSelect->getSpriteVector();
-}
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -82,9 +81,6 @@ MainWindow::MainWindow(QWidget *parent) :
     lexer.setDefaultFont(font);
     ui->codeEditor->setLexer(&lexer);
 
-
-    _Cgen= new CodeGenerator(this);
-
     _dateiMenu.addAction("Neu");
     _dateiMenu.addAction("Hochladen von deinem Computer");
     _dateiMenu.addAction("Herunterladen auf deinen Computer");
@@ -94,9 +90,13 @@ MainWindow::MainWindow(QWidget *parent) :
     _bearbeitenMenu.addAction("Kleine Bühnengröße");
     _bearbeitenMenu.addAction("Turbo-Modus");
 
-
     connect(ui->listAddDragElem, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequestedAddDragElem(QPoint)));
 
+}
+
+SpriteVector* MainWindow::getSpriteVector()
+{
+    return ui->spriteSelect->getSpriteVector();
 }
 
 void MainWindow::InitializeDragElem(const QString& path)
@@ -208,21 +208,6 @@ void MainWindow::on_buttonFile_clicked()
 void MainWindow::on_buttonEdit_clicked()
 {
     _bearbeitenMenu.popup(ui->buttonEdit->pos()+QPoint(0, 23));
-}
-
-void MainWindow::on_buttonScriptStart_clicked()
-{
-    _Cgen->generateFile();
-
-    QFile file("out.txt");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return;
-
-    QTextStream in(&file);
-    //QString s = in.readAll();
-    //qDebug() << s;
-    ui->codeEditor->setText(in.readAll());
-    file.close();
 }
 
 void MainWindow::on_buttonAddDragElem_clicked()

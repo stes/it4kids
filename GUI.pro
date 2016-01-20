@@ -64,7 +64,9 @@ SOURCES += src/main.cpp\
     src/GUI/dragelem/scriptdock.cpp \
     src/GUI/dragelem/wrapperde.cpp \
     src/GUI/teacher/studentlist.cpp \
-    src/GUI/newspritename.cpp
+    src/GUI/newspritename.cpp\
+    src/GUI/codegenerator.cpp\
+    src/GUI/structs.cpp
 
 HEADERS  += src/GUI/mainwindow.h \
     src/GUI/scene.h \
@@ -112,7 +114,9 @@ HEADERS  += src/GUI/mainwindow.h \
     src/GUI/dragelem/scriptdock.h \
     src/GUI/dragelem/wrapperde.h \
     src/GUI/teacher/studentlist.h \
-    src/GUI/newspritename.h
+    src/GUI/newspritename.h\
+    src/GUI/codegenerator.h\
+    src/GUI/structs.h
 
 FORMS    += src/GUI/mainwindow.ui \
     src/GUI/newspritename.ui

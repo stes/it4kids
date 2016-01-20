@@ -138,6 +138,11 @@ void WrapperDE::hitTest()
     if(!_prevElem) _upperDock->activate();
 }
 
+DragableElement* WrapperDE::getWrapElem()
+{
+    return _innerDock->getDockedElem();
+}
+
 WrapperDE::~WrapperDE()
 {
 

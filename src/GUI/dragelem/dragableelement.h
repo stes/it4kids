@@ -21,6 +21,7 @@
 #include <QDebug>
 
 class DockingArea;
+struct ArgumentStruct;
 class Param;
 
 class DragableElement : public QWidget
@@ -35,6 +36,7 @@ public:
     inline virtual void setScriptAreaWidget(ScriptArea *scriptAreaWidget) {_scriptAreaWidget = scriptAreaWidget;}
 
     inline void setCurrentDock(DockingArea* dock) {_currentDock = dock;}
+    //inline DockingArea* getDockElem() {return _currentDock;}
     inline void setPrevElem(DragableElement* elem) {_prevElem = elem;}
     inline DragableElement* getPrevElem() {return _prevElem;}
     inline void setNextElem(DragableElement* elem) {_nextElem = elem;}
@@ -45,11 +47,17 @@ public:
     virtual inline int getHeight() {return _height;}
 
     virtual void resize() = 0;
+    virtual DragableElement* getWrapElem(){return (DragableElement*)0;}
 
     virtual void moveNextElems(QPoint offset);
     virtual void movePrevElems(QPoint offset);
 
     virtual ~DragableElement();
+
+    QString getType() {return _type;}
+    QString getIdent(){return _identifier;}
+    ArgumentStruct* getArguments();
+
 protected:
     QColor _color;
     QString _text;

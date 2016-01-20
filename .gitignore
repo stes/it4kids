@@ -228,3 +228,8 @@ sympy-plots-for-*.tex/
 # WinEdt
 *.bak
 *.sav
+
+
+*.swp
+.*.swp
+*.orig

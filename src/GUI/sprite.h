@@ -37,7 +37,7 @@ public:
     inline void addCostume(Costume* costume) {_costumeVector.push_back(costume);}
 
     inline Costume* getCurrentConstume() {return _costumeVector[_currentCostumeIndex]; }
-
+    DragElemVector* getDragElemVector() {return &_dragElemVector;}
     ~Sprite();
 signals:
     void spriteSelected(Sprite* sprite);
