@@ -113,7 +113,8 @@ RESOURCES += \
 win32:LIBS += -L$$PWD/src/GUI/QScintilla/ -lqscintilla2
 else:unix: LIBS += -lqt5scintilla2
 
-win32:INCLUDEPATH += $$PWD/src/GUI/QScintilla \
+win32:INCLUDEPATH += $$PWD/src/GUI/QScintilla
+
 INCLUDEPATH += $$PWD/src \
     $$PWD/src/GUI \
     $$PWD/src/GUI/audio \
