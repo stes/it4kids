@@ -44,9 +44,9 @@ class Entity(object):
 	def check_pos(self, x, y):
 		tmpx = x - self.sprite.x
 		tmpy = y - self.sprite.y
-		if abs(tmpx) < self.sprite.width / 2 and abs(tmpy) < self.sprite.height / 2:
-			x = tmpx * math.cos(math.radians(self.sprite.rotation)) - tmpy * math.sin(math.radians(self.sprite.rotation)) + self.sprite.width / 2
-			y = tmpx * math.sin(math.radians(self.sprite.rotation)) + tmpy * math.cos(math.radians(self.sprite.rotation)) + self.sprite.height / 2
+		x = tmpx * math.cos(math.radians(self.sprite.rotation)) - tmpy * math.sin(math.radians(self.sprite.rotation)) + self.sprite.width / 2
+		y = tmpx * math.sin(math.radians(self.sprite.rotation)) + tmpy * math.cos(math.radians(self.sprite.rotation)) + self.sprite.height / 2
+		if x > 0 and y > 0 and x < self.sprite.width and y < self.sprite.height:
 			ix = int(x / self.sprite.scale)
 			iy = int(y / self.sprite.scale)
 			data = get_pixel(self.sprite.image, ix, iy)
