@@ -39,12 +39,44 @@ Scene::Scene(QWidget *parent) : QOpenGLWidget(parent)
     timer->start();
 }
 
+void Scene::callMethod(PyObject *pModule, const char *pName, PyObject *pArgs)
+{
+    PyObject *pValue, *pFunc;
+
+    if(pModule)
+    {
+        pFunc = PyObject_GetAttrString(pModule, pName);
+
+        if(pFunc && PyCallable_Check(pFunc))
+        {
+            // TODO: do some checks here
+            pValue = PyObject_CallObject(pFunc, pArgs);
+            if(pValue != NULL)
+            {
+                //printf("Result of resize: %ld\n", PyInt_AsLong(pValue));
+                Py_DECREF(pValue);
+            }
+            else
+            {
+                PyErr_Print();
+                fprintf(stderr, "Call failed\n");
+            }
+        }
+        else
+        {
+            if(PyErr_Occurred())
+                PyErr_Print();
+            fprintf(stderr, "Cannot find function\n");
+        }
+        Py_XDECREF(pFunc);
+    }
+}
+
 void Scene::loadApp(const char *pAppName)
 {
-    PyObject *pName, *pValue, *pFunc;
     if(m_pModule == NULL)
     {
-        pName = PyString_FromString(pAppName);
+        PyObject *pName = PyString_FromString(pAppName);
         m_pModule = PyImport_Import(pName);
         Py_DECREF(pName);
     }
@@ -57,31 +89,7 @@ void Scene::loadApp(const char *pAppName)
         fprintf(stderr, "Failed to load module\n");
     }
     else
-    {
-        pFunc = PyObject_GetAttrString(m_pModule, "init");
-
-        if(pFunc && PyCallable_Check(pFunc))
-        {
-            pValue = PyObject_CallObject(pFunc, 0);
-            if(pValue != NULL)
-            {
-                //printf("Result of init: %ld\n", PyInt_AsLong(pValue));
-                Py_DECREF(pValue);
-            }
-            else
-            {
-                PyErr_Print();
-                fprintf(stderr, "Call failed\n");
-            }
-        }
-        else
-        {
-            if(PyErr_Occurred())
-                PyErr_Print();
-            fprintf(stderr, "Cannot find function\n");
-        }
-        Py_XDECREF(pFunc);
-    }
+        callMethod(m_pModule, "init");
 }
 
 void Scene::initializeGL()
@@ -91,148 +99,49 @@ void Scene::initializeGL()
 
 void Scene::resizeGL(int w, int h)
 {
-    PyObject *pValue, *pFunc, *pArgs;
+    PyObject *pValue, *pArgs;
+    pArgs = PyTuple_New(2);
+    pValue = PyInt_FromLong(w);
+    PyTuple_SetItem(pArgs, 0, pValue);
+    pValue = PyInt_FromLong(h);
+    PyTuple_SetItem(pArgs, 1, pValue);
 
-    if(m_pIT4KModule)
-    {
-        pFunc = PyObject_GetAttrString(m_pIT4KModule, "resize");
-
-        if(pFunc && PyCallable_Check(pFunc))
-        {
-            // TODO: do some checks here
-            pArgs = PyTuple_New(2);
-            pValue = PyInt_FromLong(w);
-            PyTuple_SetItem(pArgs, 0, pValue);
-            pValue = PyInt_FromLong(h);
-            PyTuple_SetItem(pArgs, 1, pValue);
-            pValue = PyObject_CallObject(pFunc, pArgs);
-            Py_DECREF(pArgs);
-            if(pValue != NULL)
-            {
-                //printf("Result of resize: %ld\n", PyInt_AsLong(pValue));
-                Py_DECREF(pValue);
-            }
-            else
-            {
-                PyErr_Print();
-                fprintf(stderr, "Call failed\n");
-            }
-        }
-        else
-        {
-            if(PyErr_Occurred())
-                PyErr_Print();
-            fprintf(stderr, "Cannot find function\n");
-        }
-        Py_XDECREF(pFunc);
-    }
+    callMethod(m_pIT4KModule, "resize", pArgs);
+    Py_DECREF(pArgs);
+    Py_DECREF(pValue);
 }
 
 void Scene::paintGL()
 {
-    PyObject *pValue, *pFunc;
-
-    if(m_pIT4KModule)
-    {
-        pFunc = PyObject_GetAttrString(m_pIT4KModule, "draw");
-
-        if(pFunc && PyCallable_Check(pFunc))
-        {
-            pValue = PyObject_CallObject(pFunc, 0);
-            if(pValue != NULL)
-            {
-                //printf("Result of draw: %ld\n", PyInt_AsLong(pValue));
-                Py_DECREF(pValue);
-            }
-            else
-            {
-                PyErr_Print();
-                fprintf(stderr, "Call failed\n");
-            }
-        }
-        else
-        {
-            if(PyErr_Occurred())
-                PyErr_Print();
-            fprintf(stderr, "Cannot find function\n");
-        }
-        Py_XDECREF(pFunc);
-    }
+    callMethod(m_pIT4KModule, "draw");
 }
 
-void Scene::sendGO()
+void Scene::sendStart()
 {
-    PyObject *pValue, *pFunc;
+    callMethod(m_pIT4KModule, "start");
+}
 
-    if(m_pIT4KModule)
-    {
-        pFunc = PyObject_GetAttrString(m_pIT4KModule, "start");
-
-        if(pFunc && PyCallable_Check(pFunc))
-        {
-            pValue = PyObject_CallObject(pFunc, 0);
-            if(pValue != NULL)
-            {
-                //printf("Result of draw: %ld\n", PyInt_AsLong(pValue));
-                Py_DECREF(pValue);
-            }
-            else
-            {
-                PyErr_Print();
-                fprintf(stderr, "Call failed\n");
-            }
-        }
-        else
-        {
-            if(PyErr_Occurred())
-                PyErr_Print();
-            fprintf(stderr, "Cannot find function\n");
-        }
-        Py_XDECREF(pFunc);
-    }
+void Scene::sendStop()
+{
+    callMethod(m_pIT4KModule, "stop");
 }
 
 void Scene::mousePressEvent(QMouseEvent* event)
 {
-    PyObject *pValue, *pFunc, *pArgs;
+    PyObject *pValue, *pArgs;
+    pArgs = PyTuple_New(4);
+    pValue = PyInt_FromLong(event->x());
+    PyTuple_SetItem(pArgs, 0, pValue);
+    pValue = PyInt_FromLong(height() - event->y());
+    PyTuple_SetItem(pArgs, 1, pValue);
+    pValue = PyInt_FromLong(0);
+    PyTuple_SetItem(pArgs, 2, pValue);
+    pValue = PyInt_FromLong(0);
+    PyTuple_SetItem(pArgs, 3, pValue);
 
-    if(m_pIT4KModule)
-    {
-        pFunc = PyObject_GetAttrString(m_pIT4KModule, "mouse_press");
-
-        if(pFunc && PyCallable_Check(pFunc))
-        {
-            // TODO: do some checks here
-            pArgs = PyTuple_New(4);
-            pValue = PyInt_FromLong(event->x());
-            PyTuple_SetItem(pArgs, 0, pValue);
-            pValue = PyInt_FromLong(height() - event->y());
-            PyTuple_SetItem(pArgs, 1, pValue);
-            pValue = PyInt_FromLong(0);
-            PyTuple_SetItem(pArgs, 2, pValue);
-            pValue = PyInt_FromLong(0);
-            PyTuple_SetItem(pArgs, 3, pValue);
-            pValue = PyObject_CallObject(pFunc, pArgs);
-            Py_DECREF(pArgs);
-            if(pValue != NULL)
-            {
-                //printf("Result of resize: %ld\n", PyInt_AsLong(pValue));
-                Py_DECREF(pValue);
-            }
-            else
-            {
-                PyErr_Print();
-                fprintf(stderr, "Call failed\n");
-            }
-        }
-        else
-        {
-            if(PyErr_Occurred())
-                PyErr_Print();
-            fprintf(stderr, "Cannot find function\n");
-        }
-        Py_XDECREF(pFunc);
-    }
+    callMethod(m_pIT4KModule, "mouse_press", pArgs);
+    Py_DECREF(pArgs);
+    Py_DECREF(pValue);
 
     _prevMouseX = event->x();
     _prevMouseY = height() - event->y();
@@ -240,92 +149,42 @@ void Scene::mousePressEvent(QMouseEvent* event)
 
 void Scene::mouseReleaseEvent(QMouseEvent* event)
 {
-    PyObject *pValue, *pFunc, *pArgs;
+    PyObject *pValue, *pArgs;
+    pArgs = PyTuple_New(4);
+    pValue = PyInt_FromLong(event->x());
+    PyTuple_SetItem(pArgs, 0, pValue);
+    pValue = PyInt_FromLong(height() - event->y());
+    PyTuple_SetItem(pArgs, 1, pValue);
+    pValue = PyInt_FromLong(0);
+    PyTuple_SetItem(pArgs, 2, pValue);
+    pValue = PyInt_FromLong(0);
+    PyTuple_SetItem(pArgs, 3, pValue);
 
-    if(m_pIT4KModule)
-    {
-        pFunc = PyObject_GetAttrString(m_pIT4KModule, "mouse_release");
-
-        if(pFunc && PyCallable_Check(pFunc))
-        {
-            // TODO: do some checks here
-            pArgs = PyTuple_New(4);
-            pValue = PyInt_FromLong(event->x());
-            PyTuple_SetItem(pArgs, 0, pValue);
-            pValue = PyInt_FromLong(height() - event->y());
-            PyTuple_SetItem(pArgs, 1, pValue);
-            pValue = PyInt_FromLong(0);
-            PyTuple_SetItem(pArgs, 2, pValue);
-            pValue = PyInt_FromLong(0);
-            PyTuple_SetItem(pArgs, 3, pValue);
-            pValue = PyObject_CallObject(pFunc, pArgs);
-            Py_DECREF(pArgs);
-            if(pValue != NULL)
-            {
-                //printf("Result of resize: %ld\n", PyInt_AsLong(pValue));
-                Py_DECREF(pValue);
-            }
-            else
-            {
-                PyErr_Print();
-                fprintf(stderr, "Call failed\n");
-            }
-        }
-        else
-        {
-            if(PyErr_Occurred())
-                PyErr_Print();
-            fprintf(stderr, "Cannot find function\n");
-        }
-        Py_XDECREF(pFunc);
-    }
+    callMethod(m_pIT4KModule, "mouse_release", pArgs);
+    Py_DECREF(pArgs);
+    Py_DECREF(pValue);
 }
 
 void Scene::mouseMoveEvent(QMouseEvent* event)
 {
-    PyObject *pValue, *pFunc, *pArgs;
+    PyObject *pValue, *pArgs;
+    pArgs = PyTuple_New(6);
+    pValue = PyInt_FromLong(event->x());
+    PyTuple_SetItem(pArgs, 0, pValue);
+    pValue = PyInt_FromLong(height() - event->y());
+    PyTuple_SetItem(pArgs, 1, pValue);
+    pValue = PyInt_FromLong(event->x() - _prevMouseX);
+    PyTuple_SetItem(pArgs, 2, pValue);
+    pValue = PyInt_FromLong(height() - event->y() - _prevMouseY);
+    PyTuple_SetItem(pArgs, 3, pValue);
+    pValue = PyInt_FromLong(0);
+    PyTuple_SetItem(pArgs, 4, pValue);
+    pValue = PyInt_FromLong(0);
+    PyTuple_SetItem(pArgs, 5, pValue);
 
-    if(m_pIT4KModule)
-    {
-        pFunc = PyObject_GetAttrString(m_pIT4KModule, "mouse_drag");
-
-        if(pFunc && PyCallable_Check(pFunc))
-        {
-            // TODO: do some checks here
-            pArgs = PyTuple_New(6);
-            pValue = PyInt_FromLong(event->x());
-            PyTuple_SetItem(pArgs, 0, pValue);
-            pValue = PyInt_FromLong(height() - event->y());
-            PyTuple_SetItem(pArgs, 1, pValue);
-            pValue = PyInt_FromLong(event->x() - _prevMouseX);
-            PyTuple_SetItem(pArgs, 2, pValue);
-            pValue = PyInt_FromLong(height() - event->y() - _prevMouseY);
-            PyTuple_SetItem(pArgs, 3, pValue);
-            pValue = PyInt_FromLong(0);
-            PyTuple_SetItem(pArgs, 4, pValue);
-            pValue = PyInt_FromLong(0);
-            PyTuple_SetItem(pArgs, 5, pValue);
-            pValue = PyObject_CallObject(pFunc, pArgs);
-            Py_DECREF(pArgs);
-            if(pValue != NULL)
-            {
-                //printf("Result of resize: %ld\n", PyInt_AsLong(pValue));
-                Py_DECREF(pValue);
-            }
-            else
-            {
-                PyErr_Print();
-                fprintf(stderr, "Call failed\n");
-            }
-        }
-        else
-        {
-            if(PyErr_Occurred())
-                PyErr_Print();
-            fprintf(stderr, "Cannot find function\n");
-        }
-        Py_XDECREF(pFunc);
-    }
+    callMethod(m_pIT4KModule, "mouse_drag", pArgs);
+    Py_DECREF(pArgs);
+    Py_DECREF(pValue);
 
     _prevMouseX = event->x();
     _prevMouseY = height() - event->y();

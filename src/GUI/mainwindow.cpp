@@ -225,7 +225,12 @@ void MainWindow::on_buttonScriptStart_clicked()
     file.close();
 
     ui->scene->loadApp("out");
-    ui->scene->sendGO();
+    ui->scene->sendStart();
+}
+
+void MainWindow::on_buttonScriptStop_clicked()
+{
+    ui->scene->sendStop();
 }
 
 void MainWindow::on_buttonAddDragElem_clicked()

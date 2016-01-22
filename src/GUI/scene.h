@@ -16,6 +16,8 @@ class Scene : public QOpenGLWidget, protected QOpenGLFunctions
     int _prevMouseX;
     int _prevMouseY;
 
+    void callMethod(PyObject *pModule, const char *pName, PyObject *pArgs = NULL);
+
 public:
     Scene(QWidget *parent = 0);
     void initializeGL();
@@ -27,7 +29,8 @@ public:
     void mouseMoveEvent(QMouseEvent* event);
 
     void loadApp(const char *pAppName);
-    void sendGO();
+    void sendStart();
+    void sendStop();
 };
 
 #endif // SCENE_H

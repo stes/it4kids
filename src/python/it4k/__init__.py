@@ -13,9 +13,21 @@ overlay = pyglet.graphics.OrderedGroup(2)
 
 mainApp = None
 
+# TODO: rework this
+class SigStop(Exception):
+    pass
+
+def stop_func(func, *args, **kwargs):
+	try:
+		func(*args, **kwargs)
+	except SigStop:
+		pass
+
 def block(func):
 	def async_func(*args, **kwargs):
-		func_th = Thread(target = func, args = args, kwargs = kwargs)
+		global mainApp
+		func_th = Thread(target = stop_func, args = (func,) + args, kwargs = kwargs)
+		mainApp.running.append(func_th)
 		func_th.start()
 	return async_func
 
@@ -91,6 +103,12 @@ class Entity(pyglet.event.EventDispatcher):
 		self.push_handlers(*args, **kwargs)
 		self.handlers += 1
 	
+	def wait(self):
+		global mainApp
+		if mainApp.stopping:
+			raise SigStop()
+		time.sleep(1/self._speed)
+	
 	# block events
 	def start(self):
 		self.dispatch_event('on_start')
@@ -103,19 +121,19 @@ class Entity(pyglet.event.EventDispatcher):
 	def forward(self, len):
 		self.sprite.x += len * math.cos(math.radians(self.sprite.rotation))
 		self.sprite.y += len * math.sin(-math.radians(self.sprite.rotation))
-		time.sleep(1/self._speed) # animation
+		self.wait() # animation
 	
 	def turnRight(self, degrees):
 		self.sprite.rotation += degrees
-		time.sleep(1/self._speed) # animation
+		self.wait() # animation
 	
 	def turnLeft(self, degrees):
 		self.sprite.rotation -= degrees
-		time.sleep(1/self._speed) # animation
+		self.wait() # animation
 	
 	def gotoXY(self, x, y):
 		self.move_to_scaled(x, y)
-		time.sleep(1/self._speed) # animation
+		self.wait() # animation
 	
 	def doGlide(self, seconds, x, y):
 		steps = seconds * self._speed
@@ -123,7 +141,7 @@ class Entity(pyglet.event.EventDispatcher):
 		diffY = (y + mainApp.size[1] / 2 - self.sprite.y) / steps
 		for i in range(int(steps)):
 			self.move_scaled(diffX, diffY)
-			time.sleep(1/self._speed) # animation
+			self.wait() # animation
 		self.move_to_scaled(x, y)
 
 Entity.register_event_type('on_start')
@@ -158,6 +176,8 @@ class App(object):
 		self.mouse_pressed = False # TODO: rework this
 		
 		self.entities = []
+		self.running = []
+		self.stopping = False
 	
 	def add_entity(self, entity):
 		entity.sprite.batch = self.batch
@@ -165,6 +185,7 @@ class App(object):
 		self.entities.append(entity)
 	
 	def reset(self):
+		self.stop()
 		for entity in self.entities:
 			entity.clean()
 		del self.entities[:]
@@ -174,9 +195,17 @@ class App(object):
 			entity.start()
 	
 	def stop(self):
-		pass
+		self.stopping = True
+		for thread in self.running:
+			thread.join()
+		self.stopping = False
+		del self.running[:]
+	
+	def update(self):
+		self.running = [t for t in self.running if t.is_alive()]
 	
 	def on_draw(self):
+		self.update()
 		if self.window:
 			self.window.clear()
 		self.batch.draw()
