@@ -41,7 +41,6 @@ void HatDE::resize()
 void HatDE::moveEvent(QMoveEvent *)
 {
     if(_lowerDock) _lowerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(0, _height+10), QSize(_width, _height)));
-    if(_nextElem) _nextElem->move(_lowerDock->getRect()->topLeft() + QPoint(0, 5));
 }
 
 void HatDE::hitTest()
