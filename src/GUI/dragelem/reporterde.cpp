@@ -18,6 +18,7 @@ DragableElement* ReporterDE::getCurrentElement(QWidget* parent)
 
 void ReporterDE::resize()
 {
+    DragableElement::resize();
     show();
 
     getLayoutSize();

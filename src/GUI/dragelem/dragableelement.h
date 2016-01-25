@@ -46,7 +46,7 @@ public:
 
     virtual inline int getHeight() {return _height;}
 
-    virtual void resize() = 0;
+    virtual void resize();
     virtual DragableElement* getWrapElem(){return (DragableElement*)0;}
 
     virtual void moveNextElems(QPoint offset);

@@ -78,7 +78,6 @@ void ScriptDock::dock(DragableElement* elem)
     }
     else if(_type == Inner && !elem->_prevElem)
     {
-            qDebug() << "dock";
         elem->raise();
         QPoint oldPos = elem->pos();
         elem->move(_dockingAreaGlobal.topLeft() + LOWEROFFSET);
@@ -93,6 +92,8 @@ void ScriptDock::dock(DragableElement* elem)
         _parent->show();
         deactivate();
     }
+    elem->resize();
+    elem->show();
 }
 
 void ScriptDock::undock()

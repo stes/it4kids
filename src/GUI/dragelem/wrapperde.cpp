@@ -48,11 +48,7 @@ void WrapperDE::moveNextElems(QPoint offset)
 
 void WrapperDE::resize()
 {
-    if(_prevElem)
-    {
-        _prevElem->resize();
-        _prevElem->show();
-    }
+    DragableElement::resize();
     show();
 
     getLayoutSize();

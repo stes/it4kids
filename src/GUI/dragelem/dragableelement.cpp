@@ -126,6 +126,21 @@ void DragableElement::getLayoutSize()
     _layout.setSizeConstraint(QLayout::SetNoConstraint);
 }
 
+void DragableElement::resize()
+{
+    DragableElement* elem = _prevElem;
+    while(elem)
+    {
+        QString elemClass(elem->metaObject()->className());
+        if(elemClass == "WrapperDE")
+        {
+            elem->resize();
+            elem->show();
+        }
+        elem = elem->getPrevElem();
+    }
+}
+
 void DragableElement::moveNextElems(QPoint offset)
 {
     DragableElement* nextElem = _nextElem;

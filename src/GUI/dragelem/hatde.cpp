@@ -20,6 +20,7 @@ DragableElement* HatDE::getCurrentElement(QWidget* parent)
 
 void HatDE::resize()
 {
+    DragableElement::resize();
     show();
 
     getLayoutSize();
