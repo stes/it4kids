@@ -129,8 +129,10 @@ void DragableElement::getLayoutSize()
 void DragableElement::moveNextElems(QPoint offset)
 {
     DragableElement* nextElem = _nextElem;
+    this->raise();
     while(nextElem)
     {
+        nextElem->raise();
         nextElem->move(nextElem->pos() + offset);
         nextElem = nextElem->_nextElem;
     }
