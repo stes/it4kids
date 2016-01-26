@@ -42,7 +42,6 @@ def get_pixel(image, x, y):
 
 class Entity(pyglet.event.EventDispatcher):
 	
-	_scale = 1
 	_speed = 40
 	
 	def __init__(self, img_file, group=foreground, draggable=True):
@@ -52,13 +51,8 @@ class Entity(pyglet.event.EventDispatcher):
 		image.anchor_y = image.height / 2
 		self.sprite = pyglet.sprite.Sprite(image, group=self.group)
 		self.draggable = draggable
-		self.move_to_scaled(0, 0)
+		self.world_move_to(0, 0)
 		self.handlers = 0
-	
-	def scale(self):
-		self.sprite.x *= self._scale / self.sprite.scale
-		self.sprite.y *= self._scale / self.sprite.scale
-		self.sprite.scale = self._scale
 	
 	def check_pos(self, x, y):
 		tmpx = x - self.sprite.x
@@ -66,9 +60,7 @@ class Entity(pyglet.event.EventDispatcher):
 		x = tmpx * math.cos(math.radians(self.sprite.rotation)) - tmpy * math.sin(math.radians(self.sprite.rotation)) + self.sprite.width / 2
 		y = tmpx * math.sin(math.radians(self.sprite.rotation)) + tmpy * math.cos(math.radians(self.sprite.rotation)) + self.sprite.height / 2
 		if x > 0 and y > 0 and x < self.sprite.width and y < self.sprite.height:
-			ix = int(x / self.sprite.scale)
-			iy = int(y / self.sprite.scale)
-			data = get_pixel(self.sprite.image, ix, iy)
+			data = get_pixel(self.sprite.image, int(x), int(y))
 			return data[3] > 0
 		return False
 	
@@ -80,14 +72,9 @@ class Entity(pyglet.event.EventDispatcher):
 		self.sprite.x = x
 		self.sprite.y = y
 	
-	def move_scaled(self, x, y):
-		self.sprite.x += x * self._scale
-		self.sprite.y += y * self._scale
-	
-	def move_to_scaled(self, x, y):
-		global mainApp
-		self.sprite.x = (x + mainApp.size[0] / 2) * self._scale
-		self.sprite.y = (y + mainApp.size[1] / 2) * self._scale
+	def world_move_to(self, x, y):
+		self.sprite.x = (x + App._size[0] / 2)
+		self.sprite.y = (y + App._size[1] / 2)
 	
 	def set_group(self, group=None):
 		if group:
@@ -132,7 +119,7 @@ class Entity(pyglet.event.EventDispatcher):
 		self.wait() # animation
 	
 	def gotoXY(self, x, y):
-		self.move_to_scaled(x, y)
+		self.world_move_to(x, y)
 		self.wait() # animation
 	
 	def doGlide(self, seconds, x, y):
@@ -140,14 +127,17 @@ class Entity(pyglet.event.EventDispatcher):
 		diffX = (x + mainApp.size[0] / 2 - self.sprite.x) / steps
 		diffY = (y + mainApp.size[1] / 2 - self.sprite.y) / steps
 		for i in range(int(steps)):
-			self.move_scaled(diffX, diffY)
+			self.move(diffX, diffY)
 			self.wait() # animation
-		self.move_to_scaled(x, y)
+		self.world_move_to(x, y)
 
 Entity.register_event_type('on_start')
 Entity.register_event_type('on_click')
 
 class App(object):
+
+	_scale = 1
+	_size = (480, 360)
 
 	def __init__(self, create_window=True):
 		if create_window:
@@ -163,15 +153,13 @@ class App(object):
 		
 		dispatcher.push_handlers(
 			on_draw=self.on_draw,
-			on_resize=self.on_resize,
+			on_resize=widget.on_resize,
 			on_mouse_press=self.on_mouse_press,
 			on_mouse_release=self.on_mouse_release,
 			on_mouse_drag=self.on_mouse_drag,
 		)
 		
 		self.batch = pyglet.graphics.Batch()
-		
-		self.size = (480, 360)
 		self.dragging = None
 		self.mouse_pressed = False # TODO: rework this
 		
@@ -181,7 +169,6 @@ class App(object):
 	
 	def add_entity(self, entity):
 		entity.sprite.batch = self.batch
-		entity.scale()
 		self.entities.append(entity)
 	
 	def reset(self):
@@ -209,17 +196,16 @@ class App(object):
 		if self.window:
 			self.window.clear()
 		self.batch.draw()
-	
-	def on_resize(self, width, height):
-		Entity._scale = min(width / self.size[0], height / self.size[1])
-		for entity in self.entities:
-			entity.scale()
 
 	def on_mouse_press(self, x, y, buttons, modifiers):
+		x /= self._scale
+		y /= self._scale
 		if buttons & pyglet.window.mouse.LEFT:
 			self.mouse_pressed = True
 	
 	def on_mouse_release(self, x, y, buttons, modifiers):
+		x /= self._scale
+		y /= self._scale
 		if not (buttons & pyglet.window.mouse.LEFT):
 			return
 		if self.dragging:
@@ -231,6 +217,10 @@ class App(object):
 		self.mouse_pressed = False
 	
 	def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
+		x /= self._scale
+		y /= self._scale
+		dx /= self._scale
+		dy /= self._scale
 		if not (buttons & pyglet.window.mouse.LEFT):
 			return
 		if self.dragging:
@@ -287,11 +277,19 @@ class FakeContext(gl.Context):
 
 class Widget(pyglet.event.EventDispatcher):
 	def on_resize(self, width, height):
+		screenratio = width / height
+		appratio = App._size[0] / App._size[1]
 		gl.glViewport(0, 0, width, height)
 		gl.glMatrixMode(gl.GL_PROJECTION)
 		gl.glLoadIdentity()
-		gl.glOrtho(0, width, 0, height, -1, 1)
+		if screenratio < appratio:
+			App._scale = width/App._size[0]
+			gl.glOrtho(0, App._size[0], 0, App._size[0]/screenratio, -1, 1)
+		else:
+			App._scale = height/App._size[1]
+			gl.glOrtho(0, App._size[1]*screenratio, 0, App._size[1], -1, 1)
 		gl.glMatrixMode(gl.GL_MODELVIEW)
+		return True
 
 Widget.register_event_type('on_draw')
 Widget.register_event_type('on_resize')
