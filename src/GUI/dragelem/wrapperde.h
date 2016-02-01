@@ -22,6 +22,7 @@ protected:
     DragableElement* getCurrentElement(QWidget* parent);
     void hitTest();
 
+    virtual void mousePressEvent(QMouseEvent *event);
     virtual void moveEvent(QMoveEvent *event);
 
     int _numberElements;

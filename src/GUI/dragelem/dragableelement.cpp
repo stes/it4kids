@@ -50,6 +50,10 @@ void DragableElement::mousePressEvent(QMouseEvent *event)
         element->update();
         element->grabMouse();
     }
+    else
+    {
+        grabMouse();
+    }
     if(_currentDock) _currentDock->undock();
     raise();
 }
