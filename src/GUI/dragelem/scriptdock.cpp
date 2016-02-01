@@ -88,12 +88,12 @@ void ScriptDock::dock(DragableElement* elem)
         _dockedElem = elem;
         elem->setCurrentDock(this);
         elem->setPrevElem(_parent);
-        _parent->resize();
-        _parent->show();
         deactivate();
     }
     elem->resize();
     elem->show();
+    _parent->resize();
+    _parent->show();
 }
 
 void ScriptDock::undock()
@@ -102,18 +102,17 @@ void ScriptDock::undock()
     {
         _dockedElem->setPrevElem(0);
         _dockedElem->setCurrentDock(0);
+        _dockedElem->resize();
+        _dockedElem->show();
         _dockedElem = 0;
-        if(_type == Inner)
-        {
-            _parent->resize();
-            _parent->show();
-        }
-        else
+        if(_type != Inner)
         {
             _parent->setNextElem(0);
         }
         activate();
     }
+    _parent->resize();
+    _parent->show();
 }
 
 ScriptDock::~ScriptDock()

@@ -50,11 +50,9 @@ void DragableElement::mousePressEvent(QMouseEvent *event)
         element->update();
         element->grabMouse();
     }
-    else
-    {
-        grabMouse();
-    }
     if(_currentDock) _currentDock->undock();
+    resize();
+    show();
     raise();
 }
 
@@ -150,11 +148,11 @@ void DragableElement::moveNextElems(QPoint offset)
 {
     DragableElement* nextElem = _nextElem;
     this->raise();
-    while(nextElem)
+    if(nextElem)
     {
         nextElem->raise();
         nextElem->move(nextElem->pos() + offset);
-        nextElem = nextElem->_nextElem;
+        nextElem->moveNextElems(offset);
     }
 }
 

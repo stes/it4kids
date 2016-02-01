@@ -17,7 +17,6 @@ WrapperDE::WrapperDE(const QString& identifier, const QString& text, const QColo
 
     _label->move(4, 3);
     _label->setLayout(&_layout);
-    //_label->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     _label->show();
 
     _upperDock = new ScriptDock(scriptAreaWidget, ScriptDock::Upper, this);
@@ -35,16 +34,16 @@ DragableElement* WrapperDE::getCurrentElement(QWidget *parent)
 void WrapperDE::moveNextElems(QPoint offset)
 {
     DragableElement* nextElem = _nextElem;
-    while(nextElem)
+    if(nextElem)
     {
         nextElem->move(nextElem->pos() + offset);
-        nextElem = nextElem->getNextElem();
+        nextElem->moveNextElems(offset);
     }
     nextElem = _innerDock->getDockedElem();
-    while(nextElem)
+    if(nextElem)
     {
         nextElem->move(nextElem->pos() + offset);
-        nextElem = nextElem->getNextElem();
+        nextElem->moveNextElems(offset);
     }
 }
 
@@ -52,7 +51,6 @@ void WrapperDE::resize()
 {
     DragableElement::resize();
     show();
-
     getLayoutSize();
     _path = QPainterPath();
     _path.lineTo(7, 0);
@@ -107,6 +105,7 @@ void WrapperDE::mousePressEvent(QMouseEvent* event)
        QRect rect(nextElem->pos(), QSize(nextElem->getWidth(), nextElem->getHeight())) ;
        if(rect.contains(mapToGlobal(event->pos()), true))
        {
+
             QMouseEvent * ev = new QMouseEvent(QEvent::MouseButtonPress, nextElem->mapFromGlobal(mapToGlobal(event->pos())),
                                                event->button(), event->buttons(), 0x00000000);
             nextElem->mousePressEvent(ev);
@@ -115,6 +114,8 @@ void WrapperDE::mousePressEvent(QMouseEvent* event)
         nextElem = nextElem->getNextElem();
     }
     DragableElement::mousePressEvent(event);
+    resize();
+    show();
 }
 
 void WrapperDE::moveEvent(QMoveEvent*)
