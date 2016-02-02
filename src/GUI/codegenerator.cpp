@@ -11,6 +11,12 @@ CodeGenerator::CodeGenerator(MainWindow * main)
 
 void CodeGenerator::generateFile(){
     QString str = "";
+    _eventList = "";
+    _eventReceiveGo = 0;
+    _eventReceiveKey = 0;
+    _eventReceiveInteraction = 0;
+    _eventReceiveMessage = 0;
+
     SpriteVector* spriteVec = _Mainwindow->getSpriteVector();
 
     str += readMap("$import");
@@ -42,6 +48,9 @@ void CodeGenerator::generateFile(){
 
         str += "\n";
     }
+
+    // add Event refistration %definition%
+    str.replace("%definition%", _eventList);
 
     //write to file
     QFile file("python/out.py");
@@ -99,9 +108,32 @@ QString CodeGenerator::dict(ArgumentStruct* argument)
        if (!argument->type)
            str += subident(1);
        str += map[argument->name];
+       //if event add event number
+       if (argument->name == "receiveGo")
+       {
+           _eventReceiveGo++;
+          str.replace("%1",QString::number(_eventReceiveGo));
+          _eventList += subident(2) + "self.register(on_start=self.receiveGO" + QString::number(_eventReceiveGo) + ")\n";
+       } else if(argument->name == "receiveKey")
+       {
+           _eventReceiveKey++;
+          str.replace("%1",QString::number(_eventReceiveKey));
+          _eventList += subident(2) + "self.register(on_click=self.ReceiveKey" + QString::number(_eventReceiveKey) + ")\n";
+       }else if(argument->name == "receiveInteraction")
+       {
+           _eventReceiveInteraction++;
+          str.replace("%1",QString::number(_eventReceiveInteraction));
+          _eventList += subident(2) + "self.register(on_click=self.ReceiveInteraction" + QString::number(_eventReceiveInteraction) + ")\n";
+       }
+       else if(argument->name == "receiveMessage")
+       {
+           _eventReceiveMessage++;
+          str.replace("%1",QString::number(_eventReceiveMessage));
+          _eventList += subident(2) + "self.register(on_click=self.ReceiveMessage" + QString::number(_eventReceiveMessage) + ")\n";
+       }
     }else{
         qDebug() << "block: " << argument->name << "not supportet jet";
-        str = subident(1) + "NSE: " + argument->name;
+        str = subident(1) + "printf(\"" + argument->name + " nicht verfügbar\")";
     }
 
     str.replace("%1",argument->arg1);
@@ -123,9 +155,16 @@ void CodeGenerator::generateMap()
     }
     int n = 0;
     int err = 0;
+    int coment = 0;
 
     while (!file.atEnd()) {
         QString line = file.readLine();
+        if (line[0] == '/' && line[1] == '/'){
+            n++;
+            coment++;
+            continue;
+        }
+
         line.replace("\n","");
         line.replace("\\n", "\n");
 
@@ -143,7 +182,7 @@ void CodeGenerator::generateMap()
         }
         n++;
     }
-    qDebug() << n-err << "/" << n << "lines loadet";
+    qDebug() << n-err << "/" << n << "lines loadet(" << coment << "Komentare)";
 }
 
 QString CodeGenerator::readMap(QString arg)
@@ -152,4 +191,5 @@ QString CodeGenerator::readMap(QString arg)
     {
         return map[arg];
     }
+    return "";
 }

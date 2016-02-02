@@ -21,6 +21,7 @@
 #include "reporterde.h"
 #include <Qsci/qscilexerpython.h>
 #include "newspritename.h"
+#include "saveloadclass.h"
 
 MainWindow* _sMainWindow = 0;
 
@@ -101,6 +102,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::InitializeDragElem(const QString& path)
 {
+    _LoadableDrags = {};
     QFile styleSheet(path);
     styleSheet.open(QFile::ReadOnly);
     QString xml = QLatin1String(styleSheet.readAll());
@@ -157,7 +159,10 @@ void MainWindow::InitializeDragElem(const QString& path)
                 DragElemCategory* category = new DragElemCategory(ui->elementList, attributes.value("name").toString(), QColor(attributes.value("color").toString()), this);
                 ui->categorySelect->_categoryList.push_back(category);
             }
+            //Vector aller dragable Elements för loadinf file Purpuses
+            _LoadableDrags.push_back(lastElement);
         }
+
     }
     ui->categorySelect->show();
 }
@@ -212,25 +217,51 @@ void MainWindow::on_buttonEdit_clicked()
 
 void MainWindow::on_buttonScriptStart_clicked()
 {
-    _Cgen->generateFile();
+    SaveLoadClass* slc = new SaveLoadClass(this);
+    //slc->loadScratch("C:\\Users\\Karl\\Documents\\GitHub\\it4kids\\src\\project.json");
+    //slc->saveScratch();
+
+   _Cgen->generateFile();
 
     QFile file("python/out.py");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
 
     QTextStream in(&file);
-    //QString s = in.readAll();
-    //qDebug() << s;
+
     ui->codeEditor->setText(in.readAll());
     file.close();
-
     ui->scene->loadApp("out");
     ui->scene->sendStart();
+}
+
+
+DragableElement* MainWindow::createNewElement(QString s)
+{
+   /* qDebug() << s;
+    //check all Elements
+    for(std::vector<DragableElement*>::iterator it = _LoadableDrags.begin(); it != _LoadableDrags.end(); ++it)
+    {
+        qDebug() << "he" << _LoadableDrags.size();
+        qDebug() << (it == _LoadableDrags.end());
+        qDebug() << ((*it) == 0);
+        qDebug() << (*it)->getType();
+        qDebug() << (*it)->getIdentifier();
+        qDebug() << "ho";
+        if ((*it)->getIdentifier() == s)
+        {
+            DragableElement* ele = (*it)->getCurrentElement(ui->scriptArea);
+            return ele;
+        }
+    }
+    */
+    return (DragableElement*)0;
 }
 
 void MainWindow::on_buttonScriptStop_clicked()
 {
     ui->scene->sendStop();
+>>>>>>> GUI
 }
 
 void MainWindow::on_buttonAddDragElem_clicked()

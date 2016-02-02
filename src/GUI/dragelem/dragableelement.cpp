@@ -332,24 +332,29 @@ ArgumentStruct* DragableElement::getArguments()
 
     if (v->size() == 0)
     {
+        stru->nArgs = 0;
        //nothing
     } else if (v->size() == 1)
     {
+        stru->nArgs = 1;
         stru->arg1 = ((*v)[0])->getValue();
     }
     else if (v->size() == 2)
     {
+        stru->nArgs = 2;
         stru->arg1 = ((*v)[0])->getValue();
         stru->arg2 = ((*v)[1])->getValue();
     }
     else if (v->size() == 3)
     {
+        stru->nArgs = 3;
         stru->arg1 = ((*v)[0])->getValue();
         stru->arg2 = ((*v)[1])->getValue();
         stru->arg3 = ((*v)[2])->getValue();
     }
     else if (v->size() == 4)
     {
+        stru->nArgs = 4;
         stru->arg1 = ((*v)[0])->getValue();
         stru->arg2 = ((*v)[1])->getValue();
         stru->arg3 = ((*v)[2])->getValue();
@@ -357,6 +362,7 @@ ArgumentStruct* DragableElement::getArguments()
     }
     else if (v->size() == 5)
     {
+        stru->nArgs = 5;
         stru->arg1 = ((*v)[0])->getValue();
         stru->arg2 = ((*v)[1])->getValue();
         stru->arg3 = ((*v)[2])->getValue();

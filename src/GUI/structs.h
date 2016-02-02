@@ -7,6 +7,7 @@ struct ArgumentStruct
 {
     QString name;
     bool type;
+    int nArgs;
     QString arg1;
     QString arg2;
     QString arg3;
