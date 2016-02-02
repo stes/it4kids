@@ -45,5 +45,4 @@ void CategorySelect::paintEvent(QPaintEvent*)
 
 CategorySelect::~CategorySelect()
 {
-    delete _elemListWidget;
 }
