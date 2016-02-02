@@ -29,6 +29,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     SpriteVector* getSpriteVector();
+    DragableElement* createNewElement(QString s);
 
     ~MainWindow();
 
@@ -53,6 +54,7 @@ private slots:
     void customContextMenuRequestedAddDragElem(const QPoint &pos);
     void eraseItemAddDragElem();
     void setCurrentCostume(Costume* costume);
+
 private:
     void InitializeDragElem(const QString& path);
     DragElemCategory* GetCategoryByName(const QString& name);
@@ -68,6 +70,8 @@ private:
     QMenu _bearbeitenMenu;
 
     CodeGenerator * _Cgen;
+
+    std::vector<DragableElement*> _LoadableDrags;
 };
 
 #endif // MAINWINDOW_H

@@ -57,6 +57,7 @@ public:
     QString getType() {return _type;}
     QString getIdent(){return _identifier;}
     ArgumentStruct* getArguments();
+    virtual DragableElement* getCurrentElement(QWidget* parent) = 0;
 
 protected:
     QColor _color;
@@ -86,7 +87,7 @@ protected:
 
     virtual void paintEvent(QPaintEvent*);
 
-    virtual DragableElement* getCurrentElement(QWidget* parent) = 0;
+
     virtual void hitTest() = 0;
 
     void getLayoutSize();
