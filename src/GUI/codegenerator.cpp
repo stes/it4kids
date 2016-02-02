@@ -118,18 +118,18 @@ QString CodeGenerator::dict(ArgumentStruct* argument)
        {
            _eventReceiveKey++;
           str.replace("%1",QString::number(_eventReceiveKey));
-          _eventList += subident(2) + "self.register(on_click=self.ReceiveKey" + QString::number(_eventReceiveKey) + ")\n";
+          _eventList += subident(2) + "self.register(on_click=self.receiveKey" + QString::number(_eventReceiveKey) + ")\n";
        }else if(argument->name == "receiveInteraction")
        {
            _eventReceiveInteraction++;
           str.replace("%1",QString::number(_eventReceiveInteraction));
-          _eventList += subident(2) + "self.register(on_click=self.ReceiveInteraction" + QString::number(_eventReceiveInteraction) + ")\n";
+          _eventList += subident(2) + "self.register(on_click=self.receiveInteraction" + QString::number(_eventReceiveInteraction) + ")\n";
        }
        else if(argument->name == "receiveMessage")
        {
            _eventReceiveMessage++;
           str.replace("%1",QString::number(_eventReceiveMessage));
-          _eventList += subident(2) + "self.register(on_click=self.ReceiveMessage" + QString::number(_eventReceiveMessage) + ")\n";
+          _eventList += subident(2) + "self.register(on_click=self.receiveMessage" + QString::number(_eventReceiveMessage) + ")\n";
        }
     }else{
         qDebug() << "block: " << argument->name << "not supportet jet";

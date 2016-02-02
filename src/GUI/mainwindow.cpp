@@ -261,7 +261,6 @@ DragableElement* MainWindow::createNewElement(QString s)
 void MainWindow::on_buttonScriptStop_clicked()
 {
     ui->scene->sendStop();
->>>>>>> GUI
 }
 
 void MainWindow::on_buttonAddDragElem_clicked()
