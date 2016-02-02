@@ -19,7 +19,7 @@
 #include "wrapperde.h"
 #include "predicatede.h"
 #include "reporterde.h"
-#include "qscilexerpython.h"
+#include <Qsci/qscilexerpython.h>
 #include "newspritename.h"
 
 MainWindow* _sMainWindow = 0;

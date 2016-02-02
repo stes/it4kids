@@ -1835,7 +1835,7 @@ color: #5c5d5f;</string>
   <customwidget>
    <class>QsciScintilla</class>
    <extends>QWidget</extends>
-   <header location="global">qsciscintilla.h</header>
+   <header location="global">Qsci/qsciscintilla.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>

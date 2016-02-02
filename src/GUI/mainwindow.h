@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QMenu>
-#include <qsciscintilla.h>
+#include <Qsci/qsciscintilla.h>
 #include "codegenerator.h"
 
 #include "spriteselect.h"
