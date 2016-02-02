@@ -218,10 +218,10 @@ void MainWindow::on_buttonEdit_clicked()
 void MainWindow::on_buttonScriptStart_clicked()
 {
     SaveLoadClass* slc = new SaveLoadClass(this);
-    slc->loadScratch("C:\\Users\\Karl\\Documents\\GitHub\\it4kids\\src\\project.json");
+    //slc->loadScratch("C:\\Users\\Karl\\Documents\\GitHub\\it4kids\\src\\project.json");
     //slc->saveScratch();
 
-   /* _Cgen->generateFile();
+   _Cgen->generateFile();
 
     QFile file("out.txt");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
@@ -232,7 +232,7 @@ void MainWindow::on_buttonScriptStart_clicked()
     //qDebug() << s;
     ui->codeEditor->setText(in.readAll());
     file.close();
-*/
+
 }
 
 DragableElement* MainWindow::createNewElement(QString s)
