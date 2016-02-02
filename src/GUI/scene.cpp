@@ -108,7 +108,6 @@ void Scene::resizeGL(int w, int h)
 
     callMethod(m_pIT4KModule, "resize", pArgs);
     Py_DECREF(pArgs);
-    Py_DECREF(pValue);
 }
 
 void Scene::paintGL()
@@ -141,7 +140,6 @@ void Scene::mousePressEvent(QMouseEvent* event)
 
     callMethod(m_pIT4KModule, "mouse_press", pArgs);
     Py_DECREF(pArgs);
-    Py_DECREF(pValue);
 
     _prevMouseX = event->x();
     _prevMouseY = height() - event->y();
@@ -162,7 +160,6 @@ void Scene::mouseReleaseEvent(QMouseEvent* event)
 
     callMethod(m_pIT4KModule, "mouse_release", pArgs);
     Py_DECREF(pArgs);
-    Py_DECREF(pValue);
 }
 
 void Scene::mouseMoveEvent(QMouseEvent* event)
@@ -184,7 +181,6 @@ void Scene::mouseMoveEvent(QMouseEvent* event)
 
     callMethod(m_pIT4KModule, "mouse_drag", pArgs);
     Py_DECREF(pArgs);
-    Py_DECREF(pValue);
 
     _prevMouseX = event->x();
     _prevMouseY = height() - event->y();
