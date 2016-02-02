@@ -152,28 +152,30 @@ DEPENDPATH += \
     $$PWD/src/GUI/teacher
 
 unix:{
-    CONFIG += link_pkgconfig
-    # Depending on distibution, python 2.7 is either called "python" or "python2"
-    PKGCONFIG += python2
-    # PKGCONFIG += python
+    QMAKE_CFLAGS += $$system(python3-config --cflags)
+    QMAKE_CXXFLAGS += $$system(python3-config --cflags)
+    LIBS += $$system(python3-config --ldflags)
 }
 
 win32:{
-    PY_VERSIONS = 2.7 2.6
-    for(PY_VERSION, PY_VERSIONS){
-        system(reg query HKLM\\SOFTWARE\\Python\\PythonCore\\$$PY_VERSION\\InstallPath /ve) {
-        PY_HOME = $$quote($$system(reg query HKLM\\SOFTWARE\\Python\\PythonCore\\$$PY_VERSION\\InstallPath /ve))
+    PY_VERSIONS = 3.5-32 3.4-32 3.3-32
+    for(PY_VERSION, PY_VERSIONS) {
+        PY_HOME = $$quote($$system(reg query HKCU\\SOFTWARE\\Python\\PythonCore\\$$PY_VERSION\\InstallPath /ve))
         PY_HOME ~= s/.*(\\w:.*)/\\1
-        !exists($$PY_HOME\\include\\Python.h):next()
-        INCLUDEPATH *= $$PY_HOME\\include
+        !exists($$PY_HOME\\include\\Python.h) {
+            PY_HOME = $$quote($$system(reg query HKLM\\SOFTWARE\\Python\\PythonCore\\$$PY_VERSION\\InstallPath /ve))
+            PY_HOME ~= s/.*(\\w:.*)/\\1
+            !exists($$PY_HOME\\include\\Python.h):next()
+        }
 
-           PY_LIB_BASENAME = python$${PY_VERSION}
-           PY_LIB_BASENAME ~= s/\\./
-           CONFIG(debug, debug|release):PY_LIB_BASENAME = $${PY_LIB_BASENAME}_d
-           LIBS *= -L$$PY_HOME\\libs -l$${PY_LIB_BASENAME}
-           message(Python$$PY_VERSION found at $$PY_HOME)
-           break()
-       }
+        PY_LIB_BASENAME = python$${PY_VERSION}
+        PY_LIB_BASENAME ~= s/\\./
+        PY_LIB_BASENAME = $$section(PY_LIB_BASENAME, -, 0, 0)
+        CONFIG(debug, debug|release):PY_LIB_BASENAME = $${PY_LIB_BASENAME}_d
+        INCLUDEPATH *= $$PY_HOME\\include
+        LIBS *= -L$$PY_HOME\\libs -l$${PY_LIB_BASENAME} -lpython3
+        message(Python$$PY_VERSION found at $$PY_HOME)
+        break()
    }
 }
 

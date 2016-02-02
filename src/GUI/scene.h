@@ -4,7 +4,9 @@
 #include <QOpenGLFunctions>
 #include <QOpenGLWidget>
 #include <QMouseEvent>
+#undef slots
 #include <Python.h>
+#define slots Q_SLOTS
 
 class Scene : public QOpenGLWidget, protected QOpenGLFunctions
 {

@@ -18,13 +18,13 @@ Scene::Scene(QWidget *parent) : QOpenGLWidget(parent)
 
     PyObject *pSysPath = PySys_GetObject((char*)"path");
     QByteArray path = QDir::currentPath().append("/python").toLatin1();
-    PyObject *pScriptPath = PyString_FromString(path.data());
+    PyObject *pScriptPath = PyUnicode_DecodeFSDefault(path.data());
     PyList_Append(pSysPath, pScriptPath);
     Py_DECREF(pScriptPath);
 
     m_pModule = NULL;
 
-    pName = PyString_FromString("it4k");
+    pName = PyUnicode_DecodeFSDefault("it4k");
     m_pIT4KModule = PyImport_Import(pName);
     Py_DECREF(pName);
 
@@ -76,7 +76,7 @@ void Scene::loadApp(const char *pAppName)
 {
     if(m_pModule == NULL)
     {
-        PyObject *pName = PyString_FromString(pAppName);
+        PyObject *pName = PyUnicode_DecodeFSDefault(pAppName);
         m_pModule = PyImport_Import(pName);
         Py_DECREF(pName);
     }
@@ -101,9 +101,9 @@ void Scene::resizeGL(int w, int h)
 {
     PyObject *pValue, *pArgs;
     pArgs = PyTuple_New(2);
-    pValue = PyInt_FromLong(w);
+    pValue = PyLong_FromLong(w);
     PyTuple_SetItem(pArgs, 0, pValue);
-    pValue = PyInt_FromLong(h);
+    pValue = PyLong_FromLong(h);
     PyTuple_SetItem(pArgs, 1, pValue);
 
     callMethod(m_pIT4KModule, "resize", pArgs);
@@ -130,13 +130,13 @@ void Scene::mousePressEvent(QMouseEvent* event)
 {
     PyObject *pValue, *pArgs;
     pArgs = PyTuple_New(4);
-    pValue = PyInt_FromLong(event->x());
+    pValue = PyLong_FromLong(event->x());
     PyTuple_SetItem(pArgs, 0, pValue);
-    pValue = PyInt_FromLong(height() - event->y());
+    pValue = PyLong_FromLong(height() - event->y());
     PyTuple_SetItem(pArgs, 1, pValue);
-    pValue = PyInt_FromLong(0);
+    pValue = PyLong_FromLong(0);
     PyTuple_SetItem(pArgs, 2, pValue);
-    pValue = PyInt_FromLong(0);
+    pValue = PyLong_FromLong(0);
     PyTuple_SetItem(pArgs, 3, pValue);
 
     callMethod(m_pIT4KModule, "mouse_press", pArgs);
@@ -151,13 +151,13 @@ void Scene::mouseReleaseEvent(QMouseEvent* event)
 {
     PyObject *pValue, *pArgs;
     pArgs = PyTuple_New(4);
-    pValue = PyInt_FromLong(event->x());
+    pValue = PyLong_FromLong(event->x());
     PyTuple_SetItem(pArgs, 0, pValue);
-    pValue = PyInt_FromLong(height() - event->y());
+    pValue = PyLong_FromLong(height() - event->y());
     PyTuple_SetItem(pArgs, 1, pValue);
-    pValue = PyInt_FromLong(0);
+    pValue = PyLong_FromLong(0);
     PyTuple_SetItem(pArgs, 2, pValue);
-    pValue = PyInt_FromLong(0);
+    pValue = PyLong_FromLong(0);
     PyTuple_SetItem(pArgs, 3, pValue);
 
     callMethod(m_pIT4KModule, "mouse_release", pArgs);
@@ -169,17 +169,17 @@ void Scene::mouseMoveEvent(QMouseEvent* event)
 {
     PyObject *pValue, *pArgs;
     pArgs = PyTuple_New(6);
-    pValue = PyInt_FromLong(event->x());
+    pValue = PyLong_FromLong(event->x());
     PyTuple_SetItem(pArgs, 0, pValue);
-    pValue = PyInt_FromLong(height() - event->y());
+    pValue = PyLong_FromLong(height() - event->y());
     PyTuple_SetItem(pArgs, 1, pValue);
-    pValue = PyInt_FromLong(event->x() - _prevMouseX);
+    pValue = PyLong_FromLong(event->x() - _prevMouseX);
     PyTuple_SetItem(pArgs, 2, pValue);
-    pValue = PyInt_FromLong(height() - event->y() - _prevMouseY);
+    pValue = PyLong_FromLong(height() - event->y() - _prevMouseY);
     PyTuple_SetItem(pArgs, 3, pValue);
-    pValue = PyInt_FromLong(0);
+    pValue = PyLong_FromLong(0);
     PyTuple_SetItem(pArgs, 4, pValue);
-    pValue = PyInt_FromLong(0);
+    pValue = PyLong_FromLong(0);
     PyTuple_SetItem(pArgs, 5, pValue);
 
     callMethod(m_pIT4KModule, "mouse_drag", pArgs);
