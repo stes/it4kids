@@ -21,6 +21,7 @@
 #include "reporterde.h"
 #include "Qsci/qscilexerpython.h"
 #include "newspritename.h"
+#include "saveloadclass.h"
 
 MainWindow* _sMainWindow = 0;
 
@@ -212,6 +213,9 @@ void MainWindow::on_buttonEdit_clicked()
 
 void MainWindow::on_buttonScriptStart_clicked()
 {
+    SaveLoadClass* slc = new SaveLoadClass();
+    slc->loadScratch("C:\\Users\\Karl\\Documents\\GitHub\\it4kids\\src\\GUI\\project.json");
+
     _Cgen->generateFile();
 
     QFile file("out.txt");
@@ -223,6 +227,7 @@ void MainWindow::on_buttonScriptStart_clicked()
     //qDebug() << s;
     ui->codeEditor->setText(in.readAll());
     file.close();
+
 }
 
 void MainWindow::on_buttonAddDragElem_clicked()

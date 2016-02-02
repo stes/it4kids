@@ -58,7 +58,8 @@ SOURCES += src/main.cpp\
     src/GUI/teacher/studentlist.cpp \
     src/GUI/newspritename.cpp\
     src/GUI/codegenerator.cpp\
-    src/GUI/structs.cpp
+    src/GUI/structs.cpp \
+    src/GUI/saveloadclass.cpp
 
 HEADERS  += src/GUI/mainwindow.h \
     src/GUI/scene.h \
@@ -108,7 +109,8 @@ HEADERS  += src/GUI/mainwindow.h \
     src/GUI/teacher/studentlist.h \
     src/GUI/newspritename.h\
     src/GUI/codegenerator.h\
-    src/GUI/structs.h
+    src/GUI/structs.h \
+    src/GUI/saveloadclass.h
 
 FORMS    += src/GUI/mainwindow.ui \
     src/GUI/newspritename.ui
