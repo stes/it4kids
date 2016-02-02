@@ -1,8 +1,8 @@
-# IT4Kids Code Editor
+# IT4Kids Code Editor und Kurshandbuch
 
 [![master](https://travis-ci.org/stes/it4kids.svg?branch=master)](https://travis-ci.org/stes/it4kids)
 
-Du hast gerade das Repo des **IT4Kids Code Editors** gefunden!
+Du hast gerade das Repo von **IT4Kids** gefunden!
 
 ## Die Idee hinter IT4Kids
 
@@ -18,8 +18,6 @@ Aktuell verwenden wir [Scratch](https://scratch.mit.edu) und [Snap](code.it-for-
 - Konvertieren der Projekte in direkt ausführbare Python Skripte
 - Schnelles Ausführen von Projekten durch [Pyglet](https://bitbucket.org/pyglet/pyglet/wiki/Home) Backend (nutzt OpenGL)
 - Nahtloser Übergang von der der grafischen Programmierung zur direkten Python-Programmierung - alles in einem Editor!
-
-## Build
 
 ### Abhängigkeiten
 
@@ -49,7 +47,7 @@ cd bin
 
 ausgeführt werden.
 
-## Aktueller Stand
+### Aktueller Stand
 
 Aktuell befindet sich der Editor in aktiver Entwicklung. Eine erste Alpha Version wird voraussichtlich im Januar 2016 erscheinen.
 
@@ -60,7 +58,18 @@ Aktuell befindet sich der Editor in aktiver Entwicklung. Eine erste Alpha Versio
 |GUI    | [![GUI](https://travis-ci.org/stes/it4kids.svg?branch=GUI)](https://travis-ci.org/stes/it4kids)       |
 |devKM  | [![devKM](https://travis-ci.org/stes/it4kids.svg?branch=devKM)](https://travis-ci.org/stes/it4kids)       |
 
+## Das IT4Kids Lehrkonzept
+
+Unser Lehrkonzept ist unser der Creative Commons Lizenz verfügbar und findet sich hier im Repository im Ordner
+```
+docs
+```
+
+Das Material wird [auf unserer Homepage](www.it-for-kids.org/projects) gesammelt. Auf dieser Grundlage wird in regelmäßigen Abständen der Inhalt im Repo aktualisiert. Wir arbeiten an einer Synchronisation zwischen dem Inhalt auf unserer Homepage, unserem Repository und dem [deutschsprachigen Scratch-Wiki](http://scratch-dach.info/wiki/Kategorie:IT4Kids_Projektsammlung).
+
 ## Kontakt
 
 *IT4Kids* wurde von Studenten der RWTH Aachen gegründet. Weitere Infos unter www.it-for-kids.org.
 Bei Fragen oder Interesse, unsere Arbeit zu unterstützen, melde dich bei info@it-for-kids.org
+
+Wir suchen stetig nach neuen Interessent/innen, für die Bereiche Softwareentwicklung, Entwicklung des Lehrkonzepts und für die Kursbetreuung. Falls du Interesse hast, melde dich gerne über unser [Kontaktformular](http://www.it-for-kids.org/contact).

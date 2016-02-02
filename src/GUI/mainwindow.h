@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QMenu>
-#include <Qsci/qsciscintilla.h>
+#include <qsciscintilla.h>
 #include "codegenerator.h"
 
 #include "spriteselect.h"
@@ -49,6 +49,7 @@ private slots:
     void on_spriteFromFile_clicked();
 
     void on_buttonScriptStart_clicked();
+    void on_buttonScriptStop_clicked();
 
     void changeCurrentSprite(Sprite* sprite);
     void customContextMenuRequestedAddDragElem(const QPoint &pos);

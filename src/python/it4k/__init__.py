@@ -4,11 +4,32 @@ pyglet.options['shadow_window'] = False
 pyglet.options['debug_gl'] = False
 from pyglet import gl
 from struct import unpack
-import os
+from threading import Thread
+import os, math, time
 
 background = pyglet.graphics.OrderedGroup(0)
 foreground = pyglet.graphics.OrderedGroup(1)
 overlay = pyglet.graphics.OrderedGroup(2)
+
+mainApp = None
+
+# TODO: rework this
+class SigStop(Exception):
+    pass
+
+def stop_func(func, *args, **kwargs):
+	try:
+		func(*args, **kwargs)
+	except SigStop:
+		pass
+
+def block(func):
+	def async_func(*args, **kwargs):
+		global mainApp
+		func_th = Thread(target = stop_func, args = (func,) + args, kwargs = kwargs)
+		mainApp.running.append(func_th)
+		func_th.start()
+	return async_func
 
 def get_pixel(image, x, y):
 	rawimage = image.get_image_data()
@@ -19,24 +40,31 @@ def get_pixel(image, x, y):
 	index = x * len(format) + y * pitch
 	return data[index : (index + len(format))]
 
-class Entity(object):
+class Entity(pyglet.event.EventDispatcher):
 	
 	_scale = 1
+	_speed = 40
 	
-	def __init__(self, image, group=foreground, draggable=True):
+	def __init__(self, img_file, group=foreground, draggable=True):
 		self.group = group
+		image = pyglet.resource.image(img_file)
+		image.anchor_x = image.width / 2
+		image.anchor_y = image.height / 2
 		self.sprite = pyglet.sprite.Sprite(image, group=self.group)
 		self.draggable = draggable
+		self.move_to_scaled(0, 0)
+		self.handlers = 0
 	
-	def scale(self, scale):
-		self.sprite.x *= scale / self._scale
-		self.sprite.y *= scale / self._scale
-		self.sprite.scale = scale
-		self._scale = scale
+	def scale(self):
+		self.sprite.x *= self._scale / self.sprite.scale
+		self.sprite.y *= self._scale / self.sprite.scale
+		self.sprite.scale = self._scale
 	
 	def check_pos(self, x, y):
-		x -= self.sprite.x
-		y -= self.sprite.y
+		tmpx = x - self.sprite.x
+		tmpy = y - self.sprite.y
+		x = tmpx * math.cos(math.radians(self.sprite.rotation)) - tmpy * math.sin(math.radians(self.sprite.rotation)) + self.sprite.width / 2
+		y = tmpx * math.sin(math.radians(self.sprite.rotation)) + tmpy * math.cos(math.radians(self.sprite.rotation)) + self.sprite.height / 2
 		if x > 0 and y > 0 and x < self.sprite.width and y < self.sprite.height:
 			ix = int(x / self.sprite.scale)
 			iy = int(y / self.sprite.scale)
@@ -52,17 +80,76 @@ class Entity(object):
 		self.sprite.x = x
 		self.sprite.y = y
 	
+	def move_scaled(self, x, y):
+		self.sprite.x += x * self._scale
+		self.sprite.y += y * self._scale
+	
+	def move_to_scaled(self, x, y):
+		global mainApp
+		self.sprite.x = (x + mainApp.size[0] / 2) * self._scale
+		self.sprite.y = (y + mainApp.size[1] / 2) * self._scale
+	
 	def set_group(self, group=None):
 		if group:
 			self.sprite.group = group
 		else:
 			self.sprite.group = self.group
+	
+	def clean(self):
+		for i in range(self.handlers):
+			self.pop_handlers()
+	
+	def register(self, *args, **kwargs):
+		self.push_handlers(*args, **kwargs)
+		self.handlers += 1
+	
+	def wait(self):
+		global mainApp
+		if mainApp.stopping:
+			raise SigStop()
+		time.sleep(1/self._speed)
+	
+	# block events
+	def start(self):
+		self.dispatch_event('on_start')
+	
+	def click(self, x, y):
+		if self.check_pos(x, y):
+			self.dispatch_event('on_click')
+	
+	# block methods
+	def forward(self, len):
+		self.sprite.x += len * math.cos(math.radians(self.sprite.rotation))
+		self.sprite.y += len * math.sin(-math.radians(self.sprite.rotation))
+		self.wait() # animation
+	
+	def turnRight(self, degrees):
+		self.sprite.rotation += degrees
+		self.wait() # animation
+	
+	def turnLeft(self, degrees):
+		self.sprite.rotation -= degrees
+		self.wait() # animation
+	
+	def gotoXY(self, x, y):
+		self.move_to_scaled(x, y)
+		self.wait() # animation
+	
+	def doGlide(self, seconds, x, y):
+		steps = seconds * self._speed
+		diffX = (x + mainApp.size[0] / 2 - self.sprite.x) / steps
+		diffY = (y + mainApp.size[1] / 2 - self.sprite.y) / steps
+		for i in range(int(steps)):
+			self.move_scaled(diffX, diffY)
+			self.wait() # animation
+		self.move_to_scaled(x, y)
+
+Entity.register_event_type('on_start')
+Entity.register_event_type('on_click')
 
 class App(object):
 
-	_scale = 1
-
-	def __init__(self, background_file, create_window=True):
+	def __init__(self, create_window=True):
 		if create_window:
 			self.window = pyglet.window.Window(resizable=True)
 			dispatcher = self.window
@@ -79,50 +166,81 @@ class App(object):
 			on_resize=self.on_resize,
 			on_mouse_press=self.on_mouse_press,
 			on_mouse_release=self.on_mouse_release,
-			on_mouse_drag=self.on_mouse_drag
+			on_mouse_drag=self.on_mouse_drag,
 		)
 		
 		self.batch = pyglet.graphics.Batch()
 		
-		background_img = pyglet.resource.image(background_file)
-		self.size = (background_img.width, background_img.height)
+		self.size = (480, 360)
 		self.dragging = None
+		self.mouse_pressed = False # TODO: rework this
 		
 		self.entities = []
-		
-		self.add_entity(Entity(background_img, background, draggable=False))
+		self.running = []
+		self.stopping = False
 	
 	def add_entity(self, entity):
 		entity.sprite.batch = self.batch
-		entity.scale(self._scale)
+		entity.scale()
 		self.entities.append(entity)
 	
+	def reset(self):
+		self.stop()
+		for entity in self.entities:
+			entity.clean()
+		del self.entities[:]
+	
+	def start(self):
+		for entity in self.entities:
+			entity.start()
+	
+	def stop(self):
+		self.stopping = True
+		for thread in self.running:
+			thread.join()
+		self.stopping = False
+		del self.running[:]
+	
+	def update(self):
+		self.running = [t for t in self.running if t.is_alive()]
+	
 	def on_draw(self):
+		self.update()
 		if self.window:
 			self.window.clear()
 		self.batch.draw()
 	
 	def on_resize(self, width, height):
-		self._scale = min(width / self.size[0], height / self.size[1])
+		Entity._scale = min(width / self.size[0], height / self.size[1])
 		for entity in self.entities:
-			entity.scale(self._scale)
+			entity.scale()
 
 	def on_mouse_press(self, x, y, buttons, modifiers):
 		if buttons & pyglet.window.mouse.LEFT:
+			self.mouse_pressed = True
+	
+	def on_mouse_release(self, x, y, buttons, modifiers):
+		if not (buttons & pyglet.window.mouse.LEFT):
+			return
+		if self.dragging:
+			self.dragging.set_group()
+			self.dragging = None
+		else:
+			for entity in self.entities:
+				entity.click(x, y)
+		self.mouse_pressed = False
+	
+	def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
+		if not (buttons & pyglet.window.mouse.LEFT):
+			return
+		if self.dragging:
+			self.dragging.move(dx, dy)
+		elif self.mouse_pressed:
 			for entity in self.entities:
 				if entity.draggable and entity.check_pos(x, y):
 					self.dragging = entity
 					self.dragging.set_group(overlay)
 					break
-	
-	def on_mouse_release(self, x, y, buttons, modifiers):
-		if buttons & pyglet.window.mouse.LEFT and self.dragging:
-			self.dragging.set_group()
-			self.dragging = None
-	
-	def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
-		if buttons & pyglet.window.mouse.LEFT and self.dragging:
-			self.dragging.move(dx, dy)
 
 class FakeContext(gl.Context):
 	def __init__(self, config=None, context_share=None):
@@ -175,6 +293,12 @@ class Widget(pyglet.event.EventDispatcher):
 		gl.glOrtho(0, width, 0, height, -1, 1)
 		gl.glMatrixMode(gl.GL_MODELVIEW)
 
+Widget.register_event_type('on_draw')
+Widget.register_event_type('on_resize')
+Widget.register_event_type('on_mouse_press')
+Widget.register_event_type('on_mouse_release')
+Widget.register_event_type('on_mouse_drag')
+
 widget = Widget()
 
 def draw():
@@ -191,9 +315,22 @@ def mouse_release(x, y, buttons, modifiers):
 
 def mouse_drag(x, y, dx, dy, buttons, modifiers):
 	widget.dispatch_event('on_mouse_drag', x, y, dx, dy, pyglet.window.mouse.LEFT, modifiers)
+	
+def start():
+	global mainApp
+	if mainApp:
+		mainApp.start()
 
-Widget.register_event_type('on_draw')
-Widget.register_event_type('on_resize')
-Widget.register_event_type('on_mouse_press')
-Widget.register_event_type('on_mouse_release')
-Widget.register_event_type('on_mouse_drag')
+def stop():
+	global mainApp
+	if mainApp:
+		mainApp.stop()
+
+def init(background_file, create_window=True):
+	global mainApp
+	if mainApp:
+		mainApp.reset()
+	else:
+		mainApp = App(create_window=create_window)
+	mainApp.add_entity(Entity(background_file, background, draggable=False))  # TODO: store this
+	return mainApp

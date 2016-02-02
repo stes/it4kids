@@ -1,0 +1,117 @@
+\section{Pacman}\label{pacman}
+
+Erforderliche Kompetenzen: BEWEGUNGEN, FÜHLEN, BEDINGUNGEN\\
+Erworbene Kompetenzen: Fortgeschritten
+
+\begin{figure}[ht]
+    \centering 
+    \includeimage{img/26.png}
+    \caption[\Sectionname]{\Sectionname}
+\end{figure}
+
+\subsection{Beschreibung}\label{beschreibung}
+
+Dieses Projekt ist deutlich fortgeschrittener. Es geht um die
+Programmierung des bekannten Spiels ``Pacman''. Die Schülerinnen und
+Schüler haben hier die Möglichkeit, von der Planungsphase des Projekts
+über das Zeichnen von Hintergrund und Gestaltung der Figur alle
+wesentlichen Abläufe der Spieleprogrammierung kennenzulernen.
+
+Es ist besonders bei diesem Projekt sehr wichtig, dass die Schülerinnen
+und Schüler zu jedem Zeitpunkt sehr klare Vorstellungen über ihre
+nächste Aufgabe haben und nicht tatenlos am PC sitzen. Daher gibt es
+einige Erweiterungen für besonders schnelle Schülerinnen und Schüler.
+
+\subsection{Durchführung}\label{durchfuxfchrung}
+
+Im Folgenden ist die Durchführung des Projekts geschildert. Sollte es
+triftige Gründe geben, kann die Lehrperson gerne auch ein alternatives
+Konzept heranziehen.
+
+\subsubsection{Phase 1: Planung}\label{phase-1-planung}
+
+Die Planungsphase wird in den ganzen Gruppe vollzogen. Die Lehrperson
+erläutert das Projekt und die Ziele der aktuellen Stunde werden geklärt.
+Beim Projekt Pacman müssen konkret geplant werden:
+
+\begin{itemize}
+\item
+  Präsentation eines komplett fertigen Spiels
+\item
+  Überlegungen und Ideensammlung für Hintergrund, Figur, etc.
+\item
+  Überlegungen zur Programmierung und der nötigen Aufgaben:
+
+  \begin{itemize}
+  \item
+    Bewegungen der Spielfigur auf Tastendruck: Umsetzung durch
+    entsprechende Ereignisse
+  \item
+    Anstoßen der Spielfigur an die Ränder des Spielfelds
+  \item
+    Anstoßen der Spielfigur an die Mauern
+  \item
+    ``Essen'' der Spielfigur
+  \item
+    Punktezähler und dessen Funktionsweise
+  \end{itemize}
+\item
+  Nach dem Sammeln der Ideen bestimmen einer sinnvollen Reihenfolge,
+  diese TODO Liste könnte z.B. an die Tafel geschrieben werden.
+\end{itemize}
+
+Mit der nun entstandenen Aufgabenliste können die Schüler mit der
+eigentlichen Umsetzung des Projekts beginnen.
+
+\subsubsection{Phase 2: Objekte und Hintergrund
+zeichnen}\label{phase-2-objekte-und-hintergrund-zeichnen}
+
+Es bietet sich auch aus Zeitgründen an, im Anschluss an die Planung mit
+dem Zeichnen von Hintergründen, Figuren etc. die erste Stunde
+abzuschließen, da dies relativ leicht umsetzbare Aufgaben sind.
+Besonders schnelle Schülerinnen und Schüler können anschließend direkt
+mit der Programmierung beginnen.
+
+\subsubsection{Phase 3: Programmieren}\label{phase-3-programmieren}
+
+Hier werden die zuvor besprochenen Aufgaben in Programmcode umgesetzt.
+Es macht Sinn, dabei die folgende Reihenfolge einzuhalten:
+
+\begin{enumerate}
+\item
+  \emph{Steuerung der Figur:} Zuerst programmieren die Schülerinnen und
+  Schüler die Bewegung der Spielfigur. Die Figur soll sich dabei
+  konstant in Vorwärtsrichtung bewegen (in einer Endlosschleife, dem
+  \emph{Game Loop}). Auf Tastendruck (wird über Steuerungsblöcke
+  abgegriffen) findet eine Drehung statt. Es können die Tasten A, S, D,
+  F oder das Steuerkreuz verwendet werden.
+\item
+  \emph{Anstoßen der Spielfigur an den Rand:} Beim Anstoßen an den
+  Spielfeldrand soll sich die Figur nicht weiterbewegen
+\item
+  \emph{Anstoßen der Spielfigur an die Wände:} Wenn die Spielfigur die
+  Wände des Spielfelds (gezeichnet in einer möglichst einmalig
+  vorhandenen Farbe) berührt, soll das Spiel als verloren gezählt
+  werden.
+\item
+  \emph{Essen} \ldots{}
+\item
+  \emph{Punktezähler:} Der Punktezähler wird über eine Variable
+  realisiert. Die Variable muss angelegt und benannt werden und
+  anschließend im Modus \emph{Groß} auf dem Spielfeld angezeigt werden.
+  Bei Neustart des Spiels wird die Variable auf null gesetzt, bei dem
+  Essen eines Elements wird sie entsprechend erhöht.
+\end{enumerate}
+
+\subsubsection{Phase 4: Testen und
+vorstellen}\label{phase-4-testen-und-vorstellen}
+
+In der letzten Phase, die auch zweimal durchgeführt werden kann, müssen
+alle (bei großen Gruppen: ausgewählte) Schülerinnen und Schüler ihr
+Projekt vorstellen. Hier bietet es sich an, wenn eine dritte Person das
+Programm bedienen muss und nicht die Programmiererin oder der
+Programmierer. Der restliche Kurs schaut bei der Vorstellung zu und gibt
+hinterher eine Rückmeldung. Für jedes Projekt kann so analysiert werden,
+was gut und was weniger gut funktioniert und noch verbessert werden
+muss. Wichtig vor allem bei jüngeren Klassenstufen: Die guten Teile des
+Programmes besonders hervorheben!

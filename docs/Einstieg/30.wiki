@@ -1,0 +1,50 @@
+= Labyrinth =
+
+'''Erforderliche Kompetenzen:'''<br />
+keine
+
+'''Gewonnene Kompetenzen:'''<br />
+Scratch-Umgebung kennen lernen
+
+Ereignisse {Startbedingung (Wenn angeklickt)}
+
+Bewegung {Koordinaten (gehe, gehe in zu), Winkel (drehe dich)}
+
+Steuerung {Wiederholungen (wiederhole)}
+
+== Beschreibung ==
+
+Mit dem Start des Programms soll die Maus ohne weitere Eingabe das Labyrinth bis zum Ziel durchlaufen.<br />
+Bei der Schlüsselvariante muss die Maus vorher auf den Schlüssel navigieren, damit sich das Tor öffnet.
+
+== Durchführung ==
+
+=== Phase 1: Planung ===
+
+In der Planungsphase werden mit den Schülern die folgenden Punkte besprochen:
+
+* Wie und wodurch wird ein Programmteil gestartet? Welchen Einfluss hat dies auf andere Programmteile?
+* Wie Programmiere ich eine spezielle Figur und nicht versehentlich eine andere?
+* Was sind Koordinaten und Winkel? Wie kann ich diese ablesen? (Dieser Punkt ist optional, gerade in der Grundschule kann das Verständnis von Gradzahlen/Winkeln und Koordinaten auf einen späteren Zeitpunkt mit einem spezifischen Projekt verschoben werden.)
+
+=== Phase 2: Vorbereitungen ===
+
+Hierbei ist eine Einarbeitung vorgesehen: Wo bearbeitet man die Figuren, Info der Figuren, Koordinaten und Winkel ablesen, Wo sind die Skripte gehe, drehe dich, … zu finden.
+
+=== Phase 3: Programmierung ===
+
+Die verwendeten Befehle sind:
+
+* wiederhole … mal
+* gehe … er-Schritt
+* drehe dich um … Grad
+* Diese Schritte müssen so oft wiederholt werden, bis die Maus das Ziel erreicht hat.
+
+=== Phase 4: Testen und vorstellen ===
+
+In der Vorstellungsphase können die Schüler ihre Lösung vorstellen, wodurch die unterschiedlichen Arten der Lösung erläutert werden können. Dabei sollte jedoch der spielerische Spaß im Vordergrund stehen und nicht abschreckend wirken.
+
+== Erweiterungen ==
+
+Als Erweiterung zum Labyrinth steht noch Labyrinth mit Schlüssel zur Verfügung, in diesem Können sie sich weiter mit der Problematik auseinander setzen und eine andere Variation der Programmiermöglichkeiten aneignen.
+

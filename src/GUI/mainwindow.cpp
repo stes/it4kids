@@ -19,7 +19,7 @@
 #include "wrapperde.h"
 #include "predicatede.h"
 #include "reporterde.h"
-#include "Qsci/qscilexerpython.h"
+#include "qscilexerpython.h"
 #include "newspritename.h"
 #include "saveloadclass.h"
 
@@ -223,17 +223,18 @@ void MainWindow::on_buttonScriptStart_clicked()
 
    _Cgen->generateFile();
 
-    QFile file("out.txt");
+    QFile file("python/out.py");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
         return;
 
     QTextStream in(&file);
-    //QString s = in.readAll();
-    //qDebug() << s;
+
     ui->codeEditor->setText(in.readAll());
     file.close();
-
+    ui->scene->loadApp("out");
+    ui->scene->sendStart();
 }
+
 
 DragableElement* MainWindow::createNewElement(QString s)
 {
@@ -255,6 +256,12 @@ DragableElement* MainWindow::createNewElement(QString s)
     }
     */
     return (DragableElement*)0;
+}
+
+void MainWindow::on_buttonScriptStop_clicked()
+{
+    ui->scene->sendStop();
+>>>>>>> GUI
 }
 
 void MainWindow::on_buttonAddDragElem_clicked()

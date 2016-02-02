@@ -1,0 +1,95 @@
+\section{Fang mich!}\label{fang-mich}
+
+Erforderliche Kompetenzen: Bewegungen, Steuerung, Fühlen, Senden und
+Empfangen\\
+Gewonnene Kompetenzen: Stoppuhr, Variablen
+
+\begin{figure}[ht]
+    \centering 
+    \includeimage{img/35.png}
+    \caption[\Sectionname]{\Sectionname}
+\end{figure}
+
+\subsection{Beschreibung}\label{beschreibung}
+
+Die Katze und der Käfer jagen einander. Dabei tauschen sie die Rollen,
+sobald der Jäger sein Ziel gefangen hat, oder 30 Sekunden abgelaufen
+sind. Dabei soll der Käfer computergesteuert, aber die Katze
+spielergesteuert sein. Es gibt höchstens fünf Punkte zu erreichen.
+
+\subsection{Durchführung}\label{durchfuxfchrung}
+
+\subsubsection{Phase 1: Planung}\label{phase-1-planung}
+
+In der Planungsphase werden mit den Schülern die folgenden Dinge
+besprochen:
+
+\begin{itemize}
+\item
+  Wie programmiert man den Käfer so, dass er die Katze fängt?
+\item
+  Wie programmiert man den Spielablauf, d.h. dass sich Katze und Käfer
+  abwechselnd fangen?
+\end{itemize}
+
+\subsubsection{Phase 2: Vorbereitungen}\label{phase-2-vorbereitungen}
+
+Die Schüler laden sich zwei beliebige Figuren aus der Scratchbibliothek
+herunter oder zeichnen eigene Figuren. Das Gleiche gilt für den
+Hintergrund.
+
+\subsubsection{Phase 3: Programmierung}\label{phase-3-programmierung}
+
+Die benötigten Schritte der Programmierung umfassen:
+
+\begin{itemize}
+\item
+  Steuerung der Maus per Tastatur
+\item
+  Automatische Steuerung des Käfers, sodass er die Katze jagt
+\item
+  Erkennen, dass die Katze den Käfer bzw. der Käfer die Katze gefangen
+  hat
+\item
+  Rollentausch implementieren, d.h. das der bisherige Jäger nun der
+  Gejagte ist
+\item
+  gegebenenfalls: Stoppuhr und Punktezählung
+\end{itemize}
+
+\subsubsection{Phase 4: Testen und
+vorstellen}\label{phase-4-testen-und-vorstellen}
+
+In der Vorstellungsphase kann ein beliebiger Schüler sein Spiel
+vorstellen, falls er es möchte. Dabei kann man explizit auf die
+einzelnen Teilprobleme hinweisen, welche der Schüler gelöst hat. Aber
+man kann die anderen auch fragen, was er verbessern könnte, wenn er an
+diesem Projekt nächste Stunde noch arbeiten will.
+
+\subsection{Detaillierte
+Programmbeschreibung}\label{detaillierte-programmbeschreibung}
+
+Die Bewegung ist die fortlaufend wiederholte Ausführung von ``falls
+dann''-Blöcken realisiert, die einen Tastendruck detektieren.
+Grundsätzlich hat die Figur ``Spieler'', d.i. die Katze, zwei Blöcke für
+die zwei Fälle ``when I receive CompiFolgtSpieler'' sowie ``when I
+receive SpielerFolgtCompi'', welche sehr ähnlich ablaufen, deshalb nur
+die Erklärung für den Ersteren: Die Katze gleitet zur Anfangsposition
+(links unten) und solange sie den Käfer noch nicht berührt hat, führt
+sie die Bewegungen aus, welche mit der Tastatur an sie weitergeleitet
+werden. Dabei wird die Zeit aktualisiert und falls die Zeit abläuft, hat
+die Katze gewonnen (weil sie die Weglaufende war) und kriegt deshalb
+einen Punkt. Dann wird die Nachricht ``SpielerFolgtCompi'' gesendet,
+damit die Figuren die Rollen tauschen und das aktuelle Skript wird
+gestoppt, damit die Katze den Code fürs Fangen (anstatt fürs Weglaufen)
+ausführen kann. Falls die Zeit aber nicht abläuft und die Schleife
+verlassen wird, also die Katze gefangen wurde, wird ein Punkt abgezogen
+und die Nachricht ``SpielerFolgtCompi'', d.i. die Abwechslung, wird
+gesendet. Wenn allerdings die Katze bereits -5 Punkte hat, erscheint ein
+``Verloren!'' und das Spiel wird mit ``stop all'' komplett terminiert.
+
+Die Figur ``Compi'' (der Käfer) macht grundsätzlich das Gleiche mit zwei
+Ausnahmen: Der Käfer hat eine Methode ``Fange Spieler!'', welche nur die
+eigene Ausrichtung in Richtung Katze setzt und darauf losmarschiert. Die
+zweite Ausnahme ist die Methode ``Zufällig weglaufen'': Alle 250
+Millisekunden wird hier die Richtung des Käfers um verändert.

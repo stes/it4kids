@@ -53,7 +53,7 @@ void CodeGenerator::generateFile(){
     str.replace("%definition%", _eventList);
 
     //write to file
-    QFile file("out.txt");
+    QFile file("python/out.py");
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
         return;
 
@@ -147,7 +147,7 @@ QString CodeGenerator::dict(ArgumentStruct* argument)
 
 void CodeGenerator::generateMap()
 {
-    QFile file("..\\it4kids\\src\\in.txt");
+    QFile file(":in.txt");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         qDebug() << "Python datei konnte nicht geladen werden";

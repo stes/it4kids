@@ -1,0 +1,115 @@
+\section{Aquarium}\label{aquarium}
+
+Erforderliche Kompetenzen: Bewegungen, Fühlen
+
+Erworbene Kompetenzen: Programmieren mehrerer Figuren, Operatoren
+
+\begin{figure}[ht]
+    \centering 
+    \includeimage{img/31.png}
+    \caption[\Sectionname]{\Sectionname}
+\end{figure}
+
+\subsection{Beschreibung}\label{beschreibung}
+
+Dieses Projekt eignet sich sehr gut zum Einstieg in die
+Spieleentwicklung. Ziel des Spiels ist es, eine steuerbare Figur an
+anderen computergesteuerten Figuren vorbeizubewegen, ohne diese zu
+berühren.\\
+In dem Aquariums befinden sich mehrere Fische, die es fortlaufend
+durchqueren. Gleichzeitig befindet sich eine vom Spieler steuerbare
+Figur in dem Aquarium, die zum oberen Rand des Spielfeldes bewegt werden
+soll, ohne einen Fisch zu berühren. Wird ein Fisch berührt, so sinkt die
+Figur zurück auf die Startposition.
+
+\subsection{Durchführung}\label{durchfuxfchrung}
+
+\subsubsection{Phase 1: Planung}\label{phase-1-planung}
+
+Während der Planungsphase sollten mit den Schülerinnen und Schülern die
+folgenden Schritte vollzogen werden:
+
+\begin{itemize}
+\item
+  Erläuterung des Projektes
+\item
+  Überlegungen und Ideensammlung für Hintergrund, Figuren, etc.
+\item
+  Überlegungen zur Programmierung und der nötigen Aufgaben:
+
+  \begin{itemize}
+  \item
+    Bewegung der Fische
+  \item
+    Bewegung der Spielfigur/Steuerung
+  \item
+    Erkennen der Kollision zwischen Fisch und Figur
+  \end{itemize}
+\item
+  Sammeln aller Ideen und Erstellung der TODO Liste
+\end{itemize}
+
+Anschließend kann mit der Umsetzung des Projekts begonnen werden.
+
+\subsubsection{Phase 2: Vorbereitungen}\label{phase-2-vorbereitungen}
+
+Zunächst sollte der Hintergrund gezeichnet werden. Für die Figuren
+bieten sich diverse Fische, sowie Taucher, Seesterne oder Oktopusse aus
+der Scratch-Bibliothek an. Die Gestaltung des Hintergrunds ist den
+Schülerinnen und Schülern überlassen.
+
+\subsubsection{Phase 3: Programmierung}\label{phase-3-programmierung}
+
+Im Anschluss an die vorbereitenden Maßnahmen kann mit der Programmierung
+des Spiels begonnen werden. Als Vorschlag sei die folgende Reihenfolge
+genannt, in der Schritt für Schritt leicht validierbare Teile des Spiels
+entstehen:
+
+\begin{enumerate}
+\item
+  \emph{Bewegung der Fische:} Die Fische folgen einem linearen
+  Bewegungspfad, der sie beim anstoßen an den Rand wieder am anderen
+  erscheinen lässt. Wichtig ist eine fortlaufende Schleife.
+\item
+  \emph{Steuerung der Spielfigur:} Die Figur lässt sich am besten über
+  die Pfeiltasten steuern, wobei jede einer simplen Bewegung in die
+  entsprechende Richtung zugeordnet wird. Hierbei lassen sich die
+  Unterschiede zwischen den ``gehe'' und ``ändere x/y'' Befehlen
+  erklären.
+\item
+  \emph{Kollision} Es muss ein Erkennen verschiedener Figuren erfolgen
+  können. Hierzu bietet sich die Einführung des ``oder'' Operators an.
+  Nach der Kollision gleitet die Spielfigur zurück an ihren Startpunkt.
+  Hierbei ist ein Kostümwechsel möglich.
+\end{enumerate}
+
+\subsubsection{Phase 4: Testen und
+vorstellen}\label{phase-4-testen-und-vorstellen}
+
+In der letzten Phase, die auch zweimal durchgeführt werden kann, müssen
+alle (bei großen Gruppen: ausgewählte) Schülerinnen und Schüler ihr
+Projekt vorstellen. Hier bietet es sich an, wenn eine dritte Person das
+Programm bedienen muss und nicht die Programmiererin oder der
+Programmierer. Der restliche Kurs schaut bei der Vorstellung zu und gibt
+hinterher eine Rückmeldung. Für jedes Projekt kann so analysiert werden,
+was gut und was weniger gut funktioniert und noch verbessert werden
+muss. Wichtig vor allem bei jüngeren Klassenstufen: Die guten Teile des
+Programmes besonders hervorheben!
+
+Es kann anschließend eine weitere Programmierphase angestoßen werden,
+bei der jedem die Chance gegeben wird, die vorhandenen Mängel noch zu
+beheben.
+
+\subsection{Erweiterungen}\label{erweiterungen}
+
+Mögliche Erweiterungen sind z.B.:
+
+\begin{itemize}
+\item
+  Einführung eines Ziels an der Wasseroberfläche
+\item
+  Hinzufügen von statischen Hindernissen
+\item
+  Kostümwechsel der Fische bei Kollision (erfordert
+  Firgurenkommunikation)
+\end{itemize}

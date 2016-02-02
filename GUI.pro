@@ -8,6 +8,14 @@ QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
+INCLUDEPATH += src
+DESTDIR=bin #Target file directory
+OBJECTS_DIR=generated #Intermediate object files directory
+MOC_DIR=generated #Intermediate moc files directory
+
+# Location of python files
+PYPATH = $$PWD/src/python
+
 TARGET = it4kids-editor
 TEMPLATE = app
 
@@ -122,7 +130,13 @@ RESOURCES += \
 win32:LIBS += -L$$PWD/src/GUI/QScintilla/ -lqscintilla2
 else:unix: LIBS += -lqt5scintilla2
 
-win32:INCLUDEPATH += $$PWD/src/GUI/QScintilla
+win32:INCLUDEPATH += $$PWD/src/GUI/QScintilla/Qsci \
+                     $$PWD/src/GUI/QScintilla
+unix:INCLUDEPATH += /usr/include/qt5/Qsci \
+                    /usr/include/qt5 \
+                    /usr/include/qt/Qsci \
+                    /usr/include/qt
+
 INCLUDEPATH += $$PWD/src \
     $$PWD/src/GUI \
     $$PWD/src/GUI/audio \
@@ -139,3 +153,35 @@ DEPENDPATH += \
     $$PWD/src/GUI/dragelem \
     $$PWD/src/GUI/teacher
 
+unix:{
+    CONFIG += link_pkgconfig
+    # Depending on distibution, python 2.7 is either called "python" or "python2"
+    PKGCONFIG += python2
+    # PKGCONFIG += python
+}
+
+win32:{
+    PY_VERSIONS = 2.7 2.6
+    for(PY_VERSION, PY_VERSIONS){
+        system(reg query HKLM\\SOFTWARE\\Python\\PythonCore\\$$PY_VERSION\\InstallPath /ve) {
+        PY_HOME = $$quote($$system(reg query HKLM\\SOFTWARE\\Python\\PythonCore\\$$PY_VERSION\\InstallPath /ve))
+        PY_HOME ~= s/.*(\\w:.*)/\\1
+        !exists($$PY_HOME\\include\\Python.h):next()
+        INCLUDEPATH *= $$PY_HOME\\include
+
+           PY_LIB_BASENAME = python$${PY_VERSION}
+           PY_LIB_BASENAME ~= s/\\./
+           CONFIG(debug, debug|release):PY_LIB_BASENAME = $${PY_LIB_BASENAME}_d
+           LIBS *= -L$$PY_HOME\\libs -l$${PY_LIB_BASENAME}
+           message(Python$$PY_VERSION found at $$PY_HOME)
+           break()
+       }
+   }
+}
+
+pythondata.commands = $(COPY_DIR) $$shell_path($$PYPATH) $$shell_path($$OUT_PWD/$$DESTDIR/python)
+first.depends = $(first) pythondata
+export(first.depends)
+export(pythondata.commands)
+
+QMAKE_EXTRA_TARGETS += first pythondata

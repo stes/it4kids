@@ -1,0 +1,41 @@
+<h1>Helikopter</h1>
+<p>Erforderliche Kompetenzen:Bewegung, Bedingungen, Schleifen Gewonnene Kompetenzen: Kostüme Aussehen, Zufall</p>
+<h2>Beschreibung</h2>
+<p>Der Spieler steuert einen Helikopter durch einen Regen von Hindernissen, welchen er ausweichen soll. Der Helikopter kann mit Pfeiltasten in alle Richtungen auf dem ganzen Spielfeld bewegt werden. Die Hindernisse sind bunt und ändern kontinuierlich die Farbe. Stößt der Helikopter mit einem der Hindernisse zusammen, bricht er auseinander und das Spiel ist vorbei.</p>
+<h2 id="durchfuxfchrung">Durchführung</h2>
+<h3>Phase 1: Planung</h3>
+<p>In der Planungsphase werden mit den Schülern die folgenden Dinge besprochen:</p>
+<ul>
+<li>
+<p>Wie fügt man die gewünschte Figur aus der Scratch-Bibliothek in das Spiel hinzu. Wie fügt man ein zusätzliches Zerstörungskostüm hinzu? Wo kann man in der Scratch-Umgebung ein Quadrat (als Hindernis) zeichnen?</p>
+</li>
+<li>
+<p>Wie programmiert man das Bewegen des Helikopters und das Spielende durch Zusammenstoß mit dem Hindernis?</p>
+</li>
+<li>
+<p>Und die wichtigste Frage: Wie programmiert man die Bewegung des Quadrats (als Hindernis) und seine Vermehrung?</p>
+</li>
+</ul>
+<h3>Phase 2: Vorbereitungen</h3>
+<p>In der Vorbereitungsphase zeichnen die Schüler das Hindernis (ein Quadrat oder Ähnliches) oder wählen eines aus der Scratch-Bibliothek aus. Außerdem fügen sie dem Helikopter (oder einer anderen gewählten Figur wie z.B. ein Flugzeug) ein Zerstörungskostüm hinzu.</p>
+<h3>Phase 3: Programmierung</h3>
+<ol>
+<li>
+<p>Bewegung des Helikopters mit den Pfeiltasten</p>
+</li>
+<li>
+<p>Helikopter fühlt den Zusammenstoß mit dem Hindernis, worauf das Spiel endet</p>
+</li>
+<li>
+<p>Ein Quadrat nach dem anderen taucht rechts irgendwo zufällig auf und fliegt nach links</p>
+</li>
+<li>
+<p>Jedes Quadrat ändert kontinuierlich seine Farbe.</p>
+</li>
+</ol>
+<h3>Detailierte Programmbeschreibung</h3>
+<p>Das Zerstörungskostüm für den Helikopter kann man erstellen, indem man in der Scratchumgebung den Helikopter aus der Scratch-Bibliothek lädt, beim Helikopter auf Kostüme klickt, das aktuelle Kostüm per Rechtsklick dupliziert und das neu erzeugte Kostüm modifiziert. Man verändert es, indem man mit dem Auswahl-Tool einige Teile des Helikopters auswählt und diese auseinander zieht.</p>
+<p>Wenn die Flagge angeklickt wird erzeugt die Figur &quot;Hindernis&quot; mithilfe eines &quot;wiederhole fortlaufend&quot;-Blocks jede Sekunde einen Klon von sich selbst. Unter dem “Wenn ich als Klon entstehe”-Block wird die x-Koordinate fest auf 300 (hinter des rechten Rands) und die y-Koordinate auf eine zufällige Zahl zwischen -180 und 180 gesetzt. Dann tritt der Klon in eine Schleife, in welcher er sich nach links bewegt und den Effekt seiner Farbe ändert. Die Schleife bricht ab, sobald die x-Position kleiner als -200 ist. Danach löscht sich der Klon selber mit dem Befehl “lösche diesen Klon”.</p>
+<p>Helikopter detektiert außerdem die Kollision mit dem Hindernis in einer Endlosschleife, woraufhin der Helikopter zum Zerstörungskostüm wechselt. Nach einer Sekunde wird das Spiel mit “stop all” beendet.</p>
+<h3>Phase 4: Testen und vorstellen</h3>
+<p>In der Vorstellungsphase kann ein beliebiger Schüler sein Spiel vorstellen, falls er es möchte. Dabei kann man explizit auf die einzelnen Teilprobleme hinweisen, welche der Schüler gelöst hat. Aber man kann die anderen auch fragen, was er verbessern könnte, wenn er an diesem Projekt nächste Stunde noch arbeiten will.</p>
