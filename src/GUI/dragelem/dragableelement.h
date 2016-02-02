@@ -28,6 +28,7 @@ class DragableElement : public QWidget
 {
     friend class MainWindow;
     friend class ScriptDock;
+    friend class WrapperDE;
 
     Q_OBJECT
 public:
@@ -45,8 +46,9 @@ public:
     inline std::vector<Param*>* getParamsVector() {return &_paramsVector; }
 
     virtual inline int getHeight() {return _height;}
+    virtual inline int getWidth() {return _width;}
 
-    virtual void resize() = 0;
+    virtual void resize();
     virtual DragableElement* getWrapElem(){return (DragableElement*)0;}
 
     virtual void moveNextElems(QPoint offset);

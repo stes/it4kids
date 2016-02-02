@@ -16,6 +16,7 @@ PredicateDE::PredicateDE(const QString& identifier, const QString& text, const Q
 
 void PredicateDE::resize()
 {
+    DragableElement::resize();
     show();
 
     getLayoutSize();

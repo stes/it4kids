@@ -21,27 +21,30 @@ ParamDock::ParamDock(QColor color, ScriptArea* scriptAreaWidget, QWidget *parent
 
 void ParamDock::dock(DragableElement* dragElem)
 {
-    QString elemClass(dragElem->metaObject()->className());
-    if(elemClass == "PredicateDE")
+    if(dragElem != parent())
     {
-        _dockedElem = dragElem;
-        _dockedElem->setCurrentDock(this);
-        int index = ((QBoxLayout*) (parentWidget()->layout()))->indexOf(this);
-        ((QBoxLayout*) (parentWidget()->layout()))->removeWidget(this);
-        ((QBoxLayout*) (parentWidget()->layout()))->insertWidget(index, _dockedElem);
-        _dockedElem->setParent(parentWidget());
-        _dockedElem->show();
-        hide();
-        QString className(parentWidget()->metaObject()->className());
-        if(className == "QWidget")
+        QString elemClass(dragElem->metaObject()->className());
+        if(elemClass == "PredicateDE")
         {
-            ((DragableElement*) parentWidget()->parentWidget())->resize();
-            ((DragableElement*) parentWidget()->parentWidget())->show();
-        }
-        else
-        {
-            ((DragableElement*) parentWidget())->resize();
-            ((DragableElement*) parentWidget())->show();
+            _dockedElem = dragElem;
+            _dockedElem->setCurrentDock(this);
+            int index = ((QBoxLayout*) (parentWidget()->layout()))->indexOf(this);
+            ((QBoxLayout*) (parentWidget()->layout()))->removeWidget(this);
+            ((QBoxLayout*) (parentWidget()->layout()))->insertWidget(index, _dockedElem);
+            _dockedElem->setParent(parentWidget());
+            _dockedElem->show();
+            hide();
+            QString className(parentWidget()->metaObject()->className());
+            if(className == "QWidget")
+            {
+                ((DragableElement*) parentWidget()->parentWidget())->resize();
+                ((DragableElement*) parentWidget()->parentWidget())->show();
+            }
+            else
+            {
+                ((DragableElement*) parentWidget())->resize();
+                ((DragableElement*) parentWidget())->show();
+            }
         }
     }
 }
@@ -73,7 +76,8 @@ void ParamDock::undock()
 
 QString ParamDock::getValue()
 {
-    return _dockedElem->getIdentifier();
+    if(_dockedElem) return _dockedElem->getIdentifier();
+    return "empty";
 }
 
 ParamDock::~ParamDock()
