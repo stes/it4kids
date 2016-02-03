@@ -124,8 +124,8 @@ class Entity(pyglet.event.EventDispatcher):
 	
 	def doGlide(self, seconds, x, y):
 		steps = seconds * self._speed
-		diffX = (x + mainApp.size[0] / 2 - self.sprite.x) / steps
-		diffY = (y + mainApp.size[1] / 2 - self.sprite.y) / steps
+		diffX = (x + App._size[0] / 2 - self.sprite.x) / steps
+		diffY = (y + App._size[1] / 2 - self.sprite.y) / steps
 		for i in range(int(steps)):
 			self.move(diffX, diffY)
 			self.wait() # animation
