@@ -7,6 +7,7 @@
 #include <QFontMetrics>
 #include <QListWidgetItem>
 #include <QPainterPath>
+#include <QRadioButton>
 #include <QDebug>
 
 #include "audioengine.h"
@@ -21,6 +22,9 @@
 #include "reporterde.h"
 #include "qscilexerpython.h"
 #include "newspritename.h"
+#include "teacherlogin.h"
+#include "student.h"
+#include "teacher.h"
 
 MainWindow* _sMainWindow = 0;
 
@@ -96,7 +100,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     connect(ui->listAddDragElem, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequestedAddDragElem(QPoint)));
-
+    connect(this, SIGNAL(currentTeacherChanged(Teacher*)), ui->studentList, SLOT(currentTeacherChanged(Teacher*)));
 }
 
 void MainWindow::InitializeDragElem(const QString& path)
@@ -254,12 +258,12 @@ void MainWindow::on_buttonAddDragElem_clicked()
                 if(type == "dragableelement")
                 {
                     attributes = xmlReader.attributes();
-                    ui->listAddDragElem->insertItem(ui->listAddDragElem->count(),
-                        new QListWidgetItem(attributes.value("name").toString(), ui->listAddDragElem));
+                    _currentStudent->addAddDragElem(attributes.value("name").toString());
                 }
             }
         }
     }
+    setCurrentStudent(true);
 }
 
 void MainWindow::on_spriteFromFile_clicked()
@@ -307,4 +311,50 @@ void MainWindow::eraseItemAddDragElem()
 void MainWindow::setCurrentCostume(Costume *costume)
 {
     ui->costumeLabel->setPixmap(QPixmap::fromImage(costume->getImage()->scaled(400, 400)));
+}
+
+void MainWindow::setCurrentStudent(bool)
+{
+    int studentNumber;
+    for(studentNumber = 0; studentNumber < ui->studentList->_gridLayout.rowCount(); studentNumber++)
+    {
+        int index = studentNumber * 4;
+        if(((QRadioButton*) ui->studentList->_gridLayout.itemAt(index)->widget())->isChecked()) break;
+    }
+    Student* student = _currentTeacher->getStudentVector()->at(studentNumber-1);
+    ui->listAddDragElem->clear();
+    for(int i = 0; i < student->getAddDragElemVector()->size(); i++)
+    {
+        ui->listAddDragElem->insertItem(ui->listAddDragElem->count(),
+            new QListWidgetItem(student->getAddDragElemVector()->at(i), ui->listAddDragElem));
+    }
+    _currentStudent = student;
+    emit currentStudentChanged(student);
+}
+
+void MainWindow::on_logInTeacher_clicked()
+{
+    TeacherLogIn dialog;
+    dialog.exec();
+
+    _currentTeacher = new Teacher("Max Mustermann", "Musterschule");
+    Student* student = new Student("Max Mustermann");
+    _currentTeacher->addStudent(student);
+    student = new Student("Maximillian Mustermann");
+    _currentTeacher->addStudent(student);
+    student = new Student("Maximus Mustermann");
+    _currentTeacher->addStudent(student);
+
+    emit currentTeacherChanged(_currentTeacher);
+
+    int currentOnline = 0;
+    for(int i = 0; i < _currentTeacher->getStudentVector()->size(); i++)
+    {
+        if(_currentTeacher->getStudentVector()->at(i)->isOnline()) ++currentOnline;
+    }
+
+    ui->teacherName->setText("Angemeldet als: " + _currentTeacher->getName());
+    ui->groupName->setText("Kurs: " + _currentTeacher->getGroupName());
+    ui->currentLoggedIn->setText(QString::number(currentOnline) + " von " + QString::number(_currentTeacher->getStudentVector()->size()) +
+                                 " Schüler/innen online");
 }

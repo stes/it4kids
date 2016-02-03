@@ -7,6 +7,7 @@
 #include "codegenerator.h"
 
 #include "spriteselect.h"
+#include "student.h"
 
 class AudioEngine;
 class Costume;
@@ -14,6 +15,8 @@ class DragElemCategory;
 class DragableElement;
 class ScriptAreaWidget;
 class Sprite;
+class Teacher;
+class Student;
 
 
 typedef std::vector<Sprite*> SpriteVector;
@@ -38,6 +41,8 @@ signals:
     void currentSpriteChanged(Sprite* sprite);
     void newSound();
     void newCostume();
+    void currentStudentChanged(Student* student);
+    void currentTeacherChanged(Teacher* teacher);
 
 private slots:
     void on_soundFromFile_clicked();
@@ -50,10 +55,13 @@ private slots:
     void on_buttonScriptStart_clicked();
     void on_buttonScriptStop_clicked();
 
+    void on_logInTeacher_clicked();
+
     void changeCurrentSprite(Sprite* sprite);
     void customContextMenuRequestedAddDragElem(const QPoint &pos);
     void eraseItemAddDragElem();
     void setCurrentCostume(Costume* costume);
+    void setCurrentStudent(bool);
 private:
     void InitializeDragElem(const QString& path);
     DragElemCategory* GetCategoryByName(const QString& name);
@@ -69,6 +77,9 @@ private:
     QMenu _bearbeitenMenu;
 
     CodeGenerator * _Cgen;
+
+    Teacher* _currentTeacher;
+    Student* _currentStudent;
 };
 
 #endif // MAINWINDOW_H

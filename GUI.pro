@@ -66,7 +66,10 @@ SOURCES += src/main.cpp\
     src/GUI/teacher/studentlist.cpp \
     src/GUI/newspritename.cpp\
     src/GUI/codegenerator.cpp\
-    src/GUI/structs.cpp
+    src/GUI/structs.cpp \
+    src/GUI/teacher/student.cpp \
+    src/GUI/teacher/teacher.cpp \
+    src/GUI/teacherlogin.cpp
 
 HEADERS  += src/GUI/mainwindow.h \
     src/GUI/scene.h \
@@ -116,10 +119,15 @@ HEADERS  += src/GUI/mainwindow.h \
     src/GUI/teacher/studentlist.h \
     src/GUI/newspritename.h\
     src/GUI/codegenerator.h\
-    src/GUI/structs.h
+    src/GUI/structs.h \
+    src/GUI/teacher/student.h \
+    src/GUI/teacher/teacher.h \
+    teacherlogin.h \
+    src/GUI/teacherlogin.h
 
 FORMS    += src/GUI/mainwindow.ui \
-    src/GUI/newspritename.ui
+    src/GUI/newspritename.ui \
+    src/GUI/teacherlogin.ui
 
 RESOURCES += \
     src/GUI/resources.qrc
