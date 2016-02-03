@@ -5,7 +5,7 @@
 #include <QJsonArray>
 #include "dragableelement.h"
 
-class Mainwindow;
+class MainWindow;
 
 class SaveLoadClass
 {
