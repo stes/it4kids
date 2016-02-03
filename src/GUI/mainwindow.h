@@ -57,11 +57,17 @@ private slots:
 
     void on_logInTeacher_clicked();
 
+    void on_scriptArea_customContextMenuRequested(const QPoint &pos);
+    void on_listAddDragElem_customContextMenuRequested(const QPoint &pos);
+
     void changeCurrentSprite(Sprite* sprite);
-    void customContextMenuRequestedAddDragElem(const QPoint &pos);
     void eraseItemAddDragElem();
     void setCurrentCostume(Costume* costume);
     void setCurrentStudent(bool);
+    void dragElemContextMenuRequested(const QPoint &pos, DragableElement* elem);
+    void spriteContextMenuRequested(const QPoint &pos, Sprite* sprite);
+    void on_scene_customContextMenuRequested(const QPoint &pos);
+
 private:
     void InitializeDragElem(const QString& path);
     DragElemCategory* GetCategoryByName(const QString& name);

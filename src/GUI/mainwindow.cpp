@@ -99,7 +99,6 @@ MainWindow::MainWindow(QWidget *parent) :
     _bearbeitenMenu.addAction("Turbo-Modus");
 
 
-    connect(ui->listAddDragElem, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequestedAddDragElem(QPoint)));
     connect(this, SIGNAL(currentTeacherChanged(Teacher*)), ui->studentList, SLOT(currentTeacherChanged(Teacher*)));
 }
 
@@ -286,14 +285,45 @@ void MainWindow::on_spriteFromFile_clicked()
     changeCurrentSprite(sprite);
 }
 
-void MainWindow::changeCurrentSprite(Sprite *sprite)
+void MainWindow::on_logInTeacher_clicked()
 {
-    _currentSprite = sprite;
-    setCurrentCostume(sprite->getCostumeVector()->at(0));
-    emit currentSpriteChanged(sprite);
+    TeacherLogIn dialog;
+    dialog.exec();
+
+    _currentTeacher = new Teacher("Max Mustermann", "Musterschule");
+    Student* student = new Student("Max Mustermann");
+    _currentTeacher->addStudent(student);
+    student = new Student("Maximillian Mustermann");
+    _currentTeacher->addStudent(student);
+    student = new Student("Maximus Mustermann");
+    _currentTeacher->addStudent(student);
+
+    emit currentTeacherChanged(_currentTeacher);
+
+    int currentOnline = 0;
+    for(uint i = 0; i < _currentTeacher->getStudentVector()->size(); i++)
+    {
+        if(_currentTeacher->getStudentVector()->at(i)->isOnline()) ++currentOnline;
+    }
+
+    ui->teacherName->setText("Angemeldet als: " + _currentTeacher->getName());
+    ui->groupName->setText("Kurs: " + _currentTeacher->getGroupName());
+    ui->currentLoggedIn->setText(QString::number(currentOnline) + " von " + QString::number(_currentTeacher->getStudentVector()->size()) +
+                                 " Schüler/innen online");
 }
 
-void MainWindow::customContextMenuRequestedAddDragElem(const QPoint &pos)
+void MainWindow::on_scriptArea_customContextMenuRequested(const QPoint &pos)
+{
+    QPoint globalPos = ui->scriptArea->mapToGlobal(pos);
+
+    QMenu myMenu;
+    myMenu.addAction("Aufräumen");
+    myMenu.addAction("Kommentar hinzufügen");
+
+    myMenu.exec(globalPos);
+}
+
+void MainWindow::on_listAddDragElem_customContextMenuRequested(const QPoint &pos)
 {
     QPoint globalPos = ui->listAddDragElem->mapToGlobal(pos);
 
@@ -302,6 +332,14 @@ void MainWindow::customContextMenuRequestedAddDragElem(const QPoint &pos)
 
     myMenu.exec(globalPos);
 }
+
+void MainWindow::changeCurrentSprite(Sprite *sprite)
+{
+    _currentSprite = sprite;
+    setCurrentCostume(sprite->getCostumeVector()->at(0));
+    emit currentSpriteChanged(sprite);
+}
+
 
 void MainWindow::eraseItemAddDragElem()
 {
@@ -323,7 +361,7 @@ void MainWindow::setCurrentStudent(bool)
     }
     Student* student = _currentTeacher->getStudentVector()->at(studentNumber-1);
     ui->listAddDragElem->clear();
-    for(int i = 0; i < student->getAddDragElemVector()->size(); i++)
+    for(uint i = 0; i < student->getAddDragElemVector()->size(); i++)
     {
         ui->listAddDragElem->insertItem(ui->listAddDragElem->count(),
             new QListWidgetItem(student->getAddDragElemVector()->at(i), ui->listAddDragElem));
@@ -332,29 +370,50 @@ void MainWindow::setCurrentStudent(bool)
     emit currentStudentChanged(student);
 }
 
-void MainWindow::on_logInTeacher_clicked()
+void MainWindow::dragElemContextMenuRequested(const QPoint &pos, DragableElement *elem)
 {
-    TeacherLogIn dialog;
-    dialog.exec();
-
-    _currentTeacher = new Teacher("Max Mustermann", "Musterschule");
-    Student* student = new Student("Max Mustermann");
-    _currentTeacher->addStudent(student);
-    student = new Student("Maximillian Mustermann");
-    _currentTeacher->addStudent(student);
-    student = new Student("Maximus Mustermann");
-    _currentTeacher->addStudent(student);
-
-    emit currentTeacherChanged(_currentTeacher);
-
-    int currentOnline = 0;
-    for(int i = 0; i < _currentTeacher->getStudentVector()->size(); i++)
+    if(elem->isDragged())
     {
-        if(_currentTeacher->getStudentVector()->at(i)->isOnline()) ++currentOnline;
-    }
+        QPoint globalPos = elem->mapToGlobal(pos);
 
-    ui->teacherName->setText("Angemeldet als: " + _currentTeacher->getName());
-    ui->groupName->setText("Kurs: " + _currentTeacher->getGroupName());
-    ui->currentLoggedIn->setText(QString::number(currentOnline) + " von " + QString::number(_currentTeacher->getStudentVector()->size()) +
-                                 " Schüler/innen online");
+        QMenu myMenu;
+        myMenu.addAction("Duplizieren");
+        myMenu.addAction("Löschen");
+        myMenu.addAction("Kommentar hinzufügen");
+        myMenu.addAction("Hilfe");
+
+        myMenu.exec(globalPos);
+    } else
+    {
+        QPoint globalPos = elem->mapToGlobal(pos);
+
+        QMenu myMenu;
+        myMenu.addAction("Hilfe");
+
+        myMenu.exec(globalPos);
+    }
+}
+
+void MainWindow::spriteContextMenuRequested(const QPoint &pos, Sprite *sprite)
+{
+    QPoint globalPos = sprite->mapToGlobal(pos);
+
+    QMenu myMenu;
+    myMenu.addAction("Info");
+    myMenu.addAction("Duplizieren");
+    myMenu.addAction("Löschen");
+    myMenu.addAction("Als lokale Datei speichern");
+    myMenu.addAction("verstecke dich");
+
+    myMenu.exec(globalPos);
+}
+
+void MainWindow::on_scene_customContextMenuRequested(const QPoint &pos)
+{
+    QPoint globalPos = ui->scene->mapToGlobal(pos);
+
+    QMenu myMenu;
+    myMenu.addAction("Bild der Bühne speichern");
+
+    myMenu.exec(globalPos);
 }

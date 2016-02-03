@@ -32,7 +32,7 @@ StudentList::StudentList(QWidget *parent) : QWidget(parent), _gridLayout(this)
 
 void StudentList::currentTeacherChanged(Teacher* teacher)
 {
-    for(int i = 0; i < teacher->getStudentVector()->size(); i++)
+    for(uint i = 0; i < teacher->getStudentVector()->size(); i++)
     {
         QRadioButton* rButton = new QRadioButton();
         connect(rButton, SIGNAL(toggled(bool)), _sMainWindow, SLOT(setCurrentStudent(bool)));
