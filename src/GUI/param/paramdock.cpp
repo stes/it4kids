@@ -54,6 +54,7 @@ void ParamDock::undock()
     int index = ((QBoxLayout*) (parentWidget()->layout()))->indexOf(_dockedElem);
     ((QBoxLayout*) (parentWidget()->layout()))->removeWidget(_dockedElem);
     QPoint pos = _dockedElem->mapToGlobal(_dockedElem->pos());
+    _dockedElem->setCurrentDock(0);
     _dockedElem->setParent(QApplication::activeWindow());
     _dockedElem->move(_dockedElem->mapFromGlobal(pos));
     _dockedElem->show();
