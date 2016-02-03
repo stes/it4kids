@@ -186,8 +186,8 @@ void MainWindow::on_soundFromFile_clicked()
     if (fileNames.count())
     {
         _audioEngine->loadFile(fileNames.front());
+        emit newSound();
     }
-    emit newSound();
 }
 
 void MainWindow::on_costumeFromFile_clicked()
@@ -199,8 +199,8 @@ void MainWindow::on_costumeFromFile_clicked()
         Costume* costume = new Costume(_currentSprite);
         costume->open(fileNames.front());
         _currentSprite->getCostumeVector()->push_back(costume);
+        emit newCostume();
     }
-    emit newCostume();
 }
 
 void MainWindow::on_buttonFile_clicked()
@@ -261,8 +261,8 @@ void MainWindow::on_buttonAddDragElem_clicked()
                 }
             }
         }
+        setCurrentStudent(true);
     }
-    setCurrentStudent(true);
 }
 
 void MainWindow::on_spriteFromFile_clicked()
@@ -270,19 +270,21 @@ void MainWindow::on_spriteFromFile_clicked()
     NewSpriteName dialog;
     dialog.exec();
 
-    Sprite* sprite = new Sprite(dialog.getName(), this);
-    ui->spriteSelect->addSprite(sprite);
+    QString name = dialog.getName();
 
     const QString dir;
     const QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Open PNG file"), dir, "*.png");
     if (fileNames.count())
     {
+        Sprite* sprite = new Sprite(name, this);
+        ui->spriteSelect->addSprite(sprite);
+
         Costume* costume = new Costume(sprite);
         costume->open(fileNames.front());
         sprite->setCurrentCostume(costume);
-    }
 
-    changeCurrentSprite(sprite);
+        changeCurrentSprite(sprite);
+    }
 }
 
 void MainWindow::on_logInTeacher_clicked()
