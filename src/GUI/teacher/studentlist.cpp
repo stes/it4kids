@@ -1,7 +1,13 @@
 #include "studentlist.h"
 
-#include <QCheckBox>
+#include <QRadioButton>
 #include <QVariant>
+
+#include "student.h"
+#include "teacher.h"
+#include "mainwindow.h"
+
+extern MainWindow* _sMainWindow;
 
 StudentList::StudentList(QWidget *parent) : QWidget(parent), _gridLayout(this)
 {
@@ -22,13 +28,19 @@ StudentList::StudentList(QWidget *parent) : QWidget(parent), _gridLayout(this)
     _gridLayout.addWidget(&_currentProjectLabel, 0, 3);
     setStyleSheet("*[coloredcell=\"true\"] {background-color:#9c9ea2; color: #ffffff; font-size: 16px;}");
 
-    QCheckBox* cBox = new QCheckBox(this);
-    _gridLayout.addWidget(cBox, 1, 0);
-    QLabel* name = new QLabel("Peter", this);
-    _gridLayout.addWidget(name, 1, 1);
-    QLabel* lastOnline = new QLabel("01.01.16");
-    _gridLayout.addWidget(lastOnline, 1, 2);
-    QLabel* currentProject = new QLabel("Maus zum Käse", this);
-    _gridLayout.addWidget(currentProject, 1, 3);
+}
+
+void StudentList::currentTeacherChanged(Teacher* teacher)
+{
+    for(uint i = 0; i < teacher->getStudentVector()->size(); i++)
+    {
+        QRadioButton* rButton = new QRadioButton();
+        connect(rButton, SIGNAL(toggled(bool)), _sMainWindow, SLOT(setCurrentStudent(bool)));
+        _gridLayout.addWidget(rButton);
+        _gridLayout.addWidget(rButton, i+1, 0);
+        _gridLayout.addWidget(new QLabel(teacher->getStudentVector()->at(i)->getName()), i+1, 1);
+        _gridLayout.addWidget(new QLabel(teacher->getStudentVector()->at(i)->getLastOnline()), i+1, 2);
+        _gridLayout.addWidget(new QLabel(teacher->getStudentVector()->at(i)->getCurrentProject()), i+1, 3);
+    }
 }
 

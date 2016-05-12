@@ -12,6 +12,8 @@
 #include "mainwindow.h"
 #include "scriptarea.h"
 
+extern MainWindow* _sMainWindow;
+
 Sprite::Sprite(const QString &name, MainWindow* parent) : QWidget(parent),
     _name(name)
 {
@@ -26,6 +28,9 @@ Sprite::Sprite(const QString &name, MainWindow* parent) : QWidget(parent),
     _label.setAlignment(Qt::AlignHCenter);
 
     _label.setText(_name);
+    setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextMenuRequested(QPoint)));
+    connect(this, SIGNAL(spriteContextMenuRequested(QPoint,Sprite*)), _sMainWindow, SLOT(spriteContextMenuRequested(QPoint,Sprite*)));
 }
 
 Sprite::Sprite(MainWindow* parent) : QWidget(parent)
@@ -66,6 +71,11 @@ void Sprite::setCurrentCostume(Costume *costume)
     }
     _imageLabel.setPixmap(QPixmap::fromImage(_costumeVector[_currentCostumeIndex]->getImage()->scaled(40, 40)));
     emit currentCostumeChanged(this);
+}
+
+void Sprite::contextMenuRequested(const QPoint &pos)
+{
+    emit spriteContextMenuRequested(pos, this);
 }
 
 void Sprite::mousePressEvent(QMouseEvent*)

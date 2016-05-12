@@ -150,6 +150,9 @@
            <height>360</height>
           </size>
          </property>
+         <property name="contextMenuPolicy">
+          <enum>Qt::CustomContextMenu</enum>
+         </property>
         </widget>
        </item>
        <item>
@@ -847,6 +850,9 @@ QMenu
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
           <layout class="QHBoxLayout" name="horizontalLayout_4">
            <property name="spacing">
             <number>0</number>
@@ -1540,14 +1546,14 @@ color: #5c5d5f;</string>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_14">
            <item>
-            <widget class="QLabel" name="label_4">
+            <widget class="QLabel" name="teacherName">
              <property name="text">
               <string>Angemeldet als:</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QPushButton" name="pushButton">
+            <widget class="QPushButton" name="logInTeacher">
              <property name="styleSheet">
               <string notr="true">color: #000000;</string>
              </property>
@@ -1575,14 +1581,14 @@ color: #5c5d5f;</string>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_15">
            <item>
-            <widget class="QLabel" name="label_5">
+            <widget class="QLabel" name="groupName">
              <property name="text">
               <string>Kurs:</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label_6">
+            <widget class="QLabel" name="currentLoggedIn">
              <property name="text">
               <string>0 von  0 Schüler/innen online</string>
              </property>

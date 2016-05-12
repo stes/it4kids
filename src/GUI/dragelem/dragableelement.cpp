@@ -1,6 +1,7 @@
 #include "dragableelement.h"
 #include <QDebug>
 
+#include "mainwindow.h"
 #include "param.h"
 #include "paramcolor.h"
 #include "paramclone.h"
@@ -26,6 +27,8 @@
 #include "paramvariables.h"
 #include "structs.h"
 
+extern MainWindow* _sMainWindow;
+
 DragableElement::DragableElement(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget, QWidget* parent) :
     QWidget(parent), _color(color), _text(text), _identifier(identifier), _dragged(false),
     _width(0), _height(0), _scriptAreaWidget(scriptAreaWidget), _path(QPoint(0, 0)),
@@ -34,26 +37,32 @@ DragableElement::DragableElement(const QString& identifier, const QString& text,
     _layout.setSpacing(5);
     setLayout(&_layout);
     hide();
+    setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextMenuRequested(QPoint)));
+    connect(this, SIGNAL(dragElemContextMenuRequested(QPoint,DragableElement*)), _sMainWindow, SLOT(dragElemContextMenuRequested(QPoint,DragableElement*)));
 }
 
 void DragableElement::mousePressEvent(QMouseEvent *event)
 {
-    _offset = event->pos();
-    if(!_dragged)
+    if(event->buttons() & Qt::LeftButton)
     {
-        DragableElement* element = getCurrentElement(QApplication::activeWindow());
-        for(uint i = 0; i < element->_paramsVector.size(); i++)
+        _offset = event->pos();
+        if(!_dragged)
         {
-            element->_paramsVector[i]->setValue(_paramsVector[i]->getValue());
+            DragableElement* element = getCurrentElement(QApplication::activeWindow());
+            for(uint i = 0; i < element->_paramsVector.size(); i++)
+            {
+                element->_paramsVector[i]->setValue(_paramsVector[i]->getValue());
+            }
+            element->_dragged = true;
+            element->update();
+            element->grabMouse();
         }
-        element->_dragged = true;
-        element->update();
-        element->grabMouse();
+        if(_currentDock) _currentDock->undock();
+        resize();
+        show();
+        raise();
     }
-    if(_currentDock) _currentDock->undock();
-    resize();
-    show();
-    raise();
 }
 
 void DragableElement::mouseMoveEvent(QMouseEvent *event)
@@ -67,35 +76,38 @@ void DragableElement::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
-void DragableElement::mouseReleaseEvent(QMouseEvent*)
+void DragableElement::mouseReleaseEvent(QMouseEvent* event)
 {
     releaseMouse();
-    QRect scriptArea = QRect(_scriptAreaWidget->mapToGlobal(QPoint(0,0)), QSize(_scriptAreaWidget->width(), _scriptAreaWidget->height()));
-    _scriptAreaWidget->addToDragElem(this);
-    if(!scriptArea.contains(QRect(mapToGlobal(QPoint(0, 0)), QSize(width(), height())), true))
+    if(event->button() == Qt::LeftButton)
     {
-        _scriptAreaWidget->removeFromDragElem(this);
+        QRect scriptArea = QRect(_scriptAreaWidget->mapToGlobal(QPoint(0,0)), QSize(_scriptAreaWidget->width(), _scriptAreaWidget->height()));
+        _scriptAreaWidget->addToDragElem(this);
+        if(!scriptArea.contains(QRect(mapToGlobal(QPoint(0, 0)), QSize(width(), height())), true))
+        {
+            _scriptAreaWidget->removeFromDragElem(this);
+            if(_nextElem)
+            {
+                DragableElement* current = _nextElem;
+                DragableElement* next = 0;
+                while(current)
+                {
+                    _scriptAreaWidget->removeFromDragElem(current);
+                        next = current->_nextElem;
+                    delete current;
+                    current = next;
+                }
+            }
+            delete this;
+            return;
+        }
+        hitTest();
         if(_nextElem)
         {
-            DragableElement* current = _nextElem;
-            DragableElement* next = 0;
-            while(current)
-            {
-                _scriptAreaWidget->removeFromDragElem(current);
-                next = current->_nextElem;
-                delete current;
-                current = next;
-            }
+            DragableElement* next = _nextElem;
+            while(next->_nextElem) next = next->_nextElem;
+            next->hitTest();
         }
-        delete this;
-        return;
-    }
-    hitTest();
-    if(_nextElem)
-    {
-        DragableElement* next = _nextElem;
-        while(next->_nextElem) next = next->_nextElem;
-        next->hitTest();
     }
 }
 
@@ -375,6 +387,11 @@ ArgumentStruct* DragableElement::getArguments()
     }
 
     return stru;
+}
+
+void DragableElement::contextMenuRequested(const QPoint &pos)
+{
+    emit dragElemContextMenuRequested(pos, this);
 }
 
 DragableElement::~DragableElement()

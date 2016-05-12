@@ -42,10 +42,11 @@ public:
 signals:
     void spriteSelected(Sprite* sprite);
     void currentCostumeChanged(Sprite* sprite);
+    void spriteContextMenuRequested(const QPoint& pos, Sprite* elem);
 
 public slots:
     void setCurrentCostume(Costume* costume);
-
+    void contextMenuRequested(const QPoint& pos);
 protected:
     explicit Sprite(const QString& name, MainWindow *parent = 0);
     explicit Sprite(MainWindow* parent = 0);

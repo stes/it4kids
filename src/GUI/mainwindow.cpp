@@ -7,6 +7,7 @@
 #include <QFontMetrics>
 #include <QListWidgetItem>
 #include <QPainterPath>
+#include <QRadioButton>
 #include <QDebug>
 
 #include "audioengine.h"
@@ -22,6 +23,9 @@
 #include <Qsci/qscilexerpython.h>
 #include "newspritename.h"
 #include "saveloadclass.h"
+#include "teacherlogin.h"
+#include "student.h"
+#include "teacher.h"
 
 MainWindow* _sMainWindow = 0;
 
@@ -96,8 +100,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _bearbeitenMenu.addAction("Turbo-Modus");
 
 
-    connect(ui->listAddDragElem, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(customContextMenuRequestedAddDragElem(QPoint)));
-
+    connect(this, SIGNAL(currentTeacherChanged(Teacher*)), ui->studentList, SLOT(currentTeacherChanged(Teacher*)));
 }
 
 void MainWindow::InitializeDragElem(const QString& path)
@@ -187,8 +190,8 @@ void MainWindow::on_soundFromFile_clicked()
     if (fileNames.count())
     {
         _audioEngine->loadFile(fileNames.front());
+        emit newSound();
     }
-    emit newSound();
 }
 
 void MainWindow::on_costumeFromFile_clicked()
@@ -200,8 +203,8 @@ void MainWindow::on_costumeFromFile_clicked()
         Costume* costume = new Costume(_currentSprite);
         costume->open(fileNames.front());
         _currentSprite->getCostumeVector()->push_back(costume);
+        emit newCostume();
     }
-    emit newCostume();
 }
 
 void MainWindow::on_buttonFile_clicked()
@@ -283,11 +286,11 @@ void MainWindow::on_buttonAddDragElem_clicked()
                 if(type == "dragableelement")
                 {
                     attributes = xmlReader.attributes();
-                    ui->listAddDragElem->insertItem(ui->listAddDragElem->count(),
-                        new QListWidgetItem(attributes.value("name").toString(), ui->listAddDragElem));
+                    _currentStudent->addAddDragElem(attributes.value("name").toString());
                 }
             }
         }
+        setCurrentStudent(true);
     }
 }
 
@@ -296,29 +299,62 @@ void MainWindow::on_spriteFromFile_clicked()
     NewSpriteName dialog;
     dialog.exec();
 
-    Sprite* sprite = new Sprite(dialog.getName(), this);
-    ui->spriteSelect->addSprite(sprite);
+    QString name = dialog.getName();
 
     const QString dir;
     const QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Open PNG file"), dir, "*.png");
     if (fileNames.count())
     {
+        Sprite* sprite = new Sprite(name, this);
+        ui->spriteSelect->addSprite(sprite);
+
         Costume* costume = new Costume(sprite);
         costume->open(fileNames.front());
         sprite->setCurrentCostume(costume);
+
+        changeCurrentSprite(sprite);
+    }
+}
+
+void MainWindow::on_logInTeacher_clicked()
+{
+    TeacherLogIn dialog;
+    dialog.exec();
+
+    _currentTeacher = new Teacher("Max Mustermann", "Musterschule");
+    Student* student = new Student("Max Mustermann");
+    _currentTeacher->addStudent(student);
+    student = new Student("Maximillian Mustermann");
+    _currentTeacher->addStudent(student);
+    student = new Student("Maximus Mustermann");
+    _currentTeacher->addStudent(student);
+
+    emit currentTeacherChanged(_currentTeacher);
+
+    int currentOnline = 0;
+    for(uint i = 0; i < _currentTeacher->getStudentVector()->size(); i++)
+    {
+        if(_currentTeacher->getStudentVector()->at(i)->isOnline()) ++currentOnline;
     }
 
-    changeCurrentSprite(sprite);
+    ui->teacherName->setText("Angemeldet als: " + _currentTeacher->getName());
+    ui->groupName->setText("Kurs: " + _currentTeacher->getGroupName());
+    ui->currentLoggedIn->setText(QString::number(currentOnline) + " von " + QString::number(_currentTeacher->getStudentVector()->size()) +
+                                 " Schüler/innen online");
 }
 
-void MainWindow::changeCurrentSprite(Sprite *sprite)
+void MainWindow::on_scriptArea_customContextMenuRequested(const QPoint &pos)
 {
-    _currentSprite = sprite;
-    setCurrentCostume(sprite->getCostumeVector()->at(0));
-    emit currentSpriteChanged(sprite);
+    QPoint globalPos = ui->scriptArea->mapToGlobal(pos);
+
+    QMenu myMenu;
+    myMenu.addAction("Aufräumen");
+    myMenu.addAction("Kommentar hinzufügen");
+
+    myMenu.exec(globalPos);
 }
 
-void MainWindow::customContextMenuRequestedAddDragElem(const QPoint &pos)
+void MainWindow::on_listAddDragElem_customContextMenuRequested(const QPoint &pos)
 {
     QPoint globalPos = ui->listAddDragElem->mapToGlobal(pos);
 
@@ -328,6 +364,14 @@ void MainWindow::customContextMenuRequestedAddDragElem(const QPoint &pos)
     myMenu.exec(globalPos);
 }
 
+void MainWindow::changeCurrentSprite(Sprite *sprite)
+{
+    _currentSprite = sprite;
+    setCurrentCostume(sprite->getCostumeVector()->at(0));
+    emit currentSpriteChanged(sprite);
+}
+
+
 void MainWindow::eraseItemAddDragElem()
 {
     qDeleteAll(ui->listAddDragElem->selectedItems());
@@ -336,4 +380,71 @@ void MainWindow::eraseItemAddDragElem()
 void MainWindow::setCurrentCostume(Costume *costume)
 {
     ui->costumeLabel->setPixmap(QPixmap::fromImage(costume->getImage()->scaled(400, 400)));
+}
+
+void MainWindow::setCurrentStudent(bool)
+{
+    int studentNumber;
+    for(studentNumber = 0; studentNumber < ui->studentList->_gridLayout.rowCount(); studentNumber++)
+    {
+        int index = studentNumber * 4;
+        if(((QRadioButton*) ui->studentList->_gridLayout.itemAt(index)->widget())->isChecked()) break;
+    }
+    Student* student = _currentTeacher->getStudentVector()->at(studentNumber-1);
+    ui->listAddDragElem->clear();
+    for(uint i = 0; i < student->getAddDragElemVector()->size(); i++)
+    {
+        ui->listAddDragElem->insertItem(ui->listAddDragElem->count(),
+            new QListWidgetItem(student->getAddDragElemVector()->at(i), ui->listAddDragElem));
+    }
+    _currentStudent = student;
+    emit currentStudentChanged(student);
+}
+
+void MainWindow::dragElemContextMenuRequested(const QPoint &pos, DragableElement *elem)
+{
+    if(elem->isDragged())
+    {
+        QPoint globalPos = elem->mapToGlobal(pos);
+
+        QMenu myMenu;
+        myMenu.addAction("Duplizieren");
+        myMenu.addAction("Löschen");
+        myMenu.addAction("Kommentar hinzufügen");
+        myMenu.addAction("Hilfe");
+
+        myMenu.exec(globalPos);
+    } else
+    {
+        QPoint globalPos = elem->mapToGlobal(pos);
+
+        QMenu myMenu;
+        myMenu.addAction("Hilfe");
+
+        myMenu.exec(globalPos);
+    }
+}
+
+void MainWindow::spriteContextMenuRequested(const QPoint &pos, Sprite *sprite)
+{
+    QPoint globalPos = sprite->mapToGlobal(pos);
+
+    QMenu myMenu;
+    myMenu.addAction("Info");
+    myMenu.addAction("Duplizieren");
+    myMenu.addAction("Löschen");
+    myMenu.addAction("Als lokale Datei speichern");
+    myMenu.addAction("verstecke dich");
+
+    myMenu.exec(globalPos);
+}
+
+void MainWindow::on_scene_customContextMenuRequested(const QPoint &pos)
+{
+    QPoint globalPos = ui->scene->mapToGlobal(pos);
+
+    QMenu myMenu;
+    myMenu.addAction("Bild der Bühne speichern");
+
+    myMenu.exec(globalPos);
 }

@@ -47,6 +47,7 @@ public:
 
     virtual inline int getHeight() {return _height;}
     virtual inline int getWidth() {return _width;}
+    virtual bool isDragged() {return _dragged;}
 
     virtual void resize();
     virtual DragableElement* getWrapElem(){return (DragableElement*)0;}
@@ -61,6 +62,10 @@ public:
     ArgumentStruct* getArguments();
     virtual DragableElement* getCurrentElement(QWidget* parent) = 0;
 
+signals:
+    void dragElemContextMenuRequested(const QPoint& pos, DragableElement* elem);
+public slots:
+    void contextMenuRequested(const QPoint& pos);
 protected:
     QColor _color;
     QString _text;
