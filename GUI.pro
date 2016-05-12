@@ -15,7 +15,8 @@ OBJECTS_DIR=generated #Intermediate object files directory
 MOC_DIR=generated #Intermediate moc files directory
 
 # Location of python files
-PYPATH = $$PWD/src/python
+PYPATH = $$PWD/python
+ASSETSPATH = $$PWD/Assets
 
 TARGET = it4kids-editor
 TEMPLATE = app
@@ -177,8 +178,10 @@ win32:{
 }
 
 pythondata.commands = $(COPY_DIR) $$shell_path($$PYPATH) $$shell_path($$OUT_PWD/$$DESTDIR/python)
-first.depends = $(first) pythondata
+assetsdata.commands += $(COPY_DIR) $$shell_path($$ASSETSPATH) $$shell_path($$OUT_PWD/$$DESTDIR/Assets)
+first.depends = $(first) pythondata assetsdata
 export(first.depends)
 export(pythondata.commands)
+export(assetsdata.commands)
 
-QMAKE_EXTRA_TARGETS += first pythondata
+QMAKE_EXTRA_TARGETS += first pythondata assetsdata
