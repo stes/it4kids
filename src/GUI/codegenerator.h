@@ -2,7 +2,6 @@
 #define CODEGENERATOR_H
 
 #include "dragableelement.h"
-#include "structs.h"
 #include <QMap>
 
 class MainWindow;
@@ -14,16 +13,13 @@ public:
     void generateFile();
 private:
     QString generateCode(DragableElement* element, int sub);
-    QString dict(ArgumentStruct* argument);
+    QString dict(DragableElement* element);
     QString subident(int sub);
     void generateMap();
     QString readMap(QString arg);
     //quick and dirty, rehandelt with Block generation from code
     QString _eventList = "";
-    int _eventReceiveGo = 0;
-    int _eventReceiveKey = 0;
-    int _eventReceiveInteraction = 0;
-    int _eventReceiveMessage = 0;
+    QMap<QString, int> _eventCounters;
 
     MainWindow* _Mainwindow;
     QMap<QString, QString> map;

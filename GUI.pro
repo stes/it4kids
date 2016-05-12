@@ -67,7 +67,6 @@ SOURCES += src/main.cpp\
     src/GUI/teacher/studentlist.cpp \
     src/GUI/newspritename.cpp\
     src/GUI/codegenerator.cpp\
-    src/GUI/structs.cpp \
     src/GUI/saveloadclass.cpp \
     src/GUI/teacher/student.cpp \
     src/GUI/teacher/teacher.cpp \
@@ -121,7 +120,6 @@ HEADERS  += src/GUI/mainwindow.h \
     src/GUI/teacher/studentlist.h \
     src/GUI/newspritename.h\
     src/GUI/codegenerator.h\
-    src/GUI/structs.h \
     src/GUI/saveloadclass.h \
     src/GUI/teacher/student.h \
     src/GUI/teacher/teacher.h \

@@ -161,10 +161,10 @@ QJsonArray SaveLoadClass::generateBlockTupleArray(DragableElement* element)
 
 QJsonArray SaveLoadClass::generateBlockTuple(DragableElement* element)
 {
-    ArgumentStruct* argument = element->getArguments();
+//    ArgumentStruct* argument = element->getArguments();
     QJsonArray Block;
 
-    Block.append(QJsonValue(argument->name));
+/*    Block.append(QJsonValue(argument->name));
 
     //add parameter
     //todo: argument types!
@@ -204,7 +204,7 @@ QJsonArray SaveLoadClass::generateBlockTuple(DragableElement* element)
     if (element->getWrapElem() != (void*)0)
     {
         Block.append(generateBlockTupleArray(element->getWrapElem()));
-    }
+    }*/
 
     return Block;
 }

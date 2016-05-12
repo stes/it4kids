@@ -58,8 +58,6 @@ public:
     virtual ~DragableElement();
 
     QString getType() {return _type;}
-    QString getIdent(){return _identifier;}
-    ArgumentStruct* getArguments();
     virtual DragableElement* getCurrentElement(QWidget* parent) = 0;
 
 signals:

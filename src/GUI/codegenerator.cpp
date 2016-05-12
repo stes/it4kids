@@ -1,6 +1,7 @@
 #include "codegenerator.h"
 #include "sprite.h"
 #include "mainwindow.h"
+#include "param/param.h"
 #include <qfile.h>
 
 CodeGenerator::CodeGenerator(MainWindow * main)
@@ -9,13 +10,11 @@ CodeGenerator::CodeGenerator(MainWindow * main)
     generateMap();
 }
 
-void CodeGenerator::generateFile(){
+void CodeGenerator::generateFile()
+{
     QString str = "";
+    _eventCounters.clear();
     _eventList = "";
-    _eventReceiveGo = 0;
-    _eventReceiveKey = 0;
-    _eventReceiveInteraction = 0;
-    _eventReceiveMessage = 0;
 
     SpriteVector* spriteVec = _Mainwindow->getSpriteVector();
 
@@ -47,7 +46,7 @@ void CodeGenerator::generateFile(){
         str += "\n";
     }
 
-    // add Event refistration %definition%
+    // add Event registration %definition%
     str.replace("%definition%", _eventList);
 
     //write to file
@@ -64,23 +63,18 @@ void CodeGenerator::generateFile(){
 
 QString CodeGenerator::generateCode(DragableElement* element, int sub)
 {
-    DragableElement* next = element;
     QString ret = "";
-    ArgumentStruct* argument;
     //int sublvl = sub;
-    while (next)
+    for(DragableElement* next = element; next; next = next->getNextElem())
     {
         //add command
-        argument = next->getArguments();
-        ret += subident(sub) + dict(argument) + "\n";
+        ret += subident(sub) + dict(next) + "\n";
 
         //add sub Command, if exists
         if (next->getWrapElem())
         {
              ret += generateCode(next->getWrapElem(),sub+1); //todo dict start und end
         }
-
-        next = next->getNextElem();
     }
     return ret;
 }
@@ -98,47 +92,44 @@ QString CodeGenerator::subident(int sub)
 
 //translate ccommand in reqired language
 //uses special commands :start, end, tab
-QString CodeGenerator::dict(ArgumentStruct* argument)
+QString CodeGenerator::dict(DragableElement* element)
 {
     QString str;
-    if (map.contains(argument->name))
+    QString name = element->getIdentifier();
+    int type = element->getType() == "hat";
+    if (map.contains(name))
     {
-       if (!argument->type)
+       if (!type)
            str += subident(1);
-       str += map[argument->name];
+       str += map[name];
        //if event add event number
-       if (argument->name == "receiveGo")
+       QString eventType;
+       if (name == "receiveGo")
+           eventType = "on_start";
+       else if (name == "receiveKey" || name == "receiveInteraction" || name == "receiveMessage")
+           eventType = "on_click";
+
+       if(!eventType.isEmpty())
        {
-           _eventReceiveGo++;
-          str.replace("%1",QString::number(_eventReceiveGo));
-          _eventList += subident(2) + "self.register(on_start=self.receiveGO" + QString::number(_eventReceiveGo) + ")\n";
-       } else if(argument->name == "receiveKey")
-       {
-           _eventReceiveKey++;
-          str.replace("%1",QString::number(_eventReceiveKey));
-          _eventList += subident(2) + "self.register(on_click=self.receiveKey" + QString::number(_eventReceiveKey) + ")\n";
-       }else if(argument->name == "receiveInteraction")
-       {
-           _eventReceiveInteraction++;
-          str.replace("%1",QString::number(_eventReceiveInteraction));
-          _eventList += subident(2) + "self.register(on_click=self.receiveInteraction" + QString::number(_eventReceiveInteraction) + ")\n";
+           if(_eventCounters.contains(name))
+               _eventCounters[name]++;
+           else
+               _eventCounters[name] = 1;
+          str = str.arg(_eventCounters[name]);
+          _eventList += subident(2) + "self.register(" + eventType + "=self." + name + QString::number(_eventCounters[name]) + ")\n";
        }
-       else if(argument->name == "receiveMessage")
-       {
-           _eventReceiveMessage++;
-          str.replace("%1",QString::number(_eventReceiveMessage));
-          _eventList += subident(2) + "self.register(on_click=self.receiveMessage" + QString::number(_eventReceiveMessage) + ")\n";
-       }
-    }else{
-        qDebug() << "block: " << argument->name << "not supported yet";
-        str = subident(1) + "printf(\"" + argument->name + " nicht verfügbar\")";
+    }
+    else
+    {
+        qDebug() << "block: " << name << "not supported yet";
+        str = subident(1) + "printf(\"" + name + " nicht verfügbar\")";
     }
 
-    str.replace("%1",argument->arg1);
-    str.replace("%2",argument->arg2);
-    str.replace("%3",argument->arg3);
-    str.replace("%4",argument->arg4);
-    str.replace("%5",argument->arg5);
+    std::vector<Param*>* params =  element->getParamsVector();
+    for(std::vector<Param*>::iterator it = params->begin(); it != params->end(); it++)
+    {
+        str = str.arg((*it)->getValue());
+    }
 
     return str;
 }
