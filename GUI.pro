@@ -150,7 +150,7 @@ unix:{
 }
 
 win32:{
-    PY_VERSIONS = 3.4 3.3
+    PY_VERSIONS = 3.5 3.5-32 3.4 3.3
     for(PY_VERSION, PY_VERSIONS) {
         PY_HOME = $$quote($$system(reg query HKCU\\SOFTWARE\\Python\\PythonCore\\$$PY_VERSION\\InstallPath /ve))
         PY_HOME ~= s/.*(\\w:.*)/\\1
@@ -162,6 +162,7 @@ win32:{
 
         PY_LIB_BASENAME = python$${PY_VERSION}
         PY_LIB_BASENAME ~= s/\\./
+        PY_LIB_BASENAME = $$section(PY_LIB_BASENAME, -, 0, 0)
         CONFIG(debug, debug|release):PY_LIB_BASENAME = $${PY_LIB_BASENAME}_d
         INCLUDEPATH *= $$PY_HOME\\include
         LIBS *= -L$$PY_HOME\\libs -l$${PY_LIB_BASENAME}
