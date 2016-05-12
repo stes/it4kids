@@ -36,7 +36,7 @@ Scene::Scene(QWidget *parent) : QOpenGLWidget(parent)
 
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(update()));
-    timer->start();
+    timer->start(10);
 }
 
 void Scene::callMethod(PyObject *pModule, const char *pName, PyObject *pArgs)
