@@ -1,0 +1,135 @@
+{
+    "snippets": [
+        {
+            "name": "import",
+            "code": [
+                "import pyglet",
+                "import it4k",
+                "import sys, inspect\n"
+            ]
+        },
+        {
+            "name": "construct",
+            "code": [
+                "def __init__(self):",
+                "    it4k.Entity.__init__(self, 'Assets/Costumes/dog2-a.png')"
+            ]
+        },
+        {
+            "name": "append",
+            "code": [
+                "def init(create_window=False):",
+                "    myApp = it4k.init('Assets/Backgrounds/desert.gif', create_window=create_window)",
+                "    entities = inspect.getmembers(sys.modules[__name__], inspect.isclass)",
+                "    for entity in entities:",
+                "        myApp.add_entity((entity[1])())\n",
+                "if  __name__ ==  \"__main__\":",
+                "    init(True)",
+                "    pyglet.app.run()"
+            ]
+        },
+        {
+            "name": "class",
+            "code": ["class %name%(it4k.Entity):"]
+        }
+
+    ],
+	
+    "events": [
+        {
+            "name": "receiveGo",
+            "code": [
+                "@it4k.block",
+                "def receiveGo%counter%(self):"
+            ],
+            "register": "self.register(on_start=self.receiveGo%counter%)"
+        },
+        {
+            "name": "receiveKey",
+            "code": [
+                "@it4k.block",
+                "def receiveKey%counter%(self):"
+            ],
+            "register": "pass"
+        },
+        {
+            "name": "receiveInteraction",
+            "code": [
+                "@it4k.block",
+                "def receiveInteraction%counter%(self):"
+            ],
+            "register": "pass"
+        },
+        {
+            "name": "receiveMessage",
+            "code": [
+                "@it4k.block",
+                "def receiveMessage%counter%(self):"
+            ],
+            "register": "pass"
+        }
+    ],
+
+    "commands": [
+        {
+            "name": "forward",
+            "code": ["self.forward(%1)"]
+        },
+        {
+            "name": "turn",
+            "code": ["self.turnRight(%1)"]
+        },
+        {
+            "name": "turnLeft",
+            "code": ["self.turnLeft(%1)"]
+        },
+        {
+            "name": "doRepeat",
+            "code": ["for it%indent_counter% in range(%1):"]
+        },
+        {
+            "name": "doForever",
+            "code": ["while True:"]
+        },
+        {
+            "name": "gotoXY",
+            "code": ["self.gotoXY(%1, %2)"]
+        },
+        {
+            "name": "doGlide",
+            "code": ["self.doGlide(%1, %2, %3)"]
+        },
+        {
+            "name": "setHeading",
+            "code": ["#self.setHeading(%1)"]
+        },
+        {
+            "name": "doFaceTowards",
+            "code": ["#self.doFaceTowards(%1)"]
+        },
+        {
+            "name": "doGotoObject",
+            "code": ["#self.doGotoObject(%1)"]
+        },
+        {
+            "name": "changeXPosition",
+            "code": ["#self.changeXPosition(%1)"]
+        },
+        {
+            "name": "setXPosition",
+            "code": ["#self.setXPosition(%1)"]
+        },
+        {
+            "name": "changeYPosition",
+            "code": ["#self.changeYPosition(%1)"]
+        },
+        {
+            "name": "setYPosition",
+            "code": ["#self.setYPosition(%1)"]
+        },
+        {
+            "name": "bounceOffEdge",
+            "code": ["#self.bounceOffEdge()"]
+        }
+    ]
+}

@@ -32,6 +32,6 @@
         <file>Assets/rewindOff.png</file>
         <file>Assets/soundRecordOff.png</file>
         <file>Assets/soundStopOff.png</file>
-        <file>in.txt</file>
+        <file>code.json</file>
     </qresource>
 </RCC>

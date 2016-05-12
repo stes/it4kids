@@ -28,7 +28,7 @@ int SaveLoadClass::loadScratch(QString path){
 
     if (!JDoc.isObject())
     {
-         qWarning("invalid file format");
+        qWarning("invalid file format");
         return 1;
     }
 
