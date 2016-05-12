@@ -125,7 +125,6 @@ HEADERS  += src/GUI/mainwindow.h \
     src/GUI/saveloadclass.h \
     src/GUI/teacher/student.h \
     src/GUI/teacher/teacher.h \
-    teacherlogin.h \
     src/GUI/teacherlogin.h
 
 FORMS    += src/GUI/mainwindow.ui \
