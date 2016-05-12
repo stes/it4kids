@@ -28,7 +28,6 @@ void CodeGenerator::generateFile(){
         str += "class " + (*it)->getName() + "(it4k.Entity):\n\n";
 
         str += readMap("$construct");
-        //str+= "    def __init__(self):\n        image = pyglet.resource.image('Assets/Costumes/dog2-a.png')\n        it4k.Entity.__init__(self, image)\n\n";
 
         //check every block for "header"-Block
         DragElemVector * eleVec = (*it)->getDragElemVector();
@@ -44,7 +43,6 @@ void CodeGenerator::generateFile(){
         }
 
         str += "\n" + readMap("$append");
-        //str += "def init(create_window=False):\n    myApp = it4k.App('Assets/Backgrounds/desert.gif', create_window=create_window)\n    entities = inspect.getmembers(sys.modules[__name__], inspect.isclass)\n    for entity in entities:\n        myApp.add_entity((entity[1])())\nif  __name__ ==  \"__main__\":\n    init(True)\n    pyglet.app.run()";
 
         str += "\n";
     }
@@ -67,24 +65,24 @@ void CodeGenerator::generateFile(){
 QString CodeGenerator::generateCode(DragableElement* element, int sub)
 {
     DragableElement* next = element;
-        QString ret = "";
-        ArgumentStruct* argument;
-        //int sublvl = sub;
-        while (next != (void*)0)
+    QString ret = "";
+    ArgumentStruct* argument;
+    //int sublvl = sub;
+    while (next)
+    {
+        //add command
+        argument = next->getArguments();
+        ret += subident(sub) + dict(argument) + "\n";
+
+        //add sub Command, if exists
+        if (next->getWrapElem())
         {
-            //add command
-            argument = next->getArguments();
-            ret += subident(sub) + dict(argument) + "\n";
-
-            //add sub Command, if exists
-            if (next->getWrapElem() != (void*)0)
-            {
-                 ret += generateCode(next->getWrapElem(),sub+1); //todo dict start und end
-            }
-
-            next = next->getNextElem();
+             ret += generateCode(next->getWrapElem(),sub+1); //todo dict start und end
         }
-        return ret;
+
+        next = next->getNextElem();
+    }
+    return ret;
 }
 
 //einrückungen etc.
@@ -132,7 +130,7 @@ QString CodeGenerator::dict(ArgumentStruct* argument)
           _eventList += subident(2) + "self.register(on_click=self.receiveMessage" + QString::number(_eventReceiveMessage) + ")\n";
        }
     }else{
-        qDebug() << "block: " << argument->name << "not supportet jet";
+        qDebug() << "block: " << argument->name << "not supported yet";
         str = subident(1) + "printf(\"" + argument->name + " nicht verfügbar\")";
     }
 
@@ -150,7 +148,7 @@ void CodeGenerator::generateMap()
     QFile file(":in.txt");
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        qDebug() << "Python datei konnte nicht geladen werden";
+        qDebug() << "Could not load Python file";
         return;
     }
     int n = 0;
@@ -177,12 +175,12 @@ void CodeGenerator::generateMap()
         }
         else
         {
-            qDebug() << "invalide command line: " << line;
+            qDebug() << "invalid command line: " << line;
             err++;
         }
         n++;
     }
-    qDebug() << n-err << "/" << n << "lines loadet(" << coment << "Komentare)";
+    qDebug() << n-err << "/" << n << "lines loaded (" << coment << "comments)";
 }
 
 QString CodeGenerator::readMap(QString arg)

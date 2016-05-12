@@ -159,7 +159,6 @@ void MainWindow::InitializeDragElem(const QString& path)
                 DragElemCategory* category = new DragElemCategory(ui->elementList, attributes.value("name").toString(), QColor(attributes.value("color").toString()), this);
                 ui->categorySelect->_categoryList.push_back(category);
             }
-            //Vector aller dragable Elements för loadinf file Purpuses
             _LoadableDrags.push_back(lastElement);
         }
 
@@ -217,8 +216,8 @@ void MainWindow::on_buttonEdit_clicked()
 
 void MainWindow::on_buttonScriptStart_clicked()
 {
-    SaveLoadClass* slc = new SaveLoadClass(this);
-    //slc->loadScratch("C:\\Users\\Karl\\Documents\\GitHub\\it4kids\\src\\project.json");
+    //SaveLoadClass* slc = new SaveLoadClass(this);
+    //slc->loadScratch("project.json");
     //slc->saveScratch();
 
    _Cgen->generateFile();

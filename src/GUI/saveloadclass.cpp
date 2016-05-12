@@ -28,24 +28,24 @@ int SaveLoadClass::loadScratch(QString path){
 
     if (!JDoc.isObject())
     {
-         qWarning("invalide file format");
+         qWarning("invalid file format");
         return 1;
     }
 
-    //get amin object
+    //get main object
     QJsonObject Jmain = JDoc.object();
 
     //get background Scripts
     QJsonObject::iterator it = Jmain.find("scripts");
     if (it == Jmain.end() || !(*it).isArray())
-        qWarning("invalide Script Section");
+        qWarning("invalid script section");
 
     QJsonArray ScriptArray = (*it).toArray();
     qDebug() << ScriptArray.count() << "scrips in Background found";
     for(QJsonArray::iterator it = ScriptArray.begin(); it != ScriptArray.end(); ++it)
     {
         if (it == ScriptArray.end() || !(*it).isArray())
-            qWarning("ungültiges Script");
+            qWarning("invalid script");
         handleScriptTuple((*it).toArray());
     }
 
@@ -55,7 +55,7 @@ int SaveLoadClass::loadScratch(QString path){
 void SaveLoadClass::handleScriptTuple(QJsonArray a)
 {
     if (a.count() != 3)
-        qWarning("ungültiges Script tuple");
+        qWarning("invalid script tuple");
     int x, y;
     QJsonArray BlockTuple;
     x = a[0].toInt();
