@@ -13,6 +13,7 @@ forward@@self.forward(%1)
 turn@@self.turnRight(%1)
 turnLeft@@self.turnLeft(%1)
 doRepeat@@for a in range(%1):
+doForever@@while True:
 gotoXY@@self.gotoXY(%1, %2)
 doGlide@@self.doGlide(%1, %2, %3)
 setHeading@@#self.setHeading(%1)
