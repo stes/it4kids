@@ -55,6 +55,8 @@ public:
     virtual void moveNextElems(QPoint offset);
     virtual void movePrevElems(QPoint offset);
 
+    virtual void removeChildDragElems() = 0;
+
     virtual ~DragableElement();
 
     QString getType() {return _type;}
