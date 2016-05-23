@@ -36,6 +36,12 @@ void ReporterDE::resize()
     hide();
 }
 
+void ReporterDE::removeChildDragElems()
+{
+    _scriptAreaWidget->removeFromDragElem(this);
+    delete this;
+}
+
 void ReporterDE::hitTest()
 {
 

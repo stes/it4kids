@@ -97,6 +97,14 @@ void WrapperDE::resize()
     hide();
 }
 
+void WrapperDE::removeChildDragElems()
+{
+    if(_innerDock->getDockedElem()) _innerDock->getDockedElem()->removeChildDragElems();
+    if(_lowerDock->getDockedElem()) _lowerDock->getDockedElem()->removeChildDragElems();
+    _scriptAreaWidget->removeFromDragElem(this);
+    delete this;
+}
+
 void WrapperDE::mousePressEvent(QMouseEvent* event)
 {
     DragableElement* nextElem = _innerDock->getDockedElem();
