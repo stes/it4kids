@@ -89,12 +89,6 @@ void DragableElement::mouseReleaseEvent(QMouseEvent* event)
             return;
         }
         hitTest();
-        if(_nextElem)
-        {
-            DragableElement* next = _nextElem;
-            while(next->_nextElem) next = next->_nextElem;
-            next->hitTest();
-        }
     }
 }
 
