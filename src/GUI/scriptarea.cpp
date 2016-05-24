@@ -23,7 +23,7 @@ void ScriptArea::setCurrentSprite(Sprite* sprite)
     }
 
     _currentSprite = sprite;
-    if(_currentSprite)
+    if(_currentSprite && isVisible())
     {
         for(DragElemVector::iterator it = _currentSprite->_dragElemVector.begin(); it != _currentSprite->_dragElemVector.end(); ++it)
         {
