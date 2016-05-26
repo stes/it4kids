@@ -1,12 +1,24 @@
 {
     "snippets": [
         {
-            "name": "import",
+            "name": "main_import",
             "code": [
                 "import pyglet",
                 "import it4k",
-                "import sys, inspect\n"
+                "import sys, inspect, imp\n"
             ]
+        },
+        {
+            "name": "entity_import",
+            "code": ["import %name%"]
+        },
+        {
+            "name": "entity_reload",
+            "code": ["imp.reload(%name%)"]
+        },
+        {
+            "name": "import",
+            "code": ["import it4k\n"]
         },
         {
             "name": "construct",
@@ -16,13 +28,11 @@
             ]
         },
         {
-            "name": "append",
+            "name": "main",
             "code": [
                 "def init(create_window=False):",
                 "    myApp = it4k.init('Assets/Backgrounds/desert.gif', create_window=create_window)",
-                "    entities = inspect.getmembers(sys.modules[__name__], inspect.isclass)",
-                "    for entity in entities:",
-                "        myApp.add_entity((entity[1])())\n",
+                "%content%",
                 "if  __name__ ==  \"__main__\":",
                 "    init(True)",
                 "    pyglet.app.run()"
@@ -31,8 +41,11 @@
         {
             "name": "class",
             "code": ["class %name%(it4k.Entity):"]
+        },
+        {
+            "name": "entity_register",
+            "code": ["myApp.add_entity(%name%.%name%())"]
         }
-
     ],
 	
     "events": [

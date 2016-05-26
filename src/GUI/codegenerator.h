@@ -10,7 +10,10 @@ class CodeGenerator
 {
 public:
     CodeGenerator(MainWindow * main);
-    void generateFile();
+    QString generateSprite(Sprite *sprite);
+    QString generateSprite(QString name);
+    void generateFiles();
+
 private:
     struct Event
     {
@@ -18,20 +21,21 @@ private:
         QString _register;
     };
 
-    QStringList processCodeField(QJsonArray Code);
     QString generateCode(DragableElement* element, int sub);
     QString indent(int indent);
     QString indentCode(QStringList *code, int indent = 0, QString content = "");
+
+    QStringList processCodeField(QJsonArray Code);
     void generateMap();
-    //quick and dirty, rehandelt with Block generation from code
-    QStringList _eventList;
+
     int _indentCounter;
     QMap<QString, int> _eventCounters;
 
-    MainWindow* _Mainwindow;
     QMap<QString, QStringList> _snippets;
     QMap<QString, Event> _events;
     QMap<QString, QStringList> _commands;
     QMap<QString, QStringList> _controls;
+
+    MainWindow* _Mainwindow;
 };
 #endif // CODEGENERATOR_H

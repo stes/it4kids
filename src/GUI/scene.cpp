@@ -95,6 +95,8 @@ void Scene::loadApp(const char *pAppName)
 void Scene::initializeGL()
 {
     initializeOpenGLFunctions();
+    // TODO: should not be here
+    loadApp("main");
 }
 
 void Scene::resizeGL(int w, int h)

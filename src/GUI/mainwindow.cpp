@@ -43,6 +43,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint);
 
+    _Cgen = new CodeGenerator(this);
+
     _audioEngine = new AudioEngine(this);
     connect(this, SIGNAL(currentSpriteChanged(Sprite*)), _audioEngine, SLOT(setCurrentSprite(Sprite*)));
 
@@ -87,9 +89,6 @@ MainWindow::MainWindow(QWidget *parent) :
     lexer.setDefaultFont(font);
     ui->codeEditor->setLexer(&lexer);
 
-
-    _Cgen= new CodeGenerator(this);
-
     _dateiMenu.addAction("Neu");
     _dateiMenu.addAction("Hochladen von deinem Computer");
     _dateiMenu.addAction("Herunterladen auf deinen Computer");
@@ -99,8 +98,9 @@ MainWindow::MainWindow(QWidget *parent) :
     _bearbeitenMenu.addAction("Kleine Bühnengröße");
     _bearbeitenMenu.addAction("Turbo-Modus");
 
-
     connect(this, SIGNAL(currentTeacherChanged(Teacher*)), ui->studentList, SLOT(currentTeacherChanged(Teacher*)));
+
+    _Cgen->generateFiles();
 }
 
 void MainWindow::InitializeDragElem(const QString& path)
@@ -223,17 +223,12 @@ void MainWindow::on_buttonScriptStart_clicked()
     //slc->loadScratch("project.json");
     //slc->saveScratch();
 
-   _Cgen->generateFile();
+    // TODO
+    ui->codeEditor->setText(_Cgen->generateSprite(_currentSprite));
 
-    QFile file("python/out.py");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return;
+    _Cgen->generateFiles();
+    ui->scene->loadApp("main");
 
-    QTextStream in(&file);
-
-    ui->codeEditor->setText(in.readAll());
-    file.close();
-    ui->scene->loadApp("out");
     ui->scene->sendStart();
 }
 
@@ -368,6 +363,7 @@ void MainWindow::changeCurrentSprite(Sprite *sprite)
 {
     _currentSprite = sprite;
     setCurrentCostume(sprite->getCostumeVector()->at(0));
+    ui->codeEditor->setText(_Cgen->generateSprite(sprite->getName()));
     emit currentSpriteChanged(sprite);
 }
 

@@ -14,51 +14,96 @@ CodeGenerator::CodeGenerator(MainWindow * main)
     generateMap();
 }
 
-void CodeGenerator::generateFile()
+QString CodeGenerator::generateSprite(Sprite *sprite)
 {
     QString str;
     _eventCounters.clear();
+    _indentCounter = 1;
 
-    SpriteVector* spriteVec = _Mainwindow->getSpriteVector();
-
+    // create class file
     str += indentCode(&_snippets["import"]);
+    str += indentCode(&_snippets["class"]).replace("%name%", sprite->getName());
+    str += indentCode(&_snippets["construct"], 1);
+    str += "%events%\n";
 
-    //every Sprite
-    for(SpriteVector::iterator it = spriteVec->begin(); it != spriteVec->end(); ++it)
+    // check every block for "header"-block
+    DragElemVector *eleVec = sprite->getDragElemVector();
+    for(DragElemVector::const_iterator elemIt = eleVec->begin(); elemIt != eleVec->end(); elemIt++)
     {
-        _eventList.clear();
-        _indentCounter = 1;
-        //create class file
-        str += indentCode(&_snippets["class"]).replace("%name%", (*it)->getName());
-        str += indentCode(&_snippets["construct"], 1);
-        str += "%events%\n";
-
-        //check every block for "header"-Block
-        DragElemVector * eleVec = (*it)->getDragElemVector();
-        for(DragElemVector::iterator it2 = eleVec->begin(); it2 != eleVec->end(); ++it2)
+        if ((*elemIt)->getType() == "hat")
         {
-            //prüfe ob start Command
-            if ((*it2)->getType() == "hat")
-            {
-                str += generateCode(*it2, 1) + '\n';
-            }
+            str += generateCode(*elemIt, 1) + '\n';
         }
-
-        // add Event registration %definition%
-        str.replace("%events%", indentCode(&_eventList, 2));
     }
 
-    str += "\n" + indentCode(&_snippets["append"]) + "\n";
+    // add Event registration
+    QString events;
+    for(QMap<QString, int>::const_iterator eventIt = _eventCounters.constBegin(); eventIt != _eventCounters.constEnd(); eventIt++)
+    {
+        for(int i = 1; i <= eventIt.value(); i++)
+        {
+            QString event = indent(2) + _events[eventIt.key()]._register + "\n";
+            events += event.replace("%counter%", QString::number(i));
+        }
+    }
 
-    //write to file
-    QFile file("python/out.py");
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-        return;
+    str.replace("%events%", events);
+    return str;
+}
 
-    QTextStream out(&file);
-    out << str;
+QString CodeGenerator::generateSprite(QString name)
+{
+    SpriteVector* spriteVec = _Mainwindow->getSpriteVector();
 
-    file.close();
+    for(SpriteVector::const_iterator it = spriteVec->begin(); it != spriteVec->end(); it++)
+    {
+        if((*it)->getName() == name)
+        {
+            return generateSprite(*it);
+        }
+    }
+
+    return QString();
+}
+
+void CodeGenerator::generateFiles()
+{
+    SpriteVector* spriteVec = _Mainwindow->getSpriteVector();
+    QString entityImport;
+    QString entityReload;
+    QString entityRegister;
+
+    // sprites
+    for(SpriteVector::const_iterator it = spriteVec->begin(); it != spriteVec->end(); it++)
+    {
+        entityImport += indentCode(&_snippets["entity_import"]).replace("%name%", (*it)->getName());
+        entityReload += indentCode(&_snippets["entity_reload"], 1).replace("%name%", (*it)->getName());
+        entityRegister += indentCode(&_snippets["entity_register"], 1).replace("%name%", (*it)->getName());
+
+        // write to file
+        QFile file("python/" + (*it)->getName() + ".py");
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
+            QTextStream out(&file);
+            out << generateSprite(*it);
+            file.close();
+        }
+    }
+
+    // main file
+    QString str;
+    str += indentCode(&_snippets["main_import"]);
+    str += entityImport + "\n";
+    str += indentCode(&_snippets["main"], 0, entityReload + entityRegister);
+
+    // write to file
+    QFile file("python/main.py");
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+        QTextStream out(&file);
+        out << str;
+        file.close();
+    }
 }
 
 QString CodeGenerator::indentCode(QStringList *code, int num, QString content)
@@ -97,10 +142,7 @@ QString CodeGenerator::generateCode(DragableElement* element, int sub)
                _eventCounters[name]++;
            else
                _eventCounters[name] = 1;
-           QString num = QString::number(_eventCounters[name]);
-           tmp.replace("%counter%", num);
-           QString event = _events[name]._register;
-           _eventList << event.replace("%counter%", num);
+           tmp.replace("%counter%", QString::number(_eventCounters[name]));
            stop = true;
         }
         else if (next->getType() == "wrapper" && _controls.contains(name))
@@ -124,7 +166,7 @@ QString CodeGenerator::generateCode(DragableElement* element, int sub)
         }
 
         std::vector<Param*>* params =  next->getParamsVector();
-        for(std::vector<Param*>::iterator it = params->begin(); it != params->end(); it++)
+        for(std::vector<Param*>::const_iterator it = params->begin(); it != params->end(); it++)
         {
             tmp = tmp.arg((*it)->getValue());
         }
@@ -138,7 +180,7 @@ QString CodeGenerator::generateCode(DragableElement* element, int sub)
 QStringList CodeGenerator::processCodeField(QJsonArray Code)
 {
     QStringList list;
-    for (QJsonArray::iterator it = Code.begin(); it != Code.end(); it++)
+    for (QJsonArray::const_iterator it = Code.constBegin(); it != Code.constEnd(); it++)
     {
         list += it->toString();
     }
@@ -168,25 +210,25 @@ void CodeGenerator::generateMap()
     QJsonArray Commands = Main["commands"].toArray();
     QJsonArray Controls = Main["controls"].toArray();
 
-    for (QJsonArray::iterator it = Snippets.begin(); it != Snippets.end(); it++)
+    for (QJsonArray::const_iterator it = Snippets.constBegin(); it != Snippets.constEnd(); it++)
     {
         QJsonObject Snippet = it->toObject();
         _snippets[Snippet["name"].toString()] = processCodeField(Snippet["code"].toArray());
     }
 
-    for (QJsonArray::iterator it = Events.begin(); it != Events.end(); it++)
+    for (QJsonArray::const_iterator it = Events.constBegin(); it != Events.constEnd(); it++)
     {
         QJsonObject Event = it->toObject();
         _events[Event["name"].toString()] = {processCodeField(Event["code"].toArray()), Event["register"].toString()};
     }
 
-    for (QJsonArray::iterator it = Commands.begin(); it != Commands.end(); it++)
+    for (QJsonArray::const_iterator it = Commands.constBegin(); it != Commands.constEnd(); it++)
     {
         QJsonObject Command = it->toObject();
         _commands[Command["name"].toString()] = processCodeField(Command["code"].toArray());
     }
 
-    for (QJsonArray::iterator it = Controls.begin(); it != Controls.end(); it++)
+    for (QJsonArray::const_iterator it = Controls.constBegin(); it != Controls.constEnd(); it++)
     {
         QJsonObject Control = it->toObject();
         _controls[Control["name"].toString()] = processCodeField(Control["code"].toArray());
