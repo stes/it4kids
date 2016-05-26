@@ -43,6 +43,13 @@ void CommandDE::resize()
     hide();
 }
 
+void CommandDE::removeChildDragElems()
+{
+    if(_lowerDock->getDockedElem()) _lowerDock->getDockedElem()->removeChildDragElems();
+    _scriptAreaWidget->removeFromDragElem(this);
+    delete this;
+}
+
 void CommandDE::moveEvent(QMoveEvent*)
 {
     if(_upperDock) _upperDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) - QPoint(0, 10), QSize(_width, _height)));

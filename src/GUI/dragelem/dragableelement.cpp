@@ -84,29 +84,10 @@ void DragableElement::mouseReleaseEvent(QMouseEvent* event)
         _scriptAreaWidget->addToDragElem(this);
         if(!scriptArea.contains(QRect(mapToGlobal(QPoint(0, 0)), QSize(width(), height())), true))
         {
-            _scriptAreaWidget->removeFromDragElem(this);
-            if(_nextElem)
-            {
-                DragableElement* current = _nextElem;
-                DragableElement* next = 0;
-                while(current)
-                {
-                    _scriptAreaWidget->removeFromDragElem(current);
-                        next = current->_nextElem;
-                    delete current;
-                    current = next;
-                }
-            }
-            delete this;
+            removeChildDragElems();
             return;
         }
         hitTest();
-        if(_nextElem)
-        {
-            DragableElement* next = _nextElem;
-            while(next->_nextElem) next = next->_nextElem;
-            next->hitTest();
-        }
     }
 }
 

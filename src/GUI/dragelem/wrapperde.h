@@ -17,6 +17,8 @@ public:
     int getNumberElements();
     DragableElement* getWrapElem();
 
+    virtual void removeChildDragElems();
+
     ~WrapperDE();
 protected:
     DragableElement* getCurrentElement(QWidget* parent);

@@ -39,6 +39,13 @@ void HatDE::resize()
     hide();
 }
 
+void HatDE::removeChildDragElems()
+{
+    if(_lowerDock->getDockedElem()) _lowerDock->getDockedElem()->removeChildDragElems();
+    _scriptAreaWidget->removeFromDragElem(this);
+    delete this;
+}
+
 void HatDE::moveEvent(QMoveEvent *)
 {
     if(_lowerDock) _lowerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(0, _height+10), QSize(_width, _height)));

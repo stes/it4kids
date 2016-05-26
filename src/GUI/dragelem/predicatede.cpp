@@ -34,6 +34,12 @@ void PredicateDE::resize()
     hide();
 }
 
+void PredicateDE::removeChildDragElems()
+{
+    _scriptAreaWidget->removeFromDragElem(this);
+    delete this;
+}
+
 DragableElement* PredicateDE::getCurrentElement(QWidget *parent)
 {
     return new PredicateDE(_identifier, _text, _color, _type, _scriptAreaWidget, parent);

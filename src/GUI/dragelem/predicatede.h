@@ -13,6 +13,8 @@ public:
 
     void resize();
 
+    virtual void removeChildDragElems();
+
     ~PredicateDE();
 protected:
     DragableElement* getCurrentElement(QWidget* parent);
