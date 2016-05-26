@@ -61,30 +61,15 @@ void CodeGenerator::generateFile()
     file.close();
 }
 
-
-QString CodeGenerator::generateCode(DragableElement* element, int sub)
-{
-    QString str;
-    for(DragableElement* next = element; next; next = next->getNextElem())
-    {
-        //add command
-        str += dict(next, sub);
-
-        //add sub Command, if exists
-        if (next->getWrapElem())
-        {
-             str += generateCode(next->getWrapElem(), sub+1); //todo dict start und end
-        }
-    }
-    return str;
-}
-
-QString CodeGenerator::indentCode(QStringList *code, int num)
+QString CodeGenerator::indentCode(QStringList *code, int num, QString content)
 {
     QString str;
     for (QStringList::const_iterator it = code->constBegin(); it != code->constEnd(); it++)
     {
-        str += indent(num) + *it + '\n';
+        if(*it == "%content%" && !content.isEmpty())
+            str += content;
+        else
+            str += indent(num) + *it + '\n';
     }
     return str;
 }
@@ -95,45 +80,56 @@ QString CodeGenerator::indent(int indent)
     return str.fill(' ', indent * 4);
 }
 
-//translate command in reqired language
-//uses special commands :start, end, tab
-QString CodeGenerator::dict(DragableElement* element, int sub)
+QString CodeGenerator::generateCode(DragableElement* element, int sub)
 {
     QString str;
-    QString name = element->getIdentifier();
+    bool stop = false;
 
-    if (_events.contains(name))
+    for(DragableElement* next = element; next && !stop; next = next->getNextElem())
     {
-       str = indentCode(&_events[name]._code, sub);
-       if(_eventCounters.contains(name))
-           _eventCounters[name]++;
-       else
-           _eventCounters[name] = 1;
-       QString num = QString::number(_eventCounters[name]);
-       str.replace("%counter%", num);
-       QString event = _events[name]._register;
-       _eventList << event.replace("%counter%", num);
-    }
-    else if (_commands.contains(name))
-    {
-        str = indentCode(&_commands[name], sub+1);
-    }
-    else
-    {
-        qDebug() << "block: " << name << "not supported yet";
-        str = indent(sub) + "pass\n";
-    }
+        QString name = next->getIdentifier();
 
-    if(str.contains("%indent_counter%"))
-    {
-        str.replace("%indent_counter%", QString::number(_indentCounter));
-        _indentCounter++;
-    }
+        QString tmp;
+        if (next->getType() == "hat" && _events.contains(name))
+        {
+           tmp = indentCode(&_events[name]._code, sub, generateCode(next->getNextElem(), sub+1));
+           if(_eventCounters.contains(name))
+               _eventCounters[name]++;
+           else
+               _eventCounters[name] = 1;
+           QString num = QString::number(_eventCounters[name]);
+           tmp.replace("%counter%", num);
+           QString event = _events[name]._register;
+           _eventList << event.replace("%counter%", num);
+           stop = true;
+        }
+        else if (next->getType() == "wrapper" && _controls.contains(name))
+        {
+            tmp = indentCode(&_controls[name], sub, generateCode(next->getWrapElem(), sub+1));
+        }
+        else if (next->getType() == "command" && _commands.contains(name))
+        {
+            tmp = indentCode(&_commands[name], sub);
+        }
+        else
+        {
+            qDebug() << "block: " << name << "not supported yet";
+            tmp = indent(sub) + "pass\n";
+        }
 
-    std::vector<Param*>* params =  element->getParamsVector();
-    for(std::vector<Param*>::iterator it = params->begin(); it != params->end(); it++)
-    {
-        str = str.arg((*it)->getValue());
+        if(tmp.contains("%indent_counter%"))
+        {
+            tmp.replace("%indent_counter%", QString::number(_indentCounter));
+            _indentCounter++;
+        }
+
+        std::vector<Param*>* params =  next->getParamsVector();
+        for(std::vector<Param*>::iterator it = params->begin(); it != params->end(); it++)
+        {
+            tmp = tmp.arg((*it)->getValue());
+        }
+
+        str += tmp;
     }
 
     return str;
@@ -170,6 +166,7 @@ void CodeGenerator::generateMap()
     QJsonArray Snippets = Main["snippets"].toArray();
     QJsonArray Events = Main["events"].toArray();
     QJsonArray Commands = Main["commands"].toArray();
+    QJsonArray Controls = Main["controls"].toArray();
 
     for (QJsonArray::iterator it = Snippets.begin(); it != Snippets.end(); it++)
     {
@@ -187,5 +184,11 @@ void CodeGenerator::generateMap()
     {
         QJsonObject Command = it->toObject();
         _commands[Command["name"].toString()] = processCodeField(Command["code"].toArray());
+    }
+
+    for (QJsonArray::iterator it = Controls.begin(); it != Controls.end(); it++)
+    {
+        QJsonObject Control = it->toObject();
+        _controls[Control["name"].toString()] = processCodeField(Control["code"].toArray());
     }
 }

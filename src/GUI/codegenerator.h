@@ -20,9 +20,8 @@ private:
 
     QStringList processCodeField(QJsonArray Code);
     QString generateCode(DragableElement* element, int sub);
-    QString dict(DragableElement* element, int sub);
     QString indent(int indent);
-    QString indentCode(QStringList *code, int indent = 0);
+    QString indentCode(QStringList *code, int indent = 0, QString content = "");
     void generateMap();
     //quick and dirty, rehandelt with Block generation from code
     QStringList _eventList;
@@ -33,5 +32,6 @@ private:
     QMap<QString, QStringList> _snippets;
     QMap<QString, Event> _events;
     QMap<QString, QStringList> _commands;
+    QMap<QString, QStringList> _controls;
 };
 #endif // CODEGENERATOR_H

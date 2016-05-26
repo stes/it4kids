@@ -4,7 +4,7 @@ pyglet.options['shadow_window'] = False
 pyglet.options['debug_gl'] = False
 from pyglet import gl
 from struct import unpack
-from threading import Thread
+from threading import Thread, Event
 import os, math, time
 
 background = pyglet.graphics.OrderedGroup(0)
@@ -51,30 +51,32 @@ class Entity(pyglet.event.EventDispatcher):
         image.anchor_y = image.height / 2
         self.sprite = pyglet.sprite.Sprite(image, group=self.group)
         self.draggable = draggable
-        self.world_move_to(0, 0)
         self.handlers = 0
+        self.world_move_to(0, 0)
+        self.rotation = 0
+        self.invalidate(False)
     
     def check_pos(self, x, y):
-        tmpx = x - self.sprite.x
-        tmpy = y - self.sprite.y
-        x = tmpx * math.cos(math.radians(self.sprite.rotation)) - tmpy * math.sin(math.radians(self.sprite.rotation)) + self.sprite.width / 2
-        y = tmpx * math.sin(math.radians(self.sprite.rotation)) + tmpy * math.cos(math.radians(self.sprite.rotation)) + self.sprite.height / 2
+        tmpx = x - self.x
+        tmpy = y - self.y
+        x = tmpx * math.cos(math.radians(self.rotation)) - tmpy * math.sin(math.radians(self.rotation)) + self.sprite.width / 2
+        y = tmpx * math.sin(math.radians(self.rotation)) + tmpy * math.cos(math.radians(self.rotation)) + self.sprite.height / 2
         if x > 0 and y > 0 and x < self.sprite.width and y < self.sprite.height:
             data = get_pixel(self.sprite.image, int(x), int(y))
             return data[3] > 0
         return False
     
     def move(self, x, y):
-        self.sprite.x += x
-        self.sprite.y += y
+        self.x += x
+        self.y += y
     
     def move_to(self, x, y):
-        self.sprite.x = x
-        self.sprite.y = y
+        self.x = x
+        self.y = y
     
     def world_move_to(self, x, y):
-        self.sprite.x = (x + App._size[0] / 2)
-        self.sprite.y = (y + App._size[1] / 2)
+        self.x = (x + App._size[0] / 2)
+        self.y = (y + App._size[1] / 2)
     
     def set_group(self, group=None):
         if group:
@@ -90,11 +92,13 @@ class Entity(pyglet.event.EventDispatcher):
         self.push_handlers(*args, **kwargs)
         self.handlers += 1
     
-    def wait(self):
-        global mainApp
-        if mainApp.stopping:
-            raise SigStop()
-        time.sleep(1/self._speed)
+    def invalidate(self, running=True):
+        self.sprite.x = self.x
+        self.sprite.y = self.y
+        self.sprite.rotation = self.rotation
+        if running:
+            time.sleep(1/self._speed)
+            hook()
     
     # block events
     def start(self):
@@ -106,30 +110,36 @@ class Entity(pyglet.event.EventDispatcher):
     
     # block methods
     def forward(self, len):
-        self.sprite.x += len * math.cos(math.radians(self.sprite.rotation))
-        self.sprite.y += len * math.sin(-math.radians(self.sprite.rotation))
-        self.wait() # animation
+        self.x += len * math.cos(math.radians(self.rotation))
+        self.y += len * math.sin(-math.radians(self.rotation))
+        hook()
     
     def turnRight(self, degrees):
-        self.sprite.rotation += degrees
-        self.wait() # animation
+        self.rotation += degrees
+        hook()
     
     def turnLeft(self, degrees):
-        self.sprite.rotation -= degrees
-        self.wait() # animation
+        self.rotation -= degrees
+        hook()
     
     def gotoXY(self, x, y):
         self.world_move_to(x, y)
-        self.wait() # animation
+        hook()
     
     def doGlide(self, seconds, x, y):
         steps = seconds * self._speed
-        diffX = (x + App._size[0] / 2 - self.sprite.x) / steps
-        diffY = (y + App._size[1] / 2 - self.sprite.y) / steps
+        diffX = (x + App._size[0] / 2 - self.x) / steps
+        diffY = (y + App._size[1] / 2 - self.y) / steps
         for i in range(int(steps)):
             self.move(diffX, diffY)
-            self.wait() # animation
+            self.invalidate() # animation
         self.world_move_to(x, y)
+        self.invalidate()
+    
+    def wait(self, sec):
+        self.invalidate(False)
+        time.sleep(sec)
+        hook()
 
 Entity.register_event_type('on_start')
 Entity.register_event_type('on_click')
@@ -159,6 +169,8 @@ class App(object):
         
         self.batch = pyglet.graphics.Batch()
         self.dragging = None
+        self.paused = Event()
+        self.paused.set()
         self.mouse_pressed = False # TODO: rework this
         
         self.entities = []
@@ -209,6 +221,7 @@ class App(object):
         if self.dragging:
             self.dragging.set_group()
             self.dragging = None
+            self.paused.set()
         else:
             for entity in self.entities:
                 entity.click(x, y)
@@ -223,11 +236,13 @@ class App(object):
             return
         if self.dragging:
             self.dragging.move(dx, dy)
+            self.dragging.invalidate(False)
         elif self.mouse_pressed:
             for entity in self.entities:
                 if entity.draggable and entity.check_pos(x, y):
                     self.dragging = entity
                     self.dragging.set_group(overlay)
+                    self.paused.clear()
                     break
 
 class FakeContext(gl.Context):
@@ -330,3 +345,9 @@ def init(background_file, create_window=True):
         mainApp = App(create_window=create_window)
     mainApp.add_entity(Entity(background_file, background, draggable=False))  # TODO: store this
     return mainApp
+
+def hook():
+    global mainApp
+    if mainApp.stopping:
+        raise SigStop()
+    mainApp.paused.wait()

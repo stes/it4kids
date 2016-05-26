@@ -40,7 +40,9 @@
             "name": "receiveGo",
             "code": [
                 "@it4k.block",
-                "def receiveGo%counter%(self):"
+                "def receiveGo%counter%(self):",
+                "%content%",
+                "    self.invalidate()"
             ],
             "register": "self.register(on_start=self.receiveGo%counter%)"
         },
@@ -48,7 +50,9 @@
             "name": "receiveKey",
             "code": [
                 "@it4k.block",
-                "def receiveKey%counter%(self):"
+                "def receiveKey%counter%(self):",
+                "%content%",
+                "    self.invalidate()"
             ],
             "register": "pass"
         },
@@ -56,7 +60,9 @@
             "name": "receiveInteraction",
             "code": [
                 "@it4k.block",
-                "def receiveInteraction%counter%(self):"
+                "def receiveInteraction%counter%(self):",
+                "%content%",
+                "    self.invalidate()"
             ],
             "register": "pass"
         },
@@ -64,7 +70,9 @@
             "name": "receiveMessage",
             "code": [
                 "@it4k.block",
-                "def receiveMessage%counter%(self):"
+                "def receiveMessage%counter%(self):",
+                "%content%",
+                "    self.invalidate()"
             ],
             "register": "pass"
         }
@@ -82,14 +90,6 @@
         {
             "name": "turnLeft",
             "code": ["self.turnLeft(%1)"]
-        },
-        {
-            "name": "doRepeat",
-            "code": ["for it%indent_counter% in range(%1):"]
-        },
-        {
-            "name": "doForever",
-            "code": ["while True:"]
         },
         {
             "name": "gotoXY",
@@ -130,6 +130,29 @@
         {
             "name": "bounceOffEdge",
             "code": ["#self.bounceOffEdge()"]
+        },
+        {
+            "name": "doWait",
+            "code": ["self.wait(%1)"]
+        }
+    ],
+
+    "controls": [
+        {
+            "name": "doRepeat",
+            "code": [
+                "for it%indent_counter% in range(%1):",
+                "%content%",
+                "    self.invalidate()"
+            ]
+        },
+        {
+            "name": "doForever",
+            "code": [
+                "while True:",
+                "%content%",
+                "    self.invalidate()"
+            ]
         }
     ]
 }
