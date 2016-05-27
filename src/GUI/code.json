@@ -24,14 +24,14 @@
             "name": "construct",
             "code": [
                 "def __init__(self):",
-                "    it4k.Entity.__init__(self, 'Assets/Costumes/dog2-a.png')"
+                "    it4k.Entity.__init__(self, '%costume%')"
             ]
         },
         {
             "name": "main",
             "code": [
                 "def init(create_window=False):",
-                "    myApp = it4k.init('Assets/Backgrounds/desert.gif', create_window=create_window)",
+                "    myApp = it4k.init('%background%', create_window=create_window)",
                 "%content%",
                 "if  __name__ ==  \"__main__\":",
                 "    init(True)",

@@ -52,7 +52,7 @@ class Entity(pyglet.event.EventDispatcher):
     
     def __init__(self, img_file, group=foreground, draggable=True):
         self.group = group
-        image = pyglet.resource.image(img_file)
+        image = pyglet.image.load(img_file).get_texture()
         image.anchor_x = image.width / 2
         image.anchor_y = image.height / 2
         self.sprite = pyglet.sprite.Sprite(image, group=self.group)

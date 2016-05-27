@@ -19,6 +19,7 @@ public:
     inline QImage* getImage() {return &_costume;}
     inline void createBlank() { }
     inline QString getName() {return _name;}
+    inline QString getFilename() {return _filename;}
 
 signals:
     void costumeSelected(Costume* costume);
@@ -31,6 +32,7 @@ protected:
     QVBoxLayout _layout;
     QPixmap _soundPixmap;
     QString _name;
+    QString _filename;
     QLabel _nameLabel;
     QLabel _costumeLabel;
 };

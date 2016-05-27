@@ -28,6 +28,7 @@ Costume::Costume(Sprite* parent) : QWidget(parent), _costume(400, 400, QImage::F
 bool Costume::open(const QString &fileName)
 {
     QStringList list = fileName.split("/");
+    _filename = fileName;
     _name = list.last();
     _name.truncate(_name.length() - 4);
     _nameLabel.setText(_name);

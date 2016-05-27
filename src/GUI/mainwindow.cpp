@@ -9,6 +9,7 @@
 #include <QPainterPath>
 #include <QRadioButton>
 #include <QDebug>
+#include <Qsci/qscilexerpython.h>
 
 #include "audioengine.h"
 #include "costume.h"
@@ -20,7 +21,6 @@
 #include "wrapperde.h"
 #include "predicatede.h"
 #include "reporterde.h"
-#include <Qsci/qscilexerpython.h>
 #include "newspritename.h"
 #include "saveloadclass.h"
 #include "teacherlogin.h"
@@ -50,15 +50,20 @@ MainWindow::MainWindow(QWidget *parent) :
 
     Sprite* sprite = new Sprite("sprite", this);
     Costume* costume = new Costume(sprite);
-    costume->open(":/Assets/libraryOn.png");
+    costume->open("Assets/Costumes/dog2-a.png");
     costume->hide();
     sprite->setCurrentCostume(costume);
 
     ui->spriteSelect->addSprite(sprite);
     _currentSprite = sprite;
-    _backgroundSprite = new Sprite(this);
-    ((QHBoxLayout*) ui->selectionBackground->layout())->insertWidget(0, _backgroundSprite);
     emit changeCurrentSprite(sprite);
+
+    _backgroundSprite = new Sprite("background", this);
+    costume = new Costume(_backgroundSprite);
+    costume->open("Assets/Backgrounds/desert.gif");
+    costume->hide();
+    _backgroundSprite->setCurrentCostume(costume);
+    ((QHBoxLayout*) ui->selectionBackground->layout())->insertWidget(0, _backgroundSprite);
 
     InitializeDragElem(":/blocks.xml");
 
@@ -263,7 +268,7 @@ void MainWindow::on_buttonScriptStop_clicked()
 void MainWindow::on_buttonAddDragElem_clicked()
 {
     const QString dir;
-    const QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Open PNG file"), dir, "*.xml");
+    const QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Open XML file"), dir, "*.xml");
     if (fileNames.count())
     {
         QFile addElem(fileNames.first());
@@ -308,6 +313,9 @@ void MainWindow::on_spriteFromFile_clicked()
         sprite->setCurrentCostume(costume);
 
         changeCurrentSprite(sprite);
+
+        _Cgen->generateFiles();
+        ui->scene->loadApp("main");
     }
 }
 

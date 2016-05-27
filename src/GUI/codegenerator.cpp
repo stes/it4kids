@@ -4,6 +4,7 @@
 #include <QFile>
 
 #include "codegenerator.h"
+#include "costume.h"
 #include "sprite.h"
 #include "mainwindow.h"
 #include "param/param.h"
@@ -23,7 +24,8 @@ QString CodeGenerator::generateSprite(Sprite *sprite)
     // create class file
     str += indentCode(&_snippets["import"]);
     str += indentCode(&_snippets["class"]).replace("%name%", sprite->getName());
-    str += indentCode(&_snippets["construct"], 1);
+    // TODO: multiple costumes
+    str += indentCode(&_snippets["construct"], 1).replace("%costume%", sprite->getCostumeVector()->at(0)->getFilename());
     str += "%events%\n";
 
     // check every block for "header"-block
@@ -90,11 +92,13 @@ void CodeGenerator::generateFiles()
         }
     }
 
+    QString backgroundFile = _Mainwindow->getBackgroundSprite()->getCostumeVector()->at(0)->getFilename();
+
     // main file
     QString str;
     str += indentCode(&_snippets["main_import"]);
     str += entityImport + "\n";
-    str += indentCode(&_snippets["main"], 0, entityReload + entityRegister);
+    str += indentCode(&_snippets["main"], 0, entityReload + entityRegister).replace("%background%", backgroundFile);
 
     // write to file
     QFile file("python/main.py");

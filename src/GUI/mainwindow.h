@@ -32,6 +32,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     SpriteVector* getSpriteVector();
+    Sprite *getBackgroundSprite() { return _backgroundSprite; }
     DragableElement* createNewElement(QString s);
 
     ~MainWindow();
