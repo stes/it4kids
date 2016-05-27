@@ -40,6 +40,12 @@ def get_pixel(image, x, y):
     index = x * len(format) + y * pitch
     return data[index : (index + len(format))]
 
+class EntityData:
+    def __init__(self):
+        self.x = 0
+        self.y = 0
+        self.rotation = 0
+
 class Entity(pyglet.event.EventDispatcher):
     
     _speed = 40
@@ -52,31 +58,32 @@ class Entity(pyglet.event.EventDispatcher):
         self.sprite = pyglet.sprite.Sprite(image, group=self.group)
         self.draggable = draggable
         self.handlers = 0
-        self.world_move_to(0, 0)
-        self.rotation = 0
+    
+    def set_data(self, data):
+        self.data = data
         self.invalidate(False)
     
     def check_pos(self, x, y):
-        tmpx = x - self.x
-        tmpy = y - self.y
-        x = tmpx * math.cos(math.radians(self.rotation)) - tmpy * math.sin(math.radians(self.rotation)) + self.sprite.width / 2
-        y = tmpx * math.sin(math.radians(self.rotation)) + tmpy * math.cos(math.radians(self.rotation)) + self.sprite.height / 2
+        tmpx = x - self.data.x - App._size[0] / 2
+        tmpy = y - self.data.y - App._size[1] / 2
+        x = tmpx * math.cos(math.radians(self.data.rotation)) - tmpy * math.sin(math.radians(self.data.rotation)) + self.sprite.width / 2
+        y = tmpx * math.sin(math.radians(self.data.rotation)) + tmpy * math.cos(math.radians(self.data.rotation)) + self.sprite.height / 2
         if x > 0 and y > 0 and x < self.sprite.width and y < self.sprite.height:
             data = get_pixel(self.sprite.image, int(x), int(y))
             return data[3] > 0
         return False
     
     def move(self, x, y):
-        self.x += x
-        self.y += y
+        self.data.x += x
+        self.data.y += y
     
     def move_to(self, x, y):
-        self.x = x
-        self.y = y
+        self.data.x = x - App._size[0] / 2
+        self.data.y = y - App._size[1] / 2
     
     def world_move_to(self, x, y):
-        self.x = (x + App._size[0] / 2)
-        self.y = (y + App._size[1] / 2)
+        self.data.x = x
+        self.data.y = y
     
     def set_group(self, group=None):
         if group:
@@ -93,9 +100,9 @@ class Entity(pyglet.event.EventDispatcher):
         self.handlers += 1
     
     def invalidate(self, running=True):
-        self.sprite.x = self.x
-        self.sprite.y = self.y
-        self.sprite.rotation = self.rotation
+        self.sprite.x = self.data.x + App._size[0] / 2
+        self.sprite.y = self.data.y + App._size[1] / 2
+        self.sprite.rotation = self.data.rotation
         if running:
             time.sleep(1/self._speed)
             hook()
@@ -110,16 +117,16 @@ class Entity(pyglet.event.EventDispatcher):
     
     # block methods
     def forward(self, len):
-        self.x += len * math.cos(math.radians(self.rotation))
-        self.y += len * math.sin(-math.radians(self.rotation))
+        self.data.x += len * math.cos(math.radians(self.data.rotation))
+        self.data.y += len * math.sin(-math.radians(self.data.rotation))
         hook()
     
     def turnRight(self, degrees):
-        self.rotation += degrees
+        self.data.rotation += degrees
         hook()
     
     def turnLeft(self, degrees):
-        self.rotation -= degrees
+        self.data.rotation -= degrees
         hook()
     
     def gotoXY(self, x, y):
@@ -128,13 +135,14 @@ class Entity(pyglet.event.EventDispatcher):
     
     def doGlide(self, seconds, x, y):
         steps = seconds * self._speed
-        diffX = (x + App._size[0] / 2 - self.x) / steps
-        diffY = (y + App._size[1] / 2 - self.y) / steps
+        diffX = (x - self.data.x) / steps
+        diffY = (y / 2 - self.data.y) / steps
         for i in range(int(steps)):
             self.move(diffX, diffY)
             self.invalidate() # animation
         self.world_move_to(x, y)
-        self.invalidate()
+        self.invalidate(False)
+        hook()
     
     def wait(self, sec):
         self.invalidate(False)
@@ -174,11 +182,16 @@ class App(object):
         self.mouse_pressed = False # TODO: rework this
         
         self.entities = []
+        self.entity_data = {}
         self.running = []
         self.stopping = False
     
     def add_entity(self, entity):
         entity.sprite.batch = self.batch
+        name = entity.__class__.__name__
+        if name not in self.entity_data:
+            self.entity_data[name] = EntityData()
+        entity.set_data(self.entity_data[name])
         self.entities.append(entity)
     
     def reset(self):
