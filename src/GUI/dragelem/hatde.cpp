@@ -18,9 +18,20 @@ DragableElement* HatDE::getCurrentElement(QWidget* parent)
     return new HatDE(_identifier, _text, _color, _type, _scriptAreaWidget, parent);
 }
 
+void HatDE::moveNextElems()
+{
+    DragableElement* nextElem = _nextElem;
+
+    if(nextElem)
+    {
+        nextElem->raise();
+        nextElem->move(_lowerDock->getRect()->topLeft() + nextElem->getLowerOffsett());
+        nextElem->moveNextElems();
+    }
+}
+
 void HatDE::resize()
 {
-    DragableElement::resize();
     show();
 
     getLayoutSize();

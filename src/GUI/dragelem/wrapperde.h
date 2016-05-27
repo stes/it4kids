@@ -12,8 +12,12 @@ public:
 
     void resize();
 
-    void moveNextElems(QPoint offset);
-    inline int getHeight() {return _height+22+_innerHeight;}
+    QPoint getUpperOffsett() const { return UPPEROFFSET - QPoint(0, 22+_innerHeight); }
+
+    void movePrevElems();
+    void moveNextElems();
+
+    inline int getHeight() const {return _height+22+_innerHeight;}
     int getNumberElements();
     DragableElement* getWrapElem();
 
@@ -24,7 +28,6 @@ protected:
     DragableElement* getCurrentElement(QWidget* parent);
     void hitTest();
 
-    virtual void mousePressEvent(QMouseEvent *event);
     virtual void moveEvent(QMoveEvent *event);
 
     int _numberElements;

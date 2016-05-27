@@ -12,6 +12,16 @@ ScriptArea::ScriptArea(QWidget *parent) : QWidget(parent), _currentSprite(0)
 
 }
 
+void ScriptArea::setMainWindow(MainWindow * main)
+{
+    _Mainwindow = main;
+}
+
+void ScriptArea::reloadCode()
+{
+    _Mainwindow->reloadCode();
+}
+
 void ScriptArea::setCurrentSprite(Sprite* sprite)
 {
     if(_currentSprite)
@@ -49,7 +59,10 @@ void ScriptArea::performHitTest(DragableElement* elem)
     {
         if((*it)->getRect()->intersects(rectDE))
         {
-            (*it)->dock(elem);
+            if((*it)->dock(elem))
+            {
+                reloadCode();
+            }
             break;
         }
     }

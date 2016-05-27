@@ -70,6 +70,8 @@ MainWindow::MainWindow(QWidget *parent) :
     //ui->categorySelect->setElemListWidget(ui->elementList);
     ui->categorySelect->setScriptAreaWidget(ui->scriptArea);
 
+    ui->scriptArea->setMainWindow(this);
+
     connect(this, SIGNAL(newSound()), ui->soundSelect, SLOT(updateSoundList()));
     connect(this, SIGNAL(newCostume()), ui->costumeSelect, SLOT(updateCostumeList()));
 
@@ -174,6 +176,15 @@ void MainWindow::InitializeDragElem(const QString& path)
     ui->categorySelect->show();
 }
 
+void  MainWindow::reloadCode()
+{
+    // TODO
+    ui->codeEditor->setText(_Cgen->generateSprite(_currentSprite));
+
+    _Cgen->generateFiles();
+    ui->scene->loadApp("main");
+}
+
 DragElemCategory* MainWindow::GetCategoryByName(const QString& name)
 {
     for(CategoryList::iterator category = ui->categorySelect->_categoryList.begin(); category != ui->categorySelect->_categoryList.end(); category++)
@@ -229,11 +240,7 @@ void MainWindow::on_buttonScriptStart_clicked()
     //slc->saveScratch();
 
     // TODO
-    ui->codeEditor->setText(_Cgen->generateSprite(_currentSprite));
-
-    _Cgen->generateFiles();
-    ui->scene->loadApp("main");
-
+    reloadCode();
     ui->scene->sendStart();
 }
 

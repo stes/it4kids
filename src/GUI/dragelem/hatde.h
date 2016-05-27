@@ -15,6 +15,9 @@ public:
 
     void resize();
 
+    QPoint getUpperOffsett() const { return UPPEROFFSETHAT; }
+
+    void moveNextElems();
     virtual void removeChildDragElems();
 protected:
     DragableElement* getCurrentElement(QWidget* parent);

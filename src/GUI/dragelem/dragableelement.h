@@ -45,15 +45,18 @@ public:
     inline QString getIdentifier() {return _identifier;}
     inline std::vector<Param*>* getParamsVector() {return &_paramsVector; }
 
-    virtual inline int getHeight() {return _height;}
+    virtual inline int getHeight() const {return _height;}
     virtual inline int getWidth() {return _width;}
     virtual bool isDragged() {return _dragged;}
 
-    virtual void resize();
+    virtual void resize() = 0;
     virtual DragableElement* getWrapElem(){return (DragableElement*)0;}
 
-    virtual void moveNextElems(QPoint offset);
-    virtual void movePrevElems(QPoint offset);
+    virtual void moveNextElems() { };
+    virtual void movePrevElems() { };
+
+    virtual QPoint getLowerOffsett() const { return LOWEROFFSET; }
+    virtual QPoint getUpperOffsett() const { return UPPEROFFSET; }
 
     virtual void removeChildDragElems() = 0;
 
@@ -61,6 +64,8 @@ public:
 
     QString getType() {return _type;}
     virtual DragableElement* getCurrentElement(QWidget* parent) = 0;
+
+    DragableElement *getRoot();
 
 signals:
     void dragElemContextMenuRequested(const QPoint& pos, DragableElement* elem);

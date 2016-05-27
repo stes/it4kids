@@ -32,78 +32,57 @@ void ScriptDock::deactivate()
     }
 }
 
-void ScriptDock::dock(DragableElement* elem)
+bool ScriptDock::dock(DragableElement* elem)
 {
     QString elemClass(elem->metaObject()->className());
 
     if(_type == Upper && !elem->_nextElem)
     {
-        if(elemClass == "CommandDE")
-        {
-            QPoint oldPos = elem->pos();
-            elem->move(_dockingAreaGlobal.topLeft() + UPPEROFFSET);
-            elem->movePrevElems(-(oldPos - elem->pos()));
-            ((CommandDE*) elem)->_lowerDock->deactivate();
-            ((CommandDE*) elem)->_lowerDock->_dockedElem = _parent;
-            _parent->setCurrentDock(((CommandDE*) elem)->_lowerDock);
-            elem->setNextElem(_parent);
-            _parent->setPrevElem(elem);
-            deactivate();
-        }
-        else if(elemClass == "WrapperDE")
-        {
-            QPoint oldPos = elem->pos();
-            elem->move(_dockingAreaGlobal.topLeft() + UPPEROFFSET);
-            elem->movePrevElems(-(oldPos - elem->pos()));
-            ((WrapperDE*) elem)->_lowerDock->deactivate();
-            ((WrapperDE*) elem)->_lowerDock->_dockedElem = _parent;
-            _parent->setCurrentDock(((WrapperDE*) elem)->_lowerDock);
-            elem->setNextElem(_parent);
-            _parent->setPrevElem(elem);
-            deactivate();
-        }
-        else if(elemClass == "HatDE")
-        {
-            elem->move(_dockingAreaGlobal.topLeft() + UPPEROFFSETHAT);
-            ((HatDE*) elem)->_lowerDock->deactivate();
-            (((HatDE*) elem)->_lowerDock->_dockedElem) = _parent;
-            _parent->setCurrentDock(((HatDE*) elem)->_lowerDock);
-            elem->setNextElem(_parent);
-            _parent->setPrevElem(elem);
-            deactivate();
-        }
+        ScriptDock *lower;
+        if(elemClass == "CommandDE") lower = ((CommandDE*) elem)->_lowerDock;
+        else if(elemClass == "WrapperDE") lower = ((WrapperDE*) elem)->_lowerDock;
+        else if(elemClass == "HatDE") lower = ((HatDE*) elem)->_lowerDock;
+        else return false;
+
+        lower->deactivate();
+        lower->_dockedElem = _parent;
+        _parent->setCurrentDock(lower);
+        elem->setNextElem(_parent);
+        _parent->setPrevElem(elem);
+        _parent->movePrevElems();
+        elem->getRoot()->moveNextElems();
+        deactivate();
     }
     else if(_type == Lower && !elem->_prevElem)
     {
-        if(elemClass == "CommandDE") ((CommandDE*) elem)->_upperDock->deactivate();
-        else if(elemClass == "WrapperDE") ((WrapperDE*) elem)->_upperDock->deactivate();
-        else return;
-        QPoint oldPos = elem->pos();
-        elem->move(_dockingAreaGlobal.topLeft() + LOWEROFFSET);
-        elem->moveNextElems(-(oldPos - elem->pos()));
+        ScriptDock *upper;
+        if(elemClass == "CommandDE") upper = ((CommandDE*) elem)->_upperDock;
+        else if(elemClass == "WrapperDE") upper = ((WrapperDE*) elem)->_upperDock;
+        else return false;
+
+        upper->deactivate();
         _dockedElem = elem;
         elem->setCurrentDock(this);
         elem->setPrevElem(_parent);
         _parent->setNextElem(elem);
+        elem->getRoot()->moveNextElems();
         deactivate();
     }
     else if(_type == Inner && !elem->_prevElem)
     {
-        if(elemClass == "CommandDE") ((CommandDE*) elem)->_upperDock->deactivate();
-        else if(elemClass == "WrapperDE") ((WrapperDE*) elem)->_upperDock->deactivate();
-        else return;
-        QPoint oldPos = elem->pos();
-        elem->move(_dockingAreaGlobal.topLeft() + LOWEROFFSET);
-        elem->moveNextElems(-(oldPos - elem->pos()));
+        ScriptDock *upper;
+        if(elemClass == "CommandDE") upper = ((CommandDE*) elem)->_upperDock;
+        else if(elemClass == "WrapperDE") upper = ((WrapperDE*) elem)->_upperDock;
+        else return false;
+
+        upper->deactivate();
         _dockedElem = elem;
         elem->setCurrentDock(this);
         elem->setPrevElem(_parent);
+        elem->getRoot()->moveNextElems();
         deactivate();
     }
-    elem->resize();
-    elem->show();
-    _parent->resize();
-    _parent->show();
+    return elem->getRoot()->getType() == "hat";
 }
 
 void ScriptDock::undock()
@@ -121,8 +100,9 @@ void ScriptDock::undock()
         }
         activate();
     }
-    _parent->resize();
-    _parent->show();
+    _parent->getRoot()->moveNextElems();
+    if(_parent->getRoot()->getType() == "hat")
+        _scriptArea->reloadCode();
 }
 
 ScriptDock::~ScriptDock()

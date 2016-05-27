@@ -26,7 +26,7 @@ public:
     void deactivate();
     inline DragableElement* getParent() {return _parent;}
 
-    virtual void dock(DragableElement* elem);
+    virtual bool dock(DragableElement* elem);
     virtual void undock();
 
     ~ScriptDock();

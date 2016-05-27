@@ -19,9 +19,32 @@ DragableElement* CommandDE::getCurrentElement(QWidget *parent)
     return new CommandDE(_identifier, _text, _color, _type, _scriptAreaWidget, parent);
 }
 
+void CommandDE::movePrevElems()
+{
+    DragableElement* prevElem = _prevElem;
+
+    if(prevElem)
+    {
+        prevElem->raise();
+        prevElem->move(_upperDock->getRect()->topLeft() + prevElem->getUpperOffsett());
+        prevElem->movePrevElems();
+    }
+}
+
+void CommandDE::moveNextElems()
+{
+    DragableElement* nextElem = _nextElem;
+
+    if(nextElem)
+    {
+        nextElem->raise();
+        nextElem->move(_lowerDock->getRect()->topLeft() + nextElem->getLowerOffsett());
+        nextElem->moveNextElems();
+    }
+}
+
 void CommandDE::resize()
 {
-    DragableElement::resize();
     show();
 
     getLayoutSize();

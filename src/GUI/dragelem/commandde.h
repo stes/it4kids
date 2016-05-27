@@ -13,6 +13,9 @@ class CommandDE : public DragableElement
 public:
     CommandDE(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget = 0, QWidget* parent = 0);
 
+    void movePrevElems();
+    void moveNextElems();
+
     void resize();
 
     virtual void removeChildDragElems();

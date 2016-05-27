@@ -41,6 +41,14 @@ DragableElement::DragableElement(const QString& identifier, const QString& text,
     connect(this, SIGNAL(dragElemContextMenuRequested(QPoint,DragableElement*)), _sMainWindow, SLOT(dragElemContextMenuRequested(QPoint,DragableElement*)));
 }
 
+DragableElement *DragableElement::getRoot()
+{
+    DragableElement *root = this;
+    while(root->_prevElem)
+        root = root->_prevElem;
+    return root;
+}
+
 void DragableElement::mousePressEvent(QMouseEvent *event)
 {
     if(event->buttons() & Qt::LeftButton)
@@ -73,7 +81,7 @@ void DragableElement::mouseMoveEvent(QMouseEvent *event)
     if(event->buttons() & Qt::LeftButton)
     {
         move(mapToParent(event->pos() - _offset));
-        moveNextElems(event->pos() - _offset);
+        moveNextElems();
         show();
         update();
     }
@@ -89,6 +97,8 @@ void DragableElement::mouseReleaseEvent(QMouseEvent* event)
         {
             _scriptAreaWidget->addToDragElem(this);
             _dragged = true;
+            if(getType() == "hat")
+                _scriptAreaWidget->reloadCode();
         }
         if(!scriptArea.contains(QRect(mapToGlobal(QPoint(0, 0)), QSize(width(), height())), true))
         {
@@ -127,43 +137,6 @@ void DragableElement::getLayoutSize()
         _height = _layout.itemAt(i)->widget()->height() > _height ? _layout.itemAt(i)->widget()->height() : _height;
     }
     _layout.setSizeConstraint(QLayout::SetNoConstraint);
-}
-
-void DragableElement::resize()
-{
-    DragableElement* elem = _prevElem;
-    while(elem)
-    {
-        QString elemClass(elem->metaObject()->className());
-        if(elemClass == "WrapperDE")
-        {
-            elem->resize();
-            elem->show();
-        }
-        elem = elem->getPrevElem();
-    }
-}
-
-void DragableElement::moveNextElems(QPoint offset)
-{
-    DragableElement* nextElem = _nextElem;
-    this->raise();
-    if(nextElem)
-    {
-        nextElem->raise();
-        nextElem->move(nextElem->pos() + offset);
-        nextElem->moveNextElems(offset);
-    }
-}
-
-void DragableElement::movePrevElems(QPoint offset)
-{
-    DragableElement* prevElem = _prevElem;
-    while(prevElem)
-    {
-        prevElem->move(prevElem->pos() + offset);
-        prevElem = prevElem->_prevElem;
-    }
 }
 
 void DragableElement::parseText(const QString &text, DragableElement *element)

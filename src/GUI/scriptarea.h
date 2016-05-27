@@ -30,6 +30,9 @@ public:
     void removeFromDragElem(DragableElement* elem);
     DragElemVector* getDragElemVector();
 
+    void setMainWindow(class MainWindow * main);
+    void reloadCode();
+
     ~ScriptArea();
 
 public slots:
@@ -41,6 +44,8 @@ protected:
     void paintEvent(QPaintEvent* event);
 
     Sprite* _currentSprite;
+
+    MainWindow* _Mainwindow;
 };
 
 #endif // SCRIPTAREA_H

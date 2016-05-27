@@ -19,7 +19,7 @@ ParamDock::ParamDock(QColor color, ScriptArea* scriptAreaWidget, QWidget *parent
     _scriptArea->addToHitTest(this);
 }
 
-void ParamDock::dock(DragableElement* dragElem)
+bool ParamDock::dock(DragableElement* dragElem)
 {
     if(dragElem != parent())
     {
@@ -47,6 +47,7 @@ void ParamDock::dock(DragableElement* dragElem)
             }
         }
     }
+    return false; // TODO
 }
 
 void ParamDock::undock()

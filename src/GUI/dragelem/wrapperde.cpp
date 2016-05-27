@@ -31,25 +31,43 @@ DragableElement* WrapperDE::getCurrentElement(QWidget *parent)
     return new WrapperDE(_identifier, _text, _color, _type, _scriptAreaWidget, parent);
 }
 
-void WrapperDE::moveNextElems(QPoint offset)
+void WrapperDE::movePrevElems()
 {
-    DragableElement* nextElem = _nextElem;
-    if(nextElem)
+    DragableElement* prevElem = _prevElem;
+
+    if(prevElem)
     {
-        nextElem->move(nextElem->pos() + offset);
-        nextElem->moveNextElems(offset);
+        prevElem->raise();
+        prevElem->move(_upperDock->getRect()->topLeft() + prevElem->getUpperOffsett());
+        prevElem->movePrevElems();
     }
-    nextElem = _innerDock->getDockedElem();
+}
+
+void WrapperDE::moveNextElems()
+{
+    DragableElement* innerElem = _innerDock->getDockedElem();
+    DragableElement* nextElem = _nextElem;
+
+    if(innerElem)
+    {
+        innerElem->raise();
+        innerElem->move(_innerDock->getRect()->topLeft() + innerElem->getLowerOffsett());
+        innerElem->moveNextElems();
+    }
+
+    resize();
+    show();
+
     if(nextElem)
     {
-        nextElem->move(nextElem->pos() + offset);
-        nextElem->moveNextElems(offset);
+        nextElem->raise();
+        nextElem->move(_lowerDock->getRect()->topLeft() + nextElem->getLowerOffsett());
+        nextElem->moveNextElems();
     }
 }
 
 void WrapperDE::resize()
 {
-    DragableElement::resize();
     show();
     getLayoutSize();
     _path = QPainterPath();
@@ -91,8 +109,6 @@ void WrapperDE::resize()
     _upperDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) - QPoint(0, 10), QSize(_width, _height)));
     _innerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(15, _height), QSize(_width, _height)));
     _lowerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(0, _height+22+_innerHeight), QSize(_width, _height)));
-    if(_nextElem) _nextElem->move(_lowerDock->getRect()->topLeft() + QPoint(0, 5));
-    if(_innerDock->getDockedElem()) _innerDock->getDockedElem()->move(_innerDock->getRect()->topLeft() + QPoint(0, 5));
 
     hide();
 }
@@ -103,27 +119,6 @@ void WrapperDE::removeChildDragElems()
     if(_lowerDock->getDockedElem()) _lowerDock->getDockedElem()->removeChildDragElems();
     _scriptAreaWidget->removeFromDragElem(this);
     delete this;
-}
-
-void WrapperDE::mousePressEvent(QMouseEvent* event)
-{
-    DragableElement* nextElem = _innerDock->getDockedElem();
-    while(nextElem)
-    {
-       QRect rect(nextElem->pos(), QSize(nextElem->getWidth(), nextElem->getHeight())) ;
-       if(rect.contains(mapToGlobal(event->pos()), true))
-       {
-
-            QMouseEvent * ev = new QMouseEvent(QEvent::MouseButtonPress, nextElem->mapFromGlobal(mapToGlobal(event->pos())),
-                                               event->button(), event->buttons(), 0x00000000);
-            nextElem->mousePressEvent(ev);
-            return;
-        }
-        nextElem = nextElem->getNextElem();
-    }
-    DragableElement::mousePressEvent(event);
-    resize();
-    show();
 }
 
 void WrapperDE::moveEvent(QMoveEvent*)

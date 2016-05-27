@@ -39,6 +39,8 @@ public:
 
     inline Sprite* getCurrentSprite() {return _currentSprite;}
 
+    void reloadCode();
+
 signals:
     void currentSpriteChanged(Sprite* sprite);
     void newSound();
