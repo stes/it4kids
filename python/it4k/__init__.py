@@ -152,8 +152,8 @@ class Entity(pyglet.event.EventDispatcher):
     def doGlide(self, seconds, x, y):
         steps = int(seconds * self._speed)
         if steps > 0:
-            diffX = (x - self.data.x) / stepsS
-            diffY = (y / 2 - self.data.y) / steps
+            diffX = (x - self.data.x) / steps
+            diffY = (y - self.data.y) / steps
             for i in range(steps):
                 self.move(diffX, diffY)
                 self.invalidate() # animation
