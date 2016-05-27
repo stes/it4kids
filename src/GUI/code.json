@@ -113,36 +113,28 @@
             "code": ["self.doGlide(%1, %2, %3)"]
         },
         {
-            "name": "setHeading",
-            "code": ["#self.setHeading(%1)"]
-        },
-        {
-            "name": "doFaceTowards",
-            "code": ["#self.doFaceTowards(%1)"]
-        },
-        {
-            "name": "doGotoObject",
-            "code": ["#self.doGotoObject(%1)"]
-        },
-        {
-            "name": "changeXPosition",
-            "code": ["#self.changeXPosition(%1)"]
-        },
-        {
             "name": "setXPosition",
-            "code": ["#self.setXPosition(%1)"]
-        },
-        {
-            "name": "changeYPosition",
-            "code": ["#self.changeYPosition(%1)"]
+            "code": ["self.x = %1"]
         },
         {
             "name": "setYPosition",
-            "code": ["#self.setYPosition(%1)"]
+            "code": ["self.y = %1"]
+        },
+        {
+            "name": "changeXPosition",
+            "code": ["self.x += %1"]
+        },
+        {
+            "name": "changeYPosition",
+            "code": ["self.y += %1"]
+        },
+        {
+            "name": "setHeading",
+            "code": ["self.setDirection(%1)"]
         },
         {
             "name": "bounceOffEdge",
-            "code": ["#self.bounceOffEdge()"]
+            "code": ["self.bounceOffEdge()"]
         },
         {
             "name": "doWait",

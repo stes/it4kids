@@ -10,7 +10,7 @@ ParamDirection::ParamDirection(QWidget *parent) : QComboBox(parent)
 
 QString ParamDirection::getValue()
 {
-    return currentText();
+    return '"' + currentText().toHtmlEscaped() + '"';
 }
 
 ParamDirection::~ParamDirection()

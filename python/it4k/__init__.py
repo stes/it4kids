@@ -104,8 +104,24 @@ class Entity(pyglet.event.EventDispatcher):
         self.sprite.y = self.data.y + App._size[1] / 2
         self.sprite.rotation = self.data.rotation
         if running:
-            time.sleep(1/self._speed)
+            if self._speed > 0:
+                time.sleep(1/self._speed)
             hook()
+    
+    def __getx(self):
+        return self.data.x
+    
+    def __gety(self):
+        return self.data.y
+    
+    def __setx(self, val):
+        self.data.x = val
+    
+    def __sety(self, val):
+        self.data.y = val
+            
+    x = property(__getx, __setx)
+    y = property(__gety, __sety)
     
     # block events
     def start(self):
@@ -134,14 +150,63 @@ class Entity(pyglet.event.EventDispatcher):
         hook()
     
     def doGlide(self, seconds, x, y):
-        steps = seconds * self._speed
-        diffX = (x - self.data.x) / steps
-        diffY = (y / 2 - self.data.y) / steps
-        for i in range(int(steps)):
-            self.move(diffX, diffY)
-            self.invalidate() # animation
+        steps = int(seconds * self._speed)
+        if steps > 0:
+            diffX = (x - self.data.x) / stepsS
+            diffY = (y / 2 - self.data.y) / steps
+            for i in range(steps):
+                self.move(diffX, diffY)
+                self.invalidate() # animation
         self.world_move_to(x, y)
         self.invalidate(False)
+        hook()
+    
+    def bounceOffEdge(self):
+        edge = ""
+        min = 0
+        rad = math.radians(self.data.rotation)
+        width = self.sprite.width #math.fabs(math.cos(rad)) * self.sprite.width + math.fabs(math.sin(rad)) * self.sprite.height
+        height = self.sprite.height #math.fabs(math.sin(rad)) * self.sprite.width + math.fabs(math.cos(rad)) * self.sprite.height
+        left = width / 2 - App._size[0] / 2
+        bottom = height / 2 - App._size[1] / 2
+        right = App._size[0] / 2 - width / 2
+        top = App._size[1] / 2 - height / 2
+        if self.data.x - left < min:
+            edge = "left"
+            min = self.data.x - left
+        if self.data.y - bottom < min:
+            edge = "bottom"
+            min = self.data.y - bottom
+        if right - self.data.x < min:
+            edge = "right"
+            min = right - self.data.x
+        if top - self.data.y < min:
+            edge = "top"
+            min = top - self.data.y
+        
+        dx = math.cos(rad)
+        dy = math.sin(-rad)
+        
+        if edge == "left":
+            self.data.x = left
+            dx *= -1
+        if edge == "bottom":
+            self.data.y = bottom
+            dy *= -1
+        if edge == "right":
+            self.data.x = right
+            dx *= -1
+        if edge == "top":
+            self.data.y = top
+            dy *= -1
+        
+        self.data.rotation = math.degrees(math.atan2(-dy, dx))
+        hook()
+    
+    def setDirection(self, direction):
+        rot = {"left": 180, "right": 0, "down": 90, "up": 270}
+        if direction in rot:
+            self.data.rotation = rot[direction]
         hook()
     
     def wait(self, sec):
