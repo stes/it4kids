@@ -53,14 +53,18 @@ void DragableElement::mousePressEvent(QMouseEvent *event)
             {
                 element->_paramsVector[i]->setValue(_paramsVector[i]->getValue());
             }
-            element->_dragged = true;
             element->update();
             element->grabMouse();
         }
-        if(_currentDock) _currentDock->undock();
-        resize();
-        show();
-        raise();
+        else
+        {
+            if(_currentDock)
+                _currentDock->undock();
+            grabMouse();
+            resize();
+            show();
+            raise();
+        }
     }
 }
 
@@ -81,7 +85,11 @@ void DragableElement::mouseReleaseEvent(QMouseEvent* event)
     if(event->button() == Qt::LeftButton)
     {
         QRect scriptArea = QRect(_scriptAreaWidget->mapToGlobal(QPoint(0,0)), QSize(_scriptAreaWidget->width(), _scriptAreaWidget->height()));
-        _scriptAreaWidget->addToDragElem(this);
+        if(!_dragged)
+        {
+            _scriptAreaWidget->addToDragElem(this);
+            _dragged = true;
+        }
         if(!scriptArea.contains(QRect(mapToGlobal(QPoint(0, 0)), QSize(width(), height())), true))
         {
             removeChildDragElems();

@@ -115,7 +115,7 @@ QString CodeGenerator::indentCode(QStringList *code, int num, QString content)
     QString str;
     for (QStringList::const_iterator it = code->constBegin(); it != code->constEnd(); it++)
     {
-        if(*it == "%content%" && !content.isEmpty())
+        if(*it == "%content%")
             str += content;
         else
             str += indent(num) + *it + '\n';
@@ -176,6 +176,11 @@ QString CodeGenerator::generateCode(DragableElement* element, int sub)
         }
 
         str += tmp;
+    }
+
+    if(str.isEmpty())
+    {
+        str = indent(sub) + "pass\n";
     }
 
     return str;
