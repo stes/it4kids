@@ -138,6 +138,7 @@ QString CodeGenerator::generateCode(DragableElement* element, int sub)
     {
         QString name = next->getIdentifier();
 
+        // TODO: indent should be more dynamic
         QString tmp;
         if (next->getType() == "hat" && _events.contains(name))
         {

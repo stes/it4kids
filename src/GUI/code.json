@@ -60,34 +60,16 @@
             "register": "self.register(on_start=self.receiveGo%counter%)"
         },
         {
-            "name": "receiveKey",
-            "code": [
-                "@it4k.block",
-                "def receiveKey%counter%(self):",
-                "%content%",
-                "    self.invalidate()"
-            ],
-            "register": "pass"
-        },
-        {
             "name": "receiveInteraction",
             "code": [
                 "@it4k.block",
-                "def receiveInteraction%counter%(self):",
+                "def receiveInteraction%counter%(self, type):",
+                "    if type != %1:",
+                "        return",
                 "%content%",
                 "    self.invalidate()"
             ],
-            "register": "pass"
-        },
-        {
-            "name": "receiveMessage",
-            "code": [
-                "@it4k.block",
-                "def receiveMessage%counter%(self):",
-                "%content%",
-                "    self.invalidate()"
-            ],
-            "register": "pass"
+            "register": "self.register(on_interaction=self.receiveInteraction%counter%)"
         }
     ],
 

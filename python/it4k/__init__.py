@@ -129,7 +129,7 @@ class Entity(pyglet.event.EventDispatcher):
     
     def click(self, x, y):
         if self.check_pos(x, y):
-            self.dispatch_event('on_click')
+            self.dispatch_event('on_interaction', 'clicked')
     
     # block methods
     def forward(self, len):
@@ -215,7 +215,7 @@ class Entity(pyglet.event.EventDispatcher):
         hook()
 
 Entity.register_event_type('on_start')
-Entity.register_event_type('on_click')
+Entity.register_event_type('on_interaction')
 
 class App(object):
 
