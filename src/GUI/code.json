@@ -4,8 +4,8 @@
             "name": "main_import",
             "code": [
                 "import pyglet",
-                "import it4k",
-                "import sys, inspect, imp\n"
+                "import it4k, it4k.embed",
+                "import imp\n"
             ]
         },
         {
@@ -31,7 +31,10 @@
             "name": "main",
             "code": [
                 "def init(create_window=False):",
-                "    myApp = it4k.init('%background%', create_window=create_window)",
+                "    if create_window:",
+                "        myApp = it4k.init('%background%')",
+                "    else:",
+                "        myApp = it4k.embed.embed_init('%background%')",
                 "%content%",
                 "if  __name__ ==  \"__main__\":",
                 "    init(True)",

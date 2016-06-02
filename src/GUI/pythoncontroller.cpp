@@ -15,7 +15,7 @@ PythonController::PythonController()
     m_pModule = NULL;
 
     PyObject *pName;
-    pName = PyUnicode_DecodeFSDefault("it4k");
+    pName = PyUnicode_DecodeFSDefault("it4k.embed");
     m_pIT4KModule = PyImport_Import(pName);
     Py_DECREF(pName);
 
