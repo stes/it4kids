@@ -112,7 +112,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::InitializeDragElem(const QString& path)
 {
-    _LoadableDrags = {};
+    _LoadableDrags.clear();
     QFile styleSheet(path);
     styleSheet.open(QFile::ReadOnly);
     QString xml = QLatin1String(styleSheet.readAll());
@@ -245,7 +245,7 @@ void MainWindow::on_buttonScriptStart_clicked()
 }
 
 
-DragableElement* MainWindow::createNewElement(QString s)
+DragableElement* MainWindow::createNewElement(QString)
 {
    /* qDebug() << s;
     //check all Elements

@@ -229,7 +229,8 @@ void CodeGenerator::generateMap()
     for (QJsonArray::const_iterator it = Events.constBegin(); it != Events.constEnd(); it++)
     {
         QJsonObject Event = it->toObject();
-        _events[Event["name"].toString()] = {processCodeField(Event["code"].toArray()), Event["register"].toString()};
+        CodeGenerator::Event tmp = {processCodeField(Event["code"].toArray()), Event["register"].toString()};
+        _events[Event["name"].toString()] = tmp;
     }
 
     for (QJsonArray::const_iterator it = Commands.constBegin(); it != Commands.constEnd(); it++)

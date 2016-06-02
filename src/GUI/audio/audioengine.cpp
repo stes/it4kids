@@ -16,7 +16,7 @@ bool AudioEngine::loadFile(const QString &fileName)
 {
     WavFile* sound = new WavFile();
     if (!sound->open(fileName)) {
-        #pragma message("Deal with failing to load Audio File")
+        // TODO: Deal with failing to load Audio File
         return false;
     }
     _currentSprite->_soundVector.push_back(sound);
