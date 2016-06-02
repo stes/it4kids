@@ -17,11 +17,10 @@ public:
 
     QPoint getUpperOffsett() const { return UPPEROFFSETHAT; }
 
-    void moveNextElems();
+    void rearrangeLowerElems();
     virtual void removeChildDragElems();
 protected:
     DragableElement* getCurrentElement(QWidget* parent);
-    void hitTest();
 
     void moveEvent(QMoveEvent *);
 

@@ -81,7 +81,7 @@ void DragableElement::mouseMoveEvent(QMouseEvent *event)
     if(event->buttons() & Qt::LeftButton)
     {
         move(mapToParent(event->pos() - _offset));
-        moveNextElems();
+        rearrangeLowerElems();
         show();
         update();
     }
@@ -105,7 +105,7 @@ void DragableElement::mouseReleaseEvent(QMouseEvent* event)
             removeChildDragElems();
             return;
         }
-        hitTest();
+        _scriptAreaWidget->performHitTest(this);
     }
 }
 

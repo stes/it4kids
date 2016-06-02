@@ -13,8 +13,8 @@ class CommandDE : public DragableElement
 public:
     CommandDE(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget = 0, QWidget* parent = 0);
 
-    void movePrevElems();
-    void moveNextElems();
+    void rearrangeUpperElems();
+    void rearrangeLowerElems();
 
     void resize();
 
@@ -23,7 +23,6 @@ public:
     ~CommandDE();
 protected:
     DragableElement* getCurrentElement(QWidget* parent);
-    void hitTest();
 
     void moveEvent(QMoveEvent*);
 

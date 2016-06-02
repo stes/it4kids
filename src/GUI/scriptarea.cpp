@@ -57,12 +57,9 @@ void ScriptArea::performHitTest(DragableElement* elem)
     QRect rectDE(elem->mapToGlobal(QPoint(0, 0)), QSize(elem->width(), elem->height()));
     for(HitTestVector::iterator it = _currentSprite->_hitTestVector.begin(); it != _currentSprite->_hitTestVector.end(); it++)
     {
-        if((*it)->getRect()->intersects(rectDE))
+        if((*it)->getRect()->intersects(rectDE) && (*it)->getParent()->getRoot() != elem)
         {
-            if((*it)->dock(elem))
-            {
-                reloadCode();
-            }
+            (*it)->dock(elem);
             break;
         }
     }

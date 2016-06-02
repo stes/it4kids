@@ -52,8 +52,8 @@ public:
     virtual void resize() = 0;
     virtual DragableElement* getWrapElem(){return (DragableElement*)0;}
 
-    virtual void moveNextElems() { };
-    virtual void movePrevElems() { };
+    virtual void rearrangeLowerElems() { };
+    virtual void rearrangeUpperElems() { };
 
     virtual QPoint getLowerOffsett() const { return LOWEROFFSET; }
     virtual QPoint getUpperOffsett() const { return UPPEROFFSET; }
@@ -98,9 +98,6 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent*);
 
     virtual void paintEvent(QPaintEvent*);
-
-
-    virtual void hitTest() = 0;
 
     void getLayoutSize();
 

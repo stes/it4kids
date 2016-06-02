@@ -12,6 +12,8 @@ class ScriptArea;
 
 class ScriptDock : public DockingArea
 {
+    void connect(DragableElement *upper, DragableElement *lower);
+
 public:
     enum Type
     {
@@ -26,7 +28,7 @@ public:
     void deactivate();
     inline DragableElement* getParent() {return _parent;}
 
-    virtual bool dock(DragableElement* elem);
+    virtual void dock(DragableElement* elem);
     virtual void undock();
 
     ~ScriptDock();

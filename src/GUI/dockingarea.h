@@ -14,7 +14,7 @@ public:
     inline void setRect(const QRect& rect) {_dockingAreaGlobal = rect;}
     inline QRect* getRect() {return &_dockingAreaGlobal; }
 
-    virtual bool dock(DragableElement* elem) = 0;
+    virtual void dock(DragableElement* elem) = 0;
     virtual void undock() = 0;
     virtual inline DragableElement* getParent() {return 0;}
 

@@ -18,7 +18,7 @@ DragableElement* HatDE::getCurrentElement(QWidget* parent)
     return new HatDE(_identifier, _text, _color, _type, _scriptAreaWidget, parent);
 }
 
-void HatDE::moveNextElems()
+void HatDE::rearrangeLowerElems()
 {
     DragableElement* nextElem = _nextElem;
 
@@ -26,7 +26,7 @@ void HatDE::moveNextElems()
     {
         nextElem->raise();
         nextElem->move(_lowerDock->getRect()->topLeft() + nextElem->getLowerOffsett());
-        nextElem->moveNextElems();
+        nextElem->rearrangeLowerElems();
     }
 }
 
@@ -60,11 +60,4 @@ void HatDE::removeChildDragElems()
 void HatDE::moveEvent(QMoveEvent *)
 {
     if(_lowerDock) _lowerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(0, _height+10), QSize(_width, _height)));
-}
-
-void HatDE::hitTest()
-{
-    _lowerDock->deactivate();
-    _scriptAreaWidget->performHitTest(this);
-    if(!_nextElem) _lowerDock->activate();
 }

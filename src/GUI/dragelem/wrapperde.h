@@ -14,11 +14,11 @@ public:
 
     QPoint getUpperOffsett() const { return UPPEROFFSET - QPoint(0, 22+_innerHeight); }
 
-    void movePrevElems();
-    void moveNextElems();
+    void rearrangeUpperElems();
+    void rearrangeLowerElems();
+    void rearrangeInnerElems();
 
     inline int getHeight() const {return _height+22+_innerHeight;}
-    int getNumberElements();
     DragableElement* getWrapElem();
 
     virtual void removeChildDragElems();
@@ -26,11 +26,9 @@ public:
     ~WrapperDE();
 protected:
     DragableElement* getCurrentElement(QWidget* parent);
-    void hitTest();
 
     virtual void moveEvent(QMoveEvent *event);
 
-    int _numberElements;
     int _innerHeight;
     QWidget* _label;
 

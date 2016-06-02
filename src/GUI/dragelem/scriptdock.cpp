@@ -12,6 +12,7 @@ ScriptDock::ScriptDock(ScriptArea *scriptArea, Type type, DragableElement* paren
     DockingArea(), _type(type), _parent(parent), _active(false)
 {
     _scriptArea = scriptArea;
+    activate();
 }
 
 void ScriptDock::activate()
@@ -32,57 +33,44 @@ void ScriptDock::deactivate()
     }
 }
 
-bool ScriptDock::dock(DragableElement* elem)
+void ScriptDock::connect(DragableElement *upper, DragableElement *lower)
+{
+    _dockedElem = lower;
+    lower->setCurrentDock(this);
+    lower->setPrevElem(upper);
+    if(_type != Inner)
+        upper->setNextElem(lower);
+}
+
+void ScriptDock::dock(DragableElement* elem)
 {
     QString elemClass(elem->metaObject()->className());
+    ScriptDock *otherDock;
 
     if(_type == Upper && !elem->_nextElem)
     {
-        ScriptDock *lower;
-        if(elemClass == "CommandDE") lower = ((CommandDE*) elem)->_lowerDock;
-        else if(elemClass == "WrapperDE") lower = ((WrapperDE*) elem)->_lowerDock;
-        else if(elemClass == "HatDE") lower = ((HatDE*) elem)->_lowerDock;
-        else return false;
+        if(elemClass == "CommandDE") otherDock = ((CommandDE*) elem)->_lowerDock;
+        else if(elemClass == "WrapperDE") otherDock = ((WrapperDE*) elem)->_lowerDock;
+        else if(elemClass == "HatDE") otherDock = ((HatDE*) elem)->_lowerDock;
+        else return;
 
-        lower->deactivate();
-        lower->_dockedElem = _parent;
-        _parent->setCurrentDock(lower);
-        elem->setNextElem(_parent);
-        _parent->setPrevElem(elem);
-        _parent->movePrevElems();
-        elem->getRoot()->moveNextElems();
-        deactivate();
+        otherDock->connect(elem, _parent);
+        _parent->rearrangeUpperElems();
     }
-    else if(_type == Lower && !elem->_prevElem)
+    else if((_type == Lower || _type == Inner) && !elem->_prevElem)
     {
-        ScriptDock *upper;
-        if(elemClass == "CommandDE") upper = ((CommandDE*) elem)->_upperDock;
-        else if(elemClass == "WrapperDE") upper = ((WrapperDE*) elem)->_upperDock;
-        else return false;
+        if(elemClass == "CommandDE") otherDock = ((CommandDE*) elem)->_upperDock;
+        else if(elemClass == "WrapperDE") otherDock = ((WrapperDE*) elem)->_upperDock;
+        else return;
 
-        upper->deactivate();
-        _dockedElem = elem;
-        elem->setCurrentDock(this);
-        elem->setPrevElem(_parent);
-        _parent->setNextElem(elem);
-        elem->getRoot()->moveNextElems();
-        deactivate();
+        connect(_parent, elem);
+        elem->getRoot()->rearrangeLowerElems();
     }
-    else if(_type == Inner && !elem->_prevElem)
-    {
-        ScriptDock *upper;
-        if(elemClass == "CommandDE") upper = ((CommandDE*) elem)->_upperDock;
-        else if(elemClass == "WrapperDE") upper = ((WrapperDE*) elem)->_upperDock;
-        else return false;
+    otherDock->deactivate();
+    deactivate();
 
-        upper->deactivate();
-        _dockedElem = elem;
-        elem->setCurrentDock(this);
-        elem->setPrevElem(_parent);
-        elem->getRoot()->moveNextElems();
-        deactivate();
-    }
-    return elem->getRoot()->getType() == "hat";
+    if(elem->getRoot()->getType() == "hat")
+        _scriptArea->reloadCode();
 }
 
 void ScriptDock::undock()
@@ -100,7 +88,7 @@ void ScriptDock::undock()
         }
         activate();
     }
-    _parent->getRoot()->moveNextElems();
+    _parent->getRoot()->rearrangeLowerElems();
     if(_parent->getRoot()->getType() == "hat")
         _scriptArea->reloadCode();
 }

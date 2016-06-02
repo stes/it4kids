@@ -18,7 +18,7 @@ class ParamDock : public QWidget, public Param, public DockingArea
 public:
     explicit ParamDock(QColor color, ScriptArea* scriptAreaWidget, QWidget *parent = 0);
 
-    bool dock(DragableElement* dragelem);
+    void dock(DragableElement* dragelem);
     void undock();
 
     QString getValue();

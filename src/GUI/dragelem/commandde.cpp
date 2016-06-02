@@ -19,7 +19,7 @@ DragableElement* CommandDE::getCurrentElement(QWidget *parent)
     return new CommandDE(_identifier, _text, _color, _type, _scriptAreaWidget, parent);
 }
 
-void CommandDE::movePrevElems()
+void CommandDE::rearrangeUpperElems()
 {
     DragableElement* prevElem = _prevElem;
 
@@ -27,11 +27,11 @@ void CommandDE::movePrevElems()
     {
         prevElem->raise();
         prevElem->move(_upperDock->getRect()->topLeft() + prevElem->getUpperOffsett());
-        prevElem->movePrevElems();
+        prevElem->rearrangeUpperElems();
     }
 }
 
-void CommandDE::moveNextElems()
+void CommandDE::rearrangeLowerElems()
 {
     DragableElement* nextElem = _nextElem;
 
@@ -39,7 +39,7 @@ void CommandDE::moveNextElems()
     {
         nextElem->raise();
         nextElem->move(_lowerDock->getRect()->topLeft() + nextElem->getLowerOffsett());
-        nextElem->moveNextElems();
+        nextElem->rearrangeLowerElems();
     }
 }
 
@@ -77,15 +77,6 @@ void CommandDE::moveEvent(QMoveEvent*)
 {
     if(_upperDock) _upperDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) - QPoint(0, 10), QSize(_width, _height)));
     if(_lowerDock) _lowerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(0, _height), QSize(_width, _height)));
-}
-
-void CommandDE::hitTest()
-{
-    _lowerDock->deactivate();
-    _upperDock->deactivate();
-    _scriptAreaWidget->performHitTest(this);
-    if(!_nextElem) _lowerDock->activate();
-    if(!_prevElem) _upperDock->activate();
 }
 
 CommandDE::~CommandDE()
