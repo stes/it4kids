@@ -159,7 +159,7 @@ QJsonArray SaveLoadClass::generateBlockTupleArray(DragableElement* element)
     return BlockArray;
 }
 
-QJsonArray SaveLoadClass::generateBlockTuple(DragableElement* element)
+QJsonArray SaveLoadClass::generateBlockTuple(DragableElement*)
 {
 //    ArgumentStruct* argument = element->getArguments();
     QJsonArray Block;

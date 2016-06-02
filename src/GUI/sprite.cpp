@@ -67,7 +67,7 @@ void Sprite::setCurrentCostume(Costume *costume)
     if(!exists)
     {
         addCostume(costume);
-        _currentCostumeIndex = _costumeVector.size() - 1;
+        _currentCostumeIndex = (int)_costumeVector.size() - 1;
     }
     _imageLabel.setPixmap(QPixmap::fromImage(_costumeVector[_currentCostumeIndex]->getImage()->scaled(40, 40)));
     emit currentCostumeChanged(this);
