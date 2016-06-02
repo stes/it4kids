@@ -93,17 +93,21 @@ void DragableElement::mouseReleaseEvent(QMouseEvent* event)
     if(event->button() == Qt::LeftButton)
     {
         QRect scriptArea = QRect(_scriptAreaWidget->mapToGlobal(QPoint(0,0)), QSize(_scriptAreaWidget->width(), _scriptAreaWidget->height()));
+        if(!scriptArea.contains(QRect(mapToGlobal(QPoint(0, 0)), QSize(width(), height())), true))
+        {
+            bool reload = getType() == "hat";
+            ScriptArea *scriptAreaWidget = _scriptAreaWidget;
+            removeChildDragElems();
+            if(reload)
+                scriptAreaWidget->reloadCode();
+            return;
+        }
         if(!_dragged)
         {
             _scriptAreaWidget->addToDragElem(this);
             _dragged = true;
             if(getType() == "hat")
                 _scriptAreaWidget->reloadCode();
-        }
-        if(!scriptArea.contains(QRect(mapToGlobal(QPoint(0, 0)), QSize(width(), height())), true))
-        {
-            removeChildDragElems();
-            return;
         }
         _scriptAreaWidget->performHitTest(this);
     }

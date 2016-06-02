@@ -11,7 +11,6 @@
 #include <QDebug>
 #include <Qsci/qscilexerpython.h>
 
-#include "audioengine.h"
 #include "costume.h"
 #include "dragelemcategory.h"
 #include "commandde.h"
@@ -36,17 +35,16 @@ SpriteVector* MainWindow::getSpriteVector()
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow), _dateiMenu(this), _bearbeitenMenu(this)
+    ui(new Ui::MainWindow), _dateiMenu(this), _bearbeitenMenu(this), _audioEngine(this), _Cgen(this)
 {
     _sMainWindow = this;
 
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint);
 
-    _Cgen = new CodeGenerator(this);
+    ui->scene->setPyController(&_pyController);
 
-    _audioEngine = new AudioEngine(this);
-    connect(this, SIGNAL(currentSpriteChanged(Sprite*)), _audioEngine, SLOT(setCurrentSprite(Sprite*)));
+    connect(this, SIGNAL(currentSpriteChanged(Sprite*)), &_audioEngine, SLOT(setCurrentSprite(Sprite*)));
 
     Sprite* sprite = new Sprite("sprite", this);
     Costume* costume = new Costume(sprite);
@@ -107,7 +105,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(this, SIGNAL(currentTeacherChanged(Teacher*)), ui->studentList, SLOT(currentTeacherChanged(Teacher*)));
 
-    _Cgen->generateFiles();
+    _Cgen.generateFiles();
 }
 
 void MainWindow::InitializeDragElem(const QString& path)
@@ -179,10 +177,10 @@ void MainWindow::InitializeDragElem(const QString& path)
 void  MainWindow::reloadCode()
 {
     // TODO
-    ui->codeEditor->setText(_Cgen->generateSprite(_currentSprite));
+    ui->codeEditor->setText(_Cgen.generateSprite(_currentSprite));
 
-    _Cgen->generateFiles();
-    ui->scene->loadApp("main");
+    _Cgen.generateFiles();
+    _pyController.loadApp("main");
 }
 
 DragElemCategory* MainWindow::GetCategoryByName(const QString& name)
@@ -205,7 +203,7 @@ void MainWindow::on_soundFromFile_clicked()
     const QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Open WAV file"), dir, "*.wav");
     if (fileNames.count())
     {
-        _audioEngine->loadFile(fileNames.front());
+        _audioEngine.loadFile(fileNames.front());
         emit newSound();
     }
 }
@@ -241,7 +239,7 @@ void MainWindow::on_buttonScriptStart_clicked()
 
     // TODO
     reloadCode();
-    ui->scene->sendStart();
+    _pyController.sendStart();
 }
 
 
@@ -269,7 +267,7 @@ DragableElement* MainWindow::createNewElement(QString)
 
 void MainWindow::on_buttonScriptStop_clicked()
 {
-    ui->scene->sendStop();
+    _pyController.sendStop();
 }
 
 void MainWindow::on_buttonAddDragElem_clicked()
@@ -321,8 +319,8 @@ void MainWindow::on_spriteFromFile_clicked()
 
         changeCurrentSprite(sprite);
 
-        _Cgen->generateFiles();
-        ui->scene->loadApp("main");
+        _Cgen.generateFiles();
+        _pyController.loadApp("main");
     }
 }
 
@@ -378,7 +376,7 @@ void MainWindow::changeCurrentSprite(Sprite *sprite)
 {
     _currentSprite = sprite;
     setCurrentCostume(sprite->getCostumeVector()->at(0));
-    ui->codeEditor->setText(_Cgen->generateSprite(sprite->getName()));
+    ui->codeEditor->setText(_Cgen.generateSprite(sprite->getName()));
     emit currentSpriteChanged(sprite);
 }
 

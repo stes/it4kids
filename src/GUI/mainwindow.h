@@ -4,7 +4,10 @@
 #include <QMainWindow>
 #include <QMenu>
 #include <Qsci/qsciscintilla.h>
+
+#include "audioengine.h"
 #include "codegenerator.h"
+#include "pythoncontroller.h"
 
 #include "spriteselect.h"
 #include "student.h"
@@ -78,15 +81,16 @@ private:
 
     Ui::MainWindow *ui;
 
-    AudioEngine* _audioEngine;
     Sprite* _currentSprite;
-
     Sprite* _backgroundSprite;
 
     QMenu _dateiMenu;
     QMenu _bearbeitenMenu;
 
-    CodeGenerator * _Cgen;
+    AudioEngine _audioEngine;
+    CodeGenerator _Cgen;
+    PythonController _pyController;
+
     std::vector<DragableElement*> _LoadableDrags;
 
     Teacher* _currentTeacher;

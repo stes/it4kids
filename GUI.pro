@@ -71,7 +71,8 @@ SOURCES += src/main.cpp\
     src/GUI/saveloadclass.cpp \
     src/GUI/teacher/student.cpp \
     src/GUI/teacher/teacher.cpp \
-    src/GUI/teacherlogin.cpp
+    src/GUI/teacherlogin.cpp \
+    src/GUI/pythoncontroller.cpp
 
 HEADERS  += src/GUI/mainwindow.h \
     src/GUI/scene.h \
@@ -124,7 +125,8 @@ HEADERS  += src/GUI/mainwindow.h \
     src/GUI/saveloadclass.h \
     src/GUI/teacher/student.h \
     src/GUI/teacher/teacher.h \
-    src/GUI/teacherlogin.h
+    src/GUI/teacherlogin.h \
+    src/GUI/pythoncontroller.h
 
 FORMS    += src/GUI/mainwindow.ui \
     src/GUI/newspritename.ui \
