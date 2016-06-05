@@ -93,7 +93,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="resources.qrc">
+             <iconset resource="../resources/resources.qrc">
               <normaloff>:/Assets/fullScreenOff.png</normaloff>
               <normalon>:/Assets/fullScreenOff.png</normalon>:/Assets/fullScreenOff.png</iconset>
             </property>
@@ -111,7 +111,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="resources.qrc">
+             <iconset resource="../resources/resources.qrc">
               <normaloff>:/Assets/greenFlagOff.png</normaloff>:/Assets/greenFlagOff.png</iconset>
             </property>
             <property name="flat">
@@ -125,7 +125,7 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="resources.qrc">
+             <iconset resource="../resources/resources.qrc">
               <normaloff>:/Assets/stopOn.png</normaloff>:/Assets/stopOn.png</iconset>
             </property>
             <property name="flat">
@@ -269,7 +269,7 @@
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="resources.qrc">
+                <iconset resource="../resources/resources.qrc">
                  <normaloff>:/Assets/libraryOff.png</normaloff>:/Assets/libraryOff.png</iconset>
                </property>
                <property name="flat">
@@ -289,7 +289,7 @@
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="resources.qrc">
+                <iconset resource="../resources/resources.qrc">
                  <normaloff>:/Assets/paintbrushOff.png</normaloff>:/Assets/paintbrushOff.png</iconset>
                </property>
                <property name="flat">
@@ -309,7 +309,7 @@
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="resources.qrc">
+                <iconset resource="../resources/resources.qrc">
                  <normaloff>:/Assets/importOff.png</normaloff>:/Assets/importOff.png</iconset>
                </property>
                <property name="flat">
@@ -329,7 +329,7 @@
                 <string/>
                </property>
                <property name="icon">
-                <iconset resource="resources.qrc">
+                <iconset resource="../resources/resources.qrc">
                  <normaloff>:/Assets/cameraOff.png</normaloff>:/Assets/cameraOff.png</iconset>
                </property>
                <property name="flat">
@@ -488,7 +488,7 @@
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="resources.qrc">
+                   <iconset resource="../resources/resources.qrc">
                     <normaloff>:/Assets/landscapeOff.png</normaloff>:/Assets/landscapeOff.png</iconset>
                   </property>
                   <property name="flat">
@@ -502,7 +502,7 @@
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="resources.qrc">
+                   <iconset resource="../resources/resources.qrc">
                     <normaloff>:/Assets/paintbrushOff.png</normaloff>:/Assets/paintbrushOff.png</iconset>
                   </property>
                   <property name="flat">
@@ -516,7 +516,7 @@
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="resources.qrc">
+                   <iconset resource="../resources/resources.qrc">
                     <normaloff>:/Assets/importOff.png</normaloff>:/Assets/importOff.png</iconset>
                   </property>
                   <property name="flat">
@@ -530,7 +530,7 @@
                    <string/>
                   </property>
                   <property name="icon">
-                   <iconset resource="resources.qrc">
+                   <iconset resource="../resources/resources.qrc">
                     <normaloff>:/Assets/cameraOff.png</normaloff>:/Assets/cameraOff.png</iconset>
                   </property>
                   <property name="flat">
@@ -718,7 +718,7 @@ QMenu
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="resources.qrc">
+          <iconset resource="../resources/resources.qrc">
            <normaloff>:/Assets/minimize.png</normaloff>:/Assets/minimize.png</iconset>
          </property>
          <property name="flat">
@@ -738,7 +738,7 @@ QMenu
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="resources.qrc">
+          <iconset resource="../resources/resources.qrc">
            <normaloff>:/Assets/close.png</normaloff>:/Assets/close.png</iconset>
          </property>
          <property name="flat">
@@ -962,7 +962,7 @@ color: #5c5d5f;</string>
                  <string/>
                 </property>
                 <property name="icon">
-                 <iconset resource="resources.qrc">
+                 <iconset resource="../resources/resources.qrc">
                   <normaloff>:/Assets/libraryOff.png</normaloff>:/Assets/libraryOff.png</iconset>
                 </property>
                 <property name="flat">
@@ -982,7 +982,7 @@ color: #5c5d5f;</string>
                  <string/>
                 </property>
                 <property name="icon">
-                 <iconset resource="resources.qrc">
+                 <iconset resource="../resources/resources.qrc">
                   <normaloff>:/Assets/paintbrushOff.png</normaloff>:/Assets/paintbrushOff.png</iconset>
                 </property>
                 <property name="flat">
@@ -1002,7 +1002,7 @@ color: #5c5d5f;</string>
                  <string/>
                 </property>
                 <property name="icon">
-                 <iconset resource="resources.qrc">
+                 <iconset resource="../resources/resources.qrc">
                   <normaloff>:/Assets/importOff.png</normaloff>:/Assets/importOff.png</iconset>
                 </property>
                 <property name="flat">
@@ -1150,7 +1150,7 @@ color: #5c5d5f;</string>
                  <string/>
                 </property>
                 <property name="icon">
-                 <iconset resource="resources.qrc">
+                 <iconset resource="../resources/resources.qrc">
                   <normaloff>:/Assets/soundlibraryOff.png</normaloff>:/Assets/soundlibraryOff.png</iconset>
                 </property>
                 <property name="flat">
@@ -1170,7 +1170,7 @@ color: #5c5d5f;</string>
                  <string/>
                 </property>
                 <property name="icon">
-                 <iconset resource="resources.qrc">
+                 <iconset resource="../resources/resources.qrc">
                   <normaloff>:/Assets/recordOff.png</normaloff>:/Assets/recordOff.png</iconset>
                 </property>
                 <property name="flat">
@@ -1190,7 +1190,7 @@ color: #5c5d5f;</string>
                  <string/>
                 </property>
                 <property name="icon">
-                 <iconset resource="resources.qrc">
+                 <iconset resource="../resources/resources.qrc">
                   <normaloff>:/Assets/importOff.png</normaloff>:/Assets/importOff.png</iconset>
                 </property>
                 <property name="flat">
@@ -1279,7 +1279,7 @@ color: #5c5d5f;</string>
                  <string/>
                 </property>
                 <property name="icon">
-                 <iconset resource="resources.qrc">
+                 <iconset resource="../resources/resources.qrc">
                   <normaloff>:/Assets/undoOff.png</normaloff>:/Assets/undoOff.png</iconset>
                 </property>
                </widget>
@@ -1296,7 +1296,7 @@ color: #5c5d5f;</string>
                  <string/>
                 </property>
                 <property name="icon">
-                 <iconset resource="resources.qrc">
+                 <iconset resource="../resources/resources.qrc">
                   <normaloff>:/Assets/redoOff.png</normaloff>:/Assets/redoOff.png</iconset>
                 </property>
                </widget>
@@ -1363,7 +1363,7 @@ color: #5c5d5f;</string>
                  <string/>
                 </property>
                 <property name="icon">
-                 <iconset resource="resources.qrc">
+                 <iconset resource="../resources/resources.qrc">
                   <normaloff>:/Assets/playOff.png</normaloff>:/Assets/playOff.png</iconset>
                 </property>
                 <property name="flat">
@@ -1383,7 +1383,7 @@ color: #5c5d5f;</string>
                  <string/>
                 </property>
                 <property name="icon">
-                 <iconset resource="resources.qrc">
+                 <iconset resource="../resources/resources.qrc">
                   <normaloff>:/Assets/soundStopOff.png</normaloff>:/Assets/soundStopOff.png</iconset>
                 </property>
                 <property name="flat">
@@ -1403,7 +1403,7 @@ color: #5c5d5f;</string>
                  <string/>
                 </property>
                 <property name="icon">
-                 <iconset resource="resources.qrc">
+                 <iconset resource="../resources/resources.qrc">
                   <normaloff>:/Assets/pauseOff.png</normaloff>:/Assets/pauseOff.png</iconset>
                 </property>
                 <property name="flat">
@@ -1423,7 +1423,7 @@ color: #5c5d5f;</string>
                  <string/>
                 </property>
                 <property name="icon">
-                 <iconset resource="resources.qrc">
+                 <iconset resource="../resources/resources.qrc">
                   <normaloff>:/Assets/rewindOff.png</normaloff>:/Assets/rewindOff.png</iconset>
                 </property>
                 <property name="flat">
@@ -1443,7 +1443,7 @@ color: #5c5d5f;</string>
                  <string/>
                 </property>
                 <property name="icon">
-                 <iconset resource="resources.qrc">
+                 <iconset resource="../resources/resources.qrc">
                   <normaloff>:/Assets/forwardOff.png</normaloff>:/Assets/forwardOff.png</iconset>
                 </property>
                 <property name="flat">
@@ -1852,7 +1852,7 @@ color: #5c5d5f;</string>
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="resources.qrc"/>
+  <include location="../resources/resources.qrc"/>
  </resources>
  <connections>
   <connection>
