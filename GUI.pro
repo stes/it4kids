@@ -9,7 +9,7 @@ QT       += core gui multimedia
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 CONFIG += qscintilla2
 
-INCLUDEPATH += src/GUI
+INCLUDEPATH += src
 DESTDIR=bin #Target file directory
 OBJECTS_DIR=generated #Intermediate object files directory
 MOC_DIR=generated #Intermediate moc files directory
@@ -22,118 +22,118 @@ TARGET = it4kids-editor
 TEMPLATE = app
 
 SOURCES += src/main.cpp\
-    src/GUI/mainwindow.cpp \
-    src/GUI/scene.cpp \
-    src/GUI/scriptarea.cpp \
-    src/GUI/dockingarea.cpp \
-    src/GUI/spriteselect.cpp \
-    src/GUI/sprite.cpp \
-    src/GUI/param/paramclone.cpp \
-    src/GUI/param/paramcolor.cpp \
-    src/GUI/param/paramcostume.cpp \
-    src/GUI/param/paramdelim.cpp \
-    src/GUI/param/paramdestination.cpp \
-    src/GUI/param/paramdirection.cpp \
-    src/GUI/param/paramdock.cpp \
-    src/GUI/param/parameffect.cpp \
-    src/GUI/param/paraminteraction.cpp \
-    src/GUI/param/paramjoinwords.cpp \
-    src/GUI/param/paramkey.cpp \
-    src/GUI/param/paramlistid.cpp \
-    src/GUI/param/paramlistselec.cpp \
-    src/GUI/param/parammath.cpp \
-    src/GUI/param/parammessage.cpp \
-    src/GUI/param/paramnumber.cpp \
-    src/GUI/param/paramsound.cpp \
-    src/GUI/param/paramstopchoices.cpp \
-    src/GUI/param/paramstring.cpp \
-    src/GUI/param/paramtouch.cpp \
-    src/GUI/param/paramtype.cpp \
-    src/GUI/param/paramvariables.cpp \
-    src/GUI/audio/audioengine.cpp \
-    src/GUI/audio/wavfile.cpp \
-    src/GUI/audio/soundselect.cpp \
-    src/GUI/costume/costume.cpp \
-    src/GUI/costume/costumeselect.cpp \
-    src/GUI/dragelem/categoryselect.cpp \
-    src/GUI/dragelem/commandde.cpp \
-    src/GUI/dragelem/dragableelement.cpp \
-    src/GUI/dragelem/dragelemcategory.cpp \
-    src/GUI/dragelem/dragelemlist.cpp \
-    src/GUI/dragelem/hatde.cpp \
-    src/GUI/dragelem/predicatede.cpp \
-    src/GUI/dragelem/reporterde.cpp \
-    src/GUI/dragelem/scriptdock.cpp \
-    src/GUI/dragelem/wrapperde.cpp \
-    src/GUI/teacher/studentlist.cpp \
-    src/GUI/newspritename.cpp\
-    src/GUI/codegenerator.cpp\
-    src/GUI/saveloadclass.cpp \
-    src/GUI/teacher/student.cpp \
-    src/GUI/teacher/teacher.cpp \
-    src/GUI/teacherlogin.cpp \
-    src/GUI/pythoncontroller.cpp
+    src/mainwindow.cpp \
+    src/scene.cpp \
+    src/scriptarea.cpp \
+    src/dockingarea.cpp \
+    src/spriteselect.cpp \
+    src/sprite.cpp \
+    src/param/paramclone.cpp \
+    src/param/paramcolor.cpp \
+    src/param/paramcostume.cpp \
+    src/param/paramdelim.cpp \
+    src/param/paramdestination.cpp \
+    src/param/paramdirection.cpp \
+    src/param/paramdock.cpp \
+    src/param/parameffect.cpp \
+    src/param/paraminteraction.cpp \
+    src/param/paramjoinwords.cpp \
+    src/param/paramkey.cpp \
+    src/param/paramlistid.cpp \
+    src/param/paramlistselec.cpp \
+    src/param/parammath.cpp \
+    src/param/parammessage.cpp \
+    src/param/paramnumber.cpp \
+    src/param/paramsound.cpp \
+    src/param/paramstopchoices.cpp \
+    src/param/paramstring.cpp \
+    src/param/paramtouch.cpp \
+    src/param/paramtype.cpp \
+    src/param/paramvariables.cpp \
+    src/audio/audioengine.cpp \
+    src/audio/wavfile.cpp \
+    src/audio/soundselect.cpp \
+    src/costume/costume.cpp \
+    src/costume/costumeselect.cpp \
+    src/dragelem/categoryselect.cpp \
+    src/dragelem/commandde.cpp \
+    src/dragelem/dragableelement.cpp \
+    src/dragelem/dragelemcategory.cpp \
+    src/dragelem/dragelemlist.cpp \
+    src/dragelem/hatde.cpp \
+    src/dragelem/predicatede.cpp \
+    src/dragelem/reporterde.cpp \
+    src/dragelem/scriptdock.cpp \
+    src/dragelem/wrapperde.cpp \
+    src/teacher/studentlist.cpp \
+    src/newspritename.cpp\
+    src/codegenerator.cpp\
+    src/saveloadclass.cpp \
+    src/teacher/student.cpp \
+    src/teacher/teacher.cpp \
+    src/teacherlogin.cpp \
+    src/pythoncontroller.cpp
 
-HEADERS  += src/GUI/mainwindow.h \
-    src/GUI/scene.h \
-    src/GUI/scriptarea.h \
-    src/GUI/dockingarea.h \
-    src/GUI/dragelem/scriptdock.h \
-    src/GUI/spriteselect.h \
-    src/GUI/sprite.h \
-    src/GUI/param/param.h \
-    src/GUI/param/paramclone.h \
-    src/GUI/param/paramcolor.h \
-    src/GUI/param/paramcostume.h \
-    src/GUI/param/paramdelim.h \
-    src/GUI/param/paramdestination.h \
-    src/GUI/param/paramdirection.h \
-    src/GUI/param/paramdock.h \
-    src/GUI/param/parameffect.h \
-    src/GUI/param/paraminteraction.h \
-    src/GUI/param/paramjoinwords.h \
-    src/GUI/param/paramkey.h \
-    src/GUI/param/paramlistid.h \
-    src/GUI/param/paramlistselec.h \
-    src/GUI/param/parammath.h \
-    src/GUI/param/parammessage.h \
-    src/GUI/param/paramnumber.h \
-    src/GUI/param/paramsound.h \
-    src/GUI/param/paramstopchoices.h \
-    src/GUI/param/paramstring.h \
-    src/GUI/param/paramtouch.h \
-    src/GUI/param/paramtype.h \
-    src/GUI/param/paramvariables.h \
-    src/GUI/audio/audioengine.h \
-    src/GUI/audio/wavfile.h \
-    src/GUI/audio/soundselect.h \
-    src/GUI/costume/costume.h \
-    src/GUI/costume/costumeselect.h \
-    src/GUI/dragelem/categoryselect.h \
-    src/GUI/dragelem/commandde.h \
-    src/GUI/dragelem/dragableelement.h \
-    src/GUI/dragelem/dragelemcategory.h \
-    src/GUI/dragelem/dragelemlist.h \
-    src/GUI/dragelem/hatde.h \
-    src/GUI/dragelem/predicatede.h \
-    src/GUI/dragelem/reporterde.h \
-    src/GUI/dragelem/scriptdock.h \
-    src/GUI/dragelem/wrapperde.h \
-    src/GUI/teacher/studentlist.h \
-    src/GUI/newspritename.h\
-    src/GUI/codegenerator.h\
-    src/GUI/saveloadclass.h \
-    src/GUI/teacher/student.h \
-    src/GUI/teacher/teacher.h \
-    src/GUI/teacherlogin.h \
-    src/GUI/pythoncontroller.h
+HEADERS  += src/mainwindow.h \
+    src/scene.h \
+    src/scriptarea.h \
+    src/dockingarea.h \
+    src/dragelem/scriptdock.h \
+    src/spriteselect.h \
+    src/sprite.h \
+    src/param/param.h \
+    src/param/paramclone.h \
+    src/param/paramcolor.h \
+    src/param/paramcostume.h \
+    src/param/paramdelim.h \
+    src/param/paramdestination.h \
+    src/param/paramdirection.h \
+    src/param/paramdock.h \
+    src/param/parameffect.h \
+    src/param/paraminteraction.h \
+    src/param/paramjoinwords.h \
+    src/param/paramkey.h \
+    src/param/paramlistid.h \
+    src/param/paramlistselec.h \
+    src/param/parammath.h \
+    src/param/parammessage.h \
+    src/param/paramnumber.h \
+    src/param/paramsound.h \
+    src/param/paramstopchoices.h \
+    src/param/paramstring.h \
+    src/param/paramtouch.h \
+    src/param/paramtype.h \
+    src/param/paramvariables.h \
+    src/audio/audioengine.h \
+    src/audio/wavfile.h \
+    src/audio/soundselect.h \
+    src/costume/costume.h \
+    src/costume/costumeselect.h \
+    src/dragelem/categoryselect.h \
+    src/dragelem/commandde.h \
+    src/dragelem/dragableelement.h \
+    src/dragelem/dragelemcategory.h \
+    src/dragelem/dragelemlist.h \
+    src/dragelem/hatde.h \
+    src/dragelem/predicatede.h \
+    src/dragelem/reporterde.h \
+    src/dragelem/scriptdock.h \
+    src/dragelem/wrapperde.h \
+    src/teacher/studentlist.h \
+    src/newspritename.h\
+    src/codegenerator.h\
+    src/saveloadclass.h \
+    src/teacher/student.h \
+    src/teacher/teacher.h \
+    src/teacherlogin.h \
+    src/pythoncontroller.h
 
-FORMS    += src/GUI/mainwindow.ui \
-    src/GUI/newspritename.ui \
-    src/GUI/teacherlogin.ui
+FORMS    += src/mainwindow.ui \
+    src/newspritename.ui \
+    src/teacherlogin.ui
 
 RESOURCES += \
-    src/GUI/resources.qrc
+    resources/resources.qrc
 
 unix:{
     QMAKE_CFLAGS += $$system(python3-config --cflags)
