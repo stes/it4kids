@@ -1,14 +1,14 @@
-#include "sprite.h"
-#include <QDebug>
-
 #include <algorithm>
+
 #include <QImage>
 #include <QLabel>
 #include <QPainter>
 #include <QObject>
 #include <QStyleOption>
 
-#include "costume.h"
+#include "sprite.h"
+
+#include "costume/costume.h"
 #include "mainwindow.h"
 #include "scriptarea.h"
 

@@ -1,7 +1,6 @@
-#include "scriptdock.h"
-
-#include <QDebug>
 #include <QPainter>
+
+#include "scriptdock.h"
 
 #include "commandde.h"
 #include "dragableelement.h"

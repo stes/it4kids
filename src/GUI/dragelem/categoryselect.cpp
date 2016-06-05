@@ -1,5 +1,4 @@
 #include "categoryselect.h"
-#include <QDebug>
 
 CategorySelect::CategorySelect(QWidget *parent) : QWidget(parent)
 {

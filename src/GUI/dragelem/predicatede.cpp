@@ -1,6 +1,5 @@
 #include "predicatede.h"
-#include "paramdock.h"
-#include "QDebug"
+#include "param/paramdock.h"
 
 PredicateDE::PredicateDE(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget, QWidget* parent) :
     DragableElement(identifier, text, color, type, scriptAreaWidget, parent)

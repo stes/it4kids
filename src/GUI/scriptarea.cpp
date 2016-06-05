@@ -1,8 +1,8 @@
-#include "scriptarea.h"
-
 #include <algorithm>
 
-#include "dragableelement.h"
+#include "scriptarea.h"
+
+#include "dragelem/dragableelement.h"
 #include "dockingarea.h"
 #include "sprite.h"
 #include "mainwindow.h"

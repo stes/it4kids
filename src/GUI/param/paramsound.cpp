@@ -1,7 +1,7 @@
 #include "paramsound.h"
 
+#include "costume/costume.h"
 #include "mainwindow.h"
-#include "costume.h"
 #include "sprite.h"
 
 extern MainWindow* _sMainWindow;

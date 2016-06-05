@@ -1,7 +1,7 @@
-#include "studentlist.h"
-
 #include <QRadioButton>
 #include <QVariant>
+
+#include "studentlist.h"
 
 #include "student.h"
 #include "teacher.h"

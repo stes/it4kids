@@ -1,6 +1,8 @@
 #ifndef DRAGABLEELEMENT_H
 #define DRAGABLEELEMENT_H
 
+#include <vector>
+
 #include <QWidget>
 #include <QColor>
 #include <QString>
@@ -12,13 +14,10 @@
 #include <QPainter>
 #include <QPainterPath>
 #include <QApplication>
+#include <QDebug>
 
 #include "scriptarea.h"
 #include "scriptdock.h"
-
-#include <vector>
-
-#include <QDebug>
 
 class DockingArea;
 struct ArgumentStruct;

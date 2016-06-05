@@ -1,5 +1,5 @@
 #include "spriteselect.h"
-#include <QDebug>
+
 #include "sprite.h"
 
 SpriteSelect::SpriteSelect(QWidget *parent) : QWidget(parent)

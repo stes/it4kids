@@ -1,6 +1,3 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-
 #include <QDialog>
 #include <QFileDialog>
 #include <QFont>
@@ -11,20 +8,23 @@
 #include <QDebug>
 #include <Qsci/qscilexerpython.h>
 
-#include "costume.h"
-#include "dragelemcategory.h"
-#include "commandde.h"
-#include "hatde.h"
-#include "param.h"
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+
+#include "costume/costume.h"
+#include "dragelem/dragelemcategory.h"
+#include "dragelem/commandde.h"
+#include "dragelem/hatde.h"
+#include "dragelem/wrapperde.h"
+#include "dragelem/predicatede.h"
+#include "dragelem/reporterde.h"
+#include "param/param.h"
+#include "teacher/student.h"
+#include "teacher/teacher.h"
 #include "sprite.h"
-#include "wrapperde.h"
-#include "predicatede.h"
-#include "reporterde.h"
 #include "newspritename.h"
 #include "saveloadclass.h"
 #include "teacherlogin.h"
-#include "student.h"
-#include "teacher.h"
 
 MainWindow* _sMainWindow = 0;
 

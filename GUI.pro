@@ -9,7 +9,7 @@ QT       += core gui multimedia
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 CONFIG += qscintilla2
 
-INCLUDEPATH += src
+INCLUDEPATH += src/GUI
 DESTDIR=bin #Target file directory
 OBJECTS_DIR=generated #Intermediate object files directory
 MOC_DIR=generated #Intermediate moc files directory
@@ -134,22 +134,6 @@ FORMS    += src/GUI/mainwindow.ui \
 
 RESOURCES += \
     src/GUI/resources.qrc
-
-INCLUDEPATH += $$PWD/src \
-    $$PWD/src/GUI \
-    $$PWD/src/GUI/audio \
-    $$PWD/src/GUI/costume \
-    $$PWD/src/GUI/param \
-    $$PWD/src/GUI/dragelem \
-    $$PWD/src/GUI/teacher
-DEPENDPATH += \
-    $$PWD/src \
-    $$PWD/src/GUI \
-    $$PWD/src/GUI/audio \
-    $$PWD/src/GUI/costume \
-    $$PWD/src/GUI/param \
-    $$PWD/src/GUI/dragelem \
-    $$PWD/src/GUI/teacher
 
 unix:{
     QMAKE_CFLAGS += $$system(python3-config --cflags)

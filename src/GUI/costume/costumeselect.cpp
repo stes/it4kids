@@ -1,5 +1,4 @@
 #include "costumeselect.h"
-#include "QDebug"
 
 #include "costume.h"
 #include "sprite.h"

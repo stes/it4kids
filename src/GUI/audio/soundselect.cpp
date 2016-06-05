@@ -3,8 +3,6 @@
 #include "sprite.h"
 #include "wavfile.h"
 
-#include <QDebug>
-
 SoundSelect::SoundSelect(QWidget *parent) : QWidget(parent)
 {
     setLayout(&_layout);

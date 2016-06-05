@@ -5,12 +5,11 @@
 #include <QMenu>
 #include <Qsci/qsciscintilla.h>
 
-#include "audioengine.h"
+#include "audio/audioengine.h"
+#include "teacher/student.h"
 #include "codegenerator.h"
 #include "pythoncontroller.h"
-
 #include "spriteselect.h"
-#include "student.h"
 
 class AudioEngine;
 class Costume;

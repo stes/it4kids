@@ -1,11 +1,10 @@
+#include <QAudioFormat>
+#include <QAudioOutput>
+
 #include "audioengine.h"
 
 #include "sprite.h"
 #include "wavfile.h"
-#include <QtCore/QDebug>
-
-#include <QAudioFormat>
-#include <QAudioOutput>
 
 AudioEngine::AudioEngine(QWidget *parent) : QObject(parent),
     _currentSprite(0)

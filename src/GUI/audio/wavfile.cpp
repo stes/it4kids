@@ -1,9 +1,10 @@
-#include "wavfile.h"
-#include <QDebug>
-
 #include <iostream>
+
+#include <QDebug>
 #include <QPainter>
 #include <QStringList>
+
+#include "wavfile.h"
 
 WavFile::WavFile(QWidget *parent) : QWidget(parent),
     _soundPixmap(":/Assets/soundlibraryOff.png"), _nameLabel(this)

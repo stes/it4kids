@@ -1,9 +1,7 @@
 #include "wrapperde.h"
 #include "commandde.h"
 #include "hatde.h"
-#include "qdebug.h"
 
-#include <Qt>
 WrapperDE::WrapperDE(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea *scriptAreaWidget, QWidget* parent) :
     DragableElement(identifier, text, color, type, scriptAreaWidget, parent), _label(new QWidget(this))
 {

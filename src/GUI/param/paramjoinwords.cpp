@@ -1,12 +1,12 @@
-#include "paramjoinwords.h"
-
-#include "paramjoinwords.h"
-
 #include <QGuiApplication>
 #include <QScreen>
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QPainter>
+
+#include "paramjoinwords.h"
+
+#include "paramjoinwords.h"
 
 ParamJoinWords::ParamJoinWords(QWidget *parent) : QWidget(parent), _first(this), _second(this)
 {

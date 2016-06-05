@@ -1,6 +1,6 @@
-#include "paramdestination.h"
-
 #include <QApplication>
+
+#include "paramdestination.h"
 
 #include "mainwindow.h"
 #include "sprite.h"

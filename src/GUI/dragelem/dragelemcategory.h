@@ -11,8 +11,8 @@
 #include <QPainter>
 #include <QLabel>
 #include <QApplication>
-#include "mainwindow.h"
 
+#include "mainwindow.h"
 #include "dragableelement.h"
 #include "dragelemlist.h"
 

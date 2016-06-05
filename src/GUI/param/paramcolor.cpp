@@ -1,10 +1,10 @@
-#include "paramcolor.h"
-
 #include <QGuiApplication>
 #include <QScreen>
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QPainter>
+
+#include "paramcolor.h"
 
 ParamColor::ParamColor(QWidget *parent) : QWidget(parent), _color("#ff00ff"), _active(false)
 {

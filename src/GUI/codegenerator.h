@@ -1,8 +1,9 @@
 #ifndef CODEGENERATOR_H
 #define CODEGENERATOR_H
 
-#include "dragableelement.h"
 #include <QMap>
+
+#include "dragelem/dragableelement.h"
 
 class MainWindow;
 

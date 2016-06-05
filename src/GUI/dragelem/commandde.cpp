@@ -1,5 +1,5 @@
 #include "commandde.h"
-#include "qdebug.h"
+
 CommandDE::CommandDE(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea *scriptAreaWidget, QWidget* parent) :
         DragableElement(identifier, text, color, type, scriptAreaWidget, parent)
 {

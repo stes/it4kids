@@ -1,5 +1,5 @@
 #include "dragelemcategory.h"
-#include <QDebug>
+
 DragElemCategory::DragElemCategory(DragElemList *elemListWidget, const QString& name, const QColor& color, QWidget *parent) :
     QWidget(parent), _elemListWidget(elemListWidget),
     _label(name, this), _color(color)

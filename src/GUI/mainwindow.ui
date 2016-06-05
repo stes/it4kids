@@ -1796,13 +1796,13 @@ color: #5c5d5f;</string>
   <customwidget>
    <class>CategorySelect</class>
    <extends>QWidget</extends>
-   <header location="global">categoryselect.h</header>
+   <header location="global">dragelem/categoryselect.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>DragElemList</class>
    <extends>QWidget</extends>
-   <header location="global">dragelemlist.h</header>
+   <header location="global">dragelem/dragelemlist.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
@@ -1823,7 +1823,7 @@ color: #5c5d5f;</string>
   <customwidget>
    <class>SoundSelect</class>
    <extends>QWidget</extends>
-   <header location="global">soundselect.h</header>
+   <header location="global">audio/soundselect.h</header>
    <container>1</container>
    <slots>
     <slot>setCurrentSprite(Sprite*)</slot>
@@ -1832,7 +1832,7 @@ color: #5c5d5f;</string>
   <customwidget>
    <class>CostumeSelect</class>
    <extends>QWidget</extends>
-   <header location="global">costumeselect.h</header>
+   <header location="global">costume/costumeselect.h</header>
    <container>1</container>
    <slots>
     <slot>setCurrentSprite(Sprite*)</slot>
@@ -1847,7 +1847,7 @@ color: #5c5d5f;</string>
   <customwidget>
    <class>StudentList</class>
    <extends>QWidget</extends>
-   <header location="global">studentlist.h</header>
+   <header location="global">teacher/studentlist.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

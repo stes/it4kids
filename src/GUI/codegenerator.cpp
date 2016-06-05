@@ -3,11 +3,11 @@
 #include <QJsonArray>
 #include <QFile>
 
+#include "costume/costume.h"
+#include "param/param.h"
 #include "codegenerator.h"
-#include "costume.h"
 #include "sprite.h"
 #include "mainwindow.h"
-#include "param/param.h"
 
 CodeGenerator::CodeGenerator(MainWindow * main)
 {

@@ -1,6 +1,6 @@
-#include "student.h"
-
 #include <QApplication>
+
+#include "student.h"
 
 Student::Student(const QString &name, const QString &lastOnline, const QString &currentProject)
 {

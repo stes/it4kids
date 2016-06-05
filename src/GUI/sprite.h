@@ -6,7 +6,7 @@
 #include <QWidget>
 #include <vector>
 
-#include "wavfile.h"
+#include "audio/wavfile.h"
 
 class Costume;
 class DragableElement;

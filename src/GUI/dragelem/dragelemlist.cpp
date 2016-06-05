@@ -1,5 +1,4 @@
 #include "dragelemlist.h"
-#include <QDebug>
 
 DragElemList::DragElemList(QWidget *parent) : QScrollArea(parent), _elemListWidget(this)
 {
