@@ -21,6 +21,8 @@ ASSETSPATH = $$PWD/Assets
 TARGET = it4kids-editor
 TEMPLATE = app
 
+TRANSLATIONS = resources/translations/editor_de.ts
+
 SOURCES += src/main.cpp\
     src/mainwindow.cpp \
     src/scene.cpp \

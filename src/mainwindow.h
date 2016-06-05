@@ -83,8 +83,8 @@ private:
     Sprite* _currentSprite;
     Sprite* _backgroundSprite;
 
-    QMenu _dateiMenu;
-    QMenu _bearbeitenMenu;
+    QMenu _fileMenu;
+    QMenu _editMenu;
 
     AudioEngine _audioEngine;
     CodeGenerator _Cgen;

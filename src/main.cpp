@@ -1,6 +1,7 @@
 #include <QApplication>
 #include <QFile>
 #include <QStyle>
+#include <QTranslator>
 #include <QDebug>
 
 #include "mainwindow.h"
@@ -8,15 +9,20 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
-    MainWindow w;
+    QApplication app(argc, argv);
+
+    QTranslator translator;
+    if (translator.load(QLocale(), QLatin1String("editor"), QLatin1String("_"), QLatin1String(":/translations")))
+        app.installTranslator(&translator);
+
+    MainWindow window;
 
     QFile styleSheet(":/style.qss");
     styleSheet.open(QFile::ReadOnly);
     QString _styleSheet = QLatin1String(styleSheet.readAll());
-    w.setStyleSheet(_styleSheet);
+    window.setStyleSheet(_styleSheet);
 
-    w.showMaximized();
+    window.showMaximized();
 
-    return a.exec();
+    return app.exec();
 }

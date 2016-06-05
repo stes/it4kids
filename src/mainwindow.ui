@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>IT4Kids Editor</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_2">
@@ -228,9 +228,9 @@
               <number>0</number>
              </property>
              <item>
-              <widget class="QLabel" name="label_2">
+              <widget class="QLabel" name="sprites">
                <property name="text">
-                <string>Figuren</string>
+                <string>Sprites</string>
                </property>
               </widget>
              </item>
@@ -248,14 +248,14 @@
               </spacer>
              </item>
              <item>
-              <widget class="QLabel" name="label">
+              <widget class="QLabel" name="newSprite">
                <property name="text">
-                <string>Neue Figur:</string>
+                <string>New sprite:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_7">
+              <widget class="QPushButton" name="spriteFromLibrary">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -278,7 +278,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_6">
+              <widget class="QPushButton" name="spriteFromDraw">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -318,7 +318,7 @@
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_8">
+              <widget class="QPushButton" name="spriteFromCamera">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -451,7 +451,7 @@
              <item>
               <widget class="QLabel" name="newBg">
                <property name="text">
-                <string>Neues Bühnenbild</string>
+                <string>New Background</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignCenter</set>
@@ -627,7 +627,7 @@ QMenu
           <string notr="true"/>
          </property>
          <property name="text">
-          <string>Datei</string>
+          <string>File</string>
          </property>
          <property name="default">
           <bool>false</bool>
@@ -655,7 +655,7 @@ QMenu
           <string notr="true"/>
          </property>
          <property name="text">
-          <string>Bearbeiten</string>
+          <string>Edit</string>
          </property>
          <property name="default">
           <bool>false</bool>
@@ -683,7 +683,7 @@ QMenu
           <string notr="true"/>
          </property>
          <property name="text">
-          <string>Tipps</string>
+          <string>Tips</string>
          </property>
          <property name="default">
           <bool>false</bool>
@@ -765,7 +765,7 @@ QMenu
       </property>
       <widget class="QWidget" name="tabScript">
        <attribute name="title">
-        <string>Skripte</string>
+        <string>Scripts</string>
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <property name="spacing">
@@ -876,7 +876,7 @@ QMenu
       </widget>
       <widget class="QWidget" name="tabCostume">
        <attribute name="title">
-        <string>Kostüme</string>
+        <string>Costumes</string>
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_5">
         <item>
@@ -916,7 +916,7 @@ QMenu
 color: #5c5d5f;</string>
              </property>
              <property name="text">
-              <string>Neues Kostüm:</string>
+              <string>New costume:</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -1067,7 +1067,7 @@ color: #5c5d5f;</string>
       </widget>
       <widget class="QWidget" name="tabSound">
        <attribute name="title">
-        <string>Klänge</string>
+        <string>Sounds</string>
        </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_8">
         <item>
@@ -1101,13 +1101,13 @@ color: #5c5d5f;</string>
             <number>0</number>
            </property>
            <item>
-            <widget class="QLabel" name="label_3">
+            <widget class="QLabel" name="newSound">
              <property name="styleSheet">
               <string notr="true">font-weight: bold;
 color: #5c5d5f;</string>
              </property>
              <property name="text">
-              <string>Neuer Klang:</string>
+              <string>New sound:</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -1512,7 +1512,7 @@ color: #5c5d5f;</string>
       </widget>
       <widget class="QWidget" name="tabTeacher">
        <attribute name="title">
-        <string>Kursübersicht</string>
+        <string>Courses</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_7">
         <property name="spacing">
@@ -1548,7 +1548,7 @@ color: #5c5d5f;</string>
            <item>
             <widget class="QLabel" name="teacherName">
              <property name="text">
-              <string>Angemeldet als:</string>
+              <string>Logged in as:</string>
              </property>
             </widget>
            </item>
@@ -1558,7 +1558,7 @@ color: #5c5d5f;</string>
               <string notr="true">color: #000000;</string>
              </property>
              <property name="text">
-              <string>Anmelden</string>
+              <string>Login</string>
              </property>
             </widget>
            </item>
@@ -1583,14 +1583,14 @@ color: #5c5d5f;</string>
            <item>
             <widget class="QLabel" name="groupName">
              <property name="text">
-              <string>Kurs:</string>
+              <string>Course:</string>
              </property>
             </widget>
            </item>
            <item>
             <widget class="QLabel" name="currentLoggedIn">
              <property name="text">
-              <string>0 von  0 Schüler/innen online</string>
+              <string/>
              </property>
             </widget>
            </item>
@@ -1644,7 +1644,7 @@ color: #5c5d5f;</string>
             <number>0</number>
            </property>
            <item>
-            <widget class="QLabel" name="label_7">
+            <widget class="QLabel" name="level">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                <horstretch>0</horstretch>
@@ -1652,7 +1652,7 @@ color: #5c5d5f;</string>
               </sizepolicy>
              </property>
              <property name="text">
-              <string>Stufe</string>
+              <string>Level</string>
              </property>
             </widget>
            </item>
@@ -1660,17 +1660,17 @@ color: #5c5d5f;</string>
             <widget class="QComboBox" name="comboBox">
              <item>
               <property name="text">
-               <string>Anfänger</string>
+               <string>beginner</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>Fortg,</string>
+               <string>advanced</string>
               </property>
              </item>
              <item>
               <property name="text">
-               <string>Profi</string>
+               <string>professional</string>
               </property>
              </item>
             </widget>
@@ -1703,12 +1703,12 @@ color: #5c5d5f;</string>
                <widget class="QListWidget" name="listWidget"/>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_2">
+               <widget class="QPushButton" name="buttonLoadTemplate">
                 <property name="styleSheet">
                  <string notr="true">color: #000000;</string>
                 </property>
                 <property name="text">
-                 <string>Projektvorlage Laden</string>
+                 <string>Load template</string>
                 </property>
                </widget>
               </item>
@@ -1755,7 +1755,7 @@ color: #5c5d5f;</string>
                  <string notr="true">color: #000000;</string>
                 </property>
                 <property name="text">
-                 <string>Zusätzliche Blöcke laden</string>
+                 <string>Load additional blocks</string>
                 </property>
                </widget>
               </item>

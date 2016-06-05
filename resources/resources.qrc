@@ -33,5 +33,6 @@
         <file>Assets/soundRecordOff.png</file>
         <file>Assets/soundStopOff.png</file>
         <file>code.json</file>
+        <file>translations/editor_de.qm</file>
     </qresource>
 </RCC>

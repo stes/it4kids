@@ -43,7 +43,7 @@ Sprite::Sprite(MainWindow* parent) : QWidget(parent)
     _layout.addWidget(&_imageLabel);
     _layout.addWidget(&_label);
 
-    _name = "Bühne";
+    _name = "Stage";
     _label.setText(_name);
     Costume* costume = new Costume(this);
     costume->hide();

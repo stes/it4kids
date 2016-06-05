@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>86</height>
+    <height>102</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,7 +17,7 @@
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>Bitte Namen für neue Figur eingeben</string>
+      <string>Name for the new sprite:</string>
      </property>
     </widget>
    </item>

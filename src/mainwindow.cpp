@@ -35,7 +35,7 @@ SpriteVector* MainWindow::getSpriteVector()
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow), _dateiMenu(this), _bearbeitenMenu(this), _audioEngine(this), _Cgen(this)
+    ui(new Ui::MainWindow), _fileMenu(this), _editMenu(this), _audioEngine(this), _Cgen(this)
 {
     _sMainWindow = this;
 
@@ -94,14 +94,14 @@ MainWindow::MainWindow(QWidget *parent) :
     lexer.setDefaultFont(font);
     ui->codeEditor->setLexer(&lexer);
 
-    _dateiMenu.addAction("Neu");
-    _dateiMenu.addAction("Hochladen von deinem Computer");
-    _dateiMenu.addAction("Herunterladen auf deinen Computer");
-    _dateiMenu.addAction("Zurücksetzen");
+    _fileMenu.addAction(tr("New"));
+    _fileMenu.addAction(tr("Upload from your computer"));
+    _fileMenu.addAction(tr("Download to your computer"));
+    _fileMenu.addAction(tr("Reset"));
 
-    _bearbeitenMenu.addAction("Löschen rückgängig");
-    _bearbeitenMenu.addAction("Kleine Bühnengröße");
-    _bearbeitenMenu.addAction("Turbo-Modus");
+    _editMenu.addAction(tr("Undelete"));
+    _editMenu.addAction(tr("Small stage layout"));
+    _editMenu.addAction(tr("Turbo mode"));
 
     connect(this, SIGNAL(currentTeacherChanged(Teacher*)), ui->studentList, SLOT(currentTeacherChanged(Teacher*)));
 
@@ -223,12 +223,12 @@ void MainWindow::on_costumeFromFile_clicked()
 
 void MainWindow::on_buttonFile_clicked()
 {
-    _dateiMenu.popup(ui->buttonFile->pos()+QPoint(0, 23));
+    _fileMenu.popup(ui->buttonFile->pos()+QPoint(0, 23));
 }
 
 void MainWindow::on_buttonEdit_clicked()
 {
-    _bearbeitenMenu.popup(ui->buttonEdit->pos()+QPoint(0, 23));
+    _editMenu.popup(ui->buttonEdit->pos()+QPoint(0, 23));
 }
 
 void MainWindow::on_buttonScriptStart_clicked()
@@ -345,10 +345,10 @@ void MainWindow::on_logInTeacher_clicked()
         if(_currentTeacher->getStudentVector()->at(i)->isOnline()) ++currentOnline;
     }
 
-    ui->teacherName->setText("Angemeldet als: " + _currentTeacher->getName());
-    ui->groupName->setText("Kurs: " + _currentTeacher->getGroupName());
-    ui->currentLoggedIn->setText(QString::number(currentOnline) + " von " + QString::number(_currentTeacher->getStudentVector()->size()) +
-                                 " Schüler/innen online");
+    ui->teacherName->setText(tr("Logged in as: %1").arg(_currentTeacher->getName()));
+    ui->groupName->setText(tr("Course: %1").arg(_currentTeacher->getGroupName()));
+    ui->currentLoggedIn->setText(tr("%1 of %2 students online").arg(
+                                     QString::number(currentOnline), QString::number(_currentTeacher->getStudentVector()->size())));
 }
 
 void MainWindow::on_scriptArea_customContextMenuRequested(const QPoint &pos)
@@ -356,8 +356,8 @@ void MainWindow::on_scriptArea_customContextMenuRequested(const QPoint &pos)
     QPoint globalPos = ui->scriptArea->mapToGlobal(pos);
 
     QMenu myMenu;
-    myMenu.addAction("Aufräumen");
-    myMenu.addAction("Kommentar hinzufügen");
+    myMenu.addAction(tr("clean up"));
+    myMenu.addAction(tr("add comment"));
 
     myMenu.exec(globalPos);
 }
@@ -367,7 +367,7 @@ void MainWindow::on_listAddDragElem_customContextMenuRequested(const QPoint &pos
     QPoint globalPos = ui->listAddDragElem->mapToGlobal(pos);
 
     QMenu myMenu;
-    myMenu.addAction("Löschen",  this, SLOT(eraseItemAddDragElem()));
+    myMenu.addAction(tr("delete"), this, SLOT(eraseItemAddDragElem()));
 
     myMenu.exec(globalPos);
 }
@@ -417,18 +417,19 @@ void MainWindow::dragElemContextMenuRequested(const QPoint &pos, DragableElement
         QPoint globalPos = elem->mapToGlobal(pos);
 
         QMenu myMenu;
-        myMenu.addAction("Duplizieren");
-        myMenu.addAction("Löschen");
-        myMenu.addAction("Kommentar hinzufügen");
-        myMenu.addAction("Hilfe");
+        myMenu.addAction(tr("duplicate"));
+        myMenu.addAction(tr("delete"));
+        myMenu.addAction(tr("add comment"));
+        myMenu.addAction(tr("help"));
 
         myMenu.exec(globalPos);
-    } else
+    }
+    else
     {
         QPoint globalPos = elem->mapToGlobal(pos);
 
         QMenu myMenu;
-        myMenu.addAction("Hilfe");
+        myMenu.addAction(tr("help"));
 
         myMenu.exec(globalPos);
     }
@@ -439,11 +440,11 @@ void MainWindow::spriteContextMenuRequested(const QPoint &pos, Sprite *sprite)
     QPoint globalPos = sprite->mapToGlobal(pos);
 
     QMenu myMenu;
-    myMenu.addAction("Info");
-    myMenu.addAction("Duplizieren");
-    myMenu.addAction("Löschen");
-    myMenu.addAction("Als lokale Datei speichern");
-    myMenu.addAction("verstecke dich");
+    myMenu.addAction(tr("info"));
+    myMenu.addAction(tr("duplicate"));
+    myMenu.addAction(tr("delete"));
+    myMenu.addAction(tr("save to local file"));
+    myMenu.addAction(tr("hide"));
 
     myMenu.exec(globalPos);
 }
@@ -453,7 +454,7 @@ void MainWindow::on_scene_customContextMenuRequested(const QPoint &pos)
     QPoint globalPos = ui->scene->mapToGlobal(pos);
 
     QMenu myMenu;
-    myMenu.addAction("Bild der Bühne speichern");
+    myMenu.addAction(tr("save picture of stage"));
 
     myMenu.exec(globalPos);
 }

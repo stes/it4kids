@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>131</height>
+    <height>154</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,9 +15,9 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="labelUsername">
      <property name="text">
-      <string>Benutzername:</string>
+      <string>Username:</string>
      </property>
     </widget>
    </item>
@@ -25,9 +25,9 @@
     <widget class="QLineEdit" name="username"/>
    </item>
    <item>
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="labelPassword">
      <property name="text">
-      <string>Passwort:</string>
+      <string>Password:</string>
      </property>
     </widget>
    </item>
