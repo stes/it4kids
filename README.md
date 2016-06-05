@@ -23,7 +23,7 @@ Aktuell verwenden wir [Scratch](https://scratch.mit.edu) und [Snap](code.it-for-
 
 Bevor das Programm erstellt werden kann, müssen folgende Abhängigkeiten erfüllt sein:
 
-- python=2.7
+- python>=3.3
 - pyglet
 - Qt>=5.4
 
