@@ -18,7 +18,7 @@ ParamClone::ParamClone(QWidget *parent) : QComboBox(parent)
 
 QString ParamClone::getValue()
 {
-    return currentText();
+    return addQuotes(currentText());
 }
 
 ParamClone::~ParamClone()

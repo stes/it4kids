@@ -12,7 +12,7 @@ ParamEffect::ParamEffect(QWidget *parent) : QComboBox(parent)
 
 QString ParamEffect::getValue()
 {
-    return currentText();
+    return addQuotes(currentText());
 }
 
 ParamEffect::~ParamEffect()

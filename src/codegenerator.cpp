@@ -15,17 +15,30 @@ CodeGenerator::CodeGenerator(MainWindow * main)
     generateMap();
 }
 
+QString CodeGenerator::addQuotes(QString str)
+{
+    return '"' + str.toHtmlEscaped() + '"';
+}
+
 QString CodeGenerator::generateSprite(Sprite *sprite)
 {
     QString str;
     _eventCounters.clear();
     _indentCounter = 1;
 
+	QString costumeRegister;
+	for (CostumeVector::const_iterator it = sprite->getCostumeVector()->begin(); it != sprite->getCostumeVector()->end(); it++)
+	{
+        costumeRegister += indentCode(&_snippets["costume_register"], 2)
+            .replace("%entity%", "self")
+            .replace("%name%", addQuotes((*it)->getName()))
+            .replace("%file%", addQuotes((*it)->getFilename()));
+	}
+
     // create class file
     str += indentCode(&_snippets["import"]);
     str += indentCode(&_snippets["class"]).replace("%name%", sprite->getName());
-    // TODO: multiple costumes
-    str += indentCode(&_snippets["construct"], 1).replace("%costume%", sprite->getCostumeVector()->at(0)->getFilename());
+    str += indentCode(&_snippets["construct"], 1, costumeRegister);
     str += "%events%\n";
 
     // check every block for "header"-block
@@ -68,12 +81,13 @@ QString CodeGenerator::generateSprite(QString name)
     return QString();
 }
 
-void CodeGenerator::generateFiles()
+void CodeGenerator::generateFiles(QDir directory)
 {
     SpriteVector* spriteVec = _Mainwindow->getSpriteVector();
     QString entityImport;
     QString entityReload;
     QString entityRegister;
+	QString backgroundRegister;
 
     // sprites
     for(SpriteVector::const_iterator it = spriteVec->begin(); it != spriteVec->end(); it++)
@@ -83,7 +97,7 @@ void CodeGenerator::generateFiles()
         entityRegister += indentCode(&_snippets["entity_register"], 1).replace("%name%", (*it)->getName());
 
         // write to file
-        QFile file("python/" + (*it)->getName() + ".py");
+        QFile file(directory.filePath("sprite_" + (*it)->getName() + ".py"));
         if (file.open(QIODevice::WriteOnly | QIODevice::Text))
         {
             QTextStream out(&file);
@@ -92,16 +106,24 @@ void CodeGenerator::generateFiles()
         }
     }
 
-    QString backgroundFile = _Mainwindow->getBackgroundSprite()->getCostumeVector()->at(0)->getFilename();
+    CostumeVector* bgCostumeVec = _Mainwindow->getBackgroundSprite()->getCostumeVector();
+
+    for (CostumeVector::const_iterator it = bgCostumeVec->begin(); it != bgCostumeVec->end(); it++)
+	{
+        backgroundRegister += indentCode(&_snippets["costume_register"], 1)
+            .replace("%entity%", "background_ent")
+            .replace("%name%", addQuotes((*it)->getName()))
+            .replace("%file%", addQuotes((*it)->getFilename()));
+	}
 
     // main file
     QString str;
     str += indentCode(&_snippets["main_import"]);
     str += entityImport + "\n";
-    str += indentCode(&_snippets["main"], 0, entityReload + entityRegister).replace("%background%", backgroundFile);
+    str += indentCode(&_snippets["main"], 0, backgroundRegister + entityReload + entityRegister);
 
     // write to file
-    QFile file("python/main.py");
+    QFile file(directory.filePath("main.py"));
     if (file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         QTextStream out(&file);

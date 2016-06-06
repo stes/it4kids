@@ -8,7 +8,7 @@ ParamListSelec::ParamListSelec(QWidget *parent) : QComboBox(parent)
 
 QString ParamListSelec::getValue()
 {
-    return QString("ParamListSelec");
+    return addQuotes("ParamListSelec");
 }
 
 ParamListSelec::~ParamListSelec()

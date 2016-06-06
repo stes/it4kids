@@ -13,7 +13,7 @@ ParamColor::ParamColor(QWidget *parent) : QWidget(parent), _color("#ff00ff"), _a
 
 QString ParamColor::getValue()
 {
-    return _color.name();
+    return addQuotes(_color.name());
 }
 
 ParamColor::~ParamColor()

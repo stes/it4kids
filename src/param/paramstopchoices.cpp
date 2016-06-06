@@ -11,7 +11,7 @@ ParamStopChoices::ParamStopChoices(QWidget *parent) : QComboBox(parent)
 
 QString ParamStopChoices::getValue()
 {
-    return currentText();
+    return addQuotes(currentText());
 }
 
 ParamStopChoices::~ParamStopChoices()

@@ -10,7 +10,7 @@ ParamString::ParamString(QWidget *parent) : QLineEdit(parent)
 
 QString ParamString::getValue()
 {
-    return '"' + text().toHtmlEscaped() + '"';
+    return addQuotes(text());
 }
 
 bool ParamString::setValue(const QString &value)

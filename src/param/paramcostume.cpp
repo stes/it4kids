@@ -14,16 +14,16 @@ ParamCostume::ParamCostume(QWidget *parent) : QComboBox(parent)
 
 QString ParamCostume::getValue()
 {
-    return currentText();
+    return addQuotes(currentText());
 }
 
 ParamCostume::~ParamCostume()
 {
-
 }
 
 void ParamCostume::updateCostumeList()
 {
+    clear();
     CostumeVector* cV = _sMainWindow->getCurrentSprite()->getCostumeVector();
     for(uint i = 0; i < cV->size(); i++)
     {

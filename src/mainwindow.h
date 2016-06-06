@@ -92,6 +92,8 @@ private:
 
     std::vector<DragableElement*> _LoadableDrags;
 
+    QDir _tmpDir;
+
     Teacher* _currentTeacher;
     Student* _currentStudent;
 };

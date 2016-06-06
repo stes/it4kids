@@ -204,6 +204,7 @@ void DragableElement::parseText(const QString &text, DragableElement *element)
         {
             ParamCostume* selecBox = new ParamCostume(element);
             element->_layout.addWidget(selecBox);
+            element->_paramsVector.push_back(selecBox);
         }
         else if( stringList.at(i).contains("%eff"))
         {

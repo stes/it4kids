@@ -12,12 +12,14 @@ class EntityData:
         self.x = 0
         self.y = 0
         self.rotation = 0
+        self.costume = ""
+        self.visible = True
 
 class App(pyglet.event.EventDispatcher):
 
     _scale = 1
 
-    def __init__(self, create_window=True):
+    def __init__(self):
         dispatcher = self.init_context()
         dispatcher.push_handlers(
             on_draw=self.on_draw,
@@ -40,7 +42,7 @@ class App(pyglet.event.EventDispatcher):
         return self.window
     
     def add_entity(self, entity):
-        entity.sprite.batch = self.batch
+        entity.batch = self.batch
         name = entity.__class__.__name__
         if name not in self.entity_data:
             self.entity_data[name] = EntityData()

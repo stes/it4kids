@@ -6,18 +6,24 @@ class Entity(pyglet.event.EventDispatcher):
     
     _speed = 40
     
-    def __init__(self, img_file, group=foreground, draggable=True):
+    def __init__(self, group=foreground, draggable=True):
         self.group = group
-        image = pyglet.image.load(img_file).get_texture()
-        image.anchor_x = image.width / 2
-        image.anchor_y = image.height / 2
-        self.sprite = pyglet.sprite.Sprite(image, group=self.group)
+        self.costumes = []
         self.draggable = draggable
         self.handlers = 0
+        self.sprite = None
+        self.costume_images = {}
     
     def set_data(self, data):
         self.data = data
-        self.invalidate(False)
+        self.set_costume(self.data.costume)
+    
+    def add_costume(self, name, file):
+        image = pyglet.image.load(file).get_texture()
+        image.anchor_x = image.width / 2
+        image.anchor_y = image.height / 2
+        self.costume_images[name] = image
+        self.costumes.append(name)
     
     def check_pos(self, x, y):
         tmpx = x - self.data.x - app_size[0] / 2
@@ -164,6 +170,32 @@ class Entity(pyglet.event.EventDispatcher):
         if direction in rot:
             self.data.rotation = rot[direction]
         hook()
+    
+    # TODO: a bit buggy
+    def set_costume(self, costume):
+        if costume not in self.costumes:
+            costume = self.costumes[0]
+        self.data.costume = costume
+        if self.sprite:
+            self.sprite.batch = None
+        self.sprite = pyglet.sprite.Sprite(self.costume_images[costume], group=self.group)
+        if self.data.visible:
+            self.sprite.batch = self.batch
+        self.invalidate(True)
+    
+    def next_costume(self):
+        index = 0
+        if self.data.costume in self.costumes:
+            index = (self.costumes.index(self.data.costume) + 1) % len(self.costumes)
+        self.set_costume(self.costumes[index])
+    
+    def show(self):
+        self.data.visible = True
+        self.sprite.batch = self.batch
+    
+    def hide(self):
+        self.data.visible = False
+        self.sprite.batch = None
     
     def wait(self, sec):
         self.invalidate(False)

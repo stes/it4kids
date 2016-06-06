@@ -13,7 +13,7 @@ ParamType::ParamType(QWidget *parent) : QComboBox(parent)
 
 QString ParamType::getValue()
 {
-    return currentText();
+    return addQuotes(currentText());
 }
 
 ParamType::~ParamType()

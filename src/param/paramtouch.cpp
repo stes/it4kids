@@ -20,7 +20,7 @@ ParamTouch::ParamTouch(QWidget *parent) : QComboBox(parent)
 
 QString ParamTouch::getValue()
 {
-    return currentText();
+    return addQuotes(currentText());
 }
 
 ParamTouch::~ParamTouch()

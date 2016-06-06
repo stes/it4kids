@@ -8,7 +8,7 @@ ParamMessage::ParamMessage(QWidget *parent) : QComboBox(parent)
 
 QString ParamMessage::getValue()
 {
-    return QString("ParamMessage");
+    return addQuotes("ParamMessage");
 }
 
 ParamMessage::~ParamMessage()

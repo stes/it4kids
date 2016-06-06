@@ -9,7 +9,7 @@ ParamListId::ParamListId(QWidget *parent) : QComboBox(parent)
 
 QString ParamListId::getValue()
 {
-    return QString("ParamListId");
+    return addQuotes("ParamListId");
 }
 
 ParamListId::~ParamListId()

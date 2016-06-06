@@ -77,6 +77,7 @@ void ParamDock::undock()
 
 QString ParamDock::getValue()
 {
+    // TODO
     if(_dockedElem) return _dockedElem->getIdentifier();
     return "empty";
 }

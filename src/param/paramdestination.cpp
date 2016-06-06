@@ -20,7 +20,7 @@ ParamDestination::ParamDestination(QWidget *parent) : QComboBox(parent)
 
 QString ParamDestination::getValue()
 {
-    return currentText();
+    return addQuotes(currentText());
 }
 
 ParamDestination::~ParamDestination()

@@ -8,7 +8,7 @@ ParamVariables::ParamVariables(QWidget *parent) : QComboBox(parent)
 
 QString ParamVariables::getValue()
 {
-    return QString("ParamVariables");
+    return addQuotes("ParamVariables");
 }
 
 ParamVariables::~ParamVariables()

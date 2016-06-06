@@ -10,7 +10,7 @@ ParamInteraction::ParamInteraction(QWidget *parent) : QComboBox(parent)
 
 QString ParamInteraction::getValue()
 {
-    return '"' + currentText().toHtmlEscaped() + '"';
+    return addQuotes(currentText());
 }
 
 ParamInteraction::~ParamInteraction()

@@ -10,11 +10,11 @@
         },
         {
             "name": "entity_import",
-            "code": ["import %name%"]
+            "code": ["import sprite_%name%"]
         },
         {
             "name": "entity_reload",
-            "code": ["imp.reload(%name%)"]
+            "code": ["imp.reload(sprite_%name%)"]
         },
         {
             "name": "import",
@@ -24,7 +24,8 @@
             "name": "construct",
             "code": [
                 "def __init__(self):",
-                "    it4k.Entity.__init__(self, '%costume%')"
+                "    it4k.Entity.__init__(self)",
+                "%content%"
             ]
         },
         {
@@ -32,10 +33,12 @@
             "code": [
                 "def init(create_window=False):",
                 "    if create_window:",
-                "        myApp = it4k.init('%background%')",
+                "        myApp = it4k.init()",
                 "    else:",
-                "        myApp = it4k.embed.embed_init('%background%')",
+                "        myApp = it4k.embed.embed_init()",
+                "    background_ent = it4k.Entity(it4k.background, draggable=False)",
                 "%content%",
+                "    myApp.add_entity(background_ent)",
                 "if  __name__ ==  \"__main__\":",
                 "    init(True)",
                 "    pyglet.app.run()"
@@ -46,8 +49,12 @@
             "code": ["class %name%(it4k.Entity):"]
         },
         {
+            "name": "costume_register",
+            "code": ["%entity%.add_costume(%name%, %file%)"]
+        },
+        {
             "name": "entity_register",
-            "code": ["myApp.add_entity(%name%.%name%())"]
+            "code": ["myApp.add_entity(sprite_%name%.%name%())"]
         }
     ],
 	
@@ -124,6 +131,22 @@
         {
             "name": "doWait",
             "code": ["self.wait(%1)"]
+        },
+        {
+            "name": "doSwitchToCostume",
+            "code": ["self.set_costume(%1)"]
+        },
+        {
+            "name": "doWearNextCostume",
+            "code": ["self.next_costume()"]
+        },
+        {
+            "name": "show",
+            "code": ["self.show()"]
+        },
+        {
+            "name": "hide",
+            "code": ["self.hide()"]
         }
     ],
 

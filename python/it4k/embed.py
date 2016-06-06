@@ -92,11 +92,10 @@ def stop():
     if mainApp:
         mainApp.stop()
 
-def embed_init(background_file):
+def embed_init():
     global mainApp
     if mainApp:
         mainApp.reset()
     else:
         mainApp = EmbedApp()
-    mainApp.add_entity(Entity(background_file, background, draggable=False))  # TODO: store this
     return mainApp

@@ -14,7 +14,7 @@ ParamSound::ParamSound(QWidget *parent) : QComboBox(parent)
 
 QString ParamSound::getValue()
 {
-    return currentText();
+    return addQuotes(currentText());
 }
 
 ParamSound::~ParamSound()

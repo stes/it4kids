@@ -20,7 +20,7 @@ ParamJoinWords::ParamJoinWords(QWidget *parent) : QWidget(parent), _first(this),
 
 QString ParamJoinWords::getValue()
 {
-    return QString("ParamJoinWords");
+    return addQuotes("ParamJoinWords");
 }
 
 ParamJoinWords::~ParamJoinWords()

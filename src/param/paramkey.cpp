@@ -45,7 +45,7 @@ ParamKey::ParamKey(QWidget *parent) : QComboBox(parent)
 
 QString ParamKey::getValue()
 {
-    return currentText();
+    return addQuotes(currentText());
 }
 
 ParamKey::~ParamKey()

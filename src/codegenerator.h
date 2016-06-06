@@ -2,6 +2,7 @@
 #define CODEGENERATOR_H
 
 #include <QMap>
+#include <QDir>
 
 #include "dragelem/dragableelement.h"
 
@@ -13,7 +14,7 @@ public:
     CodeGenerator(MainWindow * main);
     QString generateSprite(Sprite *sprite);
     QString generateSprite(QString name);
-    void generateFiles();
+    void generateFiles(QDir directory);
 
 private:
     struct Event
@@ -21,6 +22,8 @@ private:
         QStringList _code;
         QString _register;
     };
+
+    QString addQuotes(QString str);
 
     QString generateCode(DragableElement* element, int sub);
     QString indent(int indent);

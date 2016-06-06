@@ -35,7 +35,7 @@ SpriteVector* MainWindow::getSpriteVector()
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow), _fileMenu(this), _editMenu(this), _audioEngine(this), _Cgen(this)
+    ui(new Ui::MainWindow), _fileMenu(this), _editMenu(this), _audioEngine(this), _Cgen(this), _tmpDir("python")
 {
     _sMainWindow = this;
 
@@ -105,7 +105,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(this, SIGNAL(currentTeacherChanged(Teacher*)), ui->studentList, SLOT(currentTeacherChanged(Teacher*)));
 
-    _Cgen.generateFiles();
+    _Cgen.generateFiles(_tmpDir);
 }
 
 void MainWindow::InitializeDragElem(const QString& path)
@@ -179,7 +179,7 @@ void  MainWindow::reloadCode()
     // TODO
     ui->codeEditor->setText(_Cgen.generateSprite(_currentSprite));
 
-    _Cgen.generateFiles();
+    _Cgen.generateFiles(_tmpDir);
     _pyController.loadApp("main");
 }
 
@@ -218,6 +218,7 @@ void MainWindow::on_costumeFromFile_clicked()
         costume->open(fileNames.front());
         _currentSprite->getCostumeVector()->push_back(costume);
         emit newCostume();
+        reloadCode();
     }
 }
 
@@ -242,6 +243,10 @@ void MainWindow::on_buttonScriptStart_clicked()
     _pyController.sendStart();
 }
 
+void MainWindow::on_buttonScriptStop_clicked()
+{
+    _pyController.sendStop();
+}
 
 DragableElement* MainWindow::createNewElement(QString)
 {
@@ -263,11 +268,6 @@ DragableElement* MainWindow::createNewElement(QString)
     }
     */
     return (DragableElement*)0;
-}
-
-void MainWindow::on_buttonScriptStop_clicked()
-{
-    _pyController.sendStop();
 }
 
 void MainWindow::on_buttonAddDragElem_clicked()
@@ -319,7 +319,7 @@ void MainWindow::on_spriteFromFile_clicked()
 
         changeCurrentSprite(sprite);
 
-        _Cgen.generateFiles();
+        _Cgen.generateFiles(_tmpDir);
         _pyController.loadApp("main");
     }
 }
