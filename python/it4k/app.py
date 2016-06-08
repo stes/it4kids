@@ -1,4 +1,6 @@
 import pyglet
+# fixes costume change
+pyglet.options['graphics_vbo'] = False
 pyglet.options['shadow_window'] = False
 pyglet.options['debug_gl'] = False
 from pyglet import gl
