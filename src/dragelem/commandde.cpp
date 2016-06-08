@@ -73,6 +73,15 @@ void CommandDE::removeChildDragElems()
     delete this;
 }
 
+ScriptDock *CommandDE::getDock(ScriptDock::Type type)
+{
+    if(type == ScriptDock::Upper)
+        return _upperDock;
+    if(type == ScriptDock::Lower)
+        return _lowerDock;
+    return 0;
+}
+
 void CommandDE::moveEvent(QMoveEvent*)
 {
     if(_upperDock) _upperDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) - QPoint(0, 10), QSize(_width, _height)));

@@ -7,8 +7,6 @@ class ScriptDock;
 
 class CommandDE : public DragableElement
 {
-    friend class ScriptDock;
-    friend class WrapperDE;
     Q_OBJECT
 public:
     CommandDE(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget = 0, QWidget* parent = 0);
@@ -19,6 +17,8 @@ public:
     void resize();
 
     virtual void removeChildDragElems();
+
+    virtual ScriptDock *getDock(ScriptDock::Type type);
 
     ~CommandDE();
 protected:

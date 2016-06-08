@@ -20,6 +20,7 @@ ParamDock::ParamDock(QColor color, ScriptArea* scriptAreaWidget, QWidget *parent
 
 void ParamDock::dock(DragableElement* dragElem)
 {
+    // TODO: rework this
     if(dragElem != parent())
     {
         QString elemClass(dragElem->metaObject()->className());

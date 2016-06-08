@@ -57,6 +57,13 @@ void HatDE::removeChildDragElems()
     delete this;
 }
 
+ScriptDock *HatDE::getDock(ScriptDock::Type type)
+{
+    if(type == ScriptDock::Lower)
+        return _lowerDock;
+    return 0;
+}
+
 void HatDE::moveEvent(QMoveEvent *)
 {
     if(_lowerDock) _lowerDock->setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(0, _height+10), QSize(_width, _height)));

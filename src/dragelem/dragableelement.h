@@ -26,8 +26,6 @@ class Param;
 class DragableElement : public QWidget
 {
     friend class MainWindow;
-    friend class ScriptDock;
-    friend class WrapperDE;
 
     Q_OBJECT
 public:
@@ -45,8 +43,8 @@ public:
     inline std::vector<Param*>* getParamsVector() {return &_paramsVector; }
 
     virtual inline int getHeight() const {return _height;}
-    virtual inline int getWidth() {return _width;}
-    virtual bool isDragged() {return _dragged;}
+    virtual inline int getWidth()const  {return _width;}
+    virtual bool isDragged() const {return _dragged;}
 
     virtual void resize() = 0;
     virtual DragableElement* getWrapElem(){return (DragableElement*)0;}
@@ -61,10 +59,12 @@ public:
 
     virtual ~DragableElement();
 
-    QString getType() {return _type;}
+    QString getType() const {return _type;}
     virtual DragableElement* getCurrentElement(QWidget* parent) = 0;
 
     DragableElement *getRoot();
+
+    virtual ScriptDock *getDock(ScriptDock::Type) { return 0; }
 
 signals:
     void dragElemContextMenuRequested(const QPoint& pos, DragableElement* elem);

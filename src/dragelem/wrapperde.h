@@ -5,7 +5,6 @@
 
 class WrapperDE : public DragableElement
 {
-    friend class ScriptDock;
     Q_OBJECT
 public:
     WrapperDE(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget = 0, QWidget* parent = 0);
@@ -22,6 +21,8 @@ public:
     DragableElement* getWrapElem();
 
     virtual void removeChildDragElems();
+
+    virtual ScriptDock *getDock(ScriptDock::Type type);
 
     ~WrapperDE();
 protected:

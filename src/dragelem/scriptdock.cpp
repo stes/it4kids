@@ -43,28 +43,27 @@ void ScriptDock::connect(DragableElement *upper, DragableElement *lower)
 
 void ScriptDock::dock(DragableElement* elem)
 {
-    QString elemClass(elem->metaObject()->className());
     ScriptDock *otherDock;
 
-    if(_type == Upper && !elem->_nextElem)
+    if(_type == Upper && !elem->getNextElem())
     {
-        if(elemClass == "CommandDE") otherDock = ((CommandDE*) elem)->_lowerDock;
-        else if(elemClass == "WrapperDE") otherDock = ((WrapperDE*) elem)->_lowerDock;
-        else if(elemClass == "HatDE") otherDock = ((HatDE*) elem)->_lowerDock;
-        else return;
-
+        otherDock = elem->getDock(Lower);
+        if(!otherDock)
+            return;
         otherDock->connect(elem, _parent);
         _parent->rearrangeUpperElems();
     }
-    else if((_type == Lower || _type == Inner) && !elem->_prevElem)
+    else if((_type == Lower || _type == Inner) && !elem->getPrevElem())
     {
-        if(elemClass == "CommandDE") otherDock = ((CommandDE*) elem)->_upperDock;
-        else if(elemClass == "WrapperDE") otherDock = ((WrapperDE*) elem)->_upperDock;
-        else return;
-
+        otherDock = elem->getDock(Upper);
+        if(!otherDock)
+            return;
         connect(_parent, elem);
         elem->getRoot()->rearrangeLowerElems();
     }
+    else
+        return;
+
     otherDock->deactivate();
     deactivate();
 
@@ -74,19 +73,19 @@ void ScriptDock::dock(DragableElement* elem)
 
 void ScriptDock::undock()
 {
-    if(_dockedElem)
-    {
-        _dockedElem->setPrevElem(0);
-        _dockedElem->setCurrentDock(0);
-        _dockedElem->resize();
-        _dockedElem->show();
-        _dockedElem = 0;
-        if(_type != Inner)
-        {
-            _parent->setNextElem(0);
-        }
-        activate();
-    }
+    if((_type != Lower && _type != Inner) || !_dockedElem)
+        return;
+
+    _dockedElem->getDock(Upper)->activate();
+    _dockedElem->setPrevElem(0);
+    _dockedElem->setCurrentDock(0);
+    _dockedElem->resize();
+    _dockedElem->show();
+    _dockedElem = 0;
+    if(_type != Inner)
+        _parent->setNextElem(0);
+
+    activate();
     _parent->getRoot()->rearrangeLowerElems();
     if(_parent->getRoot()->getType() == "hat")
         _scriptArea->reloadCode();
