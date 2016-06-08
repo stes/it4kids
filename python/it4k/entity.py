@@ -65,6 +65,7 @@ class Entity(pyglet.event.EventDispatcher):
         self.sprite.x = self.data.x + app_size[0] / 2
         self.sprite.y = self.data.y + app_size[1] / 2
         self.sprite.rotation = self.data.rotation
+        self.sprite.visible = self.data.visible
         if running:
             if self._speed > 0:
                 time.sleep(1/self._speed)
@@ -178,10 +179,9 @@ class Entity(pyglet.event.EventDispatcher):
         self.data.costume = costume
         if self.sprite:
             self.sprite.batch = None
-        self.sprite = pyglet.sprite.Sprite(self.costume_images[costume], group=self.group)
-        if self.data.visible:
-            self.sprite.batch = self.batch
-        self.invalidate(True)
+        self.sprite = pyglet.sprite.Sprite(self.costume_images[costume], batch=self.batch, group=self.group)
+        self.invalidate(False)
+        hook()
     
     def next_costume(self):
         index = 0
@@ -191,11 +191,13 @@ class Entity(pyglet.event.EventDispatcher):
     
     def show(self):
         self.data.visible = True
-        self.sprite.batch = self.batch
+        self.invalidate(False)
+        hook()
     
     def hide(self):
         self.data.visible = False
-        self.sprite.batch = None
+        self.invalidate(False)
+        hook()
     
     def wait(self, sec):
         self.invalidate(False)
