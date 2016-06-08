@@ -20,15 +20,7 @@ class App(pyglet.event.EventDispatcher):
     _scale = 1
 
     def __init__(self):
-        dispatcher = self.init_context()
-        dispatcher.push_handlers(
-            on_draw=self.on_draw,
-            on_resize=self.on_resize,
-            on_mouse_press=self.on_mouse_press,
-            on_mouse_release=self.on_mouse_release,
-            on_mouse_drag=self.on_mouse_drag,
-        )
-        
+        self.init_context()
         self.batch = pyglet.graphics.Batch()
         self.dragging = None
         self.state = app_state
@@ -39,7 +31,13 @@ class App(pyglet.event.EventDispatcher):
     
     def init_context(self):
         self.window = pyglet.window.Window(resizable=True)
-        return self.window
+        self.window.push_handlers(
+            on_draw=self.on_draw,
+            on_resize=self.on_resize,
+            on_mouse_press=self.on_mouse_press,
+            on_mouse_release=self.on_mouse_release,
+            on_mouse_drag=self.on_mouse_drag,
+        )
     
     def add_entity(self, entity):
         entity.batch = self.batch

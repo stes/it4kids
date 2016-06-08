@@ -12,7 +12,6 @@ class EmbedApp(App):
         context = FakeContext()
         context.set_current()
         self.window = None
-        return self
 
 EmbedApp.register_event_type('on_draw')
 EmbedApp.register_event_type('on_resize')
