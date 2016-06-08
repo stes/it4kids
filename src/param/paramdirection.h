@@ -5,16 +5,15 @@
 
 #include "param.h"
 
-class ParamDirection : public QComboBox, public Param
+class ParamDirection : public QComboBox, public ParamBaseStr
 {
     Q_OBJECT
 public:
     ParamDirection(QWidget* parent);
-
-    QString getValue();
-    inline bool setValue(const QString &) {return 0;}
-
     ~ParamDirection();
+
+protected:
+    QString getString() const;
 };
 
 #endif // PARAMDIRECTION_H

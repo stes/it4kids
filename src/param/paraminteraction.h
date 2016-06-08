@@ -5,16 +5,15 @@
 
 #include "param.h"
 
-class ParamInteraction : public QComboBox, public Param
+class ParamInteraction : public QComboBox, public ParamBaseStr
 {
     Q_OBJECT
 public:
     ParamInteraction(QWidget* parent);
-
-    QString getValue();
-    inline bool setValue(const QString &) {return 0; }
-
     ~ParamInteraction();
+
+protected:
+    QString getString() const;
 };
 
 #endif // PARAMINTERACTION_H

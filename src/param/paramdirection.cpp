@@ -8,9 +8,9 @@ ParamDirection::ParamDirection(QWidget *parent) : QComboBox(parent)
     addItem("down");
 }
 
-QString ParamDirection::getValue()
+QString ParamDirection::getString() const
 {
-    return addQuotes(currentText());
+    return currentText();
 }
 
 ParamDirection::~ParamDirection()

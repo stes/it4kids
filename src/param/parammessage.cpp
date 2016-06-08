@@ -6,9 +6,9 @@ ParamMessage::ParamMessage(QWidget *parent) : QComboBox(parent)
     //#warning "Add Message list to ParamMessage"
 }
 
-QString ParamMessage::getValue()
+QString ParamMessage::getString() const
 {
-    return addQuotes("ParamMessage");
+    return "ParamMessage";
 }
 
 ParamMessage::~ParamMessage()

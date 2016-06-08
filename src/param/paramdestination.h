@@ -5,15 +5,15 @@
 
 #include "param.h"
 
-class ParamDestination : public QComboBox, public Param
+class ParamDestination : public QComboBox, public ParamBaseStr
 {
     Q_OBJECT
 public:
     ParamDestination(QWidget* parent);
-
-    QString getValue();
-
     ~ParamDestination();
+
+protected:
+    QString getString() const;
 };
 
 #endif // PARAMDESTINATION_H

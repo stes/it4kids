@@ -10,9 +10,9 @@ ParamEffect::ParamEffect(QWidget *parent) : QComboBox(parent)
     addItem("confetti");
 }
 
-QString ParamEffect::getValue()
+QString ParamEffect::getString() const
 {
-    return addQuotes(currentText());
+    return currentText();
 }
 
 ParamEffect::~ParamEffect()

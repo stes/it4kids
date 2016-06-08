@@ -21,7 +21,7 @@
 
 class DockingArea;
 struct ArgumentStruct;
-class Param;
+class ParamBase;
 
 class DragableElement : public QWidget
 {
@@ -30,6 +30,7 @@ class DragableElement : public QWidget
     Q_OBJECT
 public:
     DragableElement(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget = 0, QWidget* parent = 0);
+    virtual ~DragableElement();
 
     inline virtual void setScriptAreaWidget(ScriptArea *scriptAreaWidget) {_scriptAreaWidget = scriptAreaWidget;}
 
@@ -40,7 +41,7 @@ public:
     inline void setNextElem(DragableElement* elem) {_nextElem = elem;}
     inline DragableElement* getNextElem() {return _nextElem;}
     inline QString getIdentifier() {return _identifier;}
-    inline std::vector<Param*>* getParamsVector() {return &_paramsVector; }
+    inline std::vector<ParamBase*>* getParamsVector() {return &_paramsVector; }
 
     virtual inline int getHeight() const {return _height;}
     virtual inline int getWidth()const  {return _width;}
@@ -57,8 +58,6 @@ public:
 
     virtual void removeChildDragElems() = 0;
 
-    virtual ~DragableElement();
-
     QString getType() const {return _type;}
     virtual DragableElement* getCurrentElement(QWidget* parent) = 0;
 
@@ -70,6 +69,7 @@ signals:
     void dragElemContextMenuRequested(const QPoint& pos, DragableElement* elem);
 public slots:
     void contextMenuRequested(const QPoint& pos);
+
 protected:
     QColor _color;
     QString _text;
@@ -86,7 +86,7 @@ protected:
 
     QHBoxLayout _layout;
 
-    std::vector<Param*> _paramsVector;
+    std::vector<ParamBase*> _paramsVector;
 
     DockingArea* _currentDock;
     DragableElement* _prevElem;

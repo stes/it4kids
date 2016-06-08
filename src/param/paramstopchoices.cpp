@@ -9,9 +9,9 @@ ParamStopChoices::ParamStopChoices(QWidget *parent) : QComboBox(parent)
     addItem("other Scripts in Sprite");
 }
 
-QString ParamStopChoices::getValue()
+QString ParamStopChoices::getString() const
 {
-    return addQuotes(currentText());
+    return currentText();
 }
 
 ParamStopChoices::~ParamStopChoices()

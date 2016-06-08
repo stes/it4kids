@@ -5,16 +5,15 @@
 
 #include "param.h"
 
-class ParamStopChoices : public QComboBox, public Param
+class ParamStopChoices : public QComboBox, public ParamBaseStr
 {
     Q_OBJECT
 public:
     ParamStopChoices(QWidget* parent);
-
-    QString getValue();
-    inline bool setValue(const QString &) {return 0; }
-
     ~ParamStopChoices();
+
+protected:
+    QString getString() const;
 };
 
 #endif // PARAMSTOPCHOICES_H

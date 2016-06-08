@@ -43,9 +43,9 @@ ParamKey::ParamKey(QWidget *parent) : QComboBox(parent)
     addItem("Down Arrow");
 }
 
-QString ParamKey::getValue()
+QString ParamKey::getString() const
 {
-    return addQuotes(currentText());
+    return currentText();
 }
 
 ParamKey::~ParamKey()

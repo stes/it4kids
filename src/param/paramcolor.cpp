@@ -11,9 +11,9 @@ ParamColor::ParamColor(QWidget *parent) : QWidget(parent), _color("#ff00ff"), _a
     setFixedSize(15, 15);
 }
 
-QString ParamColor::getValue()
+QString ParamColor::getString() const
 {
-    return addQuotes(_color.name());
+    return _color.name();
 }
 
 ParamColor::~ParamColor()

@@ -6,9 +6,9 @@ ParamVariables::ParamVariables(QWidget *parent) : QComboBox(parent)
     //#warning "Add Variables list to ParamVariables"
 }
 
-QString ParamVariables::getValue()
+QString ParamVariables::getString() const
 {
-    return addQuotes("ParamVariables");
+    return "ParamVariables";
 }
 
 ParamVariables::~ParamVariables()

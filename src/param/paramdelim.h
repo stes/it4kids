@@ -5,15 +5,15 @@
 
 #include "param.h"
 
-class ParamDelim : public QComboBox, public Param
+class ParamDelim : public QComboBox, public ParamBaseStr
 {
     Q_OBJECT
 public:
     ParamDelim(QWidget* parent);
-
-    QString getValue();
-
     ~ParamDelim();
+
+protected:
+    QString getString() const;
 };
 
 #endif // PARAMDELIM_H

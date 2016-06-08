@@ -5,17 +5,17 @@
 
 #include "param.h"
 
-class ParamCostume : public QComboBox, public Param
+class ParamCostume : public QComboBox, public ParamBaseStr
 {
     Q_OBJECT
 public:
     ParamCostume(QWidget* parent);
-
-    QString getValue();
-    inline bool setValue(const QString &) {return 0;}
-
     ~ParamCostume();
+
 public slots:
     void updateCostumeList();
+
+protected:
+    QString getString() const;
 };
 #endif // PARAMCOSTUME_H

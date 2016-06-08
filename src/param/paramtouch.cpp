@@ -18,9 +18,9 @@ ParamTouch::ParamTouch(QWidget *parent) : QComboBox(parent)
     }
 }
 
-QString ParamTouch::getValue()
+QString ParamTouch::getString() const
 {
-    return addQuotes(currentText());
+    return currentText();
 }
 
 ParamTouch::~ParamTouch()

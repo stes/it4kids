@@ -12,9 +12,9 @@ ParamCostume::ParamCostume(QWidget *parent) : QComboBox(parent)
     updateCostumeList();
 }
 
-QString ParamCostume::getValue()
+QString ParamCostume::getString() const
 {
-    return addQuotes(currentText());
+    return currentText();
 }
 
 ParamCostume::~ParamCostume()

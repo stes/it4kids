@@ -12,9 +12,9 @@ ParamSound::ParamSound(QWidget *parent) : QComboBox(parent)
     updateSoundList();
 }
 
-QString ParamSound::getValue()
+QString ParamSound::getString() const
 {
-    return addQuotes(currentText());
+    return currentText();
 }
 
 ParamSound::~ParamSound()

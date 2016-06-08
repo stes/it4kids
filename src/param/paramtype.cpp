@@ -11,9 +11,9 @@ ParamType::ParamType(QWidget *parent) : QComboBox(parent)
     addItem("predicate");
 }
 
-QString ParamType::getValue()
+QString ParamType::getString() const
 {
-    return addQuotes(currentText());
+    return currentText();
 }
 
 ParamType::~ParamType()

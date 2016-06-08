@@ -5,16 +5,17 @@
 
 #include "param.h"
 
-class ParamString : public QLineEdit, public Param
+class ParamString : public QLineEdit, public ParamBaseStr
 {
     Q_OBJECT
 public:
     ParamString(QWidget* parent);
+    ~ParamString();
 
-    QString getValue();
     bool setValue(const QString& value);
 
-    ~ParamString();
+protected:
+    QString getString() const;
 };
 
 #endif // PARAMSTRING_H

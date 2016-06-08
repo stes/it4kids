@@ -9,7 +9,7 @@ ParamMath::ParamMath(QWidget *parent) : QComboBox(parent)
     addItem("e^");
 }
 
-QString ParamMath::getValue()
+QString ParamMath::getValue() const
 {
     return currentText();
 }

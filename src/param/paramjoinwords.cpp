@@ -18,9 +18,9 @@ ParamJoinWords::ParamJoinWords(QWidget *parent) : QWidget(parent), _first(this),
     // TODO: Fix GetValue
 }
 
-QString ParamJoinWords::getValue()
+QString ParamJoinWords::getString() const
 {
-    return addQuotes("ParamJoinWords");
+    return "ParamJoinWords";
 }
 
 ParamJoinWords::~ParamJoinWords()

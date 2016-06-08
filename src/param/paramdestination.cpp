@@ -18,9 +18,9 @@ ParamDestination::ParamDestination(QWidget *parent) : QComboBox(parent)
     }
 }
 
-QString ParamDestination::getValue()
+QString ParamDestination::getString() const
 {
-    return addQuotes(currentText());
+    return currentText();
 }
 
 ParamDestination::~ParamDestination()

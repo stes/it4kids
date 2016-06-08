@@ -3,13 +3,35 @@
 
 #include <QString>
 
-class Param
+class ParamBase
 {
 public:
-    virtual QString getValue() = 0;
-    inline virtual bool setValue(const QString&) {return 0;}
+    virtual ~ParamBase() { }
 
-    QString addQuotes(QString str) { return '"' + str.toHtmlEscaped() + '"'; }
+    virtual QString getValue() const = 0;
+    virtual bool setValue(const QString&) { return 0; }
+};
+
+class ParamBaseStr : public ParamBase
+{
+public:
+    virtual ~ParamBaseStr() { }
+
+    QString getValue() const { return '"' + getString().toHtmlEscaped() + '"'; }
+
+protected:
+    virtual QString getString() const = 0;
+};
+
+class ParamBaseNum : public ParamBase
+{
+public:
+    virtual ~ParamBaseNum() { }
+
+    QString getValue() const { return QString::number(getNumber()); }
+
+protected:
+    virtual double getNumber() const = 0;
 };
 
 #endif // PARAM_H

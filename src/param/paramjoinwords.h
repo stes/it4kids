@@ -7,20 +7,20 @@
 #include "param.h"
 #include "paramstring.h"
 
-class ParamJoinWords : public QWidget, public Param
+class ParamJoinWords : public QWidget, public ParamBaseStr
 {
     Q_OBJECT
 public:
     ParamJoinWords(QWidget* parent);
-
-    QString getValue();
-
     ~ParamJoinWords();
+
 protected:
     ParamString _first;
     ParamString _second;
 
     QHBoxLayout _layout;
+
+    QString getString() const;
 };
 
 #endif // PARAMJOINWORDS_H

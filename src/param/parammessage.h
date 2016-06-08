@@ -5,16 +5,15 @@
 
 #include "param.h"
 
-class ParamMessage : public QComboBox, public Param
+class ParamMessage : public QComboBox, public ParamBaseStr
 {
     Q_OBJECT
 public:
     ParamMessage(QWidget* parent);
-
-    QString getValue();
-    inline bool setValue(const QString &) {return 0; }
-
     ~ParamMessage();
+
+protected:
+    QString getString() const;
 };
 
 #endif // PARAMMESSAGE_H

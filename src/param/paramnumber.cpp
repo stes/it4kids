@@ -11,9 +11,15 @@ ParamNumber::ParamNumber(QWidget* parent) : QLineEdit(parent)
     setFont(QFont("Courier", 7));
 }
 
-QString ParamNumber::getValue()
+double ParamNumber::getNumber() const
 {
-    return text();
+    return text().toDouble();
+}
+
+bool ParamNumber::setValue(const QString& value)
+{
+    setText(value);
+    return 1;
 }
 
 ParamNumber::~ParamNumber()

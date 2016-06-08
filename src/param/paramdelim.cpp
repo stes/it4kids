@@ -9,9 +9,9 @@ ParamDelim::ParamDelim(QWidget *parent) : QComboBox(parent)
     addItem("cr");
 }
 
-QString ParamDelim::getValue()
+QString ParamDelim::getString() const
 {
-    return addQuotes(currentText());
+    return currentText();
 }
 
 ParamDelim::~ParamDelim()

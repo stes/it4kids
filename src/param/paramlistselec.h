@@ -5,15 +5,15 @@
 
 #include "param.h"
 
-class ParamListSelec : public QComboBox, public Param
+class ParamListSelec : public QComboBox, public ParamBaseStr
 {
     Q_OBJECT
 public:
     ParamListSelec(QWidget* parent);
-
-    QString getValue();
-
     ~ParamListSelec();
+
+protected:
+    QString getString() const;
 };
 
 #endif // PARAMLISTSELEC_H

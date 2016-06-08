@@ -8,9 +8,9 @@ ParamInteraction::ParamInteraction(QWidget *parent) : QComboBox(parent)
     addItem("hover");
 }
 
-QString ParamInteraction::getValue()
+QString ParamInteraction::getString() const
 {
-    return addQuotes(currentText());
+    return currentText();
 }
 
 ParamInteraction::~ParamInteraction()

@@ -5,16 +5,15 @@
 
 #include "param.h"
 
-class ParamEffect : public QComboBox, public Param
+class ParamEffect : public QComboBox, public ParamBaseStr
 {
     Q_OBJECT
 public:
     ParamEffect(QWidget* parent);
-
-    QString getValue();
-    inline bool setValue(const QString &) {return 0;}
-
     ~ParamEffect();
+
+protected:
+    QString getString() const;
 };
 
 #endif // PARAMEFFECT_H

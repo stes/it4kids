@@ -192,8 +192,8 @@ QString CodeGenerator::generateCode(DragableElement* element, int sub)
             _indentCounter++;
         }
 
-        std::vector<Param*>* params =  next->getParamsVector();
-        for(std::vector<Param*>::const_iterator it = params->begin(); it != params->end(); it++)
+        std::vector<ParamBase*>* params =  next->getParamsVector();
+        for(std::vector<ParamBase*>::const_iterator it = params->begin(); it != params->end(); it++)
         {
             tmp = tmp.arg((*it)->getValue());
         }

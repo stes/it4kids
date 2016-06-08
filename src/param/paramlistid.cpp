@@ -7,9 +7,9 @@ ParamListId::ParamListId(QWidget *parent) : QComboBox(parent)
     //#warning "Add ListId list to ParamListId"
 }
 
-QString ParamListId::getValue()
+QString ParamListId::getString() const
 {
-    return addQuotes("ParamListId");
+    return "ParamListId";
 }
 
 ParamListId::~ParamListId()

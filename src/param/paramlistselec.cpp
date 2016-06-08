@@ -6,9 +6,9 @@ ParamListSelec::ParamListSelec(QWidget *parent) : QComboBox(parent)
     //#warning "Add ListSelec list to ParamListSelec"
 }
 
-QString ParamListSelec::getValue()
+QString ParamListSelec::getString() const
 {
-    return addQuotes("ParamListSelec");
+    return "ParamListSelec";
 }
 
 ParamListSelec::~ParamListSelec()

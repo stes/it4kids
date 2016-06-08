@@ -76,7 +76,7 @@ void ParamDock::undock()
     }
 }
 
-QString ParamDock::getValue()
+QString ParamDock::getString() const
 {
     // TODO
     if(_dockedElem) return _dockedElem->getIdentifier();

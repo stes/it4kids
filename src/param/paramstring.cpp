@@ -8,9 +8,9 @@ ParamString::ParamString(QWidget *parent) : QLineEdit(parent)
     // TODO: Fix GetValue
 }
 
-QString ParamString::getValue()
+QString ParamString::getString() const
 {
-    return addQuotes(text());
+    return text();
 }
 
 bool ParamString::setValue(const QString &value)

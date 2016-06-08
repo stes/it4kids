@@ -5,16 +5,15 @@
 
 #include "param.h"
 
-class ParamClone : public QComboBox, public Param
+class ParamClone : public QComboBox, public ParamBaseStr
 {
     Q_OBJECT
 public:
     ParamClone(QWidget* parent);
-
-    QString getValue();
-    inline bool setValue(const QString &) {return 0; }
-
     ~ParamClone();
+
+protected:
+    QString getString() const;
 };
 
 #endif // PARAMCLONE_H

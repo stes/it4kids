@@ -5,18 +5,18 @@
 
 #include "param.h"
 
-class ParamSound : public QComboBox, public Param
+class ParamSound : public QComboBox, public ParamBaseStr
 {
     Q_OBJECT
 public:
     ParamSound(QWidget* parent);
-
-    QString getValue();
-    inline bool setValue(const QString &) {return 0;}
-
     ~ParamSound();
+
 public slots:
     void updateSoundList();
+
+protected:
+    QString getString() const;
 };
 
 #endif // PARAMSOUND_H
