@@ -135,17 +135,21 @@ void MainWindow::InitializeDragElem(const QString& path)
                 QString type = attributes.value("type").toString();
                 QString name = attributes.value("name").toString();
                 QString spec = attributes.value("spec").toString();
+                QColor color = category->getColor();
+
+                if(!_Cgen.supported(name))
+                    color = QColor();
 
                 if(type == "command")
-                    lastElement = new CommandDE(name, spec, category->getColor(), 0, this);
+                    lastElement = new CommandDE(name, spec, color, 0, this);
                 else if(type == "hat")
-                    lastElement = new HatDE(name, spec, category->getColor(), 0, this);
+                    lastElement = new HatDE(name, spec, color, 0, this);
                 else if(type == "wrapper")
-                    lastElement = new WrapperDE(name, spec, category->getColor(), 0, this);
+                    lastElement = new WrapperDE(name, spec, color, 0, this);
                 else if(type == "predicate")
-                    lastElement = new PredicateDE(name, spec, category->getColor(), 0, this);
+                    lastElement = new PredicateDE(name, spec, color, 0, this);
                 else if(type == "reporter")
-                    lastElement = new ReporterDE(name, spec, category->getColor(), 0, this);
+                    lastElement = new ReporterDE(name, spec, color, 0, this);
 
                 lastElement->makeStatic();
                 category->getElemList()->push_back(lastElement);

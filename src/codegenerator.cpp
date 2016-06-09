@@ -210,6 +210,11 @@ QString CodeGenerator::generateCode(DragableElement* element, int sub)
     return str;
 }
 
+bool CodeGenerator::supported(QString ident)
+{
+    return _events.contains(ident) || _controls.contains(ident) || _commands.contains(ident);
+}
+
 QStringList CodeGenerator::processCodeField(QJsonArray Code)
 {
     QStringList list;

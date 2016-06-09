@@ -16,6 +16,8 @@ public:
     QString generateSprite(QString name);
     void generateFiles(QDir directory);
 
+    bool supported(QString ident);
+
 private:
     struct Event
     {
