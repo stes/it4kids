@@ -32,10 +32,10 @@ typedef struct  WAV_HEADER
 
 class WavFile : public QWidget
 {
-    friend class AudioEngine;
     Q_OBJECT
 public:
     WavFile(QWidget* parent = 0);
+    virtual ~WavFile();
 
     bool open(const QString &fileName);
     /*inline const WavHeader* getWavHeader() {return &_wavHeader; }

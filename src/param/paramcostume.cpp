@@ -4,11 +4,11 @@
 #include "mainwindow.h"
 #include "sprite.h"
 
-extern MainWindow* _sMainWindow;
+extern MainWindow* sMainWindow;
 
-ParamCostume::ParamCostume(QWidget *parent) : QComboBox(parent)
+ParamCostume::ParamCostume(QWidget *parent, Sprite *sprite) : QComboBox(parent), _sprite(sprite)
 {
-    connect(_sMainWindow, SIGNAL(newCostume()), this, SLOT(updateCostumeList()));
+    connect(sMainWindow, SIGNAL(newCostume()), this, SLOT(updateCostumeList()));
     updateCostumeList();
 }
 
@@ -24,7 +24,8 @@ ParamCostume::~ParamCostume()
 void ParamCostume::updateCostumeList()
 {
     clear();
-    CostumeVector* cV = _sMainWindow->getCurrentSprite()->getCostumeVector();
+    Sprite *sprite = _sprite ? _sprite : sMainWindow->getCurrentSprite();
+    CostumeVector* cV = sprite->getCostumeVector();
     for(uint i = 0; i < cV->size(); i++)
     {
         addItem(cV->at(i)->getName());

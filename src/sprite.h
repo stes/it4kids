@@ -24,21 +24,34 @@ typedef std::vector<WavFile*> SoundVector;
 class Sprite : public QWidget
 {
     Q_OBJECT
-    friend class ScriptArea;
-    friend class AudioEngine;
-    friend class MainWindow;
-    friend class Ui_MainWindow;
+
 public:
+    explicit Sprite(const QString& name, QWidget* parent = 0);
+    explicit Sprite(QWidget* parent = 0);
+
     inline QString getName() {return _name;}
+
     inline SoundVector* getSoundVector() {return &_soundVector;}
     inline void addSound(WavFile* sound) {_soundVector.push_back(sound);}
     inline void playSound(int index) {_soundVector[index]->play(); }
+
     inline CostumeVector* getCostumeVector() {return &_costumeVector;}
     inline void addCostume(Costume* costume) {_costumeVector.push_back(costume);}
 
-    inline Costume* getCurrentConstume() {return _costumeVector[_currentCostumeIndex]; }
-    DragElemVector* getDragElemVector() {return &_dragElemVector;}
-    ~Sprite();
+    void addElement(DragableElement *element) { _dragElemVector.push_back(element); }
+    void removeElement(DragableElement *element);
+
+    void addToHitTest(DockingArea* widget) { _hitTestVector.push_back(widget); }
+    void removeFromHitTest(DockingArea* widget);
+
+    void performHitTest(DragableElement* elem);
+
+    void OverrideParents();
+
+    inline Costume* getCurrentConstume() { return _costumeVector[_currentCostumeIndex]; }
+    DragElemVector* getDragElemVector() { return &_dragElemVector; }
+    virtual ~Sprite();
+
 signals:
     void spriteSelected(Sprite* sprite);
     void currentCostumeChanged(Sprite* sprite);
@@ -47,9 +60,8 @@ signals:
 public slots:
     void setCurrentCostume(Costume* costume);
     void contextMenuRequested(const QPoint& pos);
+
 protected:
-    explicit Sprite(const QString& name, MainWindow *parent = 0);
-    explicit Sprite(MainWindow* parent = 0);
     void mousePressEvent(QMouseEvent*);
 
     QString _name;

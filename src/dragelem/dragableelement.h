@@ -6,9 +6,6 @@
 #include <QWidget>
 #include <QColor>
 #include <QString>
-#include <QLabel>
-#include <QLineEdit>
-#include <QComboBox>
 #include <QHBoxLayout>
 #include <QMouseEvent>
 #include <QPainter>
@@ -16,8 +13,8 @@
 #include <QApplication>
 #include <QDebug>
 
-#include "scriptarea.h"
 #include "scriptdock.h"
+#include "sprite.h"
 
 class DockingArea;
 struct ArgumentStruct;
@@ -25,14 +22,19 @@ class ParamBase;
 
 class DragableElement : public QWidget
 {
-    friend class MainWindow;
-
     Q_OBJECT
 public:
-    DragableElement(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget = 0, QWidget* parent = 0);
-    virtual ~DragableElement();
+    enum Type
+    {
+        Hat,
+        Command,
+        Wrapper,
+        Predicate,
+        Reporter
+    };
 
-    inline virtual void setScriptAreaWidget(ScriptArea *scriptAreaWidget) {_scriptAreaWidget = scriptAreaWidget;}
+    DragableElement(const QString& identifier, const QString& text, const QColor& color, Type type, Sprite* sprite = 0, QWidget* parent = 0);
+    virtual ~DragableElement();
 
     inline void setCurrentDock(DockingArea* dock) {_currentDock = dock;}
     //inline DockingArea* getDockElem() {return _currentDock;}
@@ -45,7 +47,8 @@ public:
 
     virtual inline int getHeight() const {return _height;}
     virtual inline int getWidth()const  {return _width;}
-    virtual bool isDragged() const {return _dragged;}
+    bool isStatic() const { return _static; }
+    void makeStatic() { _static = true; }
 
     virtual void resize() = 0;
     virtual DragableElement* getWrapElem(){return (DragableElement*)0;}
@@ -58,8 +61,10 @@ public:
 
     virtual void removeChildDragElems() = 0;
 
-    QString getType() const {return _type;}
-    virtual DragableElement* getCurrentElement(QWidget* parent) = 0;
+    Type getType() const { return _type; }
+    virtual DragableElement* getCurrentElement(Sprite *sprite, QWidget* parent) = 0;
+
+    DragableElement *copyParams(DragableElement *dst);
 
     DragableElement *getRoot();
 
@@ -75,14 +80,14 @@ protected:
     QString _text;
     QString _identifier;
     QPoint _offset;
-    bool _dragged;
+    bool _static;
     int _width;
     int _height;
 
-    ScriptArea* _scriptAreaWidget;
+    Sprite* _sprite;
 
     QPainterPath _path;
-    QString _type;
+    Type _type;
 
     QHBoxLayout _layout;
 

@@ -18,7 +18,7 @@ bool AudioEngine::loadFile(const QString &fileName)
         // TODO: Deal with failing to load Audio File
         return false;
     }
-    _currentSprite->_soundVector.push_back(sound);
+    _currentSprite->addSound(sound);
 
     /*QPixmap waveForm(1000, 1000);
     waveForm.fill();

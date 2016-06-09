@@ -1,35 +1,13 @@
-#include <QPainter>
-
 #include "scriptdock.h"
 
-#include "commandde.h"
 #include "dragableelement.h"
-#include "hatde.h"
-#include "wrapperde.h"
+#include "mainwindow.h"
 
-ScriptDock::ScriptDock(ScriptArea *scriptArea, Type type, DragableElement* parent) :
-    DockingArea(), _type(type), _parent(parent), _active(false)
-{
-    _scriptArea = scriptArea;
-    activate();
-}
+extern MainWindow* sMainWindow;
 
-void ScriptDock::activate()
+ScriptDock::ScriptDock(Type type, Sprite *sprite, DragableElement* parent) :
+    DockingArea(sprite), _type(type), _parent(parent)
 {
-    if(!_active)
-    {
-        _scriptArea->addToHitTest(this);
-        _active = true;
-    }
-}
-
-void ScriptDock::deactivate()
-{
-    if(_active)
-    {
-        _scriptArea->removeFromHitTest(this);
-        _active = false;
-    }
 }
 
 void ScriptDock::connect(DragableElement *upper, DragableElement *lower)
@@ -67,8 +45,8 @@ void ScriptDock::dock(DragableElement* elem)
     otherDock->deactivate();
     deactivate();
 
-    if(elem->getRoot()->getType() == "hat")
-        _scriptArea->reloadCode();
+    if(elem->getRoot()->getType() == DragableElement::Hat)
+        sMainWindow->reloadCode();
 }
 
 void ScriptDock::undock()
@@ -79,19 +57,16 @@ void ScriptDock::undock()
     _dockedElem->getDock(Upper)->activate();
     _dockedElem->setPrevElem(0);
     _dockedElem->setCurrentDock(0);
-    _dockedElem->resize();
-    _dockedElem->show();
     _dockedElem = 0;
     if(_type != Inner)
         _parent->setNextElem(0);
 
     activate();
     _parent->getRoot()->rearrangeLowerElems();
-    if(_parent->getRoot()->getType() == "hat")
-        _scriptArea->reloadCode();
+    if(_parent->getRoot()->getType() == DragableElement::Hat)
+        sMainWindow->reloadCode();
 }
 
 ScriptDock::~ScriptDock()
 {
-
 }

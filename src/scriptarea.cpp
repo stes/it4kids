@@ -7,104 +7,52 @@
 #include "sprite.h"
 #include "mainwindow.h"
 
+extern MainWindow* sMainWindow;
+
 ScriptArea::ScriptArea(QWidget *parent) : QWidget(parent), _currentSprite(0)
 {
-
-}
-
-void ScriptArea::setMainWindow(MainWindow * main)
-{
-    _Mainwindow = main;
-}
-
-void ScriptArea::reloadCode()
-{
-    _Mainwindow->reloadCode();
 }
 
 void ScriptArea::setCurrentSprite(Sprite* sprite)
 {
-    if(_currentSprite)
-    {
-        for(DragElemVector::iterator it = _currentSprite->_dragElemVector.begin(); it != _currentSprite->_dragElemVector.end(); ++it)
-        {
-            (*it)->hide();
-        }
-    }
-
+    hideElements();
     _currentSprite = sprite;
-    if(_currentSprite && isVisible())
+    if(isVisible())
+        showElements();
+}
+
+void ScriptArea::hideElements()
+{
+    if(!_currentSprite)
+        return;
+
+    DragElemVector *vec = _currentSprite->getDragElemVector();
+    for(DragElemVector::const_iterator it = vec->begin(); it != vec->end(); it++)
     {
-        for(DragElemVector::iterator it = _currentSprite->_dragElemVector.begin(); it != _currentSprite->_dragElemVector.end(); ++it)
-        {
-            (*it)->show();
-        }
+        (*it)->hide();
     }
 }
 
-void ScriptArea::addToHitTest(DockingArea* widget)
+void ScriptArea::showElements()
 {
-    _currentSprite->_hitTestVector.push_back(widget);
-}
+    if(!_currentSprite)
+        return;
 
-void ScriptArea::removeFromHitTest(DockingArea* widget)
-{
-    _currentSprite->_hitTestVector.erase(std::remove(_currentSprite->_hitTestVector.begin(), _currentSprite->_hitTestVector.end(), widget), _currentSprite->_hitTestVector.end());
-}
-
-void ScriptArea::performHitTest(DragableElement* elem)
-{
-    QRect rectDE(elem->mapToGlobal(QPoint(0, 0)), QSize(elem->width(), elem->height()));
-    for(HitTestVector::iterator it = _currentSprite->_hitTestVector.begin(); it != _currentSprite->_hitTestVector.end(); it++)
+    DragElemVector *vec = _currentSprite->getDragElemVector();
+    for(DragElemVector::const_iterator it = vec->begin(); it != vec->end(); it++)
     {
-        if((*it)->getRect()->intersects(rectDE) && (*it)->getParent()->getRoot() != elem)
-        {
-            (*it)->dock(elem);
-            break;
-        }
+        (*it)->show();
     }
-}
-
-HitTestVector* ScriptArea::getHitTestVector()
-{
-    return &_currentSprite->_hitTestVector;
-}
-
-void ScriptArea::addToDragElem(DragableElement* elem)
-{
-    _currentSprite->_dragElemVector.push_back(elem);
-}
-
-void ScriptArea::removeFromDragElem(DragableElement* elem)
-{
-    _currentSprite->_dragElemVector.erase(std::remove(_currentSprite->_dragElemVector.begin(), _currentSprite->_dragElemVector.end(), elem), _currentSprite->_dragElemVector.end());
-}
-
-DragElemVector* ScriptArea::getDragElemVector()
-{
-    return &_currentSprite->_dragElemVector;
 }
 
 void ScriptArea::hideEvent(QHideEvent*)
 {
-    if(_currentSprite)
-    {
-        for(DragElemVector::iterator it = _currentSprite->_dragElemVector.begin(); it != _currentSprite->_dragElemVector.end(); ++it)
-        {
-            (*it)->hide();
-        }
-    }
+    hideElements();
 }
 
 void ScriptArea::showEvent(QShowEvent*)
 {
-    if(_currentSprite)
-    {
-        for(DragElemVector::iterator it = _currentSprite->_dragElemVector.begin(); it != _currentSprite->_dragElemVector.end(); ++it)
-        {
-            (*it)->show();
-        }
-    }
+    showElements();
 }
 
 void ScriptArea::paintEvent(QPaintEvent*)

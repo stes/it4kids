@@ -1,8 +1,8 @@
 #include "paramdock.h"
 #include "dragelem/predicatede.h"
+#include "sprite.h"
 
-ParamDock::ParamDock(QColor color, ScriptArea* scriptAreaWidget, QWidget *parent) : QWidget(parent),
-    DockingArea(), _scriptArea(scriptAreaWidget)
+ParamDock::ParamDock(QColor color, Sprite *sprite, QWidget *parent) : QWidget(parent), DockingArea(sprite)
 {
     _color = color.darker(130);
 
@@ -14,8 +14,6 @@ ParamDock::ParamDock(QColor color, ScriptArea* scriptAreaWidget, QWidget *parent
     _path.lineTo(6, 12);
     _path.lineTo(0, 6);
     setFixedSize(24, 12);
-
-    _scriptArea->addToHitTest(this);
 }
 
 void ParamDock::dock(DragableElement* dragElem)
@@ -85,7 +83,6 @@ QString ParamDock::getString() const
 
 ParamDock::~ParamDock()
 {
-
 }
 
 void ParamDock::paintEvent(QPaintEvent*)

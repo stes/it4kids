@@ -20,8 +20,9 @@ class Sprite;
 class Teacher;
 class Student;
 
-
-typedef std::vector<Sprite*> SpriteVector;
+// TODO: move somewhere else
+template<typename Container>
+void delete_all(Container& c) { while(!c.empty()) delete c.back(), c.pop_back(); }
 
 namespace Ui {
 class MainWindow;
@@ -33,13 +34,17 @@ class MainWindow : public QMainWindow
 
 public:
     explicit MainWindow(QWidget *parent = 0);
+
     SpriteVector* getSpriteVector();
+    void addSprite(Sprite *sprite);
+    Sprite* getCurrentSprite() {return _currentSprite;}
     Sprite *getBackgroundSprite() { return _backgroundSprite; }
-    DragableElement* createNewElement(QString s);
+
+    DragableElement* createNewElement(QString ident, Sprite *sprite);
+
+    QRect getScriptAreaRect();
 
     ~MainWindow();
-
-    inline Sprite* getCurrentSprite() {return _currentSprite;}
 
     void reloadCode();
 
@@ -74,6 +79,9 @@ private slots:
     void spriteContextMenuRequested(const QPoint &pos, Sprite* sprite);
     void on_scene_customContextMenuRequested(const QPoint &pos);
 
+    void loadFromFile();
+    void saveToFile();
+
 private:
     void InitializeDragElem(const QString& path);
     DragElemCategory* GetCategoryByName(const QString& name);
@@ -90,7 +98,7 @@ private:
     CodeGenerator _Cgen;
     PythonController _pyController;
 
-    std::vector<DragableElement*> _LoadableDrags;
+    std::vector<DragableElement*> _LoadableElems;
 
     QDir _tmpDir;
 

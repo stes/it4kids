@@ -22,14 +22,16 @@ typedef std::vector<DragableElement*> ElementList;
 
 class DragElemCategory : public QWidget
 {
-    friend class MainWindow;
     Q_OBJECT
 public:
     explicit DragElemCategory(DragElemList *elemListWidget, const QString& name, const QColor& color, QWidget *parent = 0);
 
     void toggleActive();
     void setElemListWidget(DragElemList* elemListWidget);
-    void setScriptAreaWidget(ScriptArea *scriptAreaWidget);
+
+    QColor getColor() const { return _color; }
+    ElementList *getElemList() { return &_elemList; }
+    QString getName() const { return _label.text(); }
 
     ~DragElemCategory();
 protected:
@@ -39,7 +41,6 @@ protected:
 
     ElementList _elemList;
     DragElemList* _elemListWidget;
-    ScriptArea* _scriptAreaWidget;
 
     QLabel _label;
     QColor _color;

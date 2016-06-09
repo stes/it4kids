@@ -11,17 +11,17 @@ class MainWindow;
 class SaveLoadClass
 {
 public:
-    SaveLoadClass(MainWindow * main);
+    SaveLoadClass() { }
     int loadScratch(QString path);
-    void saveScratch();
+    void saveScratch(QString path);
 private:
-    MainWindow* _Mainwindow;
     //Scratch
     //load
-    void handleScriptTuple(QJsonArray a);
-    DragableElement* handleBlockTuple(QJsonArray a);
+    void handleScriptTuple(QJsonArray a, class Sprite *sprite);
+    DragableElement* handleBlockTupleArray(QJsonArray a, class Sprite *sprite);
+    DragableElement* handleBlockTuple(QJsonArray a, class Sprite *sprite);
     //save
-    QJsonArray  generateScriptTuple(DragableElement* element);
+    QJsonArray generateScriptTuple(DragableElement* element);
     QJsonArray generateBlockTupleArray(DragableElement* element);
     QJsonArray generateBlockTuple(DragableElement* element);
     //Snap

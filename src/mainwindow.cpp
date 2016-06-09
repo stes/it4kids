@@ -26,18 +26,23 @@
 #include "saveloadclass.h"
 #include "teacherlogin.h"
 
-MainWindow* _sMainWindow = 0;
+MainWindow* sMainWindow = 0;
 
 SpriteVector* MainWindow::getSpriteVector()
 {
-   return ui->spriteSelect->getSpriteVector();
+    return ui->spriteSelect->getSpriteVector();
+}
+
+void MainWindow::addSprite(Sprite *sprite)
+{
+    return ui->spriteSelect->addSprite(sprite);
 }
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow), _fileMenu(this), _editMenu(this), _audioEngine(this), _Cgen(this), _tmpDir("python")
+    ui(new Ui::MainWindow), _fileMenu(this), _editMenu(this), _audioEngine(this), _tmpDir("python")
 {
-    _sMainWindow = this;
+    sMainWindow = this;
 
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint);
@@ -56,7 +61,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _currentSprite = sprite;
     emit changeCurrentSprite(sprite);
 
-    _backgroundSprite = new Sprite("background", this);
+    _backgroundSprite = new Sprite(this);
     costume = new Costume(_backgroundSprite);
     costume->open("Assets/Backgrounds/desert.gif");
     costume->hide();
@@ -64,11 +69,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ((QHBoxLayout*) ui->selectionBackground->layout())->insertWidget(0, _backgroundSprite);
 
     InitializeDragElem(":/blocks.xml");
-
-    //ui->categorySelect->setElemListWidget(ui->elementList);
-    ui->categorySelect->setScriptAreaWidget(ui->scriptArea);
-
-    ui->scriptArea->setMainWindow(this);
 
     connect(this, SIGNAL(newSound()), ui->soundSelect, SLOT(updateSoundList()));
     connect(this, SIGNAL(newCostume()), ui->costumeSelect, SLOT(updateCostumeList()));
@@ -95,8 +95,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->codeEditor->setLexer(&lexer);
 
     _fileMenu.addAction(tr("New"));
-    _fileMenu.addAction(tr("Upload from your computer"));
-    _fileMenu.addAction(tr("Download to your computer"));
+    _fileMenu.addAction(tr("Upload from your computer"), this, SLOT(loadFromFile()));
+    _fileMenu.addAction(tr("Download to your computer"), this, SLOT(saveToFile()));
     _fileMenu.addAction(tr("Reset"));
 
     _editMenu.addAction(tr("Undelete"));
@@ -110,7 +110,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::InitializeDragElem(const QString& path)
 {
-    _LoadableDrags.clear();
     QFile styleSheet(path);
     styleSheet.open(QFile::ReadOnly);
     QString xml = QLatin1String(styleSheet.readAll());
@@ -119,6 +118,8 @@ void MainWindow::InitializeDragElem(const QString& path)
     QXmlStreamAttributes attributes;
 
     DragableElement* lastElement;
+
+    _LoadableElems.clear();
 
     uint paramIndex = 0;
     while(!xmlReader.atEnd())
@@ -131,53 +132,54 @@ void MainWindow::InitializeDragElem(const QString& path)
                 paramIndex = 0;
                 attributes = xmlReader.attributes();
                 DragElemCategory* category = GetCategoryByName(attributes.value("category").toString());
-                if(attributes.value("type").toString() == "command")
-                {
-                    lastElement = new CommandDE(attributes.value("name").toString(), attributes.value("spec").toString(), category->_color,attributes.value("type").toString(), ui->scriptArea, this);
-                }
-                else if(attributes.value("type").toString() == "hat")
-                {
-                    lastElement = new HatDE(attributes.value("name").toString(), attributes.value("spec").toString(), category->_color,attributes.value("type").toString(), ui->scriptArea, this);
-                }
-                else if(attributes.value("type").toString() == "wrapper")
-                {
-                    lastElement = new WrapperDE(attributes.value("name").toString(), attributes.value("spec").toString(), category->_color,attributes.value("type").toString(), ui->scriptArea, this);
-                }
-                else if(attributes.value("type").toString() == "predicate")
-                {
-                    lastElement = new PredicateDE(attributes.value("name").toString(), attributes.value("spec").toString(), category->_color,attributes.value("type").toString(), ui->scriptArea, this);
-                }
-                else if(attributes.value("type").toString() == "reporter")
-                {
-                    lastElement = new ReporterDE(attributes.value("name").toString(), attributes.value("spec").toString(), category->_color,attributes.value("type").toString(), ui->scriptArea, this);
-                }
-                category->_elemList.push_back(lastElement);
+                QString type = attributes.value("type").toString();
+                QString name = attributes.value("name").toString();
+                QString spec = attributes.value("spec").toString();
+
+                if(type == "command")
+                    lastElement = new CommandDE(name, spec, category->getColor(), 0, this);
+                else if(type == "hat")
+                    lastElement = new HatDE(name, spec, category->getColor(), 0, this);
+                else if(type == "wrapper")
+                    lastElement = new WrapperDE(name, spec, category->getColor(), 0, this);
+                else if(type == "predicate")
+                    lastElement = new PredicateDE(name, spec, category->getColor(), 0, this);
+                else if(type == "reporter")
+                    lastElement = new ReporterDE(name, spec, category->getColor(), 0, this);
+
+                lastElement->makeStatic();
+                category->getElemList()->push_back(lastElement);
+                _LoadableElems.push_back(lastElement);
             }
             else if(type == "parameter")
             {
                 attributes = xmlReader.attributes();
-                while(paramIndex < lastElement->_paramsVector.size() &&
-                      !lastElement->_paramsVector[paramIndex]->setValue(
-                          attributes.value("default").toString())) paramIndex++;
+                std::vector<ParamBase*> *vec = lastElement->getParamsVector();
+                while(paramIndex < vec->size() && !vec->at(paramIndex)->setValue(attributes.value("default").toString()))
+                    paramIndex++;
                 paramIndex++;
             }
             else if(type == "dragelemcategory")
             {
                 attributes = xmlReader.attributes();
                 DragElemCategory* category = new DragElemCategory(ui->elementList, attributes.value("name").toString(), QColor(attributes.value("color").toString()), this);
-                ui->categorySelect->_categoryList.push_back(category);
+                ui->categorySelect->getCategoryList()->push_back(category);
             }
-            _LoadableDrags.push_back(lastElement);
         }
-
     }
     ui->categorySelect->show();
+}
+
+QRect MainWindow::getScriptAreaRect()
+{
+    return QRect(ui->scriptArea->mapToGlobal(QPoint(0,0)), QSize(ui->scriptArea->width(), ui->scriptArea->height()));
 }
 
 void  MainWindow::reloadCode()
 {
     // TODO
-    ui->codeEditor->setText(_Cgen.generateSprite(_currentSprite));
+    if(_currentSprite)
+        ui->codeEditor->setText(_Cgen.generateSprite(_currentSprite));
 
     _Cgen.generateFiles(_tmpDir);
     _pyController.loadApp("main");
@@ -185,16 +187,40 @@ void  MainWindow::reloadCode()
 
 DragElemCategory* MainWindow::GetCategoryByName(const QString& name)
 {
-    for(CategoryList::iterator category = ui->categorySelect->_categoryList.begin(); category != ui->categorySelect->_categoryList.end(); category++)
+    CategoryList *list = ui->categorySelect->getCategoryList();
+    for(CategoryList::iterator category = list->begin(); category != list->end(); category++)
     {
-        if((*category)->_label.text() == name) return (*category);
+        if((*category)->getName() == name) return (*category);
     }
     return 0;
 }
 
 MainWindow::~MainWindow()
 {
+    // TODO: this is not nice!
+    for(SpriteVector::const_iterator it = getSpriteVector()->begin(); it != getSpriteVector()->end(); it++)
+        (*it)->OverrideParents();
     delete ui;
+}
+
+void MainWindow::loadFromFile()
+{
+    SaveLoadClass slc;
+    _currentSprite = 0;
+    // TODO
+    ui->scriptArea->setCurrentSprite(0);
+    ui->spriteSelect->clear();
+    slc.loadScratch("project.json");
+    _currentSprite = getSpriteVector()->at(0);
+    emit changeCurrentSprite(_currentSprite);
+
+    reloadCode();
+}
+
+void MainWindow::saveToFile()
+{
+    SaveLoadClass slc;
+    slc.saveScratch("project.json");
 }
 
 void MainWindow::on_soundFromFile_clicked()
@@ -216,7 +242,7 @@ void MainWindow::on_costumeFromFile_clicked()
     {
         Costume* costume = new Costume(_currentSprite);
         costume->open(fileNames.front());
-        _currentSprite->getCostumeVector()->push_back(costume);
+        _currentSprite->addCostume(costume);
         emit newCostume();
         reloadCode();
     }
@@ -234,10 +260,6 @@ void MainWindow::on_buttonEdit_clicked()
 
 void MainWindow::on_buttonScriptStart_clicked()
 {
-    //SaveLoadClass* slc = new SaveLoadClass(this);
-    //slc->loadScratch("project.json");
-    //slc->saveScratch();
-
     // TODO
     reloadCode();
     _pyController.sendStart();
@@ -248,26 +270,18 @@ void MainWindow::on_buttonScriptStop_clicked()
     _pyController.sendStop();
 }
 
-DragableElement* MainWindow::createNewElement(QString)
+DragableElement* MainWindow::createNewElement(QString ident, Sprite *sprite)
 {
-   /* qDebug() << s;
-    //check all Elements
-    for(std::vector<DragableElement*>::iterator it = _LoadableDrags.begin(); it != _LoadableDrags.end(); ++it)
+    // check all Elements
+    for(std::vector<DragableElement*>::const_iterator it = _LoadableElems.begin(); it != _LoadableElems.end(); it++)
     {
-        qDebug() << "he" << _LoadableDrags.size();
-        qDebug() << (it == _LoadableDrags.end());
-        qDebug() << ((*it) == 0);
-        qDebug() << (*it)->getType();
-        qDebug() << (*it)->getIdentifier();
-        qDebug() << "ho";
-        if ((*it)->getIdentifier() == s)
+        if ((*it)->getIdentifier() == ident)
         {
-            DragableElement* ele = (*it)->getCurrentElement(ui->scriptArea);
-            return ele;
+            //qDebug() << ident;
+            return (*it)->getCurrentElement(sprite, this);
         }
     }
-    */
-    return (DragableElement*)0;
+    return 0;
 }
 
 void MainWindow::on_buttonAddDragElem_clicked()
@@ -412,7 +426,7 @@ void MainWindow::setCurrentStudent(bool)
 
 void MainWindow::dragElemContextMenuRequested(const QPoint &pos, DragableElement *elem)
 {
-    if(elem->isDragged())
+    if(!elem->isStatic())
     {
         QPoint globalPos = elem->mapToGlobal(pos);
 

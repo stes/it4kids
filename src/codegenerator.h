@@ -11,7 +11,7 @@ class MainWindow;
 class CodeGenerator
 {
 public:
-    CodeGenerator(MainWindow * main);
+    CodeGenerator();
     QString generateSprite(Sprite *sprite);
     QString generateSprite(QString name);
     void generateFiles(QDir directory);
@@ -39,7 +39,5 @@ private:
     QMap<QString, Event> _events;
     QMap<QString, QStringList> _commands;
     QMap<QString, QStringList> _controls;
-
-    MainWindow* _Mainwindow;
 };
 #endif // CODEGENERATOR_H

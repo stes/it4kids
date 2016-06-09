@@ -20,15 +20,6 @@ void DragElemCategory::setElemListWidget(DragElemList *elemListWidget)
     _elemListWidget = elemListWidget;
 }
 
-void DragElemCategory::setScriptAreaWidget(ScriptArea *scriptAreaWidget)
-{
-    _scriptAreaWidget = scriptAreaWidget;
-    for(ElementList::iterator element = _elemList.begin(); element != _elemList.end(); element++)
-    {
-        (*element)->setScriptAreaWidget(scriptAreaWidget);
-    }
-}
-
 void DragElemCategory::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
@@ -53,5 +44,4 @@ void DragElemCategory::showEvent(QShowEvent *)
 
 DragElemCategory::~DragElemCategory()
 {
-
 }

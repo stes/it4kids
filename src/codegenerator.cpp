@@ -9,9 +9,10 @@
 #include "sprite.h"
 #include "mainwindow.h"
 
-CodeGenerator::CodeGenerator(MainWindow * main)
+extern MainWindow* sMainWindow;
+
+CodeGenerator::CodeGenerator()
 {
-    _Mainwindow = main;
     generateMap();
 }
 
@@ -45,7 +46,7 @@ QString CodeGenerator::generateSprite(Sprite *sprite)
     DragElemVector *eleVec = sprite->getDragElemVector();
     for(DragElemVector::const_iterator elemIt = eleVec->begin(); elemIt != eleVec->end(); elemIt++)
     {
-        if ((*elemIt)->getType() == "hat")
+        if ((*elemIt)->getType() == DragableElement::Hat)
         {
             str += generateCode(*elemIt, 1) + '\n';
         }
@@ -68,7 +69,7 @@ QString CodeGenerator::generateSprite(Sprite *sprite)
 
 QString CodeGenerator::generateSprite(QString name)
 {
-    SpriteVector* spriteVec = _Mainwindow->getSpriteVector();
+    SpriteVector* spriteVec = sMainWindow->getSpriteVector();
 
     for(SpriteVector::const_iterator it = spriteVec->begin(); it != spriteVec->end(); it++)
     {
@@ -83,7 +84,7 @@ QString CodeGenerator::generateSprite(QString name)
 
 void CodeGenerator::generateFiles(QDir directory)
 {
-    SpriteVector* spriteVec = _Mainwindow->getSpriteVector();
+    SpriteVector* spriteVec = sMainWindow->getSpriteVector();
     QString entityImport;
     QString entityReload;
     QString entityRegister;
@@ -106,7 +107,7 @@ void CodeGenerator::generateFiles(QDir directory)
         }
     }
 
-    CostumeVector* bgCostumeVec = _Mainwindow->getBackgroundSprite()->getCostumeVector();
+    CostumeVector* bgCostumeVec = sMainWindow->getBackgroundSprite()->getCostumeVector();
 
     for (CostumeVector::const_iterator it = bgCostumeVec->begin(); it != bgCostumeVec->end(); it++)
 	{
@@ -162,7 +163,7 @@ QString CodeGenerator::generateCode(DragableElement* element, int sub)
 
         // TODO: indent should be more dynamic
         QString tmp;
-        if (next->getType() == "hat" && _events.contains(name))
+        if (next->getType() == DragableElement::Hat && _events.contains(name))
         {
            tmp = indentCode(&_events[name]._code, sub, generateCode(next->getNextElem(), sub+1));
            if(_eventCounters.contains(name))
@@ -172,11 +173,11 @@ QString CodeGenerator::generateCode(DragableElement* element, int sub)
            tmp.replace("%counter%", QString::number(_eventCounters[name]));
            stop = true;
         }
-        else if (next->getType() == "wrapper" && _controls.contains(name))
+        else if (next->getType() == DragableElement::Wrapper && _controls.contains(name))
         {
             tmp = indentCode(&_controls[name], sub, generateCode(next->getWrapElem(), sub+1));
         }
-        else if (next->getType() == "command" && _commands.contains(name))
+        else if (next->getType() == DragableElement::Command && _commands.contains(name))
         {
             tmp = indentCode(&_commands[name], sub);
         }

@@ -9,7 +9,7 @@ class PredicateDE : public DragableElement
 {
     Q_OBJECT
 public:
-    PredicateDE(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea *scriptAreaWidget = 0, QWidget* parent = 0);
+    PredicateDE(const QString& identifier, const QString& text, const QColor& color, Sprite *sprite = 0, QWidget* parent = 0);
 
     void resize();
 
@@ -17,7 +17,7 @@ public:
 
     ~PredicateDE();
 protected:
-    DragableElement* getCurrentElement(QWidget* parent);
+    DragableElement* getCurrentElement(Sprite *sprite, QWidget* parent);
     void hitTest();
 };
 

@@ -4,11 +4,11 @@
 #include "mainwindow.h"
 #include "sprite.h"
 
-extern MainWindow* _sMainWindow;
+extern MainWindow* sMainWindow;
 
 ParamSound::ParamSound(QWidget *parent) : QComboBox(parent)
 {
-    connect(_sMainWindow, SIGNAL(newSound()), this, SLOT(updateSoundList()));
+    connect(sMainWindow, SIGNAL(newSound()), this, SLOT(updateSoundList()));
     updateSoundList();
 }
 
@@ -24,7 +24,7 @@ ParamSound::~ParamSound()
 
 void ParamSound::updateSoundList()
 {
-    SoundVector* sV = _sMainWindow->getCurrentSprite()->getSoundVector();
+    SoundVector* sV = sMainWindow->getCurrentSprite()->getSoundVector();
     for(uint i = 0; i < sV->size(); i++)
     {
         addItem(sV->at(i)->getName());

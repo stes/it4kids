@@ -13,6 +13,8 @@ public:
     ~ParamMath();
 
     QString getValue() const;
+
+    QString getType() const { return "expression"; };
 };
 
 #endif // PARAMMATH_H

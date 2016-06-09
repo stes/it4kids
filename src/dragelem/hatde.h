@@ -9,7 +9,7 @@ class HatDE : public DragableElement
 {
     Q_OBJECT
 public:
-    HatDE(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea *scriptAreaWidget = 0, QWidget* parent = 0);
+    HatDE(const QString& identifier, const QString& text, const QColor& color, Sprite *sprite = 0, QWidget* parent = 0);
 
     void resize();
 
@@ -20,11 +20,11 @@ public:
 
     virtual ScriptDock *getDock(ScriptDock::Type type);
 protected:
-    DragableElement* getCurrentElement(QWidget* parent);
+    DragableElement* getCurrentElement(Sprite *sprite, QWidget* parent);
 
     void moveEvent(QMoveEvent *);
 
-    ScriptDock* _lowerDock;
+    ScriptDock _lowerDock;
 };
 
 #endif // HATDE_H

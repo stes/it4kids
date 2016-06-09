@@ -9,7 +9,7 @@ class CommandDE : public DragableElement
 {
     Q_OBJECT
 public:
-    CommandDE(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget = 0, QWidget* parent = 0);
+    CommandDE(const QString& identifier, const QString& text, const QColor& color, Sprite* sprite = 0, QWidget* parent = 0);
 
     void rearrangeUpperElems();
     void rearrangeLowerElems();
@@ -22,12 +22,12 @@ public:
 
     ~CommandDE();
 protected:
-    DragableElement* getCurrentElement(QWidget* parent);
+    DragableElement* getCurrentElement(Sprite *sprite, QWidget* parent);
 
     void moveEvent(QMoveEvent*);
 
-    ScriptDock* _upperDock;
-    ScriptDock* _lowerDock;
+    ScriptDock _upperDock;
+    ScriptDock _lowerDock;
 };
 
 #endif // COMMANDDE_H

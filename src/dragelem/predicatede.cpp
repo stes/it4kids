@@ -1,8 +1,8 @@
 #include "predicatede.h"
 #include "param/paramdock.h"
 
-PredicateDE::PredicateDE(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget, QWidget* parent) :
-    DragableElement(identifier, text, color, type, scriptAreaWidget, parent)
+PredicateDE::PredicateDE(const QString& identifier, const QString& text, const QColor& color, Sprite* sprite, QWidget* parent) :
+    DragableElement(identifier, text, color, DragableElement::Predicate, sprite, parent)
 {
     _currentDock = 0;
     parseText(text, this);
@@ -15,7 +15,8 @@ PredicateDE::PredicateDE(const QString& identifier, const QString& text, const Q
 
 void PredicateDE::resize()
 {
-    show();
+    bool visible = isVisible();
+    if(!visible) show();
 
     getLayoutSize();
     _path = QPainterPath();
@@ -29,23 +30,18 @@ void PredicateDE::resize()
     _layout.setSizeConstraint(QLayout::SetNoConstraint);
     setFixedSize(_width+20, _height+4);
 
-    hide();
+    if(!visible) hide();
 }
 
 void PredicateDE::removeChildDragElems()
 {
-    _scriptAreaWidget->removeFromDragElem(this);
+    _sprite->removeElement(this);
     delete this;
 }
 
-DragableElement* PredicateDE::getCurrentElement(QWidget *parent)
+DragableElement* PredicateDE::getCurrentElement(Sprite *sprite, QWidget *parent)
 {
-    return new PredicateDE(_identifier, _text, _color, _type, _scriptAreaWidget, parent);
-}
-
-void PredicateDE::hitTest()
-{
-    _scriptAreaWidget->performHitTest(this);
+    return copyParams(new PredicateDE(_identifier, _text, _color, sprite, parent));
 }
 
 PredicateDE::~PredicateDE()

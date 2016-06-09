@@ -25,11 +25,11 @@
 #include "param/paramtype.h"
 #include "param/paramvariables.h"
 
-extern MainWindow* _sMainWindow;
+extern MainWindow* sMainWindow;
 
-DragableElement::DragableElement(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget, QWidget* parent) :
-    QWidget(parent), _color(color), _text(text), _identifier(identifier), _dragged(false),
-    _width(0), _height(0), _scriptAreaWidget(scriptAreaWidget), _path(QPoint(0, 0)),
+DragableElement::DragableElement(const QString& identifier, const QString& text, const QColor& color, Type type, Sprite* sprite, QWidget* parent) :
+    QWidget(parent), _color(color), _text(text), _identifier(identifier), _static(false),
+    _width(0), _height(0), _sprite(sprite), _path(QPoint(0, 0)),
     _type(type), _currentDock(0), _prevElem(0), _nextElem(0)
 {
     _layout.setSpacing(5);
@@ -37,7 +37,19 @@ DragableElement::DragableElement(const QString& identifier, const QString& text,
     hide();
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextMenuRequested(QPoint)));
-    connect(this, SIGNAL(dragElemContextMenuRequested(QPoint,DragableElement*)), _sMainWindow, SLOT(dragElemContextMenuRequested(QPoint,DragableElement*)));
+    connect(this, SIGNAL(dragElemContextMenuRequested(QPoint,DragableElement*)), sMainWindow, SLOT(dragElemContextMenuRequested(QPoint,DragableElement*)));
+
+    if(_sprite)
+        _sprite->addElement(this);
+}
+
+DragableElement *DragableElement::copyParams(DragableElement *dst)
+{
+    for(uint i = 0; i < dst->_paramsVector.size(); i++)
+    {
+        dst->_paramsVector[i]->setValue(_paramsVector[i]->getValue());
+    }
+    return dst;
 }
 
 DragableElement *DragableElement::getRoot()
@@ -53,23 +65,19 @@ void DragableElement::mousePressEvent(QMouseEvent *event)
     if(event->buttons() & Qt::LeftButton)
     {
         _offset = event->pos();
-        if(!_dragged)
+        if(_static)
         {
-            DragableElement* element = getCurrentElement(QApplication::activeWindow());
-            for(uint i = 0; i < element->_paramsVector.size(); i++)
-            {
-                element->_paramsVector[i]->setValue(_paramsVector[i]->getValue());
-            }
+            DragableElement* element = getCurrentElement(sMainWindow->getCurrentSprite(), sMainWindow);
             element->update();
             element->grabMouse();
+            if(element->getType() == Hat)
+                 sMainWindow->reloadCode();
         }
         else
         {
             if(_currentDock)
                 _currentDock->undock();
             grabMouse();
-            resize();
-            show();
             raise();
         }
     }
@@ -81,7 +89,7 @@ void DragableElement::mouseMoveEvent(QMouseEvent *event)
     {
         move(mapToParent(event->pos() - _offset));
         rearrangeLowerElems();
-        show();
+        if(!isVisible()) show();
         update();
     }
 }
@@ -91,24 +99,16 @@ void DragableElement::mouseReleaseEvent(QMouseEvent* event)
     releaseMouse();
     if(event->button() == Qt::LeftButton)
     {
-        QRect scriptArea = QRect(_scriptAreaWidget->mapToGlobal(QPoint(0,0)), QSize(_scriptAreaWidget->width(), _scriptAreaWidget->height()));
+        QRect scriptArea = sMainWindow->getScriptAreaRect();
         if(!scriptArea.contains(QRect(mapToGlobal(QPoint(0, 0)), QSize(width(), height())), true))
         {
-            bool reload = getType() == "hat";
-            ScriptArea *scriptAreaWidget = _scriptAreaWidget;
+            bool reload = getType() == Hat;
             removeChildDragElems();
             if(reload)
-                scriptAreaWidget->reloadCode();
-            return;
+                sMainWindow->reloadCode();
         }
-        if(!_dragged)
-        {
-            _scriptAreaWidget->addToDragElem(this);
-            _dragged = true;
-            if(getType() == "hat")
-                _scriptAreaWidget->reloadCode();
-        }
-        _scriptAreaWidget->performHitTest(this);
+        else
+            _sprite->performHitTest(this);
     }
 }
 
@@ -147,9 +147,11 @@ void DragableElement::parseText(const QString &text, DragableElement *element)
     QStringList stringList = text.split(" ", QString::SkipEmptyParts);
     for(int i = 0; i < stringList.size(); i++)
     {
-        if(stringList.at(i).contains("%Pixmap"))
+        QString str = stringList.at(i);
+
+        if(str.contains("%Pixmap"))
         {
-            QString pixmapPath = stringList.at(i);
+            QString pixmapPath = str;
             pixmapPath.remove(0, 7);
             QLabel* pixmap = new QLabel(element);
             QPixmap image(pixmapPath);
@@ -158,141 +160,141 @@ void DragableElement::parseText(const QString &text, DragableElement *element)
             pixmap->setStyleSheet("background-color: none;");
             element->_layout.addWidget(pixmap);
         }
-        else if(stringList.at(i).contains("%dir"))
+        else if(str.contains("%dir"))
         {
             ParamDirection* selecBox = new ParamDirection(element);
             element->_layout.addWidget(selecBox);
             element->_paramsVector.push_back(selecBox);
         }
-        else if(stringList.at(i).contains("%dst"))
+        else if(str.contains("%dst"))
         {
             ParamDestination* selecBox = new ParamDestination(element);
             element->_layout.addWidget(selecBox);
             element->_paramsVector.push_back(selecBox);
         }
-        else if(stringList.at(i).contains("%key"))
+        else if(str.contains("%key"))
         {
             ParamKey* selecBox = new ParamKey(element);
             element->_layout.addWidget(selecBox);
             element->_paramsVector.push_back(selecBox);
         }
-        else if(stringList.at(i).contains("%interaction"))
+        else if(str.contains("%interaction"))
         {
             ParamInteraction* selecBox = new ParamInteraction(element);
             element->_layout.addWidget(selecBox);
             element->_paramsVector.push_back(selecBox);
         }
-        else if(stringList.at(i).contains("%msg"))
+        else if(str.contains("%msg"))
         {
             ParamMessage* selecBox = new ParamMessage(element);
             element->_layout.addWidget(selecBox);
             element->_paramsVector.push_back(selecBox);
         }
-        else if(stringList.at(i).contains("%stopChoices"))
+        else if(str.contains("%stopChoices"))
         {
             ParamStopChoices* selecBox = new ParamStopChoices(element);
             element->_layout.addWidget(selecBox);
             element->_paramsVector.push_back(selecBox);
         }
-        else if(stringList.at(i).contains("%cln"))
+        else if(str.contains("%cln"))
         {
             ParamClone* selecBox = new ParamClone(element);
             element->_layout.addWidget(selecBox);
             element->_paramsVector.push_back(selecBox);
         }
-        else if( stringList.at(i).contains("%cst"))
+        else if(str.contains("%cst"))
         {
-            ParamCostume* selecBox = new ParamCostume(element);
+            ParamCostume* selecBox = new ParamCostume(element, element->_sprite);
             element->_layout.addWidget(selecBox);
             element->_paramsVector.push_back(selecBox);
         }
-        else if( stringList.at(i).contains("%eff"))
+        else if(str.contains("%eff"))
         {
             ParamEffect* selecBox = new ParamEffect(element);
             element->_layout.addWidget(selecBox);
             element->_paramsVector.push_back(selecBox);
         }
-        else if( stringList.at(i).contains("%col"))
+        else if(str.contains("%col"))
         {
             ParamTouch* selecBox = new ParamTouch(element);
             element->_layout.addWidget(selecBox);
             element->_paramsVector.push_back(selecBox);
         }
-        else if( stringList.at(i).contains("%clr"))
+        else if(str.contains("%clr"))
         {
             ParamColor* selecBox = new ParamColor(element);
             element->_layout.addWidget(selecBox);
             element->_paramsVector.push_back(selecBox);
         }
-        else if( stringList.at(i).contains("%snd"))
+        else if(str.contains("%snd"))
         {
             ParamSound* selecBox = new ParamSound(element);
             element->_layout.addWidget(selecBox);
             element->_paramsVector.push_back(selecBox);
         }
-        else if( stringList.at(i).contains("%fun"))
+        else if(str.contains("%fun"))
         {
             ParamMath* selecBox = new ParamMath(element);
             element->_layout.addWidget(selecBox);
             element->_paramsVector.push_back(selecBox);
         }
-        else if( stringList.at(i).contains("%words"))
+        else if(str.contains("%words"))
         {
             ParamJoinWords* selecBox = new ParamJoinWords(element);
             element->_layout.addWidget(selecBox);
             element->_paramsVector.push_back(selecBox);
         }
-        else if( stringList.at(i).contains("%typ"))
+        else if(str.contains("%typ"))
         {
             ParamType* selecBox = new ParamType(element);
             element->_layout.addWidget(selecBox);
             element->_paramsVector.push_back(selecBox);
         }
-        else if( stringList.at(i).contains("%delim"))
+        else if(str.contains("%delim"))
         {
             ParamDelim* selecBox = new ParamDelim(element);
             element->_layout.addWidget(selecBox);
             element->_paramsVector.push_back(selecBox);
         }
-        else if( stringList.at(i).contains("%var"))
+        else if(str.contains("%var"))
         {
             ParamVariables* selecBox = new ParamVariables(element);
             element->_layout.addWidget(selecBox);
             element->_paramsVector.push_back(selecBox);
         }
-        else if(stringList.at(i).contains("%idx"))
+        else if(str.contains("%idx"))
         {
             ParamListId* tE = new ParamListId(element);
             element->_layout.addWidget(tE);
             element->_paramsVector.push_back(tE);
         }
-        else if(stringList.at(i).contains("%n"))
+        else if(str.contains("%n"))
         {
             ParamNumber* tE = new ParamNumber(element);
             element->_layout.addWidget(tE);
             element->_paramsVector.push_back(tE);
         }
-        else if(stringList.at(i).contains("%s"))
+        else if(str.contains("%s"))
         {
             ParamString* tE = new ParamString(element);
             element->_layout.addWidget(tE);
             element->_paramsVector.push_back(tE);
         }
-        else if(stringList.at(i).contains("%l"))
+        else if(str.contains("%l"))
         {
             ParamListSelec* tE = new ParamListSelec(element);
             element->_layout.addWidget(tE);
             element->_paramsVector.push_back(tE);
         }
-        else if(stringList.at(i).contains("%b"))
+        else if(str.contains("%b"))
         {
-             ParamDock* dock = new ParamDock(element->_color, element->_scriptAreaWidget, element);
-             element->_layout.addWidget(dock);
-             element->_paramsVector.push_back(dock);
+            ParamDock* dock = new ParamDock(element->_color, element->_sprite, element);
+            element->_layout.addWidget(dock);
+            element->_paramsVector.push_back(dock);
         }
         else
         {
-            QLabel* text = new QLabel(stringList.at(i), element);
+            QLabel* text = new QLabel(str, element);
             text->setFont(QFont("Helvetica", -1, QFont::Bold));
             element->_layout.addWidget(text);
         }
@@ -306,5 +308,6 @@ void DragableElement::contextMenuRequested(const QPoint &pos)
 
 DragableElement::~DragableElement()
 {
-
+    if(_sprite)
+        _sprite->removeElement(this);
 }

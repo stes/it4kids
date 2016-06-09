@@ -5,11 +5,16 @@
 
 #include "param.h"
 
+class Sprite;
+
 class ParamCostume : public QComboBox, public ParamBaseStr
 {
     Q_OBJECT
+
+    Sprite *_sprite;
+
 public:
-    ParamCostume(QWidget* parent);
+    ParamCostume(QWidget* parent, Sprite *sprite);
     ~ParamCostume();
 
 public slots:

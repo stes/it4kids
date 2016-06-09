@@ -1,25 +1,24 @@
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QJsonArray>
 #include <QFile>
 #include <QDebug>
 
 #include "saveloadclass.h"
 
-#include "sprite.h"
+#include "costume/costume.h"
+#include "param/param.h"
 #include "mainwindow.h"
+#include "sprite.h"
 
-SaveLoadClass::SaveLoadClass(MainWindow * main)
+extern MainWindow* sMainWindow;
+
+int SaveLoadClass::loadScratch(QString path)
 {
-    _Mainwindow = main;
-}
-
-
-int SaveLoadClass::loadScratch(QString path){
 
     QFile loadFile(path);
 
-    if (!loadFile.open(QIODevice::ReadOnly)) {
+    if (!loadFile.open(QIODevice::ReadOnly))
+    {
         qWarning("Couldn't open save file.");
         return 1;
     }
@@ -27,108 +26,140 @@ int SaveLoadClass::loadScratch(QString path){
 
     QJsonDocument JDoc(QJsonDocument::fromJson(saveData));
 
-    if (!JDoc.isObject())
+    if (!JDoc.isArray())
     {
         qWarning("invalid file format");
         return 1;
     }
 
     //get main object
-    QJsonObject Jmain = JDoc.object();
+    QJsonArray Main = JDoc.array();
 
     //get background Scripts
-    QJsonObject::iterator it = Jmain.find("scripts");
-    if (it == Jmain.end() || !(*it).isArray())
-        qWarning("invalid script section");
-
-    QJsonArray ScriptArray = (*it).toArray();
-    qDebug() << ScriptArray.count() << "scrips in Background found";
-    for(QJsonArray::iterator it = ScriptArray.begin(); it != ScriptArray.end(); ++it)
+    QJsonArray::const_iterator it = Main.constBegin();
+    for(QJsonArray::const_iterator it = Main.constBegin(); it != Main.constEnd(); it++)
     {
-        if (it == ScriptArray.end() || !(*it).isArray())
-            qWarning("invalid script");
-        handleScriptTuple((*it).toArray());
+        if((*it).isObject())
+        {
+            QJsonObject JSprite = (*it).toObject();
+            QString name = JSprite["objName"].toString();
+            Sprite *sprite = new Sprite(name, sMainWindow);
+            QJsonArray Scripts = JSprite["scripts"].toArray();
+            for(QJsonArray::const_iterator scriptIt = Scripts.constBegin(); scriptIt != Scripts.constEnd(); scriptIt++)
+                handleScriptTuple((*scriptIt).toArray(), sprite);
+
+            Costume* costume = new Costume(sprite);
+            costume->open("Assets/Costumes/dog2-a.png");
+            costume->hide();
+            sprite->setCurrentCostume(costume);
+            sMainWindow->addSprite(sprite);
+        }
     }
 
     return 0;
 }
 
-void SaveLoadClass::handleScriptTuple(QJsonArray a)
+void SaveLoadClass::handleScriptTuple(QJsonArray a, Sprite *sprite)
 {
     if (a.count() != 3)
+    {
         qWarning("invalid script tuple");
+        return;
+    }
+
     int x, y;
     QJsonArray BlockTuple;
     x = a[0].toInt();
     y = a[1].toInt();
     BlockTuple = a[2].toArray();
-    qDebug() << x << y << BlockTuple.count();
- /*   DragableElement* ele;
-    DragableElement* lastEle;
-    DragableElement* hatEle;
+    //qDebug() << x << y << BlockTuple.count();
 
-    for(QJsonArray::iterator it = BlockTuple.begin(); it != BlockTuple.end(); ++it)
+    DragableElement *root = handleBlockTupleArray(BlockTuple, sprite);
+    if(root)
     {
-        ele = handleBlockTuple((*it).toArray());
-        //todo:for now all to curent sprite
-        _Mainwindow->getCurrentSprite()->getDragElemVector()->push_back(ele);
-        if (hatEle == (void*)0)
-        {
-            //set header
-            hatEle = ele;
-            ele->move(QPoint(x,y));
-        }
-        if (lastEle != (void*)0)
-        {
-            lastEle->setNextElem(ele);
-        }
-        lastEle = ele;
+        root->move(QPoint(x, y));
+        root->rearrangeLowerElems();
     }
-    //erstelle
-    */
 }
 
-DragableElement* SaveLoadClass::handleBlockTuple(QJsonArray a)
+DragableElement* SaveLoadClass::handleBlockTupleArray(QJsonArray a, Sprite *sprite)
+{
+    DragableElement* ele = 0;
+    DragableElement* lastEle = 0;
+
+    for(QJsonArray::const_iterator it = a.constBegin(); it != a.constEnd(); it++)
+    {
+        ele = handleBlockTuple((*it).toArray(), sprite);
+
+        if(lastEle)
+            lastEle->getDock(ScriptDock::Lower)->dock(ele);
+        lastEle = ele;
+    }
+
+    if(!ele)
+        return 0;
+    else
+        return ele->getRoot();
+}
+
+DragableElement* SaveLoadClass::handleBlockTuple(QJsonArray a, class Sprite *sprite)
 {
     QString name = a[0].toString();
-    qDebug() << "hallo";
-    //erstelle block
-    DragableElement* ele = _Mainwindow->createNewElement(name);
-   //work args
+    DragableElement* ele = sMainWindow->createNewElement(name, sprite);
 
-    qDebug() << a.count();
-    qDebug() << a[0].toString();
+    // params
+    int i = 1;
+    std::vector<ParamBase*>* params =  ele->getParamsVector();
+    for(std::vector<ParamBase*>::iterator it = params->begin(); it != params->end() && i < a.count(); it++)
+    {
+        QString type = (*it)->getType();
+        if(type == "num" && a[i].isDouble())
+            (*it)->setValue(QString::number(a[i].toDouble()));
+        else if(type == "str" && a[i].isString())
+            (*it)->setValue(a[i].toString());
+        i++;
+    }
+
+    if(ele->getType() == DragableElement::Wrapper && a.last().isArray())
+    {
+        DragableElement *innerElem = handleBlockTupleArray(a.last().toArray(), sprite);
+        if(innerElem)
+            ele->getDock(ScriptDock::Inner)->dock(innerElem);
+    }
+
     return ele;
 }
 
-
-
-
-void SaveLoadClass::saveScratch()
+void SaveLoadClass::saveScratch(QString path)
 {
-    SpriteVector* spriteVec = _Mainwindow->getSpriteVector();
-    QJsonArray Script;
+    SpriteVector* spriteVec = sMainWindow->getSpriteVector();
+    QJsonArray Main;
 
     //every sprite
-    for(SpriteVector::iterator it = spriteVec->begin(); it != spriteVec->end(); ++it)
+    for(SpriteVector::const_iterator it = spriteVec->begin(); it != spriteVec->end(); it++)
     {
-        //every block in Sprite
-        //check every block for "header"-Block
+        QJsonObject Sprite;
+        Sprite.insert("objName", QJsonValue((*it)->getName()));
+
+        QJsonArray Scripts;
         DragElemVector * eleVec = (*it)->getDragElemVector();
-        for(DragElemVector::iterator it2 = eleVec->begin(); it2 != eleVec->end(); ++it2)
+        for(DragElemVector::const_iterator elemIt = eleVec->begin(); elemIt != eleVec->end(); elemIt++)
         {
-            //check every block for "header"-Block
-            if ((*it2)->getType() == "hat")
+            if ((*elemIt)->getRoot() == (*elemIt))
             {
-                 Script.append(generateScriptTuple(*it2));
+                 Scripts.append(generateScriptTuple(*elemIt));
             }
         }
+
+        Sprite.insert("scripts", Scripts);
+        Main.append(Sprite);
     }
-    QJsonDocument doc(Script);
+    QJsonDocument doc(Main);
 
-    QFile saveFile(QStringLiteral("save.json"));
+    QFile saveFile(path);
 
-    if (!saveFile.open(QIODevice::WriteOnly)) {
+    if (!saveFile.open(QIODevice::WriteOnly))
+    {
         qWarning("Couldn't open save file.");
         return;
     }
@@ -151,61 +182,33 @@ QJsonArray SaveLoadClass::generateBlockTupleArray(DragableElement* element)
 {
     DragableElement* next = element;
     QJsonArray BlockArray;
-    while (next != (void*)0)
+    while (next)
     {
         BlockArray.append(generateBlockTuple(next));
-
         next = next->getNextElem();
     }
     return BlockArray;
 }
 
-QJsonArray SaveLoadClass::generateBlockTuple(DragableElement*)
+QJsonArray SaveLoadClass::generateBlockTuple(DragableElement* element)
 {
-//    ArgumentStruct* argument = element->getArguments();
     QJsonArray Block;
+    Block.append(QJsonValue(element->getIdentifier()));
 
-/*    Block.append(QJsonValue(argument->name));
-
-    //add parameter
-    //todo: argument types!
-
-    if (argument->nArgs == 1)
+    std::vector<ParamBase*>* params =  element->getParamsVector();
+    for(std::vector<ParamBase*>::const_iterator it = params->begin(); it != params->end(); it++)
     {
-        Block.append(QJsonValue(argument->arg1));
-    }
-    else   if (argument->nArgs == 2)
-    {
-        Block.append(QJsonValue(argument->arg1));
-        Block.append(QJsonValue(argument->arg2));
-    }
-    else   if (argument->nArgs == 3)
-    {
-        Block.append(QJsonValue(argument->arg1));
-        Block.append(QJsonValue(argument->arg2));
-        Block.append(QJsonValue(argument->arg3));
-    }
-    else   if (argument->nArgs == 4)
-    {
-        Block.append(QJsonValue(argument->arg1));
-        Block.append(QJsonValue(argument->arg2));
-        Block.append(QJsonValue(argument->arg3));
-        Block.append(QJsonValue(argument->arg4));
-    }
-    else   if (argument->nArgs == 5)
-    {
-        Block.append(QJsonValue(argument->arg1));
-        Block.append(QJsonValue(argument->arg2));
-        Block.append(QJsonValue(argument->arg3));
-        Block.append(QJsonValue(argument->arg4));
-        Block.append(QJsonValue(argument->arg5));
+        QString type = (*it)->getType();
+        if(type == "num")
+            Block.append(QJsonValue(((ParamBaseNum*)(*it))->getNumber()));
+        else if(type == "str")
+            Block.append(QJsonValue(((ParamBaseStr*)(*it))->getString()));
     }
 
-    //caution C blocks
-    if (element->getWrapElem() != (void*)0)
+    if (element->getWrapElem())
     {
         Block.append(generateBlockTupleArray(element->getWrapElem()));
-    }*/
+    }
 
     return Block;
 }

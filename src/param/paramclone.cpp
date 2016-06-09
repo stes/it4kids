@@ -4,12 +4,12 @@
 #include "sprite.h"
 #include "spriteselect.h"
 
-extern MainWindow* _sMainWindow;
+extern MainWindow* sMainWindow;
 
 ParamClone::ParamClone(QWidget *parent) : QComboBox(parent)
 {
     addItem("myself");
-    SpriteVector* sV = _sMainWindow->getSpriteVector();
+    SpriteVector* sV = sMainWindow->getSpriteVector();
     for(uint i = 0; i < sV->size(); i++)
     {
         addItem(sV->at(i)->getName());

@@ -7,7 +7,7 @@ class WrapperDE : public DragableElement
 {
     Q_OBJECT
 public:
-    WrapperDE(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget = 0, QWidget* parent = 0);
+    WrapperDE(const QString& identifier, const QString& text, const QColor& color, Sprite* sprite = 0, QWidget* parent = 0);
 
     void resize();
 
@@ -26,16 +26,16 @@ public:
 
     ~WrapperDE();
 protected:
-    DragableElement* getCurrentElement(QWidget* parent);
+    DragableElement* getCurrentElement(Sprite *sprite, QWidget* parent);
 
     virtual void moveEvent(QMoveEvent *event);
 
     int _innerHeight;
     QWidget* _label;
 
-    ScriptDock* _upperDock;
-    ScriptDock* _lowerDock;
-    ScriptDock* _innerDock;
+    ScriptDock _upperDock;
+    ScriptDock _lowerDock;
+    ScriptDock _innerDock;
 };
 
 #endif // WRAPPERDE_H

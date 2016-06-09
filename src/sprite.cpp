@@ -12,9 +12,9 @@
 #include "mainwindow.h"
 #include "scriptarea.h"
 
-extern MainWindow* _sMainWindow;
+extern MainWindow* sMainWindow;
 
-Sprite::Sprite(const QString &name, MainWindow* parent) : QWidget(parent),
+Sprite::Sprite(const QString &name, QWidget* parent) : QWidget(parent),
     _name(name)
 {
     connect(this, SIGNAL(spriteSelected(Sprite*)), parent, SLOT(changeCurrentSprite(Sprite*)));
@@ -30,10 +30,10 @@ Sprite::Sprite(const QString &name, MainWindow* parent) : QWidget(parent),
     _label.setText(_name);
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextMenuRequested(QPoint)));
-    connect(this, SIGNAL(spriteContextMenuRequested(QPoint,Sprite*)), _sMainWindow, SLOT(spriteContextMenuRequested(QPoint,Sprite*)));
+    connect(this, SIGNAL(spriteContextMenuRequested(QPoint,Sprite*)), sMainWindow, SLOT(spriteContextMenuRequested(QPoint,Sprite*)));
 }
 
-Sprite::Sprite(MainWindow* parent) : QWidget(parent)
+Sprite::Sprite(QWidget* parent) : QWidget(parent)
 {
     connect(this, SIGNAL(spriteSelected(Sprite*)), parent, SLOT(changeCurrentSprite(Sprite*)));
 
@@ -43,12 +43,8 @@ Sprite::Sprite(MainWindow* parent) : QWidget(parent)
     _layout.addWidget(&_imageLabel);
     _layout.addWidget(&_label);
 
-    _name = "Stage";
+    _name = QStringLiteral("Stage");
     _label.setText(_name);
-    Costume* costume = new Costume(this);
-    costume->hide();
-    _costumeVector.push_back(costume);
-    setCurrentCostume(costume);
 }
 
 void Sprite::setCurrentCostume(Costume *costume)
@@ -60,7 +56,6 @@ void Sprite::setCurrentCostume(Costume *costume)
         if (_costumeVector[i] == costume)
         {
             _currentCostumeIndex = i;
-            emit currentCostumeChanged(this);
             exists = true;
         }
     }
@@ -71,6 +66,35 @@ void Sprite::setCurrentCostume(Costume *costume)
     }
     _imageLabel.setPixmap(QPixmap::fromImage(_costumeVector[_currentCostumeIndex]->getImage()->scaled(40, 40)));
     emit currentCostumeChanged(this);
+}
+
+void Sprite::removeElement(DragableElement *element)
+{
+    _dragElemVector.erase(std::remove(_dragElemVector.begin(), _dragElemVector.end(), element), _dragElemVector.end());
+}
+
+void Sprite::removeFromHitTest(DockingArea* widget)
+{
+    _hitTestVector.erase(std::remove(_hitTestVector.begin(), _hitTestVector.end(), widget), _hitTestVector.end());
+}
+
+void Sprite::performHitTest(DragableElement* elem)
+{
+    QRect rectDE(elem->mapToGlobal(QPoint(0, 0)), QSize(elem->width(), elem->height()));
+    for(HitTestVector::const_iterator it = _hitTestVector.begin(); it != _hitTestVector.end(); it++)
+    {
+        if((*it)->isActive() && (*it)->getRect()->intersects(rectDE) && (*it)->getParent()->getRoot() != elem)
+        {
+            (*it)->dock(elem);
+            break;
+        }
+    }
+}
+
+void Sprite::OverrideParents()
+{
+    for(DragElemVector::const_iterator it = _dragElemVector.begin(); it != _dragElemVector.end(); it++)
+        (*it)->setParent(this);
 }
 
 void Sprite::contextMenuRequested(const QPoint &pos)
@@ -85,6 +109,7 @@ void Sprite::mousePressEvent(QMouseEvent*)
 
 Sprite::~Sprite()
 {
-
+    // TODO: this is not nice!
+    OverrideParents();
 }
 

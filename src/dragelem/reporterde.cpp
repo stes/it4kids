@@ -1,7 +1,7 @@
 #include "reporterde.h"
 
-ReporterDE::ReporterDE(const QString& identifier, const QString& text, const QColor& color, const QString& type, ScriptArea* scriptAreaWidget, QWidget* parent) :
-     DragableElement(identifier, text, color, type, scriptAreaWidget, parent)
+ReporterDE::ReporterDE(const QString& identifier, const QString& text, const QColor& color, Sprite* sprite, QWidget* parent) :
+     DragableElement(identifier, text, color, DragableElement::Reporter, sprite, parent)
 {
     parseText(text, this);
     _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
@@ -11,14 +11,15 @@ ReporterDE::ReporterDE(const QString& identifier, const QString& text, const QCo
     resize();
 }
 
-DragableElement* ReporterDE::getCurrentElement(QWidget* parent)
+DragableElement* ReporterDE::getCurrentElement(Sprite *sprite, QWidget* parent)
 {
-    return new ReporterDE(_identifier, _text, _color, _type, _scriptAreaWidget, parent);
+    return copyParams(new ReporterDE(_identifier, _text, _color, sprite, parent));
 }
 
 void ReporterDE::resize()
 {
-    show();
+    bool visible = isVisible();
+    if(!visible) show();
 
     getLayoutSize();
     _path = QPainterPath();
@@ -32,12 +33,13 @@ void ReporterDE::resize()
     _path.lineTo(5, _height+5);
     _path.lineTo(5, 0);
     setFixedSize(_width+10, _height+5);
-    hide();
+
+    if(!visible) hide();
 }
 
 void ReporterDE::removeChildDragElems()
 {
-    _scriptAreaWidget->removeFromDragElem(this);
+    _sprite->removeElement(this);
     delete this;
 }
 

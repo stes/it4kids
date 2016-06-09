@@ -6,12 +6,12 @@
 #include "sprite.h"
 #include "spriteselect.h"
 
-extern MainWindow* _sMainWindow;
+extern MainWindow* sMainWindow;
 
 ParamDestination::ParamDestination(QWidget *parent) : QComboBox(parent)
 {
     addItem("mouse");
-    SpriteVector* sV = _sMainWindow->getSpriteVector();
+    SpriteVector* sV = sMainWindow->getSpriteVector();
     for(uint i = 0; i < sV->size(); i++)
     {
         addItem(sV->at(i)->getName());

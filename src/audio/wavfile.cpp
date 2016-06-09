@@ -7,7 +7,7 @@
 #include "wavfile.h"
 
 WavFile::WavFile(QWidget *parent) : QWidget(parent),
-    _soundPixmap(":/Assets/soundlibraryOff.png"), _nameLabel(this)
+    _sound(0), _soundPixmap(":/Assets/soundlibraryOff.png"), _nameLabel(this)
 {
     setLayout(&_layout);
     setFixedWidth(88);
@@ -21,6 +21,12 @@ WavFile::WavFile(QWidget *parent) : QWidget(parent),
 
     _layout.addWidget(&_nameLabel);
     _nameLabel.setAlignment(Qt::AlignHCenter);
+}
+
+WavFile::~WavFile()
+{
+    if(_sound)
+        delete _sound;
 }
 
 bool WavFile::open(const QString &fileName)
