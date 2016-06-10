@@ -1,16 +1,16 @@
 #include "scriptdock.h"
 
-#include "dragableelement.h"
+#include "draggableelement.h"
 #include "mainwindow.h"
 
 extern MainWindow* sMainWindow;
 
-ScriptDock::ScriptDock(Type type, Sprite *sprite, DragableElement* parent) :
+ScriptDock::ScriptDock(Type type, Sprite *sprite, DraggableElement* parent) :
     DockingArea(sprite), _type(type), _parent(parent)
 {
 }
 
-void ScriptDock::connect(DragableElement *upper, DragableElement *lower)
+void ScriptDock::connect(DraggableElement *upper, DraggableElement *lower)
 {
     _dockedElem = lower;
     lower->setCurrentDock(this);
@@ -19,7 +19,7 @@ void ScriptDock::connect(DragableElement *upper, DragableElement *lower)
         upper->setNextElem(lower);
 }
 
-void ScriptDock::dock(DragableElement* elem)
+void ScriptDock::dock(DraggableElement* elem)
 {
     ScriptDock *otherDock;
 
@@ -45,7 +45,7 @@ void ScriptDock::dock(DragableElement* elem)
     otherDock->deactivate();
     deactivate();
 
-    if(elem->getRoot()->getType() == DragableElement::Hat)
+    if(elem->getRoot()->getType() == DraggableElement::Hat)
         sMainWindow->reloadCode();
 }
 
@@ -63,7 +63,7 @@ void ScriptDock::undock()
 
     activate();
     _parent->getRoot()->rearrangeLowerElems();
-    if(_parent->getRoot()->getType() == DragableElement::Hat)
+    if(_parent->getRoot()->getType() == DraggableElement::Hat)
         sMainWindow->reloadCode();
 }
 

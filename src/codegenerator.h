@@ -4,7 +4,7 @@
 #include <QMap>
 #include <QDir>
 
-#include "dragelem/dragableelement.h"
+#include "dragelem/draggableelement.h"
 
 class MainWindow;
 
@@ -27,7 +27,7 @@ private:
 
     QString addQuotes(const QString &str);
 
-    QString generateCode(DragableElement* element, int sub);
+    QString generateCode(DraggableElement* element, int sub);
     QString indent(int indent);
     QString indentCode(QStringList *code, int indent = 0, const QString &content = QString());
 

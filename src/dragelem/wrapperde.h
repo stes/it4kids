@@ -1,9 +1,9 @@
 #ifndef WRAPPERDE_H
 #define WRAPPERDE_H
 
-#include "dragableelement.h"
+#include "draggableelement.h"
 
-class WrapperDE : public DragableElement
+class WrapperDE : public DraggableElement
 {
     Q_OBJECT
 public:
@@ -18,7 +18,7 @@ public:
     void rearrangeInnerElems();
 
     inline int getHeight() const {return _height+22+_innerHeight;}
-    DragableElement* getWrapElem();
+    DraggableElement* getWrapElem();
 
     virtual void removeChildDragElems();
 
@@ -26,7 +26,7 @@ public:
 
     ~WrapperDE();
 protected:
-    DragableElement* getCurrentElement(Sprite *sprite, QWidget* parent);
+    DraggableElement* getCurrentElement(Sprite *sprite, QWidget* parent);
 
     virtual void moveEvent(QMoveEvent *event);
 

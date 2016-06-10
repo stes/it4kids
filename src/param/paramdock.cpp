@@ -16,7 +16,7 @@ ParamDock::ParamDock(QColor color, Sprite *sprite, QWidget *parent) : QWidget(pa
     setFixedSize(24, 12);
 }
 
-void ParamDock::dock(DragableElement* dragElem)
+void ParamDock::dock(DraggableElement* dragElem)
 {
     // TODO: rework this
     if(dragElem != parent())
@@ -35,13 +35,13 @@ void ParamDock::dock(DragableElement* dragElem)
             QString className(parentWidget()->metaObject()->className());
             if(className == "QWidget")
             {
-                ((DragableElement*) parentWidget()->parentWidget())->resize();
-                ((DragableElement*) parentWidget()->parentWidget())->show();
+                ((DraggableElement*) parentWidget()->parentWidget())->resize();
+                ((DraggableElement*) parentWidget()->parentWidget())->show();
             }
             else
             {
-                ((DragableElement*) parentWidget())->resize();
-                ((DragableElement*) parentWidget())->show();
+                ((DraggableElement*) parentWidget())->resize();
+                ((DraggableElement*) parentWidget())->show();
             }
         }
     }
@@ -62,15 +62,15 @@ void ParamDock::undock()
     QString className(parentWidget()->metaObject()->className());
     if(className == "QWidget")
     {
-        ((DragableElement*) parentWidget()->parentWidget())->resize();
-        ((DragableElement*) parentWidget()->parentWidget())->resize();
-        ((DragableElement*) parentWidget()->parentWidget())->show();
+        ((DraggableElement*) parentWidget()->parentWidget())->resize();
+        ((DraggableElement*) parentWidget()->parentWidget())->resize();
+        ((DraggableElement*) parentWidget()->parentWidget())->show();
     }
     else
     {
-        ((DragableElement*) parentWidget())->resize();
-        ((DragableElement*) parentWidget())->resize();
-        ((DragableElement*) parentWidget())->show();
+        ((DraggableElement*) parentWidget())->resize();
+        ((DraggableElement*) parentWidget())->resize();
+        ((DraggableElement*) parentWidget())->show();
     }
 }
 

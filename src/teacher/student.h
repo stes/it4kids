@@ -8,7 +8,7 @@
 #include "mainwindow.h"
 
 
-class DragableElement;
+class DraggableElement;
 
 class Student
 {

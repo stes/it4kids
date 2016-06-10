@@ -9,7 +9,7 @@
 #include "param.h"
 
 class PredicateDE;
-class DragableElement;
+class DraggableElement;
 
 class ParamDock : public QWidget, public ParamBaseStr, public DockingArea
 {
@@ -19,7 +19,7 @@ public:
     explicit ParamDock(QColor color, Sprite *sprite, QWidget *parent = 0);
     ~ParamDock();
 
-    void dock(DragableElement* dragelem);
+    void dock(DraggableElement* dragelem);
     void undock();
 
 protected:

@@ -7,9 +7,9 @@
 #include <QWidget>
 #include <QVBoxLayout>
 
-#include "dragableelement.h"
+#include "draggableelement.h"
 
-typedef std::vector<DragableElement*> ElementList;
+typedef std::vector<DraggableElement*> ElementList;
 
 class DragElemList : public QScrollArea
 {

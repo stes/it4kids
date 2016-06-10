@@ -11,7 +11,7 @@ class ScriptArea;
 
 class ScriptDock : public DockingArea
 {
-    void connect(DragableElement *upper, DragableElement *lower);
+    void connect(DraggableElement *upper, DraggableElement *lower);
 
 public:
     enum Type
@@ -21,18 +21,18 @@ public:
         Inner
     };
 
-    ScriptDock(Type type, Sprite *sprite, DragableElement *parent);
+    ScriptDock(Type type, Sprite *sprite, DraggableElement *parent);
 
-    inline DragableElement* getParent() {return _parent;}
+    inline DraggableElement* getParent() {return _parent;}
 
-    virtual void dock(DragableElement* elem);
+    virtual void dock(DraggableElement* elem);
     virtual void undock();
 
     ~ScriptDock();
 
 protected:
     Type _type;
-    DragableElement* _parent;
+    DraggableElement* _parent;
 };
 
 #endif // SCRIPTDOCK_H

@@ -13,12 +13,12 @@
 #include <QApplication>
 
 #include "mainwindow.h"
-#include "dragableelement.h"
+#include "draggableelement.h"
 #include "dragelemlist.h"
 
 class ScriptArea;
 
-typedef std::vector<DragableElement*> ElementList;
+typedef std::vector<DraggableElement*> ElementList;
 
 class DragElemCategory : public QWidget
 {

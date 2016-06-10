@@ -1,7 +1,7 @@
 #include "wrapperde.h"
 
 WrapperDE::WrapperDE(const QString& identifier, const QString& text, const QColor& color, Sprite *sprite, QWidget* parent) :
-    DragableElement(identifier, QString(text).remove(QStringLiteral("%c")), color, DragableElement::Wrapper, sprite, parent),
+    DraggableElement(identifier, QString(text).remove(QStringLiteral("%c")), color, DraggableElement::Wrapper, sprite, parent),
     _label(new QWidget(this)),
     _upperDock(ScriptDock::Upper, sprite, this),
     _lowerDock(ScriptDock::Lower, sprite, this),
@@ -20,7 +20,7 @@ WrapperDE::WrapperDE(const QString& identifier, const QString& text, const QColo
     resize();
 }
 
-DragableElement* WrapperDE::getCurrentElement(Sprite *sprite, QWidget *parent)
+DraggableElement* WrapperDE::getCurrentElement(Sprite *sprite, QWidget *parent)
 {
     return copyParams(new WrapperDE(_identifier, _text, _color, sprite, parent));
 }
@@ -29,7 +29,7 @@ void WrapperDE::rearrangeUpperElems()
 {
     rearrangeInnerElems();
 
-    DragableElement* prevElem = _prevElem;
+    DraggableElement* prevElem = _prevElem;
 
     if(prevElem)
     {
@@ -46,7 +46,7 @@ void WrapperDE::rearrangeLowerElems()
     rearrangeInnerElems();
     resize();
 
-    DragableElement* nextElem = _nextElem;
+    DraggableElement* nextElem = _nextElem;
 
     if(nextElem)
     {
@@ -58,7 +58,7 @@ void WrapperDE::rearrangeLowerElems()
 
 void WrapperDE::rearrangeInnerElems()
 {
-    DragableElement* innerElem = _innerDock.getDockedElem();
+    DraggableElement* innerElem = _innerDock.getDockedElem();
 
     if(innerElem)
     {
@@ -88,7 +88,7 @@ void WrapperDE::resize()
     _path.lineTo(15, _height+5);
 
     _innerHeight = 0;
-    DragableElement* inner = _innerDock.getDockedElem();
+    DraggableElement* inner = _innerDock.getDockedElem();
     while(inner)
     {
         _innerHeight += inner->getHeight()+5;
@@ -143,7 +143,7 @@ void WrapperDE::moveEvent(QMoveEvent*)
     _lowerDock.setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(0, _height+22+_innerHeight), QSize(_width, _height)));
 }
 
-DragableElement* WrapperDE::getWrapElem()
+DraggableElement* WrapperDE::getWrapElem()
 {
     return _innerDock.getDockedElem();
 }

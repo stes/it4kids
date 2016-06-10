@@ -1,11 +1,11 @@
 #ifndef PREDICATEDE_H
 #define PREDICATEDE_H
 
-#include "dragableelement.h"
+#include "draggableelement.h"
 
 class ParamDock;
 
-class PredicateDE : public DragableElement
+class PredicateDE : public DraggableElement
 {
     Q_OBJECT
 public:
@@ -17,7 +17,7 @@ public:
 
     ~PredicateDE();
 protected:
-    DragableElement* getCurrentElement(Sprite *sprite, QWidget* parent);
+    DraggableElement* getCurrentElement(Sprite *sprite, QWidget* parent);
     void hitTest();
 };
 

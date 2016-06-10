@@ -1,7 +1,7 @@
 #include "hatde.h"
 
 HatDE::HatDE(const QString& identifier, const QString& text, const QColor& color, Sprite* sprite, QWidget* parent) :
-     DragableElement(identifier, text, color, DragableElement::Hat, sprite, parent),
+     DraggableElement(identifier, text, color, DraggableElement::Hat, sprite, parent),
      _lowerDock(ScriptDock::Lower, sprite, this)
 {
     _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
@@ -11,7 +11,7 @@ HatDE::HatDE(const QString& identifier, const QString& text, const QColor& color
     resize();
 }
 
-DragableElement* HatDE::getCurrentElement(Sprite *sprite, QWidget* parent)
+DraggableElement* HatDE::getCurrentElement(Sprite *sprite, QWidget* parent)
 {
     return copyParams(new HatDE(_identifier, _text, _color, sprite, parent));
 }
@@ -20,7 +20,7 @@ void HatDE::rearrangeLowerElems()
 {
     if(!isVisible()) moveEvent(0); // force dock update
 
-    DragableElement* nextElem = _nextElem;
+    DraggableElement* nextElem = _nextElem;
 
     if(nextElem)
     {

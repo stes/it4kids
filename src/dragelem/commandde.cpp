@@ -1,7 +1,7 @@
 #include "commandde.h"
 
 CommandDE::CommandDE(const QString& identifier, const QString& text, const QColor& color, Sprite *sprite, QWidget* parent) :
-    DragableElement(identifier, text, color, DragableElement::Command, sprite, parent),
+    DraggableElement(identifier, text, color, DraggableElement::Command, sprite, parent),
     _upperDock(ScriptDock::Upper, sprite, this),
     _lowerDock(ScriptDock::Lower, sprite, this)
 {
@@ -12,14 +12,14 @@ CommandDE::CommandDE(const QString& identifier, const QString& text, const QColo
     resize();
 }
 
-DragableElement* CommandDE::getCurrentElement(Sprite *sprite, QWidget *parent)
+DraggableElement* CommandDE::getCurrentElement(Sprite *sprite, QWidget *parent)
 {
     return copyParams(new CommandDE(_identifier, _text, _color, sprite, parent));
 }
 
 void CommandDE::rearrangeUpperElems()
 {
-    DragableElement* prevElem = _prevElem;
+    DraggableElement* prevElem = _prevElem;
 
     if(prevElem)
     {
@@ -33,7 +33,7 @@ void CommandDE::rearrangeLowerElems()
 {
     if(!isVisible()) moveEvent(0); // force dock update
 
-    DragableElement* nextElem = _nextElem;
+    DraggableElement* nextElem = _nextElem;
 
     if(nextElem)
     {

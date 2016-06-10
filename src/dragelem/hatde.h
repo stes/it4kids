@@ -1,11 +1,11 @@
 #ifndef HATDE_H
 #define HATDE_H
 
-#include "dragableelement.h"
+#include "draggableelement.h"
 
 class ScriptDock;
 
-class HatDE : public DragableElement
+class HatDE : public DraggableElement
 {
     Q_OBJECT
 public:
@@ -20,7 +20,7 @@ public:
 
     virtual ScriptDock *getDock(ScriptDock::Type type);
 protected:
-    DragableElement* getCurrentElement(Sprite *sprite, QWidget* parent);
+    DraggableElement* getCurrentElement(Sprite *sprite, QWidget* parent);
 
     void moveEvent(QMoveEvent *);
 

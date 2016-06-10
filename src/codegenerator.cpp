@@ -46,7 +46,7 @@ QString CodeGenerator::generateSprite(Sprite *sprite)
     DragElemVector *eleVec = sprite->getDragElemVector();
     for(DragElemVector::const_iterator elemIt = eleVec->begin(); elemIt != eleVec->end(); elemIt++)
     {
-        if ((*elemIt)->getType() == DragableElement::Hat)
+        if ((*elemIt)->getType() == DraggableElement::Hat)
         {
             str += generateCode(*elemIt, 1) + '\n';
         }
@@ -152,18 +152,18 @@ QString CodeGenerator::indent(int indent)
     return str.fill(' ', indent * 4);
 }
 
-QString CodeGenerator::generateCode(DragableElement* element, int sub)
+QString CodeGenerator::generateCode(DraggableElement* element, int sub)
 {
     QString str;
     bool stop = false;
 
-    for(DragableElement* next = element; next && !stop; next = next->getNextElem())
+    for(DraggableElement* next = element; next && !stop; next = next->getNextElem())
     {
         QString name = next->getIdentifier();
 
         // TODO: indent should be more dynamic
         QString tmp;
-        if (next->getType() == DragableElement::Hat && _events.contains(name))
+        if (next->getType() == DraggableElement::Hat && _events.contains(name))
         {
            tmp = indentCode(&_events[name]._code, sub, generateCode(next->getNextElem(), sub+1));
            if(_eventCounters.contains(name))
@@ -173,11 +173,11 @@ QString CodeGenerator::generateCode(DragableElement* element, int sub)
            tmp.replace(QLatin1String("%counter%"), QString::number(_eventCounters[name]));
            stop = true;
         }
-        else if (next->getType() == DragableElement::Wrapper && _controls.contains(name))
+        else if (next->getType() == DraggableElement::Wrapper && _controls.contains(name))
         {
             tmp = indentCode(&_controls[name], sub, generateCode(next->getWrapElem(), sub+1));
         }
-        else if (next->getType() == DragableElement::Command && _commands.contains(name))
+        else if (next->getType() == DraggableElement::Command && _commands.contains(name))
         {
             tmp = indentCode(&_commands[name], sub);
         }

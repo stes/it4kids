@@ -119,7 +119,7 @@ void MainWindow::InitializeDragElem(const QString& path)
     QXmlStreamReader xmlReader(xml);
     QXmlStreamAttributes attributes;
 
-    DragableElement* lastElement;
+    DraggableElement* lastElement;
 
     _LoadableElems.clear();
 
@@ -283,10 +283,10 @@ void MainWindow::on_buttonScriptStop_clicked()
     _pyController.sendStop();
 }
 
-DragableElement* MainWindow::createNewElement(QString ident, Sprite *sprite)
+DraggableElement* MainWindow::createNewElement(QString ident, Sprite *sprite)
 {
     // check all Elements
-    for(std::vector<DragableElement*>::const_iterator it = _LoadableElems.begin(); it != _LoadableElems.end(); it++)
+    for(std::vector<DraggableElement*>::const_iterator it = _LoadableElems.begin(); it != _LoadableElems.end(); it++)
     {
         if ((*it)->getIdentifier() == ident)
         {
@@ -437,7 +437,7 @@ void MainWindow::setCurrentStudent(bool)
     emit currentStudentChanged(student);
 }
 
-void MainWindow::dragElemContextMenuRequested(const QPoint &pos, DragableElement *elem)
+void MainWindow::dragElemContextMenuRequested(const QPoint &pos, DraggableElement *elem)
 {
     if(!elem->isStatic())
     {

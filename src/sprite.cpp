@@ -68,7 +68,7 @@ void Sprite::setCurrentCostume(Costume *costume)
     emit currentCostumeChanged(this);
 }
 
-void Sprite::removeElement(DragableElement *element)
+void Sprite::removeElement(DraggableElement *element)
 {
     _dragElemVector.erase(std::remove(_dragElemVector.begin(), _dragElemVector.end(), element), _dragElemVector.end());
 }
@@ -78,7 +78,7 @@ void Sprite::removeFromHitTest(DockingArea* widget)
     _hitTestVector.erase(std::remove(_hitTestVector.begin(), _hitTestVector.end(), widget), _hitTestVector.end());
 }
 
-void Sprite::performHitTest(DragableElement* elem)
+void Sprite::performHitTest(DraggableElement* elem)
 {
     QRect rectDE(elem->mapToGlobal(QPoint(0, 0)), QSize(elem->width(), elem->height()));
     for(HitTestVector::const_iterator it = _hitTestVector.begin(); it != _hitTestVector.end(); it++)

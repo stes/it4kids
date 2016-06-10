@@ -14,7 +14,7 @@
 class AudioEngine;
 class Costume;
 class DragElemCategory;
-class DragableElement;
+class DraggableElement;
 class ScriptAreaWidget;
 class Sprite;
 class Teacher;
@@ -36,7 +36,7 @@ public:
     Sprite* getCurrentSprite() {return _currentSprite;}
     Sprite *getBackgroundSprite() { return _backgroundSprite; }
 
-    DragableElement* createNewElement(QString ident, Sprite *sprite);
+    DraggableElement* createNewElement(QString ident, Sprite *sprite);
 
     QRect getScriptAreaRect();
 
@@ -71,7 +71,7 @@ private slots:
     void eraseItemAddDragElem();
     void setCurrentCostume(Costume* costume);
     void setCurrentStudent(bool);
-    void dragElemContextMenuRequested(const QPoint &pos, DragableElement* elem);
+    void dragElemContextMenuRequested(const QPoint &pos, DraggableElement* elem);
     void spriteContextMenuRequested(const QPoint &pos, Sprite* sprite);
     void on_scene_customContextMenuRequested(const QPoint &pos);
 
@@ -96,7 +96,7 @@ private:
     CodeGenerator _Cgen;
     PythonController _pyController;
 
-    std::vector<DragableElement*> _LoadableElems;
+    std::vector<DraggableElement*> _LoadableElems;
 
     QDir _tmpDir;
 

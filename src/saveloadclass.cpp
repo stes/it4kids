@@ -79,7 +79,7 @@ void SaveLoadClass::handleScriptTuple(QJsonArray a, Sprite *sprite)
     BlockTuple = a[2].toArray();
     //qDebug() << x << y << BlockTuple.count();
 
-    DragableElement *root = handleBlockTupleArray(BlockTuple, sprite);
+    DraggableElement *root = handleBlockTupleArray(BlockTuple, sprite);
     if(root)
     {
         root->move(QPoint(x, y));
@@ -87,10 +87,10 @@ void SaveLoadClass::handleScriptTuple(QJsonArray a, Sprite *sprite)
     }
 }
 
-DragableElement* SaveLoadClass::handleBlockTupleArray(QJsonArray a, Sprite *sprite)
+DraggableElement* SaveLoadClass::handleBlockTupleArray(QJsonArray a, Sprite *sprite)
 {
-    DragableElement* ele = 0;
-    DragableElement* lastEle = 0;
+    DraggableElement* ele = 0;
+    DraggableElement* lastEle = 0;
 
     for(QJsonArray::const_iterator it = a.constBegin(); it != a.constEnd(); it++)
     {
@@ -107,10 +107,10 @@ DragableElement* SaveLoadClass::handleBlockTupleArray(QJsonArray a, Sprite *spri
         return ele->getRoot();
 }
 
-DragableElement* SaveLoadClass::handleBlockTuple(QJsonArray a, class Sprite *sprite)
+DraggableElement* SaveLoadClass::handleBlockTuple(QJsonArray a, class Sprite *sprite)
 {
     QString name = a[0].toString();
-    DragableElement* ele = sMainWindow->createNewElement(name, sprite);
+    DraggableElement* ele = sMainWindow->createNewElement(name, sprite);
 
     // params
     int i = 1;
@@ -125,9 +125,9 @@ DragableElement* SaveLoadClass::handleBlockTuple(QJsonArray a, class Sprite *spr
         i++;
     }
 
-    if(ele->getType() == DragableElement::Wrapper && a.last().isArray())
+    if(ele->getType() == DraggableElement::Wrapper && a.last().isArray())
     {
-        DragableElement *innerElem = handleBlockTupleArray(a.last().toArray(), sprite);
+        DraggableElement *innerElem = handleBlockTupleArray(a.last().toArray(), sprite);
         if(innerElem)
             ele->getDock(ScriptDock::Inner)->dock(innerElem);
     }
@@ -172,7 +172,7 @@ bool SaveLoadClass::saveScratch(const QString &path, SpriteVector *spriteVec)
     return true;
 }
 
-QJsonArray SaveLoadClass::generateScriptTuple(DragableElement* element)
+QJsonArray SaveLoadClass::generateScriptTuple(DraggableElement* element)
 {
     QPoint Pos = element->pos();
     QJsonArray ScriptTuple;
@@ -183,9 +183,9 @@ QJsonArray SaveLoadClass::generateScriptTuple(DragableElement* element)
     return ScriptTuple;
 }
 
-QJsonArray SaveLoadClass::generateBlockTupleArray(DragableElement* element)
+QJsonArray SaveLoadClass::generateBlockTupleArray(DraggableElement* element)
 {
-    DragableElement* next = element;
+    DraggableElement* next = element;
     QJsonArray BlockArray;
     while (next)
     {
@@ -195,7 +195,7 @@ QJsonArray SaveLoadClass::generateBlockTupleArray(DragableElement* element)
     return BlockArray;
 }
 
-QJsonArray SaveLoadClass::generateBlockTuple(DragableElement* element)
+QJsonArray SaveLoadClass::generateBlockTuple(DraggableElement* element)
 {
     QJsonArray Block;
     Block.append(QJsonValue(element->getIdentifier()));

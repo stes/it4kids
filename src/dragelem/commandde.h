@@ -1,11 +1,11 @@
 #ifndef COMMANDDE_H
 #define COMMANDDE_H
 
-#include "dragableelement.h"
+#include "draggableelement.h"
 
 class ScriptDock;
 
-class CommandDE : public DragableElement
+class CommandDE : public DraggableElement
 {
     Q_OBJECT
 public:
@@ -22,7 +22,7 @@ public:
 
     ~CommandDE();
 protected:
-    DragableElement* getCurrentElement(Sprite *sprite, QWidget* parent);
+    DraggableElement* getCurrentElement(Sprite *sprite, QWidget* parent);
 
     void moveEvent(QMoveEvent*);
 

@@ -6,12 +6,12 @@
 #include <QWidget>
 #include <QPainter>
 
-class DragableElement;
+class DraggableElement;
 class DockingArea;
 class Sprite;
 
 typedef std::vector<DockingArea*> HitTestVector;
-typedef std::vector<DragableElement*> DragElemVector;
+typedef std::vector<DraggableElement*> DragElemVector;
 
 class ScriptArea : public QWidget
 {

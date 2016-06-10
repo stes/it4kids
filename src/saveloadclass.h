@@ -4,7 +4,7 @@
 #include <QString>
 #include <QJsonArray>
 
-#include "dragelem/dragableelement.h"
+#include "dragelem/draggableelement.h"
 
 class MainWindow;
 
@@ -18,12 +18,12 @@ private:
     //Scratch
     //load
     void handleScriptTuple(QJsonArray a, class Sprite *sprite);
-    DragableElement* handleBlockTupleArray(QJsonArray a, class Sprite *sprite);
-    DragableElement* handleBlockTuple(QJsonArray a, class Sprite *sprite);
+    DraggableElement* handleBlockTupleArray(QJsonArray a, class Sprite *sprite);
+    DraggableElement* handleBlockTuple(QJsonArray a, class Sprite *sprite);
     //save
-    QJsonArray generateScriptTuple(DragableElement* element);
-    QJsonArray generateBlockTupleArray(DragableElement* element);
-    QJsonArray generateBlockTuple(DragableElement* element);
+    QJsonArray generateScriptTuple(DraggableElement* element);
+    QJsonArray generateBlockTupleArray(DraggableElement* element);
+    QJsonArray generateBlockTuple(DraggableElement* element);
     //Snap
 };
 

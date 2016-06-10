@@ -1,4 +1,4 @@
-#include "dragableelement.h"
+#include "draggableelement.h"
 
 #include "mainwindow.h"
 #include "param/param.h"
@@ -27,7 +27,7 @@
 
 extern MainWindow* sMainWindow;
 
-DragableElement::DragableElement(const QString& identifier, const QString& text, const QColor& color, Type type, Sprite* sprite, QWidget* parent) :
+DraggableElement::DraggableElement(const QString& identifier, const QString& text, const QColor& color, Type type, Sprite* sprite, QWidget* parent) :
     QWidget(parent), _color(color), _text(text), _identifier(identifier), _static(false),
     _width(0), _height(0), _sprite(sprite), _path(QPoint(0, 0)),
     _type(type), _currentDock(0), _prevElem(0), _nextElem(0)
@@ -37,7 +37,7 @@ DragableElement::DragableElement(const QString& identifier, const QString& text,
     hide();
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextMenuRequested(QPoint)));
-    connect(this, SIGNAL(dragElemContextMenuRequested(QPoint,DragableElement*)), sMainWindow, SLOT(dragElemContextMenuRequested(QPoint,DragableElement*)));
+    connect(this, SIGNAL(dragElemContextMenuRequested(QPoint,DraggableElement*)), sMainWindow, SLOT(dragElemContextMenuRequested(QPoint,DraggableElement*)));
 
     if(_sprite)
         _sprite->addElement(this);
@@ -45,7 +45,7 @@ DragableElement::DragableElement(const QString& identifier, const QString& text,
     parseText(text);
 }
 
-DragableElement *DragableElement::copyParams(DragableElement *dst)
+DraggableElement *DraggableElement::copyParams(DraggableElement *dst)
 {
     for(uint i = 0; i < dst->_paramsVector.size(); i++)
     {
@@ -54,22 +54,22 @@ DragableElement *DragableElement::copyParams(DragableElement *dst)
     return dst;
 }
 
-DragableElement *DragableElement::getRoot()
+DraggableElement *DraggableElement::getRoot()
 {
-    DragableElement *root = this;
+    DraggableElement *root = this;
     while(root->_prevElem)
         root = root->_prevElem;
     return root;
 }
 
-void DragableElement::mousePressEvent(QMouseEvent *event)
+void DraggableElement::mousePressEvent(QMouseEvent *event)
 {
     if(event->buttons() & Qt::LeftButton)
     {
         _offset = event->pos();
         if(_static)
         {
-            DragableElement* element = getCurrentElement(sMainWindow->getCurrentSprite(), sMainWindow);
+            DraggableElement* element = getCurrentElement(sMainWindow->getCurrentSprite(), sMainWindow);
             element->update();
             element->grabMouse();
             if(element->getType() == Hat)
@@ -85,7 +85,7 @@ void DragableElement::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void DragableElement::mouseMoveEvent(QMouseEvent *event)
+void DraggableElement::mouseMoveEvent(QMouseEvent *event)
 {
     if(event->buttons() & Qt::LeftButton)
     {
@@ -96,7 +96,7 @@ void DragableElement::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
-void DragableElement::mouseReleaseEvent(QMouseEvent* event)
+void DraggableElement::mouseReleaseEvent(QMouseEvent* event)
 {
     releaseMouse();
     if(event->button() == Qt::LeftButton)
@@ -114,7 +114,7 @@ void DragableElement::mouseReleaseEvent(QMouseEvent* event)
     }
 }
 
-void DragableElement::paintEvent(QPaintEvent*)
+void DraggableElement::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
 
@@ -132,7 +132,7 @@ void DragableElement::paintEvent(QPaintEvent*)
     painter.setBackgroundMode(Qt::TransparentMode);
 }
 
-void DragableElement::getLayoutSize()
+void DraggableElement::getLayoutSize()
 {
     _width = 0;
     _height = 0;
@@ -144,7 +144,7 @@ void DragableElement::getLayoutSize()
     _layout.setSizeConstraint(QLayout::SetNoConstraint);
 }
 
-void DragableElement::parseText(const QString &text)
+void DraggableElement::parseText(const QString &text)
 {
     QStringList stringList = text.split(' ', QString::SkipEmptyParts);
     for(int i = 0; i < stringList.size(); i++)
@@ -303,12 +303,12 @@ void DragableElement::parseText(const QString &text)
     }
 }
 
-void DragableElement::contextMenuRequested(const QPoint &pos)
+void DraggableElement::contextMenuRequested(const QPoint &pos)
 {
     emit dragElemContextMenuRequested(pos, this);
 }
 
-DragableElement::~DragableElement()
+DraggableElement::~DraggableElement()
 {
     if(_sprite)
         _sprite->removeElement(this);

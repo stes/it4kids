@@ -3,7 +3,7 @@
 
 #include <QRect>
 
-class DragableElement;
+class DraggableElement;
 class Sprite;
 
 class DockingArea
@@ -14,13 +14,13 @@ class DockingArea
 public:
     DockingArea(Sprite *sprite);
 
-    inline DragableElement* getDockedElem() {return _dockedElem; }
+    inline DraggableElement* getDockedElem() {return _dockedElem; }
     inline void setRect(const QRect& rect) {_dockingAreaGlobal = rect;}
     inline QRect* getRect() {return &_dockingAreaGlobal; }
 
-    virtual void dock(DragableElement* elem) = 0;
+    virtual void dock(DraggableElement* elem) = 0;
     virtual void undock() = 0;
-    virtual inline DragableElement* getParent() { return 0; }
+    virtual inline DraggableElement* getParent() { return 0; }
 
     bool isActive() const { return _active; }
     void activate() { _active = true; }
@@ -30,7 +30,7 @@ public:
 
 protected:
     QRect _dockingAreaGlobal;
-    DragableElement* _dockedElem;
+    DraggableElement* _dockedElem;
 };
 
 #endif // DOCKINGAREA_H

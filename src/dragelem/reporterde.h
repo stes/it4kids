@@ -1,9 +1,9 @@
 #ifndef REPORTERDE_H
 #define REPORTERDE_H
 
-#include "dragableelement.h"
+#include "draggableelement.h"
 
-class ReporterDE : public DragableElement
+class ReporterDE : public DraggableElement
 {
     Q_OBJECT
 public:
@@ -15,7 +15,7 @@ public:
 
     ~ReporterDE();
 protected:
-    DragableElement* getCurrentElement(Sprite *sprite, QWidget* parent);
+    DraggableElement* getCurrentElement(Sprite *sprite, QWidget* parent);
     void hitTest();
 };
 

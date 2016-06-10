@@ -2,7 +2,7 @@
 #include "param/paramdock.h"
 
 PredicateDE::PredicateDE(const QString& identifier, const QString& text, const QColor& color, Sprite* sprite, QWidget* parent) :
-    DragableElement(identifier, text, color, DragableElement::Predicate, sprite, parent)
+    DraggableElement(identifier, text, color, DraggableElement::Predicate, sprite, parent)
 {
     _currentDock = 0;
     _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
@@ -38,7 +38,7 @@ void PredicateDE::removeChildDragElems()
     delete this;
 }
 
-DragableElement* PredicateDE::getCurrentElement(Sprite *sprite, QWidget *parent)
+DraggableElement* PredicateDE::getCurrentElement(Sprite *sprite, QWidget *parent)
 {
     return copyParams(new PredicateDE(_identifier, _text, _color, sprite, parent));
 }

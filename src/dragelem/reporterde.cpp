@@ -1,7 +1,7 @@
 #include "reporterde.h"
 
 ReporterDE::ReporterDE(const QString& identifier, const QString& text, const QColor& color, Sprite* sprite, QWidget* parent) :
-     DragableElement(identifier, text, color, DragableElement::Reporter, sprite, parent)
+     DraggableElement(identifier, text, color, DraggableElement::Reporter, sprite, parent)
 {
     _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     _layout.setContentsMargins(4, 4, 0, 0);
@@ -10,7 +10,7 @@ ReporterDE::ReporterDE(const QString& identifier, const QString& text, const QCo
     resize();
 }
 
-DragableElement* ReporterDE::getCurrentElement(Sprite *sprite, QWidget* parent)
+DraggableElement* ReporterDE::getCurrentElement(Sprite *sprite, QWidget* parent)
 {
     return copyParams(new ReporterDE(_identifier, _text, _color, sprite, parent));
 }

@@ -65,11 +65,11 @@ DragElemList QWidget#elemListWidget {
 }
 
 
-DragableElement QLabel {
+DraggableElement QLabel {
 	background-color: none;
 	color: #ffffff;
 }
-DragableElement QComboBox {
+DraggableElement QComboBox {
 	min-height: 15px;
 	max-height: 15px;
 	font-family: "Courier";

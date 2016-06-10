@@ -60,7 +60,7 @@ SOURCES += src/main.cpp\
     src/costume/costumeselect.cpp \
     src/dragelem/categoryselect.cpp \
     src/dragelem/commandde.cpp \
-    src/dragelem/dragableelement.cpp \
+    src/dragelem/draggableelement.cpp \
     src/dragelem/dragelemcategory.cpp \
     src/dragelem/dragelemlist.cpp \
     src/dragelem/hatde.cpp \
@@ -114,7 +114,7 @@ HEADERS  += src/mainwindow.h \
     src/costume/costumeselect.h \
     src/dragelem/categoryselect.h \
     src/dragelem/commandde.h \
-    src/dragelem/dragableelement.h \
+    src/dragelem/draggableelement.h \
     src/dragelem/dragelemcategory.h \
     src/dragelem/dragelemlist.h \
     src/dragelem/hatde.h \

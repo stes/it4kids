@@ -9,7 +9,7 @@
 #include "audio/wavfile.h"
 
 class Costume;
-class DragableElement;
+class DraggableElement;
 class DockingArea;
 class QImage;
 class ScriptArea;
@@ -17,7 +17,7 @@ class WavFile;
 class MainWindow;
 
 typedef std::vector<DockingArea*> HitTestVector;
-typedef std::vector<DragableElement*> DragElemVector;
+typedef std::vector<DraggableElement*> DragElemVector;
 typedef std::vector<Costume*> CostumeVector;
 typedef std::vector<WavFile*> SoundVector;
 
@@ -38,13 +38,13 @@ public:
     inline CostumeVector* getCostumeVector() {return &_costumeVector;}
     inline void addCostume(Costume* costume) {_costumeVector.push_back(costume);}
 
-    void addElement(DragableElement *element) { _dragElemVector.push_back(element); }
-    void removeElement(DragableElement *element);
+    void addElement(DraggableElement *element) { _dragElemVector.push_back(element); }
+    void removeElement(DraggableElement *element);
 
     void addToHitTest(DockingArea* widget) { _hitTestVector.push_back(widget); }
     void removeFromHitTest(DockingArea* widget);
 
-    void performHitTest(DragableElement* elem);
+    void performHitTest(DraggableElement* elem);
 
     void OverrideParents();
 

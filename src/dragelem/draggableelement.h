@@ -20,7 +20,7 @@ class DockingArea;
 struct ArgumentStruct;
 class ParamBase;
 
-class DragableElement : public QWidget
+class DraggableElement : public QWidget
 {
     Q_OBJECT
 public:
@@ -33,15 +33,15 @@ public:
         Reporter
     };
 
-    DragableElement(const QString& identifier, const QString& text, const QColor& color, Type type, Sprite* sprite = 0, QWidget* parent = 0);
-    virtual ~DragableElement();
+    DraggableElement(const QString& identifier, const QString& text, const QColor& color, Type type, Sprite* sprite = 0, QWidget* parent = 0);
+    virtual ~DraggableElement();
 
     inline void setCurrentDock(DockingArea* dock) {_currentDock = dock;}
     //inline DockingArea* getDockElem() {return _currentDock;}
-    inline void setPrevElem(DragableElement* elem) {_prevElem = elem;}
-    inline DragableElement* getPrevElem() {return _prevElem;}
-    inline void setNextElem(DragableElement* elem) {_nextElem = elem;}
-    inline DragableElement* getNextElem() {return _nextElem;}
+    inline void setPrevElem(DraggableElement* elem) {_prevElem = elem;}
+    inline DraggableElement* getPrevElem() {return _prevElem;}
+    inline void setNextElem(DraggableElement* elem) {_nextElem = elem;}
+    inline DraggableElement* getNextElem() {return _nextElem;}
     inline QString getIdentifier() {return _identifier;}
     inline std::vector<ParamBase*>* getParamsVector() {return &_paramsVector; }
 
@@ -51,7 +51,7 @@ public:
     void makeStatic() { _static = true; }
 
     virtual void resize() = 0;
-    virtual DragableElement* getWrapElem(){return (DragableElement*)0;}
+    virtual DraggableElement* getWrapElem(){return (DraggableElement*)0;}
 
     virtual void rearrangeLowerElems() { };
     virtual void rearrangeUpperElems() { };
@@ -62,16 +62,16 @@ public:
     virtual void removeChildDragElems() = 0;
 
     Type getType() const { return _type; }
-    virtual DragableElement* getCurrentElement(Sprite *sprite, QWidget* parent) = 0;
+    virtual DraggableElement* getCurrentElement(Sprite *sprite, QWidget* parent) = 0;
 
-    DragableElement *copyParams(DragableElement *dst);
+    DraggableElement *copyParams(DraggableElement *dst);
 
-    DragableElement *getRoot();
+    DraggableElement *getRoot();
 
     virtual ScriptDock *getDock(ScriptDock::Type) { return 0; }
 
 signals:
-    void dragElemContextMenuRequested(const QPoint& pos, DragableElement* elem);
+    void dragElemContextMenuRequested(const QPoint& pos, DraggableElement* elem);
 public slots:
     void contextMenuRequested(const QPoint& pos);
 
@@ -94,8 +94,8 @@ protected:
     std::vector<ParamBase*> _paramsVector;
 
     DockingArea* _currentDock;
-    DragableElement* _prevElem;
-    DragableElement* _nextElem;
+    DraggableElement* _prevElem;
+    DraggableElement* _nextElem;
 
     virtual void mousePressEvent(QMouseEvent*);
     virtual void mouseMoveEvent(QMouseEvent*);

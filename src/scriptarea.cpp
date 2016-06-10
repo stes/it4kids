@@ -2,7 +2,7 @@
 
 #include "scriptarea.h"
 
-#include "dragelem/dragableelement.h"
+#include "dragelem/draggableelement.h"
 #include "dockingarea.h"
 #include "sprite.h"
 #include "mainwindow.h"
