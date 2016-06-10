@@ -46,7 +46,7 @@ void ScriptDock::dock(DraggableElement* elem)
     deactivate();
 
     if(elem->getRoot()->getType() == DraggableElement::Hat)
-        sMainWindow->reloadCode();
+        sMainWindow->reloadCodeSprite(getSprite());
 }
 
 void ScriptDock::undock()
@@ -64,7 +64,7 @@ void ScriptDock::undock()
     activate();
     _parent->getRoot()->rearrangeLowerElems();
     if(_parent->getRoot()->getType() == DraggableElement::Hat)
-        sMainWindow->reloadCode();
+        sMainWindow->reloadCodeSprite(getSprite());
 }
 
 ScriptDock::~ScriptDock()

@@ -42,7 +42,8 @@ public:
 
     ~MainWindow();
 
-    void reloadCode();
+    void reloadCodeAll();
+    void reloadCodeSprite(Sprite *sprite, bool withMain = false);
 
 signals:
     void currentSpriteChanged(Sprite* sprite);

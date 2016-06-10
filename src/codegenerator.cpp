@@ -67,28 +67,13 @@ QString CodeGenerator::generateSprite(Sprite *sprite)
     return str;
 }
 
-QString CodeGenerator::generateSprite(const QString &name)
-{
-    SpriteVector* spriteVec = sMainWindow->getSpriteVector();
-
-    for(SpriteVector::const_iterator it = spriteVec->begin(); it != spriteVec->end(); it++)
-    {
-        if((*it)->getName() == name)
-        {
-            return generateSprite(*it);
-        }
-    }
-
-    return QString();
-}
-
-void CodeGenerator::generateFiles(QDir directory)
+QString CodeGenerator::generateMain()
 {
     SpriteVector* spriteVec = sMainWindow->getSpriteVector();
     QString entityImport;
     QString entityReload;
     QString entityRegister;
-	QString backgroundRegister;
+    QString backgroundRegister;
 
     // sprites
     for(SpriteVector::const_iterator it = spriteVec->begin(); it != spriteVec->end(); it++)
@@ -96,26 +81,17 @@ void CodeGenerator::generateFiles(QDir directory)
         entityImport += indentCode(&_snippets["entity_import"]).replace(QLatin1String("%name%"), (*it)->getName());
         entityReload += indentCode(&_snippets["entity_reload"], 1).replace(QLatin1String("%name%"), (*it)->getName());
         entityRegister += indentCode(&_snippets["entity_register"], 1).replace(QLatin1String("%name%"), (*it)->getName());
-
-        // write to file
-        QFile file(directory.filePath("sprite_" + (*it)->getName() + ".py"));
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text))
-        {
-            QTextStream out(&file);
-            out << generateSprite(*it);
-            file.close();
-        }
     }
 
     CostumeVector* bgCostumeVec = sMainWindow->getBackgroundSprite()->getCostumeVector();
 
     for (CostumeVector::const_iterator it = bgCostumeVec->begin(); it != bgCostumeVec->end(); it++)
-	{
+    {
         backgroundRegister += indentCode(&_snippets["costume_register"], 1)
             .replace(QLatin1String("%entity%"), QLatin1String("background_ent"))
             .replace(QLatin1String("%name%"), addQuotes((*it)->getName()))
             .replace(QLatin1String("%file%"), addQuotes((*it)->getFilename()));
-	}
+    }
 
     // main file
     QString str;
@@ -123,12 +99,35 @@ void CodeGenerator::generateFiles(QDir directory)
     str += entityImport + "\n";
     str += indentCode(&_snippets["main"], 0, backgroundRegister + entityReload + entityRegister);
 
-    // write to file
-    QFile file(directory.filePath(QStringLiteral("main.py")));
+    return str;
+}
+
+void CodeGenerator::generateAllFiles(const QDir &directory)
+{
+    SpriteVector* spriteVec = sMainWindow->getSpriteVector();
+    for(SpriteVector::const_iterator it = spriteVec->begin(); it != spriteVec->end(); it++)
+        generateSpriteFile(directory, *it);
+
+    generateMainFile(directory);
+}
+
+void CodeGenerator::generateSpriteFile(const QDir &directory, Sprite *sprite)
+{
+    writeToFile(directory.filePath("sprite_" + sprite->getName() + ".py"), generateSprite(sprite));
+}
+
+void CodeGenerator::generateMainFile(const QDir &directory)
+{
+    writeToFile(directory.filePath(QStringLiteral("main.py")), generateMain());
+}
+
+void CodeGenerator::writeToFile(const QString &path, const QString &data)
+{
+    QFile file(path);
     if (file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         QTextStream out(&file);
-        out << str;
+        out << data;
         file.close();
     }
 }

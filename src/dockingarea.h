@@ -29,6 +29,8 @@ public:
     virtual ~DockingArea();
 
 protected:
+    Sprite *getSprite() const { return _sprite; }
+
     QRect _dockingAreaGlobal;
     DraggableElement* _dockedElem;
 };

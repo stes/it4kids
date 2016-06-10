@@ -107,7 +107,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(this, SIGNAL(currentTeacherChanged(Teacher*)), ui->studentList, SLOT(currentTeacherChanged(Teacher*)));
 
-    _Cgen.generateFiles(_tmpDir);
+    _Cgen.generateAllFiles(_tmpDir);
 }
 
 void MainWindow::InitializeDragElem(const QString& path)
@@ -184,7 +184,7 @@ QRect MainWindow::getScriptAreaRect()
     return QRect(ui->scriptArea->mapToGlobal(QPoint(0,0)), QSize(ui->scriptArea->width(), ui->scriptArea->height()));
 }
 
-void  MainWindow::reloadCode()
+void MainWindow::reloadCodeAll()
 {
     if(_loading)
         return;
@@ -192,7 +192,21 @@ void  MainWindow::reloadCode()
     if(_currentSprite)
         ui->codeEditor->setText(_Cgen.generateSprite(_currentSprite));
 
-    _Cgen.generateFiles(_tmpDir);
+    _Cgen.generateAllFiles(_tmpDir);
+    _pyController.loadApp("main");
+}
+
+void MainWindow::reloadCodeSprite(Sprite *sprite, bool withMain)
+{
+    if(_loading)
+        return;
+    // TODO
+    if(_currentSprite == sprite)
+        ui->codeEditor->setText(_Cgen.generateSprite(_currentSprite));
+
+    _Cgen.generateSpriteFile(_tmpDir, sprite);
+    if(withMain)
+        _Cgen.generateMainFile(_tmpDir);
     _pyController.loadApp("main");
 }
 
@@ -227,7 +241,7 @@ void MainWindow::loadFromFile()
     }
 
     _loading = false;
-    reloadCode();
+    reloadCodeAll();
 }
 
 void MainWindow::saveToFile()
@@ -257,7 +271,7 @@ void MainWindow::on_costumeFromFile_clicked()
         costume->open(fileNames.front());
         _currentSprite->addCostume(costume);
         emit newCostume();
-        reloadCode();
+        reloadCodeSprite(_currentSprite);
     }
 }
 
@@ -273,8 +287,8 @@ void MainWindow::on_buttonEdit_clicked()
 
 void MainWindow::on_buttonScriptStart_clicked()
 {
-    // TODO
-    reloadCode();
+    // TODO: remove reload
+    reloadCodeAll();
     _pyController.sendStart();
 }
 
@@ -345,9 +359,7 @@ void MainWindow::on_spriteFromFile_clicked()
         sprite->setCurrentCostume(costume);
 
         changeCurrentSprite(sprite);
-
-        _Cgen.generateFiles(_tmpDir);
-        _pyController.loadApp("main");
+        reloadCodeSprite(sprite, true);
     }
 }
 
@@ -403,7 +415,7 @@ void MainWindow::changeCurrentSprite(Sprite *sprite)
 {
     _currentSprite = sprite;
     setCurrentCostume(sprite->getCostumeVector()->at(0));
-    ui->codeEditor->setText(_Cgen.generateSprite(sprite->getName()));
+    ui->codeEditor->setText(_Cgen.generateSprite(sprite));
     emit currentSpriteChanged(sprite);
 }
 

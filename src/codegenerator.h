@@ -13,8 +13,11 @@ class CodeGenerator
 public:
     CodeGenerator();
     QString generateSprite(Sprite *sprite);
-    QString generateSprite(const QString &name);
-    void generateFiles(QDir directory);
+    QString generateMain();
+
+    void generateAllFiles(const QDir &directory);
+    void generateSpriteFile(const QDir &directory, Sprite *sprite);
+    void generateMainFile(const QDir &directory);
 
     bool supported(const QString &ident);
 
@@ -24,6 +27,8 @@ private:
         QStringList _code;
         QString _register;
     };
+
+    void writeToFile(const QString &path, const QString &data);
 
     QString addQuotes(const QString &str);
 

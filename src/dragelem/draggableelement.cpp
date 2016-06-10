@@ -73,7 +73,7 @@ void DraggableElement::mousePressEvent(QMouseEvent *event)
             element->update();
             element->grabMouse();
             if(element->getType() == Hat)
-                 sMainWindow->reloadCode();
+                 sMainWindow->reloadCodeSprite(element->_sprite);
         }
         else
         {
@@ -105,9 +105,10 @@ void DraggableElement::mouseReleaseEvent(QMouseEvent* event)
         if(!scriptArea.contains(QRect(mapToGlobal(QPoint(0, 0)), QSize(width(), height())), true))
         {
             bool reload = getType() == Hat;
+            Sprite *sprite = _sprite;
             removeChildDragElems();
             if(reload)
-                sMainWindow->reloadCode();
+                sMainWindow->reloadCodeSprite(sprite);
         }
         else
             _sprite->performHitTest(this);
