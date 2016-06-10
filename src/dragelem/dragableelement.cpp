@@ -41,6 +41,8 @@ DragableElement::DragableElement(const QString& identifier, const QString& text,
 
     if(_sprite)
         _sprite->addElement(this);
+
+    parseText(text);
 }
 
 DragableElement *DragableElement::copyParams(DragableElement *dst)
@@ -142,161 +144,161 @@ void DragableElement::getLayoutSize()
     _layout.setSizeConstraint(QLayout::SetNoConstraint);
 }
 
-void DragableElement::parseText(const QString &text, DragableElement *element)
+void DragableElement::parseText(const QString &text)
 {
-    QStringList stringList = text.split(" ", QString::SkipEmptyParts);
+    QStringList stringList = text.split(' ', QString::SkipEmptyParts);
     for(int i = 0; i < stringList.size(); i++)
     {
         QString str = stringList.at(i);
 
-        if(str.contains("%Pixmap"))
+        if(str.contains(QLatin1String("%Pixmap")))
         {
             QString pixmapPath = str;
             pixmapPath.remove(0, 7);
-            QLabel* pixmap = new QLabel(element);
+            QLabel* pixmap = new QLabel(this);
             QPixmap image(pixmapPath);
             pixmap->setPixmap(image.scaled(15, 15, Qt::KeepAspectRatio));
             pixmap->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             pixmap->setStyleSheet("background-color: none;");
-            element->_layout.addWidget(pixmap);
+            _layout.addWidget(pixmap);
         }
-        else if(str.contains("%dir"))
+        else if(str.contains(QLatin1String("%dir")))
         {
-            ParamDirection* selecBox = new ParamDirection(element);
-            element->_layout.addWidget(selecBox);
-            element->_paramsVector.push_back(selecBox);
+            ParamDirection* selecBox = new ParamDirection(this);
+            _layout.addWidget(selecBox);
+            _paramsVector.push_back(selecBox);
         }
-        else if(str.contains("%dst"))
+        else if(str.contains(QLatin1String("%dst")))
         {
-            ParamDestination* selecBox = new ParamDestination(element);
-            element->_layout.addWidget(selecBox);
-            element->_paramsVector.push_back(selecBox);
+            ParamDestination* selecBox = new ParamDestination(this);
+            _layout.addWidget(selecBox);
+            _paramsVector.push_back(selecBox);
         }
-        else if(str.contains("%key"))
+        else if(str.contains(QLatin1String("%key")))
         {
-            ParamKey* selecBox = new ParamKey(element);
-            element->_layout.addWidget(selecBox);
-            element->_paramsVector.push_back(selecBox);
+            ParamKey* selecBox = new ParamKey(this);
+            _layout.addWidget(selecBox);
+            _paramsVector.push_back(selecBox);
         }
-        else if(str.contains("%interaction"))
+        else if(str.contains(QLatin1String("%interaction")))
         {
-            ParamInteraction* selecBox = new ParamInteraction(element);
-            element->_layout.addWidget(selecBox);
-            element->_paramsVector.push_back(selecBox);
+            ParamInteraction* selecBox = new ParamInteraction(this);
+            _layout.addWidget(selecBox);
+            _paramsVector.push_back(selecBox);
         }
-        else if(str.contains("%msg"))
+        else if(str.contains(QLatin1String("%msg")))
         {
-            ParamMessage* selecBox = new ParamMessage(element);
-            element->_layout.addWidget(selecBox);
-            element->_paramsVector.push_back(selecBox);
+            ParamMessage* selecBox = new ParamMessage(this);
+            _layout.addWidget(selecBox);
+            _paramsVector.push_back(selecBox);
         }
-        else if(str.contains("%stopChoices"))
+        else if(str.contains(QLatin1String("%stopChoices")))
         {
-            ParamStopChoices* selecBox = new ParamStopChoices(element);
-            element->_layout.addWidget(selecBox);
-            element->_paramsVector.push_back(selecBox);
+            ParamStopChoices* selecBox = new ParamStopChoices(this);
+            _layout.addWidget(selecBox);
+            _paramsVector.push_back(selecBox);
         }
-        else if(str.contains("%cln"))
+        else if(str.contains(QLatin1String("%cln")))
         {
-            ParamClone* selecBox = new ParamClone(element);
-            element->_layout.addWidget(selecBox);
-            element->_paramsVector.push_back(selecBox);
+            ParamClone* selecBox = new ParamClone(this);
+            _layout.addWidget(selecBox);
+            _paramsVector.push_back(selecBox);
         }
-        else if(str.contains("%cst"))
+        else if(str.contains(QLatin1String("%cst")))
         {
-            ParamCostume* selecBox = new ParamCostume(element, element->_sprite);
-            element->_layout.addWidget(selecBox);
-            element->_paramsVector.push_back(selecBox);
+            ParamCostume* selecBox = new ParamCostume(this, _sprite);
+            _layout.addWidget(selecBox);
+            _paramsVector.push_back(selecBox);
         }
-        else if(str.contains("%eff"))
+        else if(str.contains(QLatin1String("%eff")))
         {
-            ParamEffect* selecBox = new ParamEffect(element);
-            element->_layout.addWidget(selecBox);
-            element->_paramsVector.push_back(selecBox);
+            ParamEffect* selecBox = new ParamEffect(this);
+            _layout.addWidget(selecBox);
+            _paramsVector.push_back(selecBox);
         }
-        else if(str.contains("%col"))
+        else if(str.contains(QLatin1String("%col")))
         {
-            ParamTouch* selecBox = new ParamTouch(element);
-            element->_layout.addWidget(selecBox);
-            element->_paramsVector.push_back(selecBox);
+            ParamTouch* selecBox = new ParamTouch(this);
+            _layout.addWidget(selecBox);
+            _paramsVector.push_back(selecBox);
         }
-        else if(str.contains("%clr"))
+        else if(str.contains(QLatin1String("%clr")))
         {
-            ParamColor* selecBox = new ParamColor(element);
-            element->_layout.addWidget(selecBox);
-            element->_paramsVector.push_back(selecBox);
+            ParamColor* selecBox = new ParamColor(this);
+            _layout.addWidget(selecBox);
+            _paramsVector.push_back(selecBox);
         }
-        else if(str.contains("%snd"))
+        else if(str.contains(QLatin1String("%snd")))
         {
-            ParamSound* selecBox = new ParamSound(element);
-            element->_layout.addWidget(selecBox);
-            element->_paramsVector.push_back(selecBox);
+            ParamSound* selecBox = new ParamSound(this);
+            _layout.addWidget(selecBox);
+            _paramsVector.push_back(selecBox);
         }
-        else if(str.contains("%fun"))
+        else if(str.contains(QLatin1String("%fun")))
         {
-            ParamMath* selecBox = new ParamMath(element);
-            element->_layout.addWidget(selecBox);
-            element->_paramsVector.push_back(selecBox);
+            ParamMath* selecBox = new ParamMath(this);
+            _layout.addWidget(selecBox);
+            _paramsVector.push_back(selecBox);
         }
-        else if(str.contains("%words"))
+        else if(str.contains(QLatin1String("%words")))
         {
-            ParamJoinWords* selecBox = new ParamJoinWords(element);
-            element->_layout.addWidget(selecBox);
-            element->_paramsVector.push_back(selecBox);
+            ParamJoinWords* selecBox = new ParamJoinWords(this);
+            _layout.addWidget(selecBox);
+            _paramsVector.push_back(selecBox);
         }
-        else if(str.contains("%typ"))
+        else if(str.contains(QLatin1String("%typ")))
         {
-            ParamType* selecBox = new ParamType(element);
-            element->_layout.addWidget(selecBox);
-            element->_paramsVector.push_back(selecBox);
+            ParamType* selecBox = new ParamType(this);
+            _layout.addWidget(selecBox);
+            _paramsVector.push_back(selecBox);
         }
-        else if(str.contains("%delim"))
+        else if(str.contains(QLatin1String("%delim")))
         {
-            ParamDelim* selecBox = new ParamDelim(element);
-            element->_layout.addWidget(selecBox);
-            element->_paramsVector.push_back(selecBox);
+            ParamDelim* selecBox = new ParamDelim(this);
+            _layout.addWidget(selecBox);
+            _paramsVector.push_back(selecBox);
         }
-        else if(str.contains("%var"))
+        else if(str.contains(QLatin1String("%var")))
         {
-            ParamVariables* selecBox = new ParamVariables(element);
-            element->_layout.addWidget(selecBox);
-            element->_paramsVector.push_back(selecBox);
+            ParamVariables* selecBox = new ParamVariables(this);
+            _layout.addWidget(selecBox);
+            _paramsVector.push_back(selecBox);
         }
-        else if(str.contains("%idx"))
+        else if(str.contains(QLatin1String("%idx")))
         {
-            ParamListId* tE = new ParamListId(element);
-            element->_layout.addWidget(tE);
-            element->_paramsVector.push_back(tE);
+            ParamListId* tE = new ParamListId(this);
+            _layout.addWidget(tE);
+            _paramsVector.push_back(tE);
         }
-        else if(str.contains("%n"))
+        else if(str.contains(QLatin1String("%n")))
         {
-            ParamNumber* tE = new ParamNumber(element);
-            element->_layout.addWidget(tE);
-            element->_paramsVector.push_back(tE);
+            ParamNumber* tE = new ParamNumber(this);
+            _layout.addWidget(tE);
+            _paramsVector.push_back(tE);
         }
-        else if(str.contains("%s"))
+        else if(str.contains(QLatin1String("%s")))
         {
-            ParamString* tE = new ParamString(element);
-            element->_layout.addWidget(tE);
-            element->_paramsVector.push_back(tE);
+            ParamString* tE = new ParamString(this);
+            _layout.addWidget(tE);
+            _paramsVector.push_back(tE);
         }
-        else if(str.contains("%l"))
+        else if(str.contains(QLatin1String("%l")))
         {
-            ParamListSelec* tE = new ParamListSelec(element);
-            element->_layout.addWidget(tE);
-            element->_paramsVector.push_back(tE);
+            ParamListSelec* tE = new ParamListSelec(this);
+            _layout.addWidget(tE);
+            _paramsVector.push_back(tE);
         }
-        else if(str.contains("%b"))
+        else if(str.contains(QLatin1String("%b")))
         {
-            ParamDock* dock = new ParamDock(element->_color, element->_sprite, element);
-            element->_layout.addWidget(dock);
-            element->_paramsVector.push_back(dock);
+            ParamDock* dock = new ParamDock(_color, _sprite, this);
+            _layout.addWidget(dock);
+            _paramsVector.push_back(dock);
         }
         else
         {
-            QLabel* text = new QLabel(str, element);
+            QLabel* text = new QLabel(str, this);
             text->setFont(QFont("Helvetica", -1, QFont::Bold));
-            element->_layout.addWidget(text);
+            _layout.addWidget(text);
         }
     }
 }

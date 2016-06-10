@@ -3,7 +3,6 @@
 ReporterDE::ReporterDE(const QString& identifier, const QString& text, const QColor& color, Sprite* sprite, QWidget* parent) :
      DragableElement(identifier, text, color, DragableElement::Reporter, sprite, parent)
 {
-    parseText(text, this);
     _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     _layout.setContentsMargins(4, 4, 0, 0);
     _layout.setSizeConstraint(QLayout::SetFixedSize);

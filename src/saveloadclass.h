@@ -12,8 +12,8 @@ class SaveLoadClass
 {
 public:
     SaveLoadClass() { }
-    int loadScratch(QString path);
-    void saveScratch(QString path);
+    int loadScratch(const QString &path);
+    void saveScratch(const QString &path);
 private:
     //Scratch
     //load

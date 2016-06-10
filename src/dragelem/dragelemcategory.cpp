@@ -36,7 +36,7 @@ void DragElemCategory::mousePressEvent(QMouseEvent*)
 
 void DragElemCategory::showEvent(QShowEvent *)
 {
-    if(_label.text() == "motion")
+    if(_label.text() == QLatin1String("motion"))
     {
         toggleActive();
     }

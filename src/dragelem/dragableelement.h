@@ -105,7 +105,7 @@ protected:
 
     void getLayoutSize();
 
-    void parseText(const QString& text, DragableElement* element);
+    void parseText(const QString& text);
 };
 
 #endif // DRAGABLEELEMENT_H

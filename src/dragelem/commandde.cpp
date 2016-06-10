@@ -5,7 +5,6 @@ CommandDE::CommandDE(const QString& identifier, const QString& text, const QColo
     _upperDock(ScriptDock::Upper, sprite, this),
     _lowerDock(ScriptDock::Lower, sprite, this)
 {
-    parseText(text, this);
     _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     _layout.setContentsMargins(4, 0, 0, 0);
     _layout.setSizeConstraint(QLayout::SetFixedSize);

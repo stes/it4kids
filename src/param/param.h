@@ -6,12 +6,19 @@
 class ParamBase
 {
 public:
+    enum Type
+    {
+        Number,
+        String,
+        Expression
+    };
+
     virtual ~ParamBase() { }
 
     virtual QString getValue() const = 0;
     virtual bool setValue(const QString&) { return 0; }
 
-    virtual QString getType() const = 0;
+    virtual Type getType() const = 0;
 };
 
 class ParamBaseStr : public ParamBase
@@ -22,7 +29,7 @@ public:
 
     QString getValue() const { return '"' + getString().toHtmlEscaped() + '"'; }
 
-    QString getType() const { return "str"; };
+    Type getType() const { return String; };
 
 protected:
     virtual QString getString() const = 0;
@@ -36,7 +43,7 @@ public:
 
     QString getValue() const { return QString::number(getNumber()); }
 
-    QString getType() const { return "num"; };
+    Type getType() const { return Number; };
 
 protected:
     virtual double getNumber() const = 0;

@@ -4,7 +4,6 @@ HatDE::HatDE(const QString& identifier, const QString& text, const QColor& color
      DragableElement(identifier, text, color, DragableElement::Hat, sprite, parent),
      _lowerDock(ScriptDock::Lower, sprite, this)
 {
-    parseText(text, this);
     _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     _layout.setContentsMargins(4, 4, 0, 0);
     _layout.setSizeConstraint(QLayout::SetFixedSize);

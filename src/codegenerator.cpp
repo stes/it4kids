@@ -16,7 +16,7 @@ CodeGenerator::CodeGenerator()
     generateMap();
 }
 
-QString CodeGenerator::addQuotes(QString str)
+QString CodeGenerator::addQuotes(const QString &str)
 {
     return '"' + str.toHtmlEscaped() + '"';
 }
@@ -31,14 +31,14 @@ QString CodeGenerator::generateSprite(Sprite *sprite)
 	for (CostumeVector::const_iterator it = sprite->getCostumeVector()->begin(); it != sprite->getCostumeVector()->end(); it++)
 	{
         costumeRegister += indentCode(&_snippets["costume_register"], 2)
-            .replace("%entity%", "self")
-            .replace("%name%", addQuotes((*it)->getName()))
-            .replace("%file%", addQuotes((*it)->getFilename()));
+            .replace(QLatin1String("%entity%"), QLatin1String("self"))
+            .replace(QLatin1String("%name%"), addQuotes((*it)->getName()))
+            .replace(QLatin1String("%file%"), addQuotes((*it)->getFilename()));
 	}
 
     // create class file
     str += indentCode(&_snippets["import"]);
-    str += indentCode(&_snippets["class"]).replace("%name%", sprite->getName());
+    str += indentCode(&_snippets["class"]).replace(QLatin1String("%name%"), sprite->getName());
     str += indentCode(&_snippets["construct"], 1, costumeRegister);
     str += "%events%\n";
 
@@ -59,15 +59,15 @@ QString CodeGenerator::generateSprite(Sprite *sprite)
         for(int i = 1; i <= eventIt.value(); i++)
         {
             QString event = indent(2) + _events[eventIt.key()]._register + "\n";
-            events += event.replace("%counter%", QString::number(i));
+            events += event.replace(QLatin1String("%counter%"), QString::number(i));
         }
     }
 
-    str.replace("%events%", events);
+    str.replace(QLatin1String("%events%"), events);
     return str;
 }
 
-QString CodeGenerator::generateSprite(QString name)
+QString CodeGenerator::generateSprite(const QString &name)
 {
     SpriteVector* spriteVec = sMainWindow->getSpriteVector();
 
@@ -93,9 +93,9 @@ void CodeGenerator::generateFiles(QDir directory)
     // sprites
     for(SpriteVector::const_iterator it = spriteVec->begin(); it != spriteVec->end(); it++)
     {
-        entityImport += indentCode(&_snippets["entity_import"]).replace("%name%", (*it)->getName());
-        entityReload += indentCode(&_snippets["entity_reload"], 1).replace("%name%", (*it)->getName());
-        entityRegister += indentCode(&_snippets["entity_register"], 1).replace("%name%", (*it)->getName());
+        entityImport += indentCode(&_snippets["entity_import"]).replace(QLatin1String("%name%"), (*it)->getName());
+        entityReload += indentCode(&_snippets["entity_reload"], 1).replace(QLatin1String("%name%"), (*it)->getName());
+        entityRegister += indentCode(&_snippets["entity_register"], 1).replace(QLatin1String("%name%"), (*it)->getName());
 
         // write to file
         QFile file(directory.filePath("sprite_" + (*it)->getName() + ".py"));
@@ -112,9 +112,9 @@ void CodeGenerator::generateFiles(QDir directory)
     for (CostumeVector::const_iterator it = bgCostumeVec->begin(); it != bgCostumeVec->end(); it++)
 	{
         backgroundRegister += indentCode(&_snippets["costume_register"], 1)
-            .replace("%entity%", "background_ent")
-            .replace("%name%", addQuotes((*it)->getName()))
-            .replace("%file%", addQuotes((*it)->getFilename()));
+            .replace(QLatin1String("%entity%"), QLatin1String("background_ent"))
+            .replace(QLatin1String("%name%"), addQuotes((*it)->getName()))
+            .replace(QLatin1String("%file%"), addQuotes((*it)->getFilename()));
 	}
 
     // main file
@@ -124,7 +124,7 @@ void CodeGenerator::generateFiles(QDir directory)
     str += indentCode(&_snippets["main"], 0, backgroundRegister + entityReload + entityRegister);
 
     // write to file
-    QFile file(directory.filePath("main.py"));
+    QFile file(directory.filePath(QStringLiteral("main.py")));
     if (file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
         QTextStream out(&file);
@@ -133,12 +133,12 @@ void CodeGenerator::generateFiles(QDir directory)
     }
 }
 
-QString CodeGenerator::indentCode(QStringList *code, int num, QString content)
+QString CodeGenerator::indentCode(QStringList *code, int num, const QString &content)
 {
     QString str;
     for (QStringList::const_iterator it = code->constBegin(); it != code->constEnd(); it++)
     {
-        if(*it == "%content%")
+        if(*it == QLatin1String("%content%"))
             str += content;
         else
             str += indent(num) + *it + '\n';
@@ -170,7 +170,7 @@ QString CodeGenerator::generateCode(DragableElement* element, int sub)
                _eventCounters[name]++;
            else
                _eventCounters[name] = 1;
-           tmp.replace("%counter%", QString::number(_eventCounters[name]));
+           tmp.replace(QLatin1String("%counter%"), QString::number(_eventCounters[name]));
            stop = true;
         }
         else if (next->getType() == DragableElement::Wrapper && _controls.contains(name))
@@ -187,9 +187,9 @@ QString CodeGenerator::generateCode(DragableElement* element, int sub)
             tmp = indent(sub) + "pass\n";
         }
 
-        if(tmp.contains("%indent_counter%"))
+        if(tmp.contains(QLatin1String("%indent_counter%")))
         {
-            tmp.replace("%indent_counter%", QString::number(_indentCounter));
+            tmp.replace(QLatin1String("%indent_counter%"), QString::number(_indentCounter));
             _indentCounter++;
         }
 
@@ -210,7 +210,7 @@ QString CodeGenerator::generateCode(DragableElement* element, int sub)
     return str;
 }
 
-bool CodeGenerator::supported(QString ident)
+bool CodeGenerator::supported(const QString &ident)
 {
     return _events.contains(ident) || _controls.contains(ident) || _commands.contains(ident);
 }

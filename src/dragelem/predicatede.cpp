@@ -5,7 +5,6 @@ PredicateDE::PredicateDE(const QString& identifier, const QString& text, const Q
     DragableElement(identifier, text, color, DragableElement::Predicate, sprite, parent)
 {
     _currentDock = 0;
-    parseText(text, this);
     _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     _layout.setContentsMargins(10, 0, 0, 0);
     _layout.setSizeConstraint(QLayout::SetFixedSize);

@@ -13,10 +13,10 @@ class CodeGenerator
 public:
     CodeGenerator();
     QString generateSprite(Sprite *sprite);
-    QString generateSprite(QString name);
+    QString generateSprite(const QString &name);
     void generateFiles(QDir directory);
 
-    bool supported(QString ident);
+    bool supported(const QString &ident);
 
 private:
     struct Event
@@ -25,11 +25,11 @@ private:
         QString _register;
     };
 
-    QString addQuotes(QString str);
+    QString addQuotes(const QString &str);
 
     QString generateCode(DragableElement* element, int sub);
     QString indent(int indent);
-    QString indentCode(QStringList *code, int indent = 0, QString content = "");
+    QString indentCode(QStringList *code, int indent = 0, const QString &content = QString());
 
     QStringList processCodeField(QJsonArray Code);
     void generateMap();

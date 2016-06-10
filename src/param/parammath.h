@@ -14,7 +14,7 @@ public:
 
     QString getValue() const;
 
-    QString getType() const { return "expression"; };
+    Type getType() const { return Expression; };
 };
 
 #endif // PARAMMATH_H

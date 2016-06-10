@@ -31,7 +31,7 @@ WavFile::~WavFile()
 
 bool WavFile::open(const QString &fileName)
 {
-    QStringList list = fileName.split("/");
+    QStringList list = fileName.split('/');
     _name = list.last();
     _name.truncate(_name.length() - 4);
     _nameLabel.setText(_name);

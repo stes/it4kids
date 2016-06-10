@@ -127,46 +127,49 @@ void MainWindow::InitializeDragElem(const QString& path)
         if(xmlReader.readNext() == QXmlStreamReader::StartElement)
         {
             QString type = xmlReader.name().toString();
-            if(type == "dragableelement")
+            if(type == QLatin1String("dragableelement"))
             {
                 paramIndex = 0;
                 attributes = xmlReader.attributes();
-                DragElemCategory* category = GetCategoryByName(attributes.value("category").toString());
-                QString type = attributes.value("type").toString();
-                QString name = attributes.value("name").toString();
-                QString spec = attributes.value("spec").toString();
+                DragElemCategory* category = GetCategoryByName(attributes.value(QLatin1String("category")).toString());
+                QString type = attributes.value(QLatin1String("type")).toString();
+                QString name = attributes.value(QLatin1String("name")).toString();
+                QString spec = attributes.value(QLatin1String("spec")).toString();
                 QColor color = category->getColor();
 
                 if(!_Cgen.supported(name))
                     color = QColor();
 
-                if(type == "command")
+                if(type == QLatin1String("command"))
                     lastElement = new CommandDE(name, spec, color, 0, this);
-                else if(type == "hat")
+                else if(type == QLatin1String("hat"))
                     lastElement = new HatDE(name, spec, color, 0, this);
-                else if(type == "wrapper")
+                else if(type == QLatin1String("wrapper"))
                     lastElement = new WrapperDE(name, spec, color, 0, this);
-                else if(type == "predicate")
+                else if(type == QLatin1String("predicate"))
                     lastElement = new PredicateDE(name, spec, color, 0, this);
-                else if(type == "reporter")
+                else if(type == QLatin1String("reporter"))
                     lastElement = new ReporterDE(name, spec, color, 0, this);
 
                 lastElement->makeStatic();
                 category->getElemList()->push_back(lastElement);
                 _LoadableElems.push_back(lastElement);
             }
-            else if(type == "parameter")
+            else if(type == QLatin1String("parameter"))
             {
                 attributes = xmlReader.attributes();
+                QString def = attributes.value(QLatin1String("default")).toString();
                 std::vector<ParamBase*> *vec = lastElement->getParamsVector();
-                while(paramIndex < vec->size() && !vec->at(paramIndex)->setValue(attributes.value("default").toString()))
+                while(paramIndex < vec->size() && !vec->at(paramIndex)->setValue(def))
                     paramIndex++;
                 paramIndex++;
             }
-            else if(type == "dragelemcategory")
+            else if(type == QLatin1String("dragelemcategory"))
             {
                 attributes = xmlReader.attributes();
-                DragElemCategory* category = new DragElemCategory(ui->elementList, attributes.value("name").toString(), QColor(attributes.value("color").toString()), this);
+                QString name = attributes.value(QLatin1String("name")).toString();
+                QColor color = QColor(attributes.value(QLatin1String("color")).toString());
+                DragElemCategory* category = new DragElemCategory(ui->elementList, name, color, this);
                 ui->categorySelect->getCategoryList()->push_back(category);
             }
         }
@@ -214,7 +217,7 @@ void MainWindow::loadFromFile()
     // TODO
     ui->scriptArea->setCurrentSprite(0);
     ui->spriteSelect->clear();
-    slc.loadScratch("project.json");
+    slc.loadScratch(QStringLiteral("project.json"));
     _currentSprite = getSpriteVector()->at(0);
     emit changeCurrentSprite(_currentSprite);
 
@@ -224,7 +227,7 @@ void MainWindow::loadFromFile()
 void MainWindow::saveToFile()
 {
     SaveLoadClass slc;
-    slc.saveScratch("project.json");
+    slc.saveScratch(QStringLiteral("project.json"));
 }
 
 void MainWindow::on_soundFromFile_clicked()
@@ -306,10 +309,10 @@ void MainWindow::on_buttonAddDragElem_clicked()
             if(xmlReader.readNext() == QXmlStreamReader::StartElement)
             {
                 QString type = xmlReader.name().toString();
-                if(type == "dragableelement")
+                if(type == QLatin1String("dragableelement"))
                 {
                     attributes = xmlReader.attributes();
-                    _currentStudent->addAddDragElem(attributes.value("name").toString());
+                    _currentStudent->addAddDragElem(attributes.value(QLatin1String("name")).toString());
                 }
             }
         }

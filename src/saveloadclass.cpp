@@ -12,7 +12,7 @@
 
 extern MainWindow* sMainWindow;
 
-int SaveLoadClass::loadScratch(QString path)
+int SaveLoadClass::loadScratch(const QString &path)
 {
 
     QFile loadFile(path);
@@ -42,9 +42,9 @@ int SaveLoadClass::loadScratch(QString path)
         if((*it).isObject())
         {
             QJsonObject JSprite = (*it).toObject();
-            QString name = JSprite["objName"].toString();
+            QString name = JSprite[QStringLiteral("objName")].toString();
             Sprite *sprite = new Sprite(name, sMainWindow);
-            QJsonArray Scripts = JSprite["scripts"].toArray();
+            QJsonArray Scripts = JSprite[QStringLiteral("scripts")].toArray();
             for(QJsonArray::const_iterator scriptIt = Scripts.constBegin(); scriptIt != Scripts.constEnd(); scriptIt++)
                 handleScriptTuple((*scriptIt).toArray(), sprite);
 
@@ -112,10 +112,10 @@ DragableElement* SaveLoadClass::handleBlockTuple(QJsonArray a, class Sprite *spr
     std::vector<ParamBase*>* params =  ele->getParamsVector();
     for(std::vector<ParamBase*>::iterator it = params->begin(); it != params->end() && i < a.count(); it++)
     {
-        QString type = (*it)->getType();
-        if(type == "num" && a[i].isDouble())
+        ParamBase::Type type = (*it)->getType();
+        if(type == ParamBase::Number && a[i].isDouble())
             (*it)->setValue(QString::number(a[i].toDouble()));
-        else if(type == "str" && a[i].isString())
+        else if(type == ParamBase::String && a[i].isString())
             (*it)->setValue(a[i].toString());
         i++;
     }
@@ -130,7 +130,7 @@ DragableElement* SaveLoadClass::handleBlockTuple(QJsonArray a, class Sprite *spr
     return ele;
 }
 
-void SaveLoadClass::saveScratch(QString path)
+void SaveLoadClass::saveScratch(const QString &path)
 {
     SpriteVector* spriteVec = sMainWindow->getSpriteVector();
     QJsonArray Main;
@@ -139,7 +139,7 @@ void SaveLoadClass::saveScratch(QString path)
     for(SpriteVector::const_iterator it = spriteVec->begin(); it != spriteVec->end(); it++)
     {
         QJsonObject Sprite;
-        Sprite.insert("objName", QJsonValue((*it)->getName()));
+        Sprite.insert(QStringLiteral("objName"), QJsonValue((*it)->getName()));
 
         QJsonArray Scripts;
         DragElemVector * eleVec = (*it)->getDragElemVector();
@@ -151,7 +151,7 @@ void SaveLoadClass::saveScratch(QString path)
             }
         }
 
-        Sprite.insert("scripts", Scripts);
+        Sprite.insert(QStringLiteral("scripts"), Scripts);
         Main.append(Sprite);
     }
     QJsonDocument doc(Main);
@@ -198,10 +198,10 @@ QJsonArray SaveLoadClass::generateBlockTuple(DragableElement* element)
     std::vector<ParamBase*>* params =  element->getParamsVector();
     for(std::vector<ParamBase*>::const_iterator it = params->begin(); it != params->end(); it++)
     {
-        QString type = (*it)->getType();
-        if(type == "num")
+        ParamBase::Type type = (*it)->getType();
+        if(type == ParamBase::Number)
             Block.append(QJsonValue(((ParamBaseNum*)(*it))->getNumber()));
-        else if(type == "str")
+        else if(type == ParamBase::Number)
             Block.append(QJsonValue(((ParamBaseStr*)(*it))->getString()));
     }
 

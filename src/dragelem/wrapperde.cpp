@@ -1,17 +1,15 @@
 #include "wrapperde.h"
 
 WrapperDE::WrapperDE(const QString& identifier, const QString& text, const QColor& color, Sprite *sprite, QWidget* parent) :
-    DragableElement(identifier, text, color, DragableElement::Wrapper, sprite, parent),
+    DragableElement(identifier, QString(text).remove(QStringLiteral("%c")), color, DragableElement::Wrapper, sprite, parent),
     _label(new QWidget(this)),
     _upperDock(ScriptDock::Upper, sprite, this),
     _lowerDock(ScriptDock::Lower, sprite, this),
     _innerDock(ScriptDock::Inner, sprite, this)
 {
-    QString spec(text);
-    spec.remove("%c");
+    _text = text;
 
     _width = 0;
-    parseText(spec, this);
     _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     _layout.setContentsMargins(0, 0, 0, 0);
 
