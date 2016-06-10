@@ -20,10 +20,6 @@ class Sprite;
 class Teacher;
 class Student;
 
-// TODO: move somewhere else
-template<typename Container>
-void delete_all(Container& c) { while(!c.empty()) delete c.back(), c.pop_back(); }
-
 namespace Ui {
 class MainWindow;
 }
@@ -93,6 +89,8 @@ private:
 
     QMenu _fileMenu;
     QMenu _editMenu;
+
+    bool _loading;
 
     AudioEngine _audioEngine;
     CodeGenerator _Cgen;

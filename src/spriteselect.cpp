@@ -20,11 +20,6 @@ void SpriteSelect::showEvent(QShowEvent*)
     }
 }
 
-void SpriteSelect::clear()
-{
-    delete_all(_spriteVector);
-}
-
 SpriteSelect::~SpriteSelect()
 {
 }

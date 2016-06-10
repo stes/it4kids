@@ -12,8 +12,8 @@ class SaveLoadClass
 {
 public:
     SaveLoadClass() { }
-    int loadScratch(const QString &path);
-    void saveScratch(const QString &path);
+    bool loadScratch(const QString &path, std::vector<Sprite*> *spriteVec);
+    bool saveScratch(const QString &path, std::vector<Sprite*> *spriteVec);
 private:
     //Scratch
     //load

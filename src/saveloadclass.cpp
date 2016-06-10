@@ -12,15 +12,13 @@
 
 extern MainWindow* sMainWindow;
 
-int SaveLoadClass::loadScratch(const QString &path)
+bool SaveLoadClass::loadScratch(const QString &path, SpriteVector *spriteVec)
 {
-
     QFile loadFile(path);
-
     if (!loadFile.open(QIODevice::ReadOnly))
     {
         qWarning("Couldn't open save file.");
-        return 1;
+        return false;
     }
     QByteArray saveData = loadFile.readAll();
 
@@ -29,7 +27,14 @@ int SaveLoadClass::loadScratch(const QString &path)
     if (!JDoc.isArray())
     {
         qWarning("invalid file format");
-        return 1;
+        return false;
+    }
+
+    // clear the vector
+    while(!spriteVec->empty())
+    {
+        delete spriteVec->back();
+        spriteVec->pop_back();
     }
 
     //get main object
@@ -56,7 +61,7 @@ int SaveLoadClass::loadScratch(const QString &path)
         }
     }
 
-    return 0;
+    return true;
 }
 
 void SaveLoadClass::handleScriptTuple(QJsonArray a, Sprite *sprite)
@@ -130,9 +135,8 @@ DragableElement* SaveLoadClass::handleBlockTuple(QJsonArray a, class Sprite *spr
     return ele;
 }
 
-void SaveLoadClass::saveScratch(const QString &path)
+bool SaveLoadClass::saveScratch(const QString &path, SpriteVector *spriteVec)
 {
-    SpriteVector* spriteVec = sMainWindow->getSpriteVector();
     QJsonArray Main;
 
     //every sprite
@@ -161,10 +165,11 @@ void SaveLoadClass::saveScratch(const QString &path)
     if (!saveFile.open(QIODevice::WriteOnly))
     {
         qWarning("Couldn't open save file.");
-        return;
+        return false;
     }
 
     saveFile.write(doc.toJson());
+    return true;
 }
 
 QJsonArray SaveLoadClass::generateScriptTuple(DragableElement* element)

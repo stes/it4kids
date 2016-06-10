@@ -103,6 +103,8 @@ MainWindow::MainWindow(QWidget *parent) :
     _editMenu.addAction(tr("Small stage layout"));
     _editMenu.addAction(tr("Turbo mode"));
 
+    _loading = false;
+
     connect(this, SIGNAL(currentTeacherChanged(Teacher*)), ui->studentList, SLOT(currentTeacherChanged(Teacher*)));
 
     _Cgen.generateFiles(_tmpDir);
@@ -184,6 +186,8 @@ QRect MainWindow::getScriptAreaRect()
 
 void  MainWindow::reloadCode()
 {
+    if(_loading)
+        return;
     // TODO
     if(_currentSprite)
         ui->codeEditor->setText(_Cgen.generateSprite(_currentSprite));
@@ -213,21 +217,23 @@ MainWindow::~MainWindow()
 void MainWindow::loadFromFile()
 {
     SaveLoadClass slc;
-    _currentSprite = 0;
+    _loading = true;
     // TODO
     ui->scriptArea->setCurrentSprite(0);
-    ui->spriteSelect->clear();
-    slc.loadScratch(QStringLiteral("project.json"));
-    _currentSprite = getSpriteVector()->at(0);
-    emit changeCurrentSprite(_currentSprite);
+    if(slc.loadScratch(QStringLiteral("project.json"), getSpriteVector()))
+    {
+        _currentSprite = getSpriteVector()->at(0);
+        emit changeCurrentSprite(_currentSprite);
+    }
 
+    _loading = false;
     reloadCode();
 }
 
 void MainWindow::saveToFile()
 {
     SaveLoadClass slc;
-    slc.saveScratch(QStringLiteral("project.json"));
+    slc.saveScratch(QStringLiteral("project.json"), getSpriteVector());
 }
 
 void MainWindow::on_soundFromFile_clicked()
