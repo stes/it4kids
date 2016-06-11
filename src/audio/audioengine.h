@@ -3,10 +3,6 @@
 
 #include <QObject>
 
-#include <QLineEdit>
-#include <QPushButton>
-#include <QVBoxLayout>
-
 class Sprite;
 
 class AudioEngine : public QObject

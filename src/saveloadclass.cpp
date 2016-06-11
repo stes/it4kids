@@ -6,13 +6,15 @@
 #include "saveloadclass.h"
 
 #include "costume/costume.h"
+#include "dragelem/draggableelement.h"
 #include "param/param.h"
 #include "mainwindow.h"
 #include "sprite.h"
+#include "spriteselect.h"
 
 extern MainWindow* sMainWindow;
 
-bool SaveLoadClass::loadScratch(const QString &path, SpriteVector *spriteVec)
+bool SaveLoadClass::loadScratch(const QString &path, SpriteSelect *spriteSelect)
 {
     QFile loadFile(path);
     if (!loadFile.open(QIODevice::ReadOnly))
@@ -31,11 +33,7 @@ bool SaveLoadClass::loadScratch(const QString &path, SpriteVector *spriteVec)
     }
 
     // clear the vector
-    while(!spriteVec->empty())
-    {
-        delete spriteVec->back();
-        spriteVec->pop_back();
-    }
+    spriteSelect->clear();
 
     //get main object
     QJsonArray Main = JDoc.array();
@@ -57,14 +55,14 @@ bool SaveLoadClass::loadScratch(const QString &path, SpriteVector *spriteVec)
             costume->open("Assets/Costumes/dog2-a.png");
             costume->hide();
             sprite->setCurrentCostume(costume);
-            sMainWindow->addSprite(sprite);
+            spriteSelect->addSprite(sprite);
         }
     }
 
     return true;
 }
 
-void SaveLoadClass::handleScriptTuple(QJsonArray a, Sprite *sprite)
+void SaveLoadClass::handleScriptTuple(const QJsonArray &a, Sprite *sprite)
 {
     if (a.count() != 3)
     {
@@ -87,7 +85,7 @@ void SaveLoadClass::handleScriptTuple(QJsonArray a, Sprite *sprite)
     }
 }
 
-DraggableElement* SaveLoadClass::handleBlockTupleArray(QJsonArray a, Sprite *sprite)
+DraggableElement* SaveLoadClass::handleBlockTupleArray(const QJsonArray &a, Sprite *sprite)
 {
     DraggableElement* ele = 0;
     DraggableElement* lastEle = 0;
@@ -107,15 +105,15 @@ DraggableElement* SaveLoadClass::handleBlockTupleArray(QJsonArray a, Sprite *spr
         return ele->getRoot();
 }
 
-DraggableElement* SaveLoadClass::handleBlockTuple(QJsonArray a, class Sprite *sprite)
+DraggableElement* SaveLoadClass::handleBlockTuple(const QJsonArray &a, class Sprite *sprite)
 {
     QString name = a[0].toString();
     DraggableElement* ele = sMainWindow->createNewElement(name, sprite);
 
     // params
     int i = 1;
-    std::vector<ParamBase*>* params =  ele->getParamsVector();
-    for(std::vector<ParamBase*>::iterator it = params->begin(); it != params->end() && i < a.count(); it++)
+    const std::vector<ParamBase*>* params = ele->getParamsVector();
+    for(std::vector<ParamBase*>::const_iterator it = params->begin(); it != params->end() && i < a.count(); it++)
     {
         ParamBase::Type type = (*it)->getType();
         if(type == ParamBase::Number && a[i].isDouble())
@@ -135,18 +133,19 @@ DraggableElement* SaveLoadClass::handleBlockTuple(QJsonArray a, class Sprite *sp
     return ele;
 }
 
-bool SaveLoadClass::saveScratch(const QString &path, SpriteVector *spriteVec)
+bool SaveLoadClass::saveScratch(const QString &path, const SpriteSelect *spriteSelect)
 {
     QJsonArray Main;
 
     //every sprite
+    const SpriteVector *spriteVec = spriteSelect->getSpriteVector();
     for(SpriteVector::const_iterator it = spriteVec->begin(); it != spriteVec->end(); it++)
     {
         QJsonObject Sprite;
         Sprite.insert(QStringLiteral("objName"), QJsonValue((*it)->getName()));
 
         QJsonArray Scripts;
-        DragElemVector * eleVec = (*it)->getDragElemVector();
+        const DragElemVector * eleVec = (*it)->getDragElemVector();
         for(DragElemVector::const_iterator elemIt = eleVec->begin(); elemIt != eleVec->end(); elemIt++)
         {
             if ((*elemIt)->getRoot() == (*elemIt))
@@ -172,7 +171,7 @@ bool SaveLoadClass::saveScratch(const QString &path, SpriteVector *spriteVec)
     return true;
 }
 
-QJsonArray SaveLoadClass::generateScriptTuple(DraggableElement* element)
+QJsonArray SaveLoadClass::generateScriptTuple(const DraggableElement* element)
 {
     QPoint Pos = element->pos();
     QJsonArray ScriptTuple;
@@ -183,9 +182,9 @@ QJsonArray SaveLoadClass::generateScriptTuple(DraggableElement* element)
     return ScriptTuple;
 }
 
-QJsonArray SaveLoadClass::generateBlockTupleArray(DraggableElement* element)
+QJsonArray SaveLoadClass::generateBlockTupleArray(const DraggableElement* element)
 {
-    DraggableElement* next = element;
+    const DraggableElement* next = element;
     QJsonArray BlockArray;
     while (next)
     {
@@ -195,12 +194,12 @@ QJsonArray SaveLoadClass::generateBlockTupleArray(DraggableElement* element)
     return BlockArray;
 }
 
-QJsonArray SaveLoadClass::generateBlockTuple(DraggableElement* element)
+QJsonArray SaveLoadClass::generateBlockTuple(const DraggableElement* element)
 {
     QJsonArray Block;
     Block.append(QJsonValue(element->getIdentifier()));
 
-    std::vector<ParamBase*>* params =  element->getParamsVector();
+    const std::vector<ParamBase*>* params = element->getParamsVector();
     for(std::vector<ParamBase*>::const_iterator it = params->begin(); it != params->end(); it++)
     {
         ParamBase::Type type = (*it)->getType();

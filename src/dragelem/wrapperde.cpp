@@ -1,5 +1,7 @@
 #include "wrapperde.h"
 
+#include "sprite.h"
+
 WrapperDE::WrapperDE(const QString& identifier, const QString& text, const QColor& color, Sprite *sprite, QWidget* parent) :
     DraggableElement(identifier, QString(text).remove(QStringLiteral("%c")), color, DraggableElement::Wrapper, sprite, parent),
     _label(new QWidget(this)),
@@ -143,7 +145,7 @@ void WrapperDE::moveEvent(QMoveEvent*)
     _lowerDock.setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(0, _height+22+_innerHeight), QSize(_width, _height)));
 }
 
-DraggableElement* WrapperDE::getWrapElem()
+const DraggableElement* WrapperDE::getWrapElem() const
 {
     return _innerDock.getDockedElem();
 }

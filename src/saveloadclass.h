@@ -4,26 +4,25 @@
 #include <QString>
 #include <QJsonArray>
 
-#include "dragelem/draggableelement.h"
-
-class MainWindow;
+class DraggableElement;
+class SpriteSelect;
 
 class SaveLoadClass
 {
 public:
     SaveLoadClass() { }
-    bool loadScratch(const QString &path, std::vector<Sprite*> *spriteVec);
-    bool saveScratch(const QString &path, std::vector<Sprite*> *spriteVec);
+    bool loadScratch(const QString &path, SpriteSelect *spriteSelect);
+    bool saveScratch(const QString &path, const SpriteSelect *spriteSelect);
 private:
     //Scratch
     //load
-    void handleScriptTuple(QJsonArray a, class Sprite *sprite);
-    DraggableElement* handleBlockTupleArray(QJsonArray a, class Sprite *sprite);
-    DraggableElement* handleBlockTuple(QJsonArray a, class Sprite *sprite);
+    void handleScriptTuple(const QJsonArray &a, class Sprite *sprite);
+    DraggableElement* handleBlockTupleArray(const QJsonArray &a, class Sprite *sprite);
+    DraggableElement* handleBlockTuple(const QJsonArray &a, class Sprite *sprite);
     //save
-    QJsonArray generateScriptTuple(DraggableElement* element);
-    QJsonArray generateBlockTupleArray(DraggableElement* element);
-    QJsonArray generateBlockTuple(DraggableElement* element);
+    QJsonArray generateScriptTuple(const DraggableElement* element);
+    QJsonArray generateBlockTupleArray(const DraggableElement* element);
+    QJsonArray generateBlockTuple(const DraggableElement* element);
     //Snap
 };
 

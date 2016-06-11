@@ -5,9 +5,6 @@
 
 #include <QLabel>
 
-#include "mainwindow.h"
-
-
 class DraggableElement;
 
 class Student

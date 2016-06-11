@@ -1,13 +1,11 @@
-#include <algorithm>
-
-#include <QImage>
 #include <QLabel>
 #include <QPainter>
-#include <QObject>
 #include <QStyleOption>
 
 #include "sprite.h"
 
+#include "audio/wavfile.h"
+#include "dragelem/draggableelement.h"
 #include "costume/costume.h"
 #include "mainwindow.h"
 #include "scriptarea.h"
@@ -68,6 +66,11 @@ void Sprite::setCurrentCostume(Costume *costume)
     emit currentCostumeChanged(this);
 }
 
+void Sprite::playSound(int index)
+{
+    _soundVector[index]->play();
+}
+
 void Sprite::removeElement(DraggableElement *element)
 {
     _dragElemVector.erase(std::remove(_dragElemVector.begin(), _dragElemVector.end(), element), _dragElemVector.end());
@@ -81,7 +84,7 @@ void Sprite::removeFromHitTest(DockingArea* widget)
 void Sprite::performHitTest(DraggableElement* elem)
 {
     QRect rectDE(elem->mapToGlobal(QPoint(0, 0)), QSize(elem->width(), elem->height()));
-    for(HitTestVector::const_iterator it = _hitTestVector.begin(); it != _hitTestVector.end(); it++)
+    for(DockVector::const_iterator it = _hitTestVector.begin(); it != _hitTestVector.end(); it++)
     {
         if((*it)->isActive() && (*it)->getRect()->intersects(rectDE) && (*it)->getParent()->getRoot() != elem)
         {

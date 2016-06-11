@@ -1,100 +1,122 @@
-#include <QDir>
+#include <Python.h>
 
 #include "pythoncontroller.h"
 
 PythonController::PythonController()
 {
     Py_Initialize();
+}
 
-    PyObject *pSysPath = PySys_GetObject((char*)"path");
-    QByteArray path = QDir::currentPath().append("/python").toLatin1();
-    PyObject *pScriptPath = PyUnicode_DecodeFSDefault(path.data());
+PythonController::~PythonController()
+{
+    Py_Finalize();
+}
+
+void PythonController::addSysPath(const char *pPath)
+{
+    PyObject *pSysPath = PySys_GetObject("path");
+    PyObject *pScriptPath = PyUnicode_DecodeFSDefault(pPath);
     PyList_Append(pSysPath, pScriptPath);
     Py_DECREF(pScriptPath);
+}
 
-    m_pModule = NULL;
-
-    PyObject *pName;
-    pName = PyUnicode_DecodeFSDefault("it4k.embed");
-    m_pIT4KModule = PyImport_Import(pName);
+void PythonController::init()
+{
+    PyObject *pName = PyUnicode_DecodeFSDefault("it4k.embed");
+    PyObject *pIT4KModule = PyImport_Import(pName);
     Py_DECREF(pName);
 
-    if(m_pIT4KModule == NULL)
+    if (pIT4KModule == NULL)
     {
         PyErr_Print();
         fprintf(stderr, "Failed to load it4k module\n");
+        return;
     }
+
+    _pIT4KApp = callMethodWithReturn(pIT4KModule, "init");
+    Py_DECREF(pIT4KModule);
 }
 
-void PythonController::callMethod(PyObject *pModule, const char *pName, PyObject *pArgs)
+void PythonController::loadEntity(const char *pModule, const char *pClass, const char *pCodeStr)
 {
-    PyObject *pValue, *pFunc;
+    PyObject *pEntModule = loadModuleFromStr(pModule, pCodeStr);
+    if(!pEntModule)
+        return;
 
-    if(pModule)
+    PyObject *pEntInstance = callMethodWithReturn(pEntModule, pClass);
+    Py_DECREF(pEntModule);
+    
+    PyObject *pArgs = PyTuple_New(1);
+    PyTuple_SetItem(pArgs, 0, pEntInstance);
+
+    callMethod(_pIT4KApp, "add_entity", pArgs);
+    Py_DECREF(pArgs);
+}
+
+PyObject *PythonController::callMethodWithReturn(PyObject *pObj, const char *pName, PyObject *pArgs)
+{
+    PyObject *pValue = 0, *pFunc;
+
+    if(pObj)
     {
-        pFunc = PyObject_GetAttrString(pModule, pName);
+        pFunc = PyObject_GetAttrString(pObj, pName);
 
         if(pFunc && PyCallable_Check(pFunc))
         {
             // TODO: do some checks here
             pValue = PyObject_CallObject(pFunc, pArgs);
-            if(pValue != NULL)
-            {
-                //printf("Result of resize: %ld\n", PyInt_AsLong(pValue));
-                Py_DECREF(pValue);
-            }
-            else
+            if(pValue == NULL)
             {
                 PyErr_Print();
-                fprintf(stderr, "Call failed\n");
+                fprintf(stderr, "Call failed: %s\n", pName);
             }
         }
         else
         {
             if(PyErr_Occurred())
                 PyErr_Print();
-            fprintf(stderr, "Cannot find function\n");
+            fprintf(stderr, "Cannot find function %s\n", pName);
         }
         Py_XDECREF(pFunc);
     }
+
+    return pValue;
 }
 
-void PythonController::loadApp(const char *pAppName)
+void PythonController::callMethod(PyObject *pObj, const char *pName, PyObject *pArgs)
 {
-    if(m_pModule == NULL)
-    {
-        PyObject *pName = PyUnicode_DecodeFSDefault(pAppName);
-        m_pModule = PyImport_Import(pName);
-        Py_DECREF(pName);
-    }
-    else
-        m_pModule = PyImport_ReloadModule(m_pModule);
+    PyObject *pValue = callMethodWithReturn(pObj, pName, pArgs);
+    Py_XDECREF(pValue);
+}
 
-    if(m_pModule == NULL)
+PyObject *PythonController::loadModuleFromStr(const char *pName, const char *pCodeStr)
+{
+    PyObject *pCode = Py_CompileString(pCodeStr, pName, Py_file_input);
+    PyObject *pModule = PyImport_ExecCodeModule(pName, pCode);
+    Py_XDECREF(pCode);
+
+    if (pModule == NULL)
     {
         PyErr_Print();
-        fprintf(stderr, "Failed to load module\n");
+        fprintf(stderr, "Failed to load module %s\n", pName);
     }
-}
 
-void PythonController::initApp()
-{
-	callMethod(m_pModule, "init");
+    return pModule;
 }
 
 void PythonController::sendStart()
 {
-    callMethod(m_pIT4KModule, "start");
+    callMethod(_pIT4KApp, "start");
 }
 
 void PythonController::sendStop()
 {
-    callMethod(m_pIT4KModule, "stop");
+    callMethod(_pIT4KApp, "stop");
 }
 
 void PythonController::sendDraw()
 {
-    callMethod(m_pIT4KModule, "draw");
+    callMethod(_pIT4KApp, "draw");
 }
 
 void PythonController::sendResize(int w, int h)
@@ -106,7 +128,7 @@ void PythonController::sendResize(int w, int h)
     pValue = PyLong_FromLong(h);
     PyTuple_SetItem(pArgs, 1, pValue);
 
-    callMethod(m_pIT4KModule, "resize", pArgs);
+    callMethod(_pIT4KApp, "resize", pArgs);
     Py_DECREF(pArgs);
 }
 
@@ -123,7 +145,7 @@ void PythonController::sendMousePress(int x, int y)
     pValue = PyLong_FromLong(0);
     PyTuple_SetItem(pArgs, 3, pValue);
 
-    callMethod(m_pIT4KModule, "mouse_press", pArgs);
+    callMethod(_pIT4KApp, "mouse_press", pArgs);
     Py_DECREF(pArgs);
 }
 
@@ -140,7 +162,7 @@ void PythonController::sendMouseRelease(int x, int y)
     pValue = PyLong_FromLong(0);
     PyTuple_SetItem(pArgs, 3, pValue);
 
-    callMethod(m_pIT4KModule, "mouse_release", pArgs);
+    callMethod(_pIT4KApp, "mouse_release", pArgs);
     Py_DECREF(pArgs);
 }
 
@@ -161,6 +183,6 @@ void PythonController::sendMouseMove(int x, int y, int dx, int dy)
     pValue = PyLong_FromLong(0);
     PyTuple_SetItem(pArgs, 5, pValue);
 
-    callMethod(m_pIT4KModule, "mouse_drag", pArgs);
+    callMethod(_pIT4KApp, "mouse_drag", pArgs);
     Py_DECREF(pArgs);
 }

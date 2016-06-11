@@ -5,7 +5,7 @@
 #include <QOpenGLWidget>
 #include <QMouseEvent>
 
-#include "pythoncontroller.h"
+class PythonController;
 
 class Scene : public QOpenGLWidget, protected QOpenGLFunctions
 {

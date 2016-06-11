@@ -1,5 +1,3 @@
-#include <QApplication>
-
 #include "paramdestination.h"
 
 #include "mainwindow.h"
@@ -11,10 +9,10 @@ extern MainWindow* sMainWindow;
 ParamDestination::ParamDestination(QWidget *parent) : QComboBox(parent)
 {
     addItem("mouse");
-    SpriteVector* sV = sMainWindow->getSpriteVector();
-    for(uint i = 0; i < sV->size(); i++)
+    const SpriteVector* sV = sMainWindow->getSpriteVector();
+    for (SpriteVector::const_iterator it = sV->begin(); it != sV->end(); it++)
     {
-        addItem(sV->at(i)->getName());
+        addItem((*it)->getName());
     }
 }
 

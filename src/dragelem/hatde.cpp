@@ -1,5 +1,7 @@
 #include "hatde.h"
 
+#include "sprite.h"
+
 HatDE::HatDE(const QString& identifier, const QString& text, const QColor& color, Sprite* sprite, QWidget* parent) :
      DraggableElement(identifier, text, color, DraggableElement::Hat, sprite, parent),
      _lowerDock(ScriptDock::Lower, sprite, this)

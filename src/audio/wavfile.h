@@ -42,7 +42,7 @@ public:
     inline int getDataSize() {return _wavHeader._dataSize; }
     inline char* getDataPointer() {return _dataBuffer->data(); }*/
     inline void play() {_sound->play();}
-    inline QString getName() {return _name;}
+    inline const QString &getName() { return _name; }
 private:
     /*WavHeader _wavHeader;
     QByteArray* _dataBuffer;*/

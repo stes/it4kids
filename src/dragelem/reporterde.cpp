@@ -1,5 +1,7 @@
 #include "reporterde.h"
 
+#include "sprite.h"
+
 ReporterDE::ReporterDE(const QString& identifier, const QString& text, const QColor& color, Sprite* sprite, QWidget* parent) :
      DraggableElement(identifier, text, color, DraggableElement::Reporter, sprite, parent)
 {

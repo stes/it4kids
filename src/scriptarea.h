@@ -10,7 +10,7 @@ class DraggableElement;
 class DockingArea;
 class Sprite;
 
-typedef std::vector<DockingArea*> HitTestVector;
+typedef std::vector<DockingArea*> DockVector;
 typedef std::vector<DraggableElement*> DragElemVector;
 
 class ScriptArea : public QWidget

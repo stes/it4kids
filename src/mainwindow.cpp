@@ -6,6 +6,8 @@
 #include <QPainterPath>
 #include <QRadioButton>
 #include <QDebug>
+#include <QXmlStreamReader>
+
 #include <Qsci/qscilexerpython.h>
 
 #include "mainwindow.h"
@@ -28,7 +30,7 @@
 
 MainWindow* sMainWindow = 0;
 
-SpriteVector* MainWindow::getSpriteVector()
+const SpriteVector* MainWindow::getSpriteVector()
 {
     return ui->spriteSelect->getSpriteVector();
 }
@@ -40,9 +42,15 @@ void MainWindow::addSprite(Sprite *sprite)
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow), _fileMenu(this), _editMenu(this), _audioEngine(this), _tmpDir("python")
+    ui(new Ui::MainWindow),
+    _fileMenu(this),
+    _editMenu(this),
+    _audioEngine(this),
+    _tmpDir("python") // TODO: make configurable (use AppDataLocation by default)
 {
     sMainWindow = this;
+
+    _pyController.addSysPath(QDir("python").absolutePath().toLatin1().data());
 
     ui->setupUi(this);
     setWindowFlags(Qt::FramelessWindowHint);
@@ -95,9 +103,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->codeEditor->setLexer(&lexer);
 
     _fileMenu.addAction(tr("New"));
-    _fileMenu.addAction(tr("Upload from your computer"), this, SLOT(loadFromFile()));
-    _fileMenu.addAction(tr("Download to your computer"), this, SLOT(saveToFile()));
+    _fileMenu.addAction(tr("Open"), this, SLOT(loadFromFile()));
+    _fileMenu.addAction(tr("Save"), this, SLOT(saveToFile()));
+    QMenu *exportMenu = _fileMenu.addMenu(tr("Export"));
     _fileMenu.addAction(tr("Reset"));
+
+    exportMenu->addAction(tr("Python"), this, SLOT(exportAsPython()));
 
     _editMenu.addAction(tr("Undelete"));
     _editMenu.addAction(tr("Small stage layout"));
@@ -106,8 +117,6 @@ MainWindow::MainWindow(QWidget *parent) :
     _loading = false;
 
     connect(this, SIGNAL(currentTeacherChanged(Teacher*)), ui->studentList, SLOT(currentTeacherChanged(Teacher*)));
-
-    _Cgen.generateAllFiles(_tmpDir);
 }
 
 void MainWindow::InitializeDragElem(const QString& path)
@@ -161,7 +170,7 @@ void MainWindow::InitializeDragElem(const QString& path)
             {
                 attributes = xmlReader.attributes();
                 QString def = attributes.value(QLatin1String("default")).toString();
-                std::vector<ParamBase*> *vec = lastElement->getParamsVector();
+                const std::vector<ParamBase*> *vec = lastElement->getParamsVector();
                 while(paramIndex < vec->size() && !vec->at(paramIndex)->setValue(def))
                     paramIndex++;
                 paramIndex++;
@@ -192,12 +201,19 @@ void MainWindow::reloadCodeAll()
     if(_currentSprite)
         ui->codeEditor->setText(_Cgen.generateSprite(_currentSprite));
 
-    _Cgen.generateAllFiles(_tmpDir);
-    _pyController.loadApp("main");
-	_pyController.initApp();
+    QString name = "sprite_" + getBackgroundSprite()->getName();
+    QString code = _Cgen.generateSprite(getBackgroundSprite(), true);
+    _pyController.loadEntity(name.toLatin1().data(), getBackgroundSprite()->getName().toLatin1().data(), code.toLatin1().data());
+
+    for (SpriteVector::const_iterator it = getSpriteVector()->begin(); it != getSpriteVector()->end(); it++)
+    {
+        QString name = "sprite_" + (*it)->getName();
+        QString code = _Cgen.generateSprite(*it);
+        _pyController.loadEntity(name.toLatin1().data(), (*it)->getName().toLatin1().data(), code.toLatin1().data());
+    }
 }
 
-void MainWindow::reloadCodeSprite(Sprite *sprite, bool withMain)
+void MainWindow::reloadCodeSprite(Sprite *sprite)
 {
     if(_loading)
         return;
@@ -205,21 +221,18 @@ void MainWindow::reloadCodeSprite(Sprite *sprite, bool withMain)
     if(_currentSprite == sprite)
         ui->codeEditor->setText(_Cgen.generateSprite(_currentSprite));
 
-    _Cgen.generateSpriteFile(_tmpDir, sprite);
-	if(withMain)
-	{
-		_Cgen.generateMainFile(_tmpDir);
-		_pyController.loadApp("main");
-	}
-	_pyController.initApp();
+    QString name = "sprite_" + sprite->getName();
+    QString code = _Cgen.generateSprite(sprite);
+    _pyController.loadEntity(name.toLatin1().data(), sprite->getName().toLatin1().data(), code.toLatin1().data());
 }
 
 DragElemCategory* MainWindow::GetCategoryByName(const QString& name)
 {
     CategoryList *list = ui->categorySelect->getCategoryList();
-    for(CategoryList::iterator category = list->begin(); category != list->end(); category++)
+    for(CategoryList::const_iterator category = list->begin(); category != list->end(); category++)
     {
-        if((*category)->getName() == name) return (*category);
+        if((*category)->getName() == name)
+            return *category;
     }
     return 0;
 }
@@ -238,7 +251,7 @@ void MainWindow::loadFromFile()
     _loading = true;
     // TODO
     ui->scriptArea->setCurrentSprite(0);
-    if(slc.loadScratch(QStringLiteral("project.json"), getSpriteVector()))
+    if(slc.loadScratch(QStringLiteral("project.json"), ui->spriteSelect))
     {
         _currentSprite = getSpriteVector()->at(0);
         emit changeCurrentSprite(_currentSprite);
@@ -251,7 +264,12 @@ void MainWindow::loadFromFile()
 void MainWindow::saveToFile()
 {
     SaveLoadClass slc;
-    slc.saveScratch(QStringLiteral("project.json"), getSpriteVector());
+    slc.saveScratch(QStringLiteral("project.json"), ui->spriteSelect);
+}
+
+void MainWindow::exportAsPython()
+{
+    _Cgen.generateAllFiles(_tmpDir, getBackgroundSprite(), getSpriteVector());
 }
 
 void MainWindow::on_soundFromFile_clicked()
@@ -363,7 +381,7 @@ void MainWindow::on_spriteFromFile_clicked()
         sprite->setCurrentCostume(costume);
 
         changeCurrentSprite(sprite);
-        reloadCodeSprite(sprite, true);
+        reloadCodeSprite(sprite);
     }
 }
 

@@ -5,14 +5,9 @@
 
 #include <QWidget>
 #include <QString>
-#include <QVBoxLayout>
 #include <QColor>
-#include <QRect>
-#include <QPainter>
 #include <QLabel>
-#include <QApplication>
 
-#include "mainwindow.h"
 #include "draggableelement.h"
 #include "dragelemlist.h"
 

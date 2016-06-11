@@ -18,7 +18,7 @@ public:
     void rearrangeInnerElems();
 
     inline int getHeight() const {return _height+22+_innerHeight;}
-    DraggableElement* getWrapElem();
+    const DraggableElement* getWrapElem() const;
 
     virtual void removeChildDragElems();
 

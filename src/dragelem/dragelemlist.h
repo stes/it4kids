@@ -17,7 +17,7 @@ class DragElemList : public QScrollArea
 public:
     explicit DragElemList(QWidget *parent = 0);
 
-    void changeActiveList(ElementList* elemList);
+    void changeActiveList(const ElementList* elemList);
 protected:
     QWidget _elemListWidget;
     QVBoxLayout _layout;

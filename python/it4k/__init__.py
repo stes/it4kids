@@ -4,8 +4,6 @@ from .tools import block, background
 
 def init():
     global mainApp
-    if mainApp:
-        mainApp.reset()
-    else:
+    if not mainApp:
         mainApp = App()
     return mainApp

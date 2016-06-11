@@ -11,10 +11,10 @@ ParamTouch::ParamTouch(QWidget *parent) : QComboBox(parent)
     addItem("mouse");
     addItem("edge");
     addItem("pen trails");
-    SpriteVector* sV = sMainWindow->getSpriteVector();
-    for(uint i = 0; i < sV->size(); i++)
+    const SpriteVector* sV = sMainWindow->getSpriteVector();
+    for (SpriteVector::const_iterator it = sV->begin(); it != sV->end(); it++)
     {
-        addItem(sV->at(i)->getName());
+        addItem((*it)->getName());
     }
 }
 

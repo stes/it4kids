@@ -2,6 +2,14 @@ import pyglet
 import math, time
 from .tools import *
 
+class EntityData:
+    def __init__(self):
+        self.x = 0
+        self.y = 0
+        self.rotation = 0
+        self.costume = ""
+        self.visible = True
+
 class Entity(pyglet.event.EventDispatcher):
     
     _speed = 40
@@ -172,7 +180,6 @@ class Entity(pyglet.event.EventDispatcher):
             self.data.rotation = rot[direction]
         hook()
     
-    # TODO: a bit buggy
     def set_costume(self, costume):
         if costume not in self.costumes:
             costume = self.costumes[0]

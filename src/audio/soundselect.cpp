@@ -24,11 +24,11 @@ void SoundSelect::updateSoundList()
         _layout.itemAt(0)->widget()->hide();
         _layout.removeItem(_layout.itemAt(0));
     }
-    for(SoundVector::iterator sound = _currentSprite->getSoundVector()->begin();
-        sound != _currentSprite->getSoundVector()->end(); sound++)
+    const SoundVector *sndVec = _currentSprite->getSoundVector();
+    for(SoundVector::const_iterator it = sndVec->begin(); it != sndVec->end(); it++)
     {
-        _layout.addWidget(*sound);
-        (*sound)->show();
+        _layout.addWidget(*it);
+        (*it)->show();
     }
 }
 

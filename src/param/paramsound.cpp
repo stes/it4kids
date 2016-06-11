@@ -1,10 +1,12 @@
 #include "paramsound.h"
 
-#include "costume/costume.h"
+#include "audio/wavfile.h"
 #include "mainwindow.h"
 #include "sprite.h"
 
 extern MainWindow* sMainWindow;
+
+typedef std::vector<WavFile*> SoundVector;
 
 ParamSound::ParamSound(QWidget *parent) : QComboBox(parent)
 {
@@ -24,10 +26,10 @@ ParamSound::~ParamSound()
 
 void ParamSound::updateSoundList()
 {
-    SoundVector* sV = sMainWindow->getCurrentSprite()->getSoundVector();
-    for(uint i = 0; i < sV->size(); i++)
+    const SoundVector *sndVec = sMainWindow->getCurrentSprite()->getSoundVector();
+    for(SoundVector::const_iterator it = sndVec->begin(); it != sndVec->end(); it++)
     {
-        addItem(sV->at(i)->getName());
+        addItem((*it)->getName());
     }
 }
 

@@ -24,6 +24,7 @@
 #include "param/paramtouch.h"
 #include "param/paramtype.h"
 #include "param/paramvariables.h"
+#include "sprite.h"
 
 extern MainWindow* sMainWindow;
 

@@ -3,13 +3,13 @@
 #include <QJsonArray>
 #include <QFile>
 
-#include "costume/costume.h"
-#include "param/param.h"
 #include "codegenerator.h"
-#include "sprite.h"
-#include "mainwindow.h"
 
-extern MainWindow* sMainWindow;
+#include "costume/costume.h"
+#include "dragelem/draggableelement.h"
+#include "param/param.h"
+#include "sprite.h"
+
 
 CodeGenerator::CodeGenerator()
 {
@@ -21,29 +21,32 @@ QString CodeGenerator::addQuotes(const QString &str)
     return '"' + str.toHtmlEscaped() + '"';
 }
 
-QString CodeGenerator::generateSprite(Sprite *sprite)
+QString CodeGenerator::generateSprite(const Sprite *sprite, bool stage)
 {
     QString str;
     _eventCounters.clear();
     _indentCounter = 1;
 
-	QString costumeRegister;
-	for (CostumeVector::const_iterator it = sprite->getCostumeVector()->begin(); it != sprite->getCostumeVector()->end(); it++)
-	{
-        costumeRegister += indentCode(&_snippets["costume_register"], 2)
+    QStringList *costumeRegSnippet = &_snippets["costume_register"];
+    QStringList *constructSnippet = stage ? &_snippets["construct_stage"] : &_snippets["construct"];
+
+    QString costumeRegister;
+    for (CostumeVector::const_iterator it = sprite->getCostumeVector()->begin(); it != sprite->getCostumeVector()->end(); it++)
+    {
+        costumeRegister += indentCode(costumeRegSnippet, 2)
             .replace(QLatin1String("%entity%"), QLatin1String("self"))
             .replace(QLatin1String("%name%"), addQuotes((*it)->getName()))
             .replace(QLatin1String("%file%"), addQuotes((*it)->getFilename()));
-	}
+    }
 
     // create class file
     str += indentCode(&_snippets["import"]);
     str += indentCode(&_snippets["class"]).replace(QLatin1String("%name%"), sprite->getName());
-    str += indentCode(&_snippets["construct"], 1, costumeRegister);
+    str += indentCode(constructSnippet, 1, costumeRegister);
     str += "%events%\n";
 
     // check every block for "header"-block
-    DragElemVector *eleVec = sprite->getDragElemVector();
+    const DragElemVector *eleVec = sprite->getDragElemVector();
     for(DragElemVector::const_iterator elemIt = eleVec->begin(); elemIt != eleVec->end(); elemIt++)
     {
         if ((*elemIt)->getType() == DraggableElement::Hat)
@@ -67,58 +70,52 @@ QString CodeGenerator::generateSprite(Sprite *sprite)
     return str;
 }
 
-QString CodeGenerator::generateMain()
+QString CodeGenerator::generateMain(const Sprite *bgSprite, const SpriteVector *spriteVec)
 {
-    SpriteVector* spriteVec = sMainWindow->getSpriteVector();
     QString entityImport;
-    QString entityReload;
     QString entityRegister;
-    QString backgroundRegister;
+
+    QStringList *entImpSnippet = &_snippets["entity_import"];
+    QStringList *entRegSnippet = &_snippets["entity_register"];
+
+    entityImport += indentCode(entImpSnippet).replace(QLatin1String("%name%"), bgSprite->getName());
+    entityRegister += indentCode(entRegSnippet, 1).replace(QLatin1String("%name%"), bgSprite->getName());
 
     // sprites
     for(SpriteVector::const_iterator it = spriteVec->begin(); it != spriteVec->end(); it++)
     {
-        entityImport += indentCode(&_snippets["entity_import"]).replace(QLatin1String("%name%"), (*it)->getName());
-        entityReload += indentCode(&_snippets["entity_reload"], 1).replace(QLatin1String("%name%"), (*it)->getName());
-        entityRegister += indentCode(&_snippets["entity_register"], 1).replace(QLatin1String("%name%"), (*it)->getName());
-    }
-
-    CostumeVector* bgCostumeVec = sMainWindow->getBackgroundSprite()->getCostumeVector();
-
-    for (CostumeVector::const_iterator it = bgCostumeVec->begin(); it != bgCostumeVec->end(); it++)
-    {
-        backgroundRegister += indentCode(&_snippets["costume_register"], 1)
-            .replace(QLatin1String("%entity%"), QLatin1String("background_ent"))
-            .replace(QLatin1String("%name%"), addQuotes((*it)->getName()))
-            .replace(QLatin1String("%file%"), addQuotes((*it)->getFilename()));
+        entityImport += indentCode(entImpSnippet).replace(QLatin1String("%name%"), (*it)->getName());
+        entityRegister += indentCode(entRegSnippet, 1).replace(QLatin1String("%name%"), (*it)->getName());
     }
 
     // main file
     QString str;
     str += indentCode(&_snippets["main_import"]);
     str += entityImport + "\n";
-    str += indentCode(&_snippets["main"], 0, backgroundRegister + entityReload + entityRegister);
+    str += indentCode(&_snippets["main"], 0, entityRegister);
 
     return str;
 }
 
-void CodeGenerator::generateAllFiles(const QDir &directory)
+void CodeGenerator::generateAllFiles(const QDir &directory, const Sprite *bgSprite, const SpriteVector *spriteVec)
 {
-    SpriteVector* spriteVec = sMainWindow->getSpriteVector();
+    generateSpriteFile(directory, bgSprite, true);
+
     for(SpriteVector::const_iterator it = spriteVec->begin(); it != spriteVec->end(); it++)
         generateSpriteFile(directory, *it);
 
-    generateMainFile(directory);
+    generateMainFile(directory, bgSprite, spriteVec);
 }
 
-void CodeGenerator::generateSpriteFile(const QDir &directory, Sprite *sprite)
+void CodeGenerator::generateSpriteFile(const QDir &directory, const Sprite *sprite, bool stage)
 {
-    writeToFile(directory.filePath("sprite_" + sprite->getName() + ".py"), generateSprite(sprite));
+    // TODO: prefix for stage
+    writeToFile(directory.filePath("sprite_" + sprite->getName() + ".py"), generateSprite(sprite, stage));
 }
 
-void CodeGenerator::generateMainFile(const QDir &directory)
+void CodeGenerator::generateMainFile(const QDir &directory, const Sprite *bgSprite, const SpriteVector *spriteVec)
 {
-    writeToFile(directory.filePath(QStringLiteral("main.py")), generateMain());
+    writeToFile(directory.filePath(QStringLiteral("main.py")), generateMain(bgSprite, spriteVec));
 }
 
 void CodeGenerator::writeToFile(const QString &path, const QString &data)
@@ -132,7 +129,7 @@ void CodeGenerator::writeToFile(const QString &path, const QString &data)
     }
 }
 
-QString CodeGenerator::indentCode(QStringList *code, int num, const QString &content)
+QString CodeGenerator::indentCode(const QStringList *code, int num, const QString &content)
 {
     QString str;
     for (QStringList::const_iterator it = code->constBegin(); it != code->constEnd(); it++)
@@ -151,12 +148,12 @@ QString CodeGenerator::indent(int indent)
     return str.fill(' ', indent * 4);
 }
 
-QString CodeGenerator::generateCode(DraggableElement* element, int sub)
+QString CodeGenerator::generateCode(const DraggableElement* element, int sub)
 {
     QString str;
     bool stop = false;
 
-    for(DraggableElement* next = element; next && !stop; next = next->getNextElem())
+    for(const DraggableElement* next = element; next && !stop; next = next->getNextElem())
     {
         QString name = next->getIdentifier();
 
@@ -192,7 +189,7 @@ QString CodeGenerator::generateCode(DraggableElement* element, int sub)
             _indentCounter++;
         }
 
-        std::vector<ParamBase*>* params =  next->getParamsVector();
+        const std::vector<ParamBase*>* params = next->getParamsVector();
         for(std::vector<ParamBase*>::const_iterator it = params->begin(); it != params->end(); it++)
         {
             tmp = tmp.arg((*it)->getValue());
@@ -214,7 +211,7 @@ bool CodeGenerator::supported(const QString &ident)
     return _events.contains(ident) || _controls.contains(ident) || _commands.contains(ident);
 }
 
-QStringList CodeGenerator::processCodeField(QJsonArray Code)
+QStringList CodeGenerator::processCodeField(const QJsonArray &Code)
 {
     QStringList list;
     for (QJsonArray::const_iterator it = Code.constBegin(); it != Code.constEnd(); it++)

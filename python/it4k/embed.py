@@ -7,11 +7,40 @@ pyglet.options['debug_gl'] = False
 from pyglet import gl
 
 class EmbedApp(App):
-    
+
     def init_context(self):
         context = FakeContext()
         context.set_current()
         self.window = None
+    
+    def add_entity(self, entity):
+        # TODO: use identifier instead of class name
+        entity.batch = self.batch
+        name = entity.__class__.__name__
+        ents = [ind for ind,val in enumerate(self.entities) if val.__class__.__name__ == name]
+        if ents: # replace existing entity
+            entity.set_data(self.entities[ents[0]].data)
+            for e in ents:
+                self.entities[e].clean()
+                del self.entities[e]
+            self.entities.append(entity)
+        else: # add new
+            super().add_entity(entity)
+
+    def draw(self):
+        self.dispatch_event('on_draw')
+
+    def resize(self, width, height):
+        self.dispatch_event('on_resize', width, height)
+
+    def mouse_press(self, x, y, buttons, modifiers):
+        self.dispatch_event('on_mouse_press', x, y, pyglet.window.mouse.LEFT, modifiers)
+
+    def mouse_release(self, x, y, buttons, modifiers):
+        self.dispatch_event('on_mouse_release', x, y, pyglet.window.mouse.LEFT, modifiers)
+
+    def mouse_drag(self, x, y, dx, dy, buttons, modifiers):
+        self.dispatch_event('on_mouse_drag', x, y, dx, dy, pyglet.window.mouse.LEFT, modifiers)
 
 EmbedApp.register_event_type('on_draw')
 EmbedApp.register_event_type('on_resize')
@@ -62,39 +91,8 @@ class FakeContext(gl.Context):
             gl.glDeleteBuffers(len(buffers), buffers)
             self.object_space._doomed_buffers[0:len(buffers)] = []
 
-def draw():
-    if mainApp:
-        mainApp.dispatch_event('on_draw')
-
-def resize(width, height):
-    if mainApp:
-        mainApp.dispatch_event('on_resize', width, height)
-
-def mouse_press(x, y, buttons, modifiers):
-    if mainApp:
-        mainApp.dispatch_event('on_mouse_press', x, y, pyglet.window.mouse.LEFT, modifiers)
-
-def mouse_release(x, y, buttons, modifiers):
-    if mainApp:
-        mainApp.dispatch_event('on_mouse_release', x, y, pyglet.window.mouse.LEFT, modifiers)
-
-def mouse_drag(x, y, dx, dy, buttons, modifiers):
-    if mainApp:
-        mainApp.dispatch_event('on_mouse_drag', x, y, dx, dy, pyglet.window.mouse.LEFT, modifiers)
-    
-def start():
-    print("starting")
-    if mainApp:
-        mainApp.start()
-
-def stop():
-    if mainApp:
-        mainApp.stop()
-
-def embed_init():
+def init():
     global mainApp
-    if mainApp:
-        mainApp.reset()
-    else:
+    if not mainApp:
         mainApp = EmbedApp()
     return mainApp

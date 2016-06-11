@@ -1,23 +1,27 @@
 #ifndef CODEGENERATOR_H
 #define CODEGENERATOR_H
 
-#include <QMap>
+#include <vector>
+
 #include <QDir>
+#include <QMap>
+#include <QString>
 
-#include "dragelem/draggableelement.h"
+class DraggableElement;
+class Sprite;
 
-class MainWindow;
+typedef std::vector<Sprite*> SpriteVector;
 
 class CodeGenerator
 {
 public:
     CodeGenerator();
-    QString generateSprite(Sprite *sprite);
-    QString generateMain();
+    QString generateSprite(const Sprite *sprite, bool stage = false);
+    QString generateMain(const Sprite *bgSprite, const SpriteVector *spriteVec);
 
-    void generateAllFiles(const QDir &directory);
-    void generateSpriteFile(const QDir &directory, Sprite *sprite);
-    void generateMainFile(const QDir &directory);
+    void generateAllFiles(const QDir &directory, const Sprite *bgSprite, const SpriteVector *spriteVec);
+    void generateSpriteFile(const QDir &directory, const Sprite *sprite, bool stage = false);
+    void generateMainFile(const QDir &directory, const Sprite *bgSprite, const SpriteVector *spriteVec);
 
     bool supported(const QString &ident);
 
@@ -32,11 +36,11 @@ private:
 
     QString addQuotes(const QString &str);
 
-    QString generateCode(DraggableElement* element, int sub);
+    QString generateCode(const DraggableElement* element, int sub);
     QString indent(int indent);
-    QString indentCode(QStringList *code, int indent = 0, const QString &content = QString());
+    QString indentCode(const QStringList *code, int indent = 0, const QString &content = QString());
 
-    QStringList processCodeField(QJsonArray Code);
+    QStringList processCodeField(const QJsonArray &Code);
     void generateMap();
 
     int _indentCounter;

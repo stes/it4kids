@@ -1,3 +1,5 @@
+#include <QPainter>
+
 #include "dragelemcategory.h"
 
 DragElemCategory::DragElemCategory(DragElemList *elemListWidget, const QString& name, const QColor& color, QWidget *parent) :

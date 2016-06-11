@@ -25,10 +25,10 @@ void ParamCostume::updateCostumeList()
 {
     clear();
     Sprite *sprite = _sprite ? _sprite : sMainWindow->getCurrentSprite();
-    CostumeVector* cV = sprite->getCostumeVector();
-    for(uint i = 0; i < cV->size(); i++)
+    const CostumeVector *costumeVec = sprite->getCostumeVector();
+    for(CostumeVector::const_iterator it = costumeVec->begin(); it != costumeVec->end(); it++)
     {
-        addItem(cV->at(i)->getName());
+        addItem((*it)->getName());
     }
 }
 

@@ -24,10 +24,10 @@ void CostumeSelect::updateCostumeList()
         _layout.itemAt(0)->widget()->hide();
         _layout.removeItem(_layout.itemAt(0));
     }
-    for(CostumeVector::iterator costume = _currentSprite->getCostumeVector()->begin();
-        costume != _currentSprite->getCostumeVector()->end(); costume++)
+    const CostumeVector *costumeVec = _currentSprite->getCostumeVector();
+    for(CostumeVector::const_iterator it = costumeVec->begin(); it != costumeVec->end(); it++)
     {
-        _layout.addWidget(*costume);
-        (*costume)->show();
+        _layout.addWidget(*it);
+        (*it)->show();
     }
 }

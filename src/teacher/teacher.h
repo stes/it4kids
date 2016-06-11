@@ -2,6 +2,7 @@
 #define TEACHER_H
 
 #include <vector>
+
 #include <QString>
 
 class Student;

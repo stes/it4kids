@@ -1,3 +1,5 @@
+#include <QApplication>
+
 #include "paramdock.h"
 #include "dragelem/predicatede.h"
 #include "sprite.h"

@@ -4,17 +4,12 @@
             "name": "main_import",
             "code": [
                 "import pyglet",
-                "import it4k, it4k.embed",
-                "import imp\n"
+                "import it4k"
             ]
         },
         {
             "name": "entity_import",
             "code": ["import sprite_%name%"]
-        },
-        {
-            "name": "entity_reload",
-            "code": ["imp.reload(sprite_%name%)"]
         },
         {
             "name": "import",
@@ -24,23 +19,24 @@
             "name": "construct",
             "code": [
                 "def __init__(self):",
-                "    it4k.Entity.__init__(self)",
+                "    super().__init__()",
+                "%content%"
+            ]
+        },
+        {
+            "name": "construct_stage",
+            "code": [
+                "def __init__(self):",
+                "    it4k.Entity.__init__(self, it4k.background, draggable=False)",
                 "%content%"
             ]
         },
         {
             "name": "main",
             "code": [
-                "def init(create_window=False):",
-                "    if create_window:",
-                "        myApp = it4k.init()",
-                "    else:",
-                "        myApp = it4k.embed.embed_init()",
-                "    background_ent = it4k.Entity(it4k.background, draggable=False)",
+                "if __name__ ==  \"__main__\":",
+                "    myApp = it4k.init()",
                 "%content%",
-                "    myApp.add_entity(background_ent)",
-                "if  __name__ ==  \"__main__\":",
-                "    init(True)",
                 "    pyglet.app.run()"
             ]
         },

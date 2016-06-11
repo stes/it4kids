@@ -10,7 +10,7 @@ CategorySelect::CategorySelect(QWidget *parent) : QWidget(parent)
 void CategorySelect::setElemListWidget(DragElemList *elemListWidget)
 {
     _elemListWidget = elemListWidget;
-    for(CategoryList::iterator category = _categoryList.begin(); category != _categoryList.end(); category++)
+    for(CategoryList::const_iterator category = _categoryList.begin(); category != _categoryList.end(); category++)
     {
         (*category)->setElemListWidget(_elemListWidget);
     }
@@ -19,7 +19,7 @@ void CategorySelect::setElemListWidget(DragElemList *elemListWidget)
 void CategorySelect::show()
 {
     int i = 0;
-    for(CategoryList::iterator category = _categoryList.begin(); category != _categoryList.end(); ++category)
+    for(CategoryList::const_iterator category = _categoryList.begin(); category != _categoryList.end(); ++category)
     {
         _layout.addWidget(*category, i/2, i % 2, 1, 1);
         ++i;

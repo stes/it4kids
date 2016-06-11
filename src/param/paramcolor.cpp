@@ -1,7 +1,5 @@
-#include <QGuiApplication>
 #include <QScreen>
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QPainter>
 
 #include "paramcolor.h"

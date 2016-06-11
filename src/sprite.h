@@ -1,22 +1,18 @@
 #ifndef FIGURE_H
 #define FIGURE_H
 
+#include <vector>
+
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QWidget>
-#include <vector>
-
-#include "audio/wavfile.h"
 
 class Costume;
 class DraggableElement;
 class DockingArea;
-class QImage;
-class ScriptArea;
 class WavFile;
-class MainWindow;
 
-typedef std::vector<DockingArea*> HitTestVector;
+typedef std::vector<DockingArea*> DockVector;
 typedef std::vector<DraggableElement*> DragElemVector;
 typedef std::vector<Costume*> CostumeVector;
 typedef std::vector<WavFile*> SoundVector;
@@ -29,13 +25,13 @@ public:
     explicit Sprite(const QString& name, QWidget* parent = 0);
     explicit Sprite(QWidget* parent = 0);
 
-    inline QString getName() {return _name;}
+    inline const QString &getName() const { return _name; }
 
-    inline SoundVector* getSoundVector() {return &_soundVector;}
+    inline const SoundVector* getSoundVector() const {return &_soundVector;}
     inline void addSound(WavFile* sound) {_soundVector.push_back(sound);}
-    inline void playSound(int index) {_soundVector[index]->play(); }
+    void playSound(int index);
 
-    inline CostumeVector* getCostumeVector() {return &_costumeVector;}
+    inline const CostumeVector* getCostumeVector() const {return &_costumeVector;}
     inline void addCostume(Costume* costume) {_costumeVector.push_back(costume);}
 
     void addElement(DraggableElement *element) { _dragElemVector.push_back(element); }
@@ -48,8 +44,8 @@ public:
 
     void OverrideParents();
 
-    inline Costume* getCurrentConstume() { return _costumeVector[_currentCostumeIndex]; }
-    DragElemVector* getDragElemVector() { return &_dragElemVector; }
+    const Costume* getCurrentConstume() const { return _costumeVector[_currentCostumeIndex]; }
+    const DragElemVector* getDragElemVector() const { return &_dragElemVector; }
     virtual ~Sprite();
 
 signals:
@@ -70,7 +66,7 @@ protected:
     QVBoxLayout _layout;
     int _currentCostumeIndex;
 
-    HitTestVector _hitTestVector;
+    DockVector _hitTestVector;
     DragElemVector _dragElemVector;
     SoundVector _soundVector;
     CostumeVector _costumeVector;

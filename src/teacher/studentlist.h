@@ -4,7 +4,6 @@
 #include <QGridLayout>
 #include <QLabel>
 #include <QWidget>
-#include <QVBoxLayout>
 
 class Teacher;
 

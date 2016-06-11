@@ -5,8 +5,6 @@
 
 #include <QWidget>
 #include <QGridLayout>
-#include <QFile>
-#include <QXmlStreamReader>
 
 #include "dragelemcategory.h"
 

@@ -1,22 +1,29 @@
 #ifndef PYTHONCONTROLLER_H
 #define PYTHONCONTROLLER_H
 
-#undef slots
-#include <Python.h>
-#define slots Q_SLOTS
+#ifndef PyObject_HEAD
+struct _object;
+typedef _object PyObject;
+#endif
 
 class PythonController
 {
-    PyObject *m_pIT4KModule;
-    PyObject *m_pModule;
+    PyObject *_pIT4KApp;
 
-    void callMethod(PyObject *pModule, const char *pName, PyObject *pArgs = NULL);
+    PyObject *callMethodWithReturn(PyObject *pObj, const char *pName, PyObject *pArgs = NULL);
+    void callMethod(PyObject *pObj, const char *pName, PyObject *pArgs = NULL);
+
+    PyObject *loadModuleFromStr(const char *pName, const char *pCodeStr);
 
 public:
     PythonController();
+    virtual ~PythonController();
 
-    void loadApp(const char *pAppName);
-	void initApp();
+    void addSysPath(const char *pPath);
+
+    void init();
+    void loadEntity(const char *pModule, const char *pClass, const char *pCodeStr);
+
     void sendStart();
     void sendStop();
     void sendDraw();

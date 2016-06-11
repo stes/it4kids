@@ -3,15 +3,11 @@
 
 #include <QMainWindow>
 #include <QMenu>
-#include <Qsci/qsciscintilla.h>
 
 #include "audio/audioengine.h"
-#include "teacher/student.h"
 #include "codegenerator.h"
 #include "pythoncontroller.h"
-#include "spriteselect.h"
 
-class AudioEngine;
 class Costume;
 class DragElemCategory;
 class DraggableElement;
@@ -31,9 +27,9 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
 
-    SpriteVector* getSpriteVector();
+    const SpriteVector* getSpriteVector();
     void addSprite(Sprite *sprite);
-    Sprite* getCurrentSprite() {return _currentSprite;}
+    Sprite* getCurrentSprite() { return _currentSprite; }
     Sprite *getBackgroundSprite() { return _backgroundSprite; }
 
     DraggableElement* createNewElement(QString ident, Sprite *sprite);
@@ -43,7 +39,7 @@ public:
     ~MainWindow();
 
     void reloadCodeAll();
-    void reloadCodeSprite(Sprite *sprite, bool withMain = false);
+    void reloadCodeSprite(Sprite *sprite);
 
 signals:
     void currentSpriteChanged(Sprite* sprite);
@@ -78,6 +74,8 @@ private slots:
 
     void loadFromFile();
     void saveToFile();
+
+    void exportAsPython();
 
 private:
     void InitializeDragElem(const QString& path);

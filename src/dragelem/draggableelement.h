@@ -8,17 +8,14 @@
 #include <QString>
 #include <QHBoxLayout>
 #include <QMouseEvent>
-#include <QPainter>
 #include <QPainterPath>
-#include <QApplication>
 #include <QDebug>
 
 #include "scriptdock.h"
-#include "sprite.h"
 
 class DockingArea;
-struct ArgumentStruct;
 class ParamBase;
+class Sprite;
 
 class DraggableElement : public QWidget
 {
@@ -38,20 +35,25 @@ public:
 
     inline void setCurrentDock(DockingArea* dock) {_currentDock = dock;}
     //inline DockingArea* getDockElem() {return _currentDock;}
+
     inline void setPrevElem(DraggableElement* elem) {_prevElem = elem;}
     inline DraggableElement* getPrevElem() {return _prevElem;}
+    inline const DraggableElement* getPrevElem() const { return _prevElem; }
+
     inline void setNextElem(DraggableElement* elem) {_nextElem = elem;}
     inline DraggableElement* getNextElem() {return _nextElem;}
-    inline QString getIdentifier() {return _identifier;}
-    inline std::vector<ParamBase*>* getParamsVector() {return &_paramsVector; }
+    inline const DraggableElement* getNextElem() const { return _nextElem; }
 
-    virtual inline int getHeight() const {return _height;}
-    virtual inline int getWidth()const  {return _width;}
+    inline const QString &getIdentifier() const {return _identifier;}
+    inline const std::vector<ParamBase*>* getParamsVector() const { return &_paramsVector; }
+
+    virtual inline int getHeight() const { return _height; }
+    virtual inline int getWidth() const  { return _width; }
     bool isStatic() const { return _static; }
     void makeStatic() { _static = true; }
 
     virtual void resize() = 0;
-    virtual DraggableElement* getWrapElem(){return (DraggableElement*)0;}
+    virtual const DraggableElement* getWrapElem() const { return 0; }
 
     virtual void rearrangeLowerElems() { };
     virtual void rearrangeUpperElems() { };

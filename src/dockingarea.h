@@ -14,9 +14,10 @@ class DockingArea
 public:
     DockingArea(Sprite *sprite);
 
-    inline DraggableElement* getDockedElem() {return _dockedElem; }
-    inline void setRect(const QRect& rect) {_dockingAreaGlobal = rect;}
-    inline QRect* getRect() {return &_dockingAreaGlobal; }
+    inline DraggableElement* getDockedElem() { return _dockedElem; }
+    inline const DraggableElement* getDockedElem() const { return _dockedElem; }
+    inline void setRect(const QRect& rect) { _dockingAreaGlobal = rect;}
+    inline const QRect* getRect() const { return &_dockingAreaGlobal; }
 
     virtual void dock(DraggableElement* elem) = 0;
     virtual void undock() = 0;

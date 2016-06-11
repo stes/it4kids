@@ -44,7 +44,6 @@ def get_pixel(image, x, y):
     index = x * len(format) + y * pitch
     return data[index : (index + len(format))]
 
-
 def hook():
     if app_state.stopping:
         raise SigStop()

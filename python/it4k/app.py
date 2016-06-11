@@ -5,17 +5,9 @@ pyglet.options['shadow_window'] = False
 pyglet.options['debug_gl'] = False
 from pyglet import gl
 from .tools import *
-from .entity import Entity
+from .entity import Entity, EntityData
 
 mainApp = None
-
-class EntityData:
-    def __init__(self):
-        self.x = 0
-        self.y = 0
-        self.rotation = 0
-        self.costume = ""
-        self.visible = True
 
 class App(pyglet.event.EventDispatcher):
 
@@ -29,7 +21,6 @@ class App(pyglet.event.EventDispatcher):
         self.mouse_pressed = False # TODO: rework this
         
         self.entities = []
-        self.entity_data = {}
     
     def init_context(self):
         self.window = pyglet.window.Window(resizable=True)
@@ -43,17 +34,8 @@ class App(pyglet.event.EventDispatcher):
     
     def add_entity(self, entity):
         entity.batch = self.batch
-        name = entity.__class__.__name__
-        if name not in self.entity_data:
-            self.entity_data[name] = EntityData()
-        entity.set_data(self.entity_data[name])
+        entity.set_data(EntityData())
         self.entities.append(entity)
-    
-    def reset(self):
-        self.stop()
-        for entity in self.entities:
-            entity.clean()
-        del self.entities[:]
     
     def start(self):
         for entity in self.entities:
