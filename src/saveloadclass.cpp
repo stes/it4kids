@@ -167,7 +167,7 @@ bool SaveLoadClass::saveScratch(const QString &path, const SpriteSelect *spriteS
         return false;
     }
 
-    saveFile.write(doc.toJson());
+    saveFile.write(doc.toJson(QJsonDocument::Compact));
     return true;
 }
 
