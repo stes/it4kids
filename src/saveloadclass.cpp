@@ -39,7 +39,6 @@ bool SaveLoadClass::loadScratch(const QString &path, SpriteSelect *spriteSelect)
     QJsonArray Main = JDoc.array();
 
     //get background Scripts
-    QJsonArray::const_iterator it = Main.constBegin();
     for(QJsonArray::const_iterator it = Main.constBegin(); it != Main.constEnd(); it++)
     {
         if((*it).isObject())
