@@ -1,57 +1,44 @@
+import pyglet
 import it4k
-import sys, inspect
 
-class Dog(it4k.Entity):
-    
+class Stage(it4k.Entity):
     def __init__(self):
-        it4k.Entity.__init__(self, 'Assets/Costumes/dog2-a.png')
-        self.register(on_start=self.receiveGO)
-    
+        it4k.Entity.__init__(self, it4k.background, draggable=False)
+        self.add_costume("desert", "../Assets/Backgrounds/desert.gif")
+
+class sprite(it4k.Entity):
+    def __init__(self):
+        super().__init__()
+        self.add_costume("dog2-a", "../Assets/Costumes/dog2-a.png")
+        self.register(on_start=self.receiveGo1)
+        self.register(on_interaction=self.receiveInteraction1)
+
     @it4k.block
-    def receiveGO(self):
-        self.gotoXY(-100, -50)
-        self.forward(10)
-        for a in range(10):
+    def receiveGo1(self):
+        while True:
             self.forward(10)
             self.turnRight(15)
-        self.turnLeft(15)
+            self.invalidate()
+        self.invalidate()
 
-class Dragon(it4k.Entity):
-    
-    def __init__(self):
-        it4k.Entity.__init__(self, 'Assets/Costumes/dragon1-a.png')
-        self.register(on_start=self.receiveGO_1)
-        self.register(on_start=self.receiveGO_2)
-        self.register(on_click=self.clicked)
-    
     @it4k.block
-    def receiveGO_1(self):
-        for a in range(10):
-            self.forward(20)
-    
-    @it4k.block
-    def receiveGO_2(self):
-        for a in range(10):
-            self.turnLeft(15)
-    
-    @it4k.block
-    def clicked(self):
-        for a in range(10):
-            self.turnRight(15)
-
-def init(create_window=False):
-    myApp = it4k.init('Assets/Backgrounds/desert.gif', create_window=create_window)
-    entities = inspect.getmembers(sys.modules[__name__], inspect.isclass)
-    for entity in entities:
-        myApp.add_entity((entity[1])())
+    def receiveInteraction1(self, type):
+        if type != "clicked":
+            return
+        self.setDirection("right")
+        self.turnRight(20)
+        while True:
+            self.forward(10)
+            self.bounceOffEdge()
+            self.invalidate()
+        self.invalidate()
 
 def update(dt):
     pass
 
-if  __name__ ==  "__main__":
-    import pyglet
-    
-    init(True)
-    it4k.start()
+if __name__ ==  "__main__":
+    myApp = it4k.init()
+    myApp.add_entity(Stage())
+    myApp.add_entity(sprite())
     pyglet.clock.schedule_interval(update, 1/60.0)
     pyglet.app.run()
