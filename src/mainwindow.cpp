@@ -194,6 +194,7 @@ void MainWindow::reloadCodeAll()
 
     _Cgen.generateAllFiles(_tmpDir);
     _pyController.loadApp("main");
+	_pyController.initApp();
 }
 
 void MainWindow::reloadCodeSprite(Sprite *sprite, bool withMain)
@@ -205,9 +206,12 @@ void MainWindow::reloadCodeSprite(Sprite *sprite, bool withMain)
         ui->codeEditor->setText(_Cgen.generateSprite(_currentSprite));
 
     _Cgen.generateSpriteFile(_tmpDir, sprite);
-    if(withMain)
-        _Cgen.generateMainFile(_tmpDir);
-    _pyController.loadApp("main");
+	if(withMain)
+	{
+		_Cgen.generateMainFile(_tmpDir);
+		_pyController.loadApp("main");
+	}
+	_pyController.initApp();
 }
 
 DragElemCategory* MainWindow::GetCategoryByName(const QString& name)

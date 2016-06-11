@@ -75,8 +75,11 @@ void PythonController::loadApp(const char *pAppName)
         PyErr_Print();
         fprintf(stderr, "Failed to load module\n");
     }
-    else
-        callMethod(m_pModule, "init");
+}
+
+void PythonController::initApp()
+{
+	callMethod(m_pModule, "init");
 }
 
 void PythonController::sendStart()

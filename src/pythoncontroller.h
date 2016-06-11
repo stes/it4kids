@@ -16,6 +16,7 @@ public:
     PythonController();
 
     void loadApp(const char *pAppName);
+	void initApp();
     void sendStart();
     void sendStop();
     void sendDraw();
