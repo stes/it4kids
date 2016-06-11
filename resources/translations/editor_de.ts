@@ -119,118 +119,128 @@
         <translation>Zusätzliche Blöcke laden</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="97"/>
+        <location filename="../../src/mainwindow.cpp" line="104"/>
         <source>New</source>
         <translation>Neu</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="98"/>
-        <source>Upload from your computer</source>
-        <translation>Hochladen von deinem Computer</translation>
+        <location filename="../../src/mainwindow.cpp" line="105"/>
+        <source>Open</source>
+        <translation>Öffnen</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="99"/>
-        <source>Download to your computer</source>
-        <translation>Herunterladen auf deinen Computer</translation>
+        <location filename="../../src/mainwindow.cpp" line="106"/>
+        <source>Save</source>
+        <translation>Speichern</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="100"/>
+        <location filename="../../src/mainwindow.cpp" line="107"/>
+        <source>Export</source>
+        <translation>Exportieren</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.cpp" line="108"/>
         <source>Reset</source>
         <translation>Zurücksetzen</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="102"/>
+        <location filename="../../src/mainwindow.cpp" line="110"/>
+        <source>Python</source>
+        <translation>Python</translation>
+    </message>
+    <message>
+        <location filename="../../src/mainwindow.cpp" line="112"/>
         <source>Undelete</source>
         <translation>Löschen rückgängig</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="103"/>
+        <location filename="../../src/mainwindow.cpp" line="113"/>
         <source>Small stage layout</source>
         <translation>Kleine Bühnengröße</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="104"/>
+        <location filename="../../src/mainwindow.cpp" line="114"/>
         <source>Turbo mode</source>
         <translation>Turbo-Modus</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="203"/>
+        <location filename="../../src/mainwindow.cpp" line="277"/>
         <source>Open WAV file</source>
         <translation>WAV Datei öffnen</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="214"/>
-        <location filename="../../src/mainwindow.cpp" line="310"/>
+        <location filename="../../src/mainwindow.cpp" line="288"/>
+        <location filename="../../src/mainwindow.cpp" line="372"/>
         <source>Open PNG file</source>
         <translation>PMG Datei öffnen</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="276"/>
+        <location filename="../../src/mainwindow.cpp" line="338"/>
         <source>Open XML file</source>
         <translation>XML Datei öffnen</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="348"/>
+        <location filename="../../src/mainwindow.cpp" line="408"/>
         <source>Logged in as: %1</source>
         <translation>Eingeloggt als: %1</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="349"/>
+        <location filename="../../src/mainwindow.cpp" line="409"/>
         <source>Course: %1</source>
         <translation>Kurs: %1</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="350"/>
+        <location filename="../../src/mainwindow.cpp" line="410"/>
         <source>%1 of %2 students online</source>
         <translation>%1 von %2 Schüler/innen online</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="359"/>
+        <location filename="../../src/mainwindow.cpp" line="419"/>
         <source>clean up</source>
         <translation>Aufräumen</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="360"/>
-        <location filename="../../src/mainwindow.cpp" line="422"/>
+        <location filename="../../src/mainwindow.cpp" line="420"/>
+        <location filename="../../src/mainwindow.cpp" line="482"/>
         <source>add comment</source>
         <translation>Kommentar hinzufügen</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="370"/>
-        <location filename="../../src/mainwindow.cpp" line="421"/>
-        <location filename="../../src/mainwindow.cpp" line="445"/>
+        <location filename="../../src/mainwindow.cpp" line="430"/>
+        <location filename="../../src/mainwindow.cpp" line="481"/>
+        <location filename="../../src/mainwindow.cpp" line="505"/>
         <source>delete</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="420"/>
-        <location filename="../../src/mainwindow.cpp" line="444"/>
+        <location filename="../../src/mainwindow.cpp" line="480"/>
+        <location filename="../../src/mainwindow.cpp" line="504"/>
         <source>duplicate</source>
         <translation>Duplizieren</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="423"/>
-        <location filename="../../src/mainwindow.cpp" line="432"/>
+        <location filename="../../src/mainwindow.cpp" line="483"/>
+        <location filename="../../src/mainwindow.cpp" line="492"/>
         <source>help</source>
         <translation>Hilfe</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="443"/>
+        <location filename="../../src/mainwindow.cpp" line="503"/>
         <source>info</source>
         <translation>Info</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="446"/>
+        <location filename="../../src/mainwindow.cpp" line="506"/>
         <source>save to local file</source>
         <translation>Als lokale Datei speichern</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="447"/>
+        <location filename="../../src/mainwindow.cpp" line="507"/>
         <source>hide</source>
         <translation>verstecke dich</translation>
     </message>
     <message>
-        <location filename="../../src/mainwindow.cpp" line="457"/>
+        <location filename="../../src/mainwindow.cpp" line="517"/>
         <source>save picture of stage</source>
         <translation>ild der Bühne speichern</translation>
     </message>
@@ -281,12 +291,12 @@
     <message>
         <location filename="../../src/teacherlogin.ui" line="20"/>
         <source>Username:</source>
-        <translation>Nutzername</translation>
+        <translation>Nutzername:</translation>
     </message>
     <message>
         <location filename="../../src/teacherlogin.ui" line="30"/>
         <source>Password:</source>
-        <translation>Passwort</translation>
+        <translation>Passwort:</translation>
     </message>
 </context>
 </TS>
