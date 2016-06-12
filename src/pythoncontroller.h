@@ -20,9 +20,13 @@ public:
     virtual ~PythonController();
 
     void addSysPath(const char *pPath);
+    void addMediaPath(const char *pPath);
 
     void init();
     void loadEntity(const char *pModule, const char *pClass, const char *pCodeStr);
+
+    void resetApp();
+    void reindexMedia();
 
     void sendStart();
     void sendStop();

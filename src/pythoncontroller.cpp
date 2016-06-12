@@ -2,7 +2,7 @@
 
 #include "pythoncontroller.h"
 
-PythonController::PythonController()
+PythonController::PythonController() : _pIT4KApp(0)
 {
     Py_Initialize();
 }
@@ -18,6 +18,16 @@ void PythonController::addSysPath(const char *pPath)
     PyObject *pScriptPath = PyUnicode_DecodeFSDefault(pPath);
     PyList_Append(pSysPath, pScriptPath);
     Py_DECREF(pScriptPath);
+}
+
+void PythonController::addMediaPath(const char *pPath)
+{
+    PyObject *pMediaPath = PyUnicode_DecodeFSDefault(pPath);
+    PyObject *pArgs = PyTuple_New(1);
+    PyTuple_SetItem(pArgs, 0, pMediaPath);
+
+    callMethod(_pIT4KApp, "add_media_path", pArgs);
+    Py_DECREF(pArgs);
 }
 
 void PythonController::init()
@@ -45,10 +55,12 @@ void PythonController::loadEntity(const char *pModule, const char *pClass, const
 
     PyObject *pEntInstance = callMethodWithReturn(pEntModule, pClass);
     Py_DECREF(pEntModule);
-    
+    if (!pEntInstance)
+        return;
+
     PyObject *pArgs = PyTuple_New(1);
     PyTuple_SetItem(pArgs, 0, pEntInstance);
-
+    
     callMethod(_pIT4KApp, "add_entity", pArgs);
     Py_DECREF(pArgs);
 }
@@ -102,6 +114,16 @@ PyObject *PythonController::loadModuleFromStr(const char *pName, const char *pCo
     }
 
     return pModule;
+}
+
+void PythonController::resetApp()
+{
+    callMethod(_pIT4KApp, "reset");
+}
+
+void PythonController::reindexMedia()
+{
+    callMethod(_pIT4KApp, "reindex_media");
 }
 
 void PythonController::sendStart()

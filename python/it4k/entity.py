@@ -27,7 +27,7 @@ class Entity(pyglet.event.EventDispatcher):
         self.set_costume(self.data.costume)
     
     def add_costume(self, name, file):
-        image = pyglet.image.load(file).get_texture()
+        image = pyglet.resource.image(file)
         image.anchor_x = image.width / 2
         image.anchor_y = image.height / 2
         self.costume_images[name] = image
@@ -62,6 +62,7 @@ class Entity(pyglet.event.EventDispatcher):
             self.sprite.group = self.group
     
     def clean(self):
+        self.sprite.batch = None
         for i in range(self.handlers):
             self.pop_handlers()
     

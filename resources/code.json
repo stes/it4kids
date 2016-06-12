@@ -34,9 +34,13 @@
         {
             "name": "main",
             "code": [
+                "def update(dt):",
+                "    pass\n",
                 "if __name__ ==  \"__main__\":",
                 "    myApp = it4k.init()",
+                "    myApp.add_media_path('media')",
                 "%content%",
+                "    pyglet.clock.schedule_interval(update, 1/60.0)",
                 "    pyglet.app.run()"
             ]
         },

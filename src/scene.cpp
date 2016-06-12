@@ -25,8 +25,7 @@ void Scene::initializeGL()
 {
     initializeOpenGLFunctions();
     // TODO: should not be here
-    _pyController->init();
-    sMainWindow->reloadCodeAll();
+    sMainWindow->initPython();
 }
 
 void Scene::resizeGL(int w, int h)

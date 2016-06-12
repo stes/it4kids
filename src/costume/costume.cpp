@@ -1,3 +1,6 @@
+#include <QTemporaryFile>
+#include <QFileInfo>
+
 #include "costume.h"
 
 #include "mainwindow.h"
@@ -25,17 +28,46 @@ Costume::Costume(Sprite* parent) : QWidget(parent), _costume(400, 400, QImage::F
     _costumeLabel.setPixmap(QPixmap::fromImage(_costume).scaled(40, 40));
 }
 
-bool Costume::open(const QString &fileName)
+bool Costume::open(const QString &fileName, bool externFile)
 {
-    QStringList list = fileName.split('/');
-    _filename = fileName;
-    _name = list.last();
-    _name.truncate(_name.length() - 4);
+    QFileInfo info(fileName);
+    _name = info.baseName();
     _nameLabel.setText(_name);
+
+    QString tmpFile;
+    if(externFile)
+    {
+        QTemporaryFile tmp(sMainWindow->getTempPath() + "/costume");
+        if (tmp.open())
+            tmpFile = tmp.fileName();
+    }
+    
+    if (!tmpFile.isEmpty())
+    {
+        QFileInfo tmpInfo(tmpFile);
+        _filepath = tmpFile;
+        _filename = tmpInfo.fileName();
+        QFile::copy(fileName, _filepath);
+        sMainWindow->reindexMedia();
+    }
+    else
+    {
+        _filepath = fileName;
+        _filename = fileName;
+    }
+
     _costume.load(fileName);
     _costumeLabel.setPixmap(QPixmap::fromImage(_costume).scaled(40, 40));
     hide();
     return true;
+}
+
+void Costume::exportFile(const QDir &directory)
+{
+    QString newFilePath = directory.filePath(_filename);
+    QFileInfo info(newFilePath);
+    directory.mkpath(info.path());
+    QFile::copy(_filepath, newFilePath);
 }
 
 void Costume::mousePressEvent(QMouseEvent *)

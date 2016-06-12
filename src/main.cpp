@@ -9,6 +9,7 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+    app.setApplicationName("IT4Kids");
 
     QTranslator translator;
     if (translator.load(QLocale(), QLatin1String("editor"), QLatin1String("_"), QLatin1String(":/translations")))

@@ -37,6 +37,10 @@ class App(pyglet.event.EventDispatcher):
         entity.set_data(EntityData())
         self.entities.append(entity)
     
+    def add_media_path(self, path):
+        pyglet.resource.path.append(path)
+        pyglet.resource.reindex()
+    
     def start(self):
         for entity in self.entities:
             entity.start()

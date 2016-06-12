@@ -7,6 +7,7 @@
 #include <QRadioButton>
 #include <QDebug>
 #include <QXmlStreamReader>
+#include <QStandardPaths>
 
 #include <Qsci/qscilexerpython.h>
 
@@ -46,9 +47,15 @@ MainWindow::MainWindow(QWidget *parent) :
     _fileMenu(this),
     _editMenu(this),
     _audioEngine(this),
-    _tmpDir("python") // TODO: make configurable (use AppDataLocation by default)
+    _appDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)) // TODO: make configurable
 {
     sMainWindow = this;
+
+    _appDir.mkpath(_appDir.path());
+    _appDir.mkdir("tmp");
+    _tmpDir = QDir(_appDir.filePath("tmp"));
+
+    cleanTempDir();
 
     _pyController.addSysPath(QDir("python").absolutePath().toLatin1().data());
 
@@ -193,6 +200,23 @@ QRect MainWindow::getScriptAreaRect()
     return QRect(ui->scriptArea->mapToGlobal(QPoint(0,0)), QSize(ui->scriptArea->width(), ui->scriptArea->height()));
 }
 
+void MainWindow::initPython()
+{
+    _pyController.init();
+    _pyController.addMediaPath(_tmpDir.absolutePath().toLatin1().data());
+    reloadCodeAll();
+}
+
+void MainWindow::reindexMedia()
+{
+    _pyController.reindexMedia();
+}
+
+QString MainWindow::getTempPath()
+{
+    return _tmpDir.path();
+}
+
 void MainWindow::reloadCodeAll()
 {
     if(_loading)
@@ -237,8 +261,20 @@ DragElemCategory* MainWindow::GetCategoryByName(const QString& name)
     return 0;
 }
 
+void MainWindow::cleanTempDir()
+{
+    QStringList tmpFiles = _tmpDir.entryList(QDir::Files);
+    for (QStringList::const_iterator it = tmpFiles.constBegin(); it != tmpFiles.constEnd(); it++)
+    {
+        QString file = (*it);
+        QFile(_tmpDir.filePath(file)).remove();
+    }
+}
+
 MainWindow::~MainWindow()
 {
+    cleanTempDir();
+
     // TODO: this is not nice!
     for(SpriteVector::const_iterator it = getSpriteVector()->begin(); it != getSpriteVector()->end(); it++)
         (*it)->OverrideParents();
@@ -251,7 +287,8 @@ void MainWindow::loadFromFile()
     _loading = true;
     // TODO
     ui->scriptArea->setCurrentSprite(0);
-    if(slc.loadScratch(QStringLiteral("project.json"), ui->spriteSelect))
+    _pyController.resetApp();
+    if(slc.loadScratch(_appDir.filePath(QStringLiteral("project.json")), ui->spriteSelect))
     {
         _currentSprite = getSpriteVector()->at(0);
         emit changeCurrentSprite(_currentSprite);
@@ -264,12 +301,43 @@ void MainWindow::loadFromFile()
 void MainWindow::saveToFile()
 {
     SaveLoadClass slc;
-    slc.saveScratch(QStringLiteral("project.json"), ui->spriteSelect);
+    slc.saveScratch(_appDir.filePath(QStringLiteral("project.json")), ui->spriteSelect);
 }
 
 void MainWindow::exportAsPython()
 {
-    _Cgen.generateAllFiles(_tmpDir, getBackgroundSprite(), getSpriteVector());
+    _appDir.mkdir("out");
+    QDir out(_appDir.filePath("out"));
+
+    // code
+    _Cgen.generateAllFiles(out, getBackgroundSprite(), getSpriteVector());
+
+    // lib
+    out.mkdir("it4k");
+    QDir libDst(out.filePath("it4k"));
+    QDir libSrc("python/it4k");
+
+    QStringList libFiles = libSrc.entryList(QDir::Files);
+    for (QStringList::const_iterator it = libFiles.constBegin(); it != libFiles.constEnd(); it++)
+    {
+        QString file = (*it);
+        QFile::copy(libSrc.filePath(file), libDst.filePath(file));
+    }
+
+    // media
+    out.mkdir("media");
+    QDir media(out.filePath("media"));
+
+    const CostumeVector *cVec = getBackgroundSprite()->getCostumeVector();
+    for (CostumeVector::const_iterator cIt = cVec->begin(); cIt != cVec->end(); cIt++)
+        (*cIt)->exportFile(media);
+
+    for (SpriteVector::const_iterator spIt = getSpriteVector()->begin(); spIt != getSpriteVector()->end(); spIt++)
+    {
+        const CostumeVector *cVec = (*spIt)->getCostumeVector();
+        for (CostumeVector::const_iterator cIt = cVec->begin(); cIt != cVec->end(); cIt++)
+            (*cIt)->exportFile(media);
+    }
 }
 
 void MainWindow::on_soundFromFile_clicked()
@@ -290,7 +358,7 @@ void MainWindow::on_costumeFromFile_clicked()
     if (fileNames.count())
     {
         Costume* costume = new Costume(_currentSprite);
-        costume->open(fileNames.front());
+        costume->open(fileNames.front(), true);
         _currentSprite->addCostume(costume);
         emit newCostume();
         reloadCodeSprite(_currentSprite);
@@ -377,7 +445,7 @@ void MainWindow::on_spriteFromFile_clicked()
         ui->spriteSelect->addSprite(sprite);
 
         Costume* costume = new Costume(sprite);
-        costume->open(fileNames.front());
+        costume->open(fileNames.front(), true);
         sprite->setCurrentCostume(costume);
 
         changeCurrentSprite(sprite);

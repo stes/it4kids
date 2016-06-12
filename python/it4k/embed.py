@@ -26,6 +26,15 @@ class EmbedApp(App):
             self.entities.append(entity)
         else: # add new
             super().add_entity(entity)
+    
+    def reindex_media(self):
+        pyglet.resource.reindex()
+    
+    def reset(self):
+        self.stop()
+        for entity in self.entities:
+            entity.clean()
+        del self.entities[:]
 
     def draw(self):
         self.dispatch_event('on_draw')

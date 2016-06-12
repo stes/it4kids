@@ -30,7 +30,7 @@ public:
     const SpriteVector* getSpriteVector();
     void addSprite(Sprite *sprite);
     Sprite* getCurrentSprite() { return _currentSprite; }
-    Sprite *getBackgroundSprite() { return _backgroundSprite; }
+    Sprite* getBackgroundSprite() { return _backgroundSprite; }
 
     DraggableElement* createNewElement(QString ident, Sprite *sprite);
 
@@ -38,8 +38,13 @@ public:
 
     ~MainWindow();
 
+    QString getTempPath();
+
     void reloadCodeAll();
     void reloadCodeSprite(Sprite *sprite);
+
+    void initPython();
+    void reindexMedia();
 
 signals:
     void currentSpriteChanged(Sprite* sprite);
@@ -80,6 +85,7 @@ private slots:
 private:
     void InitializeDragElem(const QString& path);
     DragElemCategory* GetCategoryByName(const QString& name);
+    void cleanTempDir();
 
     Ui::MainWindow *ui;
 
@@ -97,6 +103,7 @@ private:
 
     std::vector<DraggableElement*> _LoadableElems;
 
+    QDir _appDir;
     QDir _tmpDir;
 
     Teacher* _currentTeacher;
