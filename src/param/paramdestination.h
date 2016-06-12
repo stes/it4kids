@@ -12,6 +12,8 @@ public:
     ParamDestination(QWidget* parent);
     ~ParamDestination();
 
+    bool setValue(const QString &);
+
 protected:
     QString getString() const;
 };

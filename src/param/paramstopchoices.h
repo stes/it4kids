@@ -12,6 +12,8 @@ public:
     ParamStopChoices(QWidget* parent);
     ~ParamStopChoices();
 
+    bool setValue(const QString &);
+
 protected:
     QString getString() const;
 };

@@ -12,6 +12,8 @@ public:
     ParamTouch(QWidget* parent);
     ~ParamTouch();
 
+    bool setValue(const QString &);
+
 protected:
     QString getString() const;
 };

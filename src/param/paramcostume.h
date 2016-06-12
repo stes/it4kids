@@ -17,6 +17,8 @@ public:
     ParamCostume(QWidget* parent, Sprite *sprite);
     ~ParamCostume();
 
+    bool setValue(const QString &);
+
 public slots:
     void updateCostumeList();
 

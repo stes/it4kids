@@ -12,6 +12,8 @@ public:
     ParamEffect(QWidget* parent);
     ~ParamEffect();
 
+    bool setValue(const QString &);
+
 protected:
     QString getString() const;
 };

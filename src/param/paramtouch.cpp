@@ -18,6 +18,12 @@ ParamTouch::ParamTouch(QWidget *parent) : QComboBox(parent)
     }
 }
 
+bool ParamTouch::setValue(const QString &val)
+{
+    setCurrentText(val);
+    return true;
+}
+
 QString ParamTouch::getString() const
 {
     return currentText();

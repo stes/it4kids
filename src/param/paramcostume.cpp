@@ -12,6 +12,12 @@ ParamCostume::ParamCostume(QWidget *parent, Sprite *sprite) : QComboBox(parent),
     updateCostumeList();
 }
 
+bool ParamCostume::setValue(const QString &val)
+{
+    setCurrentText(val);
+    return true;
+}
+
 QString ParamCostume::getString() const
 {
     return currentText();

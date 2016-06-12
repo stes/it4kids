@@ -12,6 +12,8 @@ public:
     ParamDelim(QWidget* parent);
     ~ParamDelim();
 
+    bool setValue(const QString &);
+
 protected:
     QString getString() const;
 };

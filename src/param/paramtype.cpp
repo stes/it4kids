@@ -11,6 +11,12 @@ ParamType::ParamType(QWidget *parent) : QComboBox(parent)
     addItem("predicate");
 }
 
+bool ParamType::setValue(const QString &val)
+{
+    setCurrentText(val);
+    return true;
+}
+
 QString ParamType::getString() const
 {
     return currentText();

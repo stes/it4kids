@@ -15,9 +15,8 @@ QString ParamString::getString() const
 
 bool ParamString::setValue(const QString &value)
 {
-    if(value == "0") setText("Hello!");
-    else setText(value);
-    return 1;
+    setText(value);
+    return true;
 }
 
 ParamString::~ParamString()

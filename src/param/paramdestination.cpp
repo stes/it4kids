@@ -16,6 +16,12 @@ ParamDestination::ParamDestination(QWidget *parent) : QComboBox(parent)
     }
 }
 
+bool ParamDestination::setValue(const QString &val)
+{
+    setCurrentText(val);
+    return true;
+}
+
 QString ParamDestination::getString() const
 {
     return currentText();

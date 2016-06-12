@@ -12,6 +12,8 @@ public:
     ParamMath(QWidget* parent);
     ~ParamMath();
 
+    bool setValue(const QString &);
+
     QString getValue() const;
 
     Type getType() const { return Expression; };

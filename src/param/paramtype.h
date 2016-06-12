@@ -12,6 +12,8 @@ public:
     ParamType(QWidget* parent);
     ~ParamType();
 
+    bool setValue(const QString &);
+
 protected:
     QString getString() const;
 };

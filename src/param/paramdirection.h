@@ -12,6 +12,8 @@ public:
     ParamDirection(QWidget* parent);
     ~ParamDirection();
 
+    bool setValue(const QString &);
+
 protected:
     QString getString() const;
 };

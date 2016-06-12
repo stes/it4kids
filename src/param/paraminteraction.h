@@ -12,6 +12,8 @@ public:
     ParamInteraction(QWidget* parent);
     ~ParamInteraction();
 
+    bool setValue(const QString &);
+
 protected:
     QString getString() const;
 };

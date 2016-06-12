@@ -9,6 +9,12 @@ ParamStopChoices::ParamStopChoices(QWidget *parent) : QComboBox(parent)
     addItem("other Scripts in Sprite");
 }
 
+bool ParamStopChoices::setValue(const QString &val)
+{
+    setCurrentText(val);
+    return true;
+}
+
 QString ParamStopChoices::getString() const
 {
     return currentText();

@@ -12,6 +12,8 @@ public:
     ParamSound(QWidget* parent);
     ~ParamSound();
 
+    bool setValue(const QString &);
+
 public slots:
     void updateSoundList();
 

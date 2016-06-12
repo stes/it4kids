@@ -14,6 +14,12 @@ ParamSound::ParamSound(QWidget *parent) : QComboBox(parent)
     updateSoundList();
 }
 
+bool ParamSound::setValue(const QString &val)
+{
+    setCurrentText(val);
+    return true;
+}
+
 QString ParamSound::getString() const
 {
     return currentText();

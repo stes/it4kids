@@ -15,6 +15,8 @@ public:
     ParamColor(QWidget* parent);
     ~ParamColor();
 
+    bool setValue(const QString &);
+
 protected:
     QColor _color;
     bool _active;

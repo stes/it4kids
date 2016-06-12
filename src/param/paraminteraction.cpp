@@ -8,6 +8,12 @@ ParamInteraction::ParamInteraction(QWidget *parent) : QComboBox(parent)
     addItem("hover");
 }
 
+bool ParamInteraction::setValue(const QString &val)
+{
+    setCurrentText(val);
+    return true;
+}
+
 QString ParamInteraction::getString() const
 {
     return currentText();

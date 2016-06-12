@@ -16,6 +16,12 @@ ParamClone::ParamClone(QWidget *parent) : QComboBox(parent)
     }
 }
 
+bool ParamClone::setValue(const QString &val)
+{
+    setCurrentText(val);
+    return true;
+}
+
 QString ParamClone::getString() const
 {
     return currentText();

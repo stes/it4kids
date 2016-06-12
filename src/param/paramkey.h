@@ -12,6 +12,8 @@ public:
     ParamKey(QWidget* parent);
     ~ParamKey();
 
+    bool setValue(const QString &);
+
 protected:
     QString getString() const;
 };

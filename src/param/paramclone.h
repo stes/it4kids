@@ -12,6 +12,8 @@ public:
     ParamClone(QWidget* parent);
     ~ParamClone();
 
+    bool setValue(const QString &);
+
 protected:
     QString getString() const;
 };

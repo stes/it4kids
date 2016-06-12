@@ -43,6 +43,12 @@ ParamKey::ParamKey(QWidget *parent) : QComboBox(parent)
     addItem("Down Arrow");
 }
 
+bool ParamKey::setValue(const QString &val)
+{
+    setCurrentText(val);
+    return true;
+}
+
 QString ParamKey::getString() const
 {
     return currentText();

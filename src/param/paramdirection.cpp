@@ -8,6 +8,12 @@ ParamDirection::ParamDirection(QWidget *parent) : QComboBox(parent)
     addItem("down");
 }
 
+bool ParamDirection::setValue(const QString &val)
+{
+    setCurrentText(val);
+    return true;
+}
+
 QString ParamDirection::getString() const
 {
     return currentText();
