@@ -204,7 +204,7 @@ QJsonArray SaveLoadClass::generateBlockTuple(const DraggableElement* element)
         ParamBase::Type type = (*it)->getType();
         if(type == ParamBase::Number)
             Block.append(QJsonValue(((ParamBaseNum*)(*it))->getNumber()));
-        else if(type == ParamBase::Number)
+        else if(type == ParamBase::String)
             Block.append(QJsonValue(((ParamBaseStr*)(*it))->getString()));
     }
 

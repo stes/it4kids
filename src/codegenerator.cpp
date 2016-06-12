@@ -180,7 +180,8 @@ QString CodeGenerator::generateCode(const DraggableElement* element, int sub)
         else
         {
             qDebug() << "block: " << name << "not supported yet";
-            tmp = indent(sub) + "pass\n";
+            str += indent(sub) + "pass\n";
+            continue;
         }
 
         if(tmp.contains(QLatin1String("%indent_counter%")))
