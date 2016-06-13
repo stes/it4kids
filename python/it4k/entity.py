@@ -22,6 +22,13 @@ class Entity(pyglet.event.EventDispatcher):
         self.sprite = None
         self.costume_images = {}
     
+    def forever(self):
+        self.invalidate()
+        return True
+    
+    def range(self, n):
+        return custom_range(n, self.invalidate)
+    
     def set_data(self, data):
         self.data = data
         self.set_costume(self.data.costume)

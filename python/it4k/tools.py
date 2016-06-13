@@ -8,6 +8,24 @@ overlay = pyglet.graphics.OrderedGroup(2)
 
 app_size = (480, 360)
 
+class custom_range(object):
+    def __init__(self, n, func):
+        self.i = 0
+        self.n = n
+        self.func = func
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        self.func()
+        if self.i < self.n:
+            i = self.i
+            self.i += 1
+            return i
+        else:
+            raise StopIteration()
+
 class AppState(object):
     def __init__(self):
         self.paused = Event()
@@ -21,16 +39,17 @@ app_state = AppState()
 class SigStop(Exception):
     pass
 
-def stop_func(func, *args, **kwargs):
+def block_wrapper(func, *args, **kwargs):
     try:
         func(*args, **kwargs)
+        args[0].invalidate()
     except SigStop:
         pass
 
 def block(func):
     def async_func(*args, **kwargs):
         global app_state
-        func_th = Thread(target = stop_func, args = (func,) + args, kwargs = kwargs)
+        func_th = Thread(target = block_wrapper, args = (func,) + args, kwargs = kwargs)
         app_state.running.append(func_th)
         func_th.start()
     return async_func

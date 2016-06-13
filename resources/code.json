@@ -64,8 +64,7 @@
             "code": [
                 "@it4k.block",
                 "def receiveGo%counter%(self):",
-                "%content%",
-                "    self.invalidate()"
+                "%content%"
             ],
             "register": "self.register(on_start=self.receiveGo%counter%)"
         },
@@ -76,8 +75,7 @@
                 "def receiveInteraction%counter%(self, type):",
                 "    if type != %1:",
                 "        return",
-                "%content%",
-                "    self.invalidate()"
+                "%content%"
             ],
             "register": "self.register(on_interaction=self.receiveInteraction%counter%)"
         }
@@ -154,17 +152,15 @@
         {
             "name": "doRepeat",
             "code": [
-                "for it%indent_counter% in range(%1):",
-                "%content%",
-                "    self.invalidate()"
+                "for it%indent_counter% in self.range(%1):",
+                "%content%"
             ]
         },
         {
             "name": "doForever",
             "code": [
-                "while True:",
-                "%content%",
-                "    self.invalidate()"
+                "while self.forever():",
+                "%content%"
             ]
         }
     ]
