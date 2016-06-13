@@ -55,6 +55,9 @@ MainWindow::MainWindow(QWidget *parent) :
     _appDir.mkdir("tmp");
     _tmpDir = QDir(_appDir.filePath("tmp"));
 
+    qInfo() << "app dir:" << _appDir.absolutePath();
+    qInfo() << "temp dir:" << _tmpDir.absolutePath();
+
     cleanTempDir();
 
     _pyController.addSysPath(QDir("python").absolutePath().toLatin1().data());
@@ -84,6 +87,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ((QHBoxLayout*) ui->selectionBackground->layout())->insertWidget(0, _backgroundSprite);
 
     InitializeDragElem(":/blocks.xml");
+    qInfo() << "loaded drag elements";
 
     connect(this, SIGNAL(newSound()), ui->soundSelect, SLOT(updateSoundList()));
     connect(this, SIGNAL(newCostume()), ui->costumeSelect, SLOT(updateCostumeList()));
@@ -205,6 +209,7 @@ void MainWindow::initPython()
     _pyController.init();
     _pyController.addMediaPath(_tmpDir.absolutePath().toLatin1().data());
     reloadCodeAll();
+    qInfo() << "initialized python app";
 }
 
 void MainWindow::reindexMedia()
@@ -284,11 +289,12 @@ MainWindow::~MainWindow()
 void MainWindow::loadFromFile()
 {
     SaveLoadClass slc;
+    QString file = QStringLiteral("project.json");
     _loading = true;
     // TODO
     ui->scriptArea->setCurrentSprite(0);
     _pyController.resetApp();
-    if(slc.loadScratch(_appDir.filePath(QStringLiteral("project.json")), ui->spriteSelect))
+    if(slc.loadScratch(_appDir.filePath(file), ui->spriteSelect))
     {
         _currentSprite = getSpriteVector()->at(0);
         emit changeCurrentSprite(_currentSprite);
@@ -296,12 +302,17 @@ void MainWindow::loadFromFile()
 
     _loading = false;
     reloadCodeAll();
+
+    qInfo() << "loaded file:" << file;
 }
 
 void MainWindow::saveToFile()
 {
     SaveLoadClass slc;
-    slc.saveScratch(_appDir.filePath(QStringLiteral("project.json")), ui->spriteSelect);
+    QString file = QStringLiteral("project.json");
+    slc.saveScratch(_appDir.filePath(file), ui->spriteSelect);
+
+    qInfo() << "saved file:" << file;
 }
 
 void MainWindow::exportAsPython()
@@ -338,6 +349,8 @@ void MainWindow::exportAsPython()
         for (CostumeVector::const_iterator cIt = cVec->begin(); cIt != cVec->end(); cIt++)
             (*cIt)->exportFile(media);
     }
+
+    qInfo() << "exported python app:" << out.absolutePath();
 }
 
 void MainWindow::on_soundFromFile_clicked()
