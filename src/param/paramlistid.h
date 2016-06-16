@@ -1,19 +1,13 @@
 #ifndef PARAMLISTID_H
 #define PARAMLISTID_H
 
-#include <QComboBox>
+#include "paramcombobox.h"
 
-#include "param.h"
-
-class ParamListId : public QComboBox, public ParamBaseStr
+class ParamListId : public ParamComboBox
 {
-    Q_OBJECT
 public:
     ParamListId(QWidget* parent);
-    ~ParamListId();
-
-protected:
-    QString getString() const;
+    virtual ~ParamListId();
 };
 
 #endif // PARAMLISTID_H

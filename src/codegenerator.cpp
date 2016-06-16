@@ -2,6 +2,8 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QFile>
+#include <QTextStream>
+#include <QDebug>
 
 #include "codegenerator.h"
 

@@ -8,11 +8,27 @@
 #include "costume/costume.h"
 #include "dragelem/draggableelement.h"
 #include "param/param.h"
-#include "mainwindow.h"
 #include "sprite.h"
 #include "spriteselect.h"
 
-extern MainWindow* sMainWindow;
+DraggableElement* SaveLoadClass::createElement(const QString &ident, Sprite *sprite)
+{
+	// check all Elements
+	for (std::vector<DraggableElement*>::const_iterator it = _LoadableElems.begin(); it != _LoadableElems.end(); it++)
+	{
+		if ((*it)->getIdentifier() == ident)
+		{
+			//qDebug() << ident;
+			return (*it)->getCurrentElement(sprite, _elemParent);
+		}
+	}
+	return 0;
+}
+
+void SaveLoadClass::registerElement(DraggableElement* element)
+{
+	_LoadableElems.push_back(element);
+}
 
 bool SaveLoadClass::loadScratch(const QString &path, SpriteSelect *spriteSelect)
 {
@@ -45,7 +61,7 @@ bool SaveLoadClass::loadScratch(const QString &path, SpriteSelect *spriteSelect)
         {
             QJsonObject JSprite = (*it).toObject();
             QString name = JSprite[QStringLiteral("objName")].toString();
-            Sprite *sprite = new Sprite(name, sMainWindow);
+            Sprite *sprite = new Sprite(name, _elemParent);
             QJsonArray Scripts = JSprite[QStringLiteral("scripts")].toArray();
             for(QJsonArray::const_iterator scriptIt = Scripts.constBegin(); scriptIt != Scripts.constEnd(); scriptIt++)
                 handleScriptTuple((*scriptIt).toArray(), sprite);
@@ -107,7 +123,7 @@ DraggableElement* SaveLoadClass::handleBlockTupleArray(const QJsonArray &a, Spri
 DraggableElement* SaveLoadClass::handleBlockTuple(const QJsonArray &a, class Sprite *sprite)
 {
     QString name = a[0].toString();
-    DraggableElement* ele = sMainWindow->createNewElement(name, sprite);
+    DraggableElement* ele = createElement(name, sprite);
 
     // params
     int i = 1;

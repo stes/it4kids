@@ -3,7 +3,7 @@
 #include "sprite.h"
 
 CommandDE::CommandDE(const QString& identifier, const QString& text, const QColor& color, Sprite *sprite, QWidget* parent) :
-    DraggableElement(identifier, text, color, DraggableElement::Command, sprite, parent),
+    DraggableElement(identifier, text, color, sprite, parent),
     _upperDock(ScriptDock::Upper, sprite, this),
     _lowerDock(ScriptDock::Lower, sprite, this)
 {

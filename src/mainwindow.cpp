@@ -16,17 +16,11 @@
 
 #include "costume/costume.h"
 #include "dragelem/dragelemcategory.h"
-#include "dragelem/commandde.h"
-#include "dragelem/hatde.h"
-#include "dragelem/wrapperde.h"
-#include "dragelem/predicatede.h"
-#include "dragelem/reporterde.h"
 #include "param/param.h"
 #include "teacher/student.h"
 #include "teacher/teacher.h"
 #include "sprite.h"
 #include "newspritename.h"
-#include "saveloadclass.h"
 #include "teacherlogin.h"
 
 MainWindow* sMainWindow = 0;
@@ -47,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent) :
     _fileMenu(this),
     _editMenu(this),
     _audioEngine(this),
+	_slc(this),
     _appDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)) // TODO: make configurable
 {
     sMainWindow = this;
@@ -139,9 +134,7 @@ void MainWindow::InitializeDragElem(const QString& path)
     QXmlStreamReader xmlReader(xml);
     QXmlStreamAttributes attributes;
 
-    DraggableElement* lastElement;
-
-    _LoadableElems.clear();
+    DraggableElement* lastElement = 0;
 
     uint paramIndex = 0;
     while(!xmlReader.atEnd())
@@ -153,7 +146,7 @@ void MainWindow::InitializeDragElem(const QString& path)
             {
                 paramIndex = 0;
                 attributes = xmlReader.attributes();
-                DragElemCategory* category = GetCategoryByName(attributes.value(QLatin1String("category")).toString());
+                DragElemCategory* category = getCategoryByName(attributes.value(QLatin1String("category")).toString());
                 QString type = attributes.value(QLatin1String("type")).toString();
                 QString name = attributes.value(QLatin1String("name")).toString();
                 QString spec = attributes.value(QLatin1String("spec")).toString();
@@ -162,22 +155,15 @@ void MainWindow::InitializeDragElem(const QString& path)
                 if(!_Cgen.supported(name))
                     color = QColor();
 
-                if(type == QLatin1String("command"))
-                    lastElement = new CommandDE(name, spec, color, 0, this);
-                else if(type == QLatin1String("hat"))
-                    lastElement = new HatDE(name, spec, color, 0, this);
-                else if(type == QLatin1String("wrapper"))
-                    lastElement = new WrapperDE(name, spec, color, 0, this);
-                else if(type == QLatin1String("predicate"))
-                    lastElement = new PredicateDE(name, spec, color, 0, this);
-                else if(type == QLatin1String("reporter"))
-                    lastElement = new ReporterDE(name, spec, color, 0, this);
+                lastElement = DraggableElement::createNewElement(type, name, spec, color, 0, this);
+                if(!lastElement)
+                    continue;
 
                 lastElement->makeStatic();
                 category->getElemList()->push_back(lastElement);
-                _LoadableElems.push_back(lastElement);
+                _slc.registerElement(lastElement);
             }
-            else if(type == QLatin1String("parameter"))
+            else if(lastElement && type == QLatin1String("parameter"))
             {
                 attributes = xmlReader.attributes();
                 QString def = attributes.value(QLatin1String("default")).toString();
@@ -255,7 +241,7 @@ void MainWindow::reloadCodeSprite(Sprite *sprite)
     _pyController.loadEntity(name.toLatin1().data(), sprite->getName().toLatin1().data(), code.toLatin1().data());
 }
 
-DragElemCategory* MainWindow::GetCategoryByName(const QString& name)
+DragElemCategory* MainWindow::getCategoryByName(const QString& name)
 {
     CategoryList *list = ui->categorySelect->getCategoryList();
     for(CategoryList::const_iterator category = list->begin(); category != list->end(); category++)
@@ -288,13 +274,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::loadFromFile()
 {
-    SaveLoadClass slc;
     QString file = QStringLiteral("project.json");
     _loading = true;
     // TODO
     ui->scriptArea->setCurrentSprite(0);
     _pyController.resetApp();
-    if(slc.loadScratch(_appDir.filePath(file), ui->spriteSelect))
+    if(_slc.loadScratch(_appDir.filePath(file), ui->spriteSelect))
     {
         _currentSprite = getSpriteVector()->at(0);
         emit changeCurrentSprite(_currentSprite);
@@ -308,9 +293,8 @@ void MainWindow::loadFromFile()
 
 void MainWindow::saveToFile()
 {
-    SaveLoadClass slc;
     QString file = QStringLiteral("project.json");
-    slc.saveScratch(_appDir.filePath(file), ui->spriteSelect);
+    _slc.saveScratch(_appDir.filePath(file), ui->spriteSelect);
 
     qInfo() << "saved file:" << file;
 }
@@ -398,20 +382,6 @@ void MainWindow::on_buttonScriptStart_clicked()
 void MainWindow::on_buttonScriptStop_clicked()
 {
     _pyController.sendStop();
-}
-
-DraggableElement* MainWindow::createNewElement(QString ident, Sprite *sprite)
-{
-    // check all Elements
-    for(std::vector<DraggableElement*>::const_iterator it = _LoadableElems.begin(); it != _LoadableElems.end(); it++)
-    {
-        if ((*it)->getIdentifier() == ident)
-        {
-            //qDebug() << ident;
-            return (*it)->getCurrentElement(sprite, this);
-        }
-    }
-    return 0;
 }
 
 void MainWindow::on_buttonAddDragElem_clicked()

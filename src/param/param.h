@@ -1,10 +1,15 @@
 #ifndef PARAM_H
 #define PARAM_H
 
+#include <QColor>
 #include <QString>
+
+class QWidget;
 
 class ParamBase
 {
+    QWidget *_myWidget;
+
 public:
     enum Type
     {
@@ -13,12 +18,16 @@ public:
         Expression
     };
 
+    // TODO: remove sprite and color
+    static ParamBase* createParam(const QString &str, QWidget *parent = 0, class Sprite *sprite = 0, QColor color = QColor());
+
     virtual ~ParamBase() { }
 
     virtual QString getValue() const = 0;
     virtual bool setValue(const QString&) { return 0; }
 
     virtual Type getType() const = 0;
+    virtual QWidget* getWidget() = 0;
 };
 
 class ParamBaseStr : public ParamBase

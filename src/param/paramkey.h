@@ -1,21 +1,13 @@
 #ifndef PARAMKEY_H
 #define PARAMKEY_H
 
-#include <QComboBox>
+#include "paramcombobox.h"
 
-#include "param.h"
-
-class ParamKey : public QComboBox, public ParamBaseStr
+class ParamKey : public ParamComboBox
 {
-    Q_OBJECT
 public:
     ParamKey(QWidget* parent);
-    ~ParamKey();
-
-    bool setValue(const QString &);
-
-protected:
-    QString getString() const;
+    virtual ~ParamKey();
 };
 
 #endif // PARAMKEY_H

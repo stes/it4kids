@@ -1,27 +1,16 @@
+#include <QComboBox>
+
 #include "paramdelim.h"
 
-ParamDelim::ParamDelim(QWidget *parent) : QComboBox(parent)
+ParamDelim::ParamDelim(QWidget *parent) : ParamComboBox(parent)
 {
-    addItem("letter");
-    addItem("whitespace");
-    addItem("line");
-    addItem("tab");
-    addItem("cr");
-}
-
-bool ParamDelim::setValue(const QString &val)
-{
-    setCurrentText(val);
-    return true;
-}
-
-QString ParamDelim::getString() const
-{
-    return currentText();
+    _comboBox->addItem("letter");
+    _comboBox->addItem("whitespace");
+    _comboBox->addItem("line");
+    _comboBox->addItem("tab");
+    _comboBox->addItem("cr");
 }
 
 ParamDelim::~ParamDelim()
 {
-
 }
-

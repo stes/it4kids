@@ -1,24 +1,19 @@
 #ifndef PARAMSOUND_H
 #define PARAMSOUND_H
 
-#include <QComboBox>
+#include <QObject>
 
-#include "param.h"
+#include "paramcombobox.h"
 
-class ParamSound : public QComboBox, public ParamBaseStr
+class ParamSound : public QObject, public ParamComboBox
 {
     Q_OBJECT
 public:
     ParamSound(QWidget* parent);
-    ~ParamSound();
-
-    bool setValue(const QString &);
+    virtual ~ParamSound();
 
 public slots:
     void updateSoundList();
-
-protected:
-    QString getString() const;
 };
 
 #endif // PARAMSOUND_H

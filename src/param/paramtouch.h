@@ -1,21 +1,13 @@
 #ifndef PARAMTOUCH_H
 #define PARAMTOUCH_H
 
-#include <QComboBox>
+#include "paramcombobox.h"
 
-#include "param.h"
-
-class ParamTouch : public QComboBox, public ParamBaseStr
+class ParamTouch : public ParamComboBox
 {
-    Q_OBJECT
 public:
     ParamTouch(QWidget* parent);
-    ~ParamTouch();
-
-    bool setValue(const QString &);
-
-protected:
-    QString getString() const;
+    virtual ~ParamTouch();
 };
 
 #endif // PARAMTOUCH_H

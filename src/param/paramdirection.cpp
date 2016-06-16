@@ -1,22 +1,13 @@
+#include <QComboBox>
+
 #include "paramdirection.h"
 
-ParamDirection::ParamDirection(QWidget *parent) : QComboBox(parent)
+ParamDirection::ParamDirection(QWidget *parent) : ParamComboBox(parent)
 {
-    addItem("right");
-    addItem("left");
-    addItem("up");
-    addItem("down");
-}
-
-bool ParamDirection::setValue(const QString &val)
-{
-    setCurrentText(val);
-    return true;
-}
-
-QString ParamDirection::getString() const
-{
-    return currentText();
+    _comboBox->addItem("right");
+    _comboBox->addItem("left");
+    _comboBox->addItem("up");
+    _comboBox->addItem("down");
 }
 
 ParamDirection::~ParamDirection()

@@ -76,10 +76,7 @@ DraggableElement QComboBox {
 	font-size: 10px;
 }
 
-ParamNumber {
-	border-radius: 6px;
-}
-ParamListId {
+NumberWidget {
 	border-radius: 6px;
 }
 

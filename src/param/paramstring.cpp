@@ -1,26 +1,31 @@
+#include <QLineEdit>
+
 #include "paramstring.h"
 
-ParamString::ParamString(QWidget *parent) : QLineEdit(parent)
+ParamString::ParamString(QWidget *parent) : _lineEdit(new QLineEdit(parent))
 {
-    setFixedSize(50, 15);
-    setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    setFont(QFont("Courier", 7));
+    _lineEdit->setFixedSize(50, 15);
+    _lineEdit->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    _lineEdit->setFont(QFont("Courier", 7));
     // TODO: Fix GetValue
 }
 
 QString ParamString::getString() const
 {
-    return text();
+    return _lineEdit->text();
 }
 
 bool ParamString::setValue(const QString &value)
 {
-    setText(value);
+    _lineEdit->setText(value);
     return true;
+}
+
+QWidget* ParamString::getWidget()
+{
+    return _lineEdit;
 }
 
 ParamString::~ParamString()
 {
-
 }
-

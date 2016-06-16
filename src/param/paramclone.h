@@ -1,21 +1,13 @@
 #ifndef PARAMCLONE_H
 #define PARAMCLONE_H
 
-#include <QComboBox>
+#include "paramcombobox.h"
 
-#include "param.h"
-
-class ParamClone : public QComboBox, public ParamBaseStr
+class ParamClone : public ParamComboBox
 {
-    Q_OBJECT
 public:
     ParamClone(QWidget* parent);
-    ~ParamClone();
-
-    bool setValue(const QString &);
-
-protected:
-    QString getString() const;
+    virtual ~ParamClone();
 };
 
 #endif // PARAMCLONE_H

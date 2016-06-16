@@ -1,18 +1,18 @@
 #ifndef PARAMSTRING_H
 #define PARAMSTRING_H
 
-#include <QLineEdit>
-
 #include "param.h"
 
-class ParamString : public QLineEdit, public ParamBaseStr
+class ParamString : public ParamBaseStr
 {
-    Q_OBJECT
+    class QLineEdit* _lineEdit;
+
 public:
     ParamString(QWidget* parent);
-    ~ParamString();
+    virtual ~ParamString();
 
     bool setValue(const QString& value);
+    QWidget* getWidget();
 
 protected:
     QString getString() const;

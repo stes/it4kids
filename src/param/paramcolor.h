@@ -8,25 +8,40 @@
 
 #include "param.h"
 
-class ParamColor : public QWidget, public ParamBaseStr
+class ColorWidget : public QWidget
 {
     Q_OBJECT
-public:
-    ParamColor(QWidget* parent);
-    ~ParamColor();
 
-    bool setValue(const QString &);
-
-protected:
     QColor _color;
     bool _active;
     QPixmap _activePixmap;
 
+public:
+    ColorWidget(QWidget* parent);
+    virtual ~ColorWidget();
+
+    void setColor(QColor color) { _color = color; }
+    QColor getColor() const { return _color; }
+
+protected:
     void mousePressEvent(QMouseEvent*);
     void mouseMoveEvent(QMouseEvent* event);
     void mouseReleaseEvent(QMouseEvent*);
     void paintEvent(QPaintEvent*);
+};
 
+class ParamColor : public ParamBaseStr
+{
+    ColorWidget* _colorWidget;
+
+public:
+    ParamColor(QWidget* parent);
+    virtual ~ParamColor();
+
+    bool setValue(const QString &);
+    QWidget* getWidget() { return _colorWidget; };
+
+protected:
     QString getString() const;
 };
 

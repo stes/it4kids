@@ -1,21 +1,13 @@
 #ifndef PARAMEFFECT_H
 #define PARAMEFFECT_H
 
-#include <QComboBox>
+#include "paramcombobox.h"
 
-#include "param.h"
-
-class ParamEffect : public QComboBox, public ParamBaseStr
+class ParamEffect : public ParamComboBox
 {
-    Q_OBJECT
 public:
     ParamEffect(QWidget* parent);
-    ~ParamEffect();
-
-    bool setValue(const QString &);
-
-protected:
-    QString getString() const;
+    virtual ~ParamEffect();
 };
 
 #endif // PARAMEFFECT_H

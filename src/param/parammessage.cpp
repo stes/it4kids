@@ -1,17 +1,13 @@
+#include <QComboBox>
+
 #include "parammessage.h"
 
-ParamMessage::ParamMessage(QWidget *parent) : QComboBox(parent)
+ParamMessage::ParamMessage(QWidget *parent) : ParamComboBox(parent)
 {
-    addItem("message1");
+    _comboBox->addItem("message1");
     //#warning "Add Message list to ParamMessage"
-}
-
-QString ParamMessage::getString() const
-{
-    return "ParamMessage";
 }
 
 ParamMessage::~ParamMessage()
 {
-
 }

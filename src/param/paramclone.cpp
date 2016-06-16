@@ -1,3 +1,5 @@
+#include <QComboBox>
+
 #include "paramclone.h"
 
 #include "mainwindow.h"
@@ -6,28 +8,16 @@
 
 extern MainWindow* sMainWindow;
 
-ParamClone::ParamClone(QWidget *parent) : QComboBox(parent)
+ParamClone::ParamClone(QWidget *parent) : ParamComboBox(parent)
 {
-    addItem("myself");
+    _comboBox->addItem("myself");
     const SpriteVector* sV = sMainWindow->getSpriteVector();
     for(SpriteVector::const_iterator it = sV->begin(); it != sV->end(); it++)
     {
-        addItem((*it)->getName());
+        _comboBox->addItem((*it)->getName());
     }
-}
-
-bool ParamClone::setValue(const QString &val)
-{
-    setCurrentText(val);
-    return true;
-}
-
-QString ParamClone::getString() const
-{
-    return currentText();
 }
 
 ParamClone::~ParamClone()
 {
-
 }

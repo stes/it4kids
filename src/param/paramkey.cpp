@@ -1,60 +1,50 @@
+#include <QComboBox>
+
 #include "paramkey.h"
 
-ParamKey::ParamKey(QWidget *parent) : QComboBox(parent)
+ParamKey::ParamKey(QWidget *parent) : ParamComboBox(parent)
 {
-    addItem("a");
-    addItem("b");
-    addItem("c");
-    addItem("d");
-    addItem("e");
-    addItem("f");
-    addItem("g");
-    addItem("h");
-    addItem("i");
-    addItem("k");
-    addItem("l");
-    addItem("m");
-    addItem("n");
-    addItem("o");
-    addItem("p");
-    addItem("q");
-    addItem("r");
-    addItem("s");
-    addItem("t");
-    addItem("u");
-    addItem("v");
-    addItem("w");
-    addItem("x");
-    addItem("y");
-    addItem("z");
-    addItem("1");
-    addItem("2");
-    addItem("3");
-    addItem("4");
-    addItem("5");
-    addItem("6");
-    addItem("7");
-    addItem("8");
-    addItem("9");
-    addItem("0");
-    addItem("Left Arrow");
-    addItem("Right Arrow");
-    addItem("Up Arrow");
-    addItem("Down Arrow");
-}
-
-bool ParamKey::setValue(const QString &val)
-{
-    setCurrentText(val);
-    return true;
-}
-
-QString ParamKey::getString() const
-{
-    return currentText();
+    _comboBox->addItem("a");
+    _comboBox->addItem("b");
+    _comboBox->addItem("c");
+    _comboBox->addItem("d");
+    _comboBox->addItem("e");
+    _comboBox->addItem("f");
+    _comboBox->addItem("g");
+    _comboBox->addItem("h");
+    _comboBox->addItem("i");
+    _comboBox->addItem("k");
+    _comboBox->addItem("l");
+    _comboBox->addItem("m");
+    _comboBox->addItem("n");
+    _comboBox->addItem("o");
+    _comboBox->addItem("p");
+    _comboBox->addItem("q");
+    _comboBox->addItem("r");
+    _comboBox->addItem("s");
+    _comboBox->addItem("t");
+    _comboBox->addItem("u");
+    _comboBox->addItem("v");
+    _comboBox->addItem("w");
+    _comboBox->addItem("x");
+    _comboBox->addItem("y");
+    _comboBox->addItem("z");
+    _comboBox->addItem("1");
+    _comboBox->addItem("2");
+    _comboBox->addItem("3");
+    _comboBox->addItem("4");
+    _comboBox->addItem("5");
+    _comboBox->addItem("6");
+    _comboBox->addItem("7");
+    _comboBox->addItem("8");
+    _comboBox->addItem("9");
+    _comboBox->addItem("0");
+    _comboBox->addItem("Left Arrow");
+    _comboBox->addItem("Right Arrow");
+    _comboBox->addItem("Up Arrow");
+    _comboBox->addItem("Down Arrow");
 }
 
 ParamKey::~ParamKey()
 {
-
 }

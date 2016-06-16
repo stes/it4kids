@@ -1,10 +1,11 @@
 #include <QApplication>
+#include <QPainter>
 
+#include "dragelem/draggableelement.h"
 #include "paramdock.h"
-#include "dragelem/predicatede.h"
 #include "sprite.h"
 
-ParamDock::ParamDock(QColor color, Sprite *sprite, QWidget *parent) : QWidget(parent), DockingArea(sprite)
+DockWidget::DockWidget(QColor color, Sprite *sprite, QWidget *parent) : QWidget(parent), DockingArea(sprite)
 {
     _color = color.darker(130);
 
@@ -18,7 +19,7 @@ ParamDock::ParamDock(QColor color, Sprite *sprite, QWidget *parent) : QWidget(pa
     setFixedSize(24, 12);
 }
 
-void ParamDock::dock(DraggableElement* dragElem)
+void DockWidget::dock(DraggableElement* dragElem)
 {
     // TODO: rework this
     if(dragElem != parent())
@@ -50,7 +51,7 @@ void ParamDock::dock(DraggableElement* dragElem)
     // TODO: reload the code
 }
 
-void ParamDock::undock()
+void DockWidget::undock()
 {
     int index = ((QBoxLayout*) (parentWidget()->layout()))->indexOf(_dockedElem);
     ((QBoxLayout*) (parentWidget()->layout()))->removeWidget(_dockedElem);
@@ -76,18 +77,11 @@ void ParamDock::undock()
     }
 }
 
-QString ParamDock::getString() const
-{
-    // TODO
-    if(_dockedElem) return _dockedElem->getIdentifier();
-    return "empty";
-}
-
-ParamDock::~ParamDock()
+DockWidget::~DockWidget()
 {
 }
 
-void ParamDock::paintEvent(QPaintEvent*)
+void DockWidget::paintEvent(QPaintEvent*)
 {
     QPainter painter(this);
 
@@ -105,3 +99,24 @@ void ParamDock::paintEvent(QPaintEvent*)
     painter.setBackgroundMode(Qt::TransparentMode);
     setRect(QRect(mapToGlobal(QPoint(0, 0)), QSize(24, 12)));
 }
+
+QString DockWidget::getDockedElemIdent() const
+{
+    // TODO
+    if(_dockedElem) return _dockedElem->getIdentifier();
+    return "empty";
+}
+
+ParamDock::ParamDock(QColor color, Sprite *sprite, QWidget *parent) : _dockWidget(new DockWidget(color, sprite, parent))
+{
+}
+
+ParamDock::~ParamDock()
+{
+}
+
+QString ParamDock::getString() const
+{
+    return _dockWidget->getDockedElemIdent();
+}
+

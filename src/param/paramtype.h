@@ -1,21 +1,13 @@
 #ifndef PARAMTYPE_H
 #define PARAMTYPE_H
 
-#include <QComboBox>
+#include "paramcombobox.h"
 
-#include "param.h"
-
-class ParamType : public QComboBox, public ParamBaseStr
+class ParamType : public ParamComboBox
 {
-    Q_OBJECT
 public:
     ParamType(QWidget* parent);
-    ~ParamType();
-
-    bool setValue(const QString &);
-
-protected:
-    QString getString() const;
+    virtual ~ParamType();
 };
 
 #endif // PARAMTYPE_H

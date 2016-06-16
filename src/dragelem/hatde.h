@@ -19,6 +19,8 @@ public:
     virtual void removeChildDragElems();
 
     virtual ScriptDock *getDock(ScriptDock::Type type);
+
+    Type getType() const { return Hat; };
 protected:
     DraggableElement* getCurrentElement(Sprite *sprite, QWidget* parent);
 

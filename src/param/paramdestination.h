@@ -1,21 +1,13 @@
 #ifndef PARAMDESTINATION_H
 #define PARAMDESTINATION_H
 
-#include <QComboBox>
+#include "paramcombobox.h"
 
-#include "param.h"
-
-class ParamDestination : public QComboBox, public ParamBaseStr
+class ParamDestination : public ParamComboBox
 {
-    Q_OBJECT
 public:
     ParamDestination(QWidget* parent);
-    ~ParamDestination();
-
-    bool setValue(const QString &);
-
-protected:
-    QString getString() const;
+    virtual ~ParamDestination();
 };
 
 #endif // PARAMDESTINATION_H

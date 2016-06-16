@@ -1,21 +1,13 @@
 #ifndef PARAMDIRECTION_H
 #define PARAMDIRECTION_H
 
-#include <QComboBox>
+#include "paramcombobox.h"
 
-#include "param.h"
-
-class ParamDirection : public QComboBox, public ParamBaseStr
+class ParamDirection : public ParamComboBox
 {
-    Q_OBJECT
 public:
     ParamDirection(QWidget* parent);
-    ~ParamDirection();
-
-    bool setValue(const QString &);
-
-protected:
-    QString getString() const;
+    virtual ~ParamDirection();
 };
 
 #endif // PARAMDIRECTION_H

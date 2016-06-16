@@ -1,37 +1,52 @@
+#include <QPainter>
+
 #include "draggableelement.h"
 
-#include "mainwindow.h"
 #include "param/param.h"
-#include "param/paramcolor.h"
-#include "param/paramclone.h"
-#include "param/paramcostume.h"
-#include "param/paramdelim.h"
-#include "param/paramdestination.h"
-#include "param/paramdirection.h"
-#include "param/paramdock.h"
-#include "param/parameffect.h"
-#include "param/paraminteraction.h"
-#include "param/paramjoinwords.h"
-#include "param/paramkey.h"
-#include "param/paramlistid.h"
-#include "param/paramlistselec.h"
-#include "param/parammath.h"
-#include "param/parammessage.h"
-#include "param/paramnumber.h"
-#include "param/paramsound.h"
-#include "param/paramstopchoices.h"
-#include "param/paramstring.h"
-#include "param/paramtouch.h"
-#include "param/paramtype.h"
-#include "param/paramvariables.h"
+#include "mainwindow.h"
+#include "commandde.h"
+#include "hatde.h"
+#include "wrapperde.h"
+#include "predicatede.h"
+#include "reporterde.h"
 #include "sprite.h"
 
 extern MainWindow* sMainWindow;
 
-DraggableElement::DraggableElement(const QString& identifier, const QString& text, const QColor& color, Type type, Sprite* sprite, QWidget* parent) :
-    QWidget(parent), _color(color), _text(text), _identifier(identifier), _static(false),
-    _width(0), _height(0), _sprite(sprite), _path(QPoint(0, 0)),
-    _type(type), _currentDock(0), _prevElem(0), _nextElem(0)
+DraggableElement* DraggableElement::createNewElement(
+        const QString& type,
+        const QString& identifier,
+        const QString& text,
+        const QColor& color,
+        Sprite* sprite,
+        QWidget* parent)
+{
+    if(type == QLatin1String("command"))
+        return new CommandDE(identifier, text, color, sprite, parent);
+    if(type == QLatin1String("hat"))
+        return new HatDE(identifier, text, color, sprite, parent);
+    if(type == QLatin1String("wrapper"))
+        return new WrapperDE(identifier, text, color, sprite, parent);
+    if(type == QLatin1String("predicate"))
+        return new PredicateDE(identifier, text, color, sprite, parent);
+    if(type == QLatin1String("reporter"))
+        return new ReporterDE(identifier, text, color, sprite, parent);
+    return 0;
+}
+
+DraggableElement::DraggableElement(const QString& identifier, const QString& text, const QColor& color, Sprite* sprite, QWidget* parent) :
+    QWidget(parent),
+    _color(color),
+    _text(text),
+    _identifier(identifier),
+    _static(false),
+    _width(0),
+    _height(0),
+    _sprite(sprite),
+    _path(QPoint(0, 0)),
+    _currentDock(0),
+    _prevElem(0),
+    _nextElem(0)
 {
     _layout.setSpacing(5);
     setLayout(&_layout);
@@ -163,138 +178,15 @@ void DraggableElement::parseText(const QString &text)
             pixmap->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             pixmap->setStyleSheet("background-color: none;");
             _layout.addWidget(pixmap);
+            continue;
         }
-        else if(str.contains(QLatin1String("%dir")))
+
+        ParamBase *param = ParamBase::createParam(str, this, _sprite, _color);
+
+        if(param)
         {
-            ParamDirection* selecBox = new ParamDirection(this);
-            _layout.addWidget(selecBox);
-            _paramsVector.push_back(selecBox);
-        }
-        else if(str.contains(QLatin1String("%dst")))
-        {
-            ParamDestination* selecBox = new ParamDestination(this);
-            _layout.addWidget(selecBox);
-            _paramsVector.push_back(selecBox);
-        }
-        else if(str.contains(QLatin1String("%key")))
-        {
-            ParamKey* selecBox = new ParamKey(this);
-            _layout.addWidget(selecBox);
-            _paramsVector.push_back(selecBox);
-        }
-        else if(str.contains(QLatin1String("%interaction")))
-        {
-            ParamInteraction* selecBox = new ParamInteraction(this);
-            _layout.addWidget(selecBox);
-            _paramsVector.push_back(selecBox);
-        }
-        else if(str.contains(QLatin1String("%msg")))
-        {
-            ParamMessage* selecBox = new ParamMessage(this);
-            _layout.addWidget(selecBox);
-            _paramsVector.push_back(selecBox);
-        }
-        else if(str.contains(QLatin1String("%stopChoices")))
-        {
-            ParamStopChoices* selecBox = new ParamStopChoices(this);
-            _layout.addWidget(selecBox);
-            _paramsVector.push_back(selecBox);
-        }
-        else if(str.contains(QLatin1String("%cln")))
-        {
-            ParamClone* selecBox = new ParamClone(this);
-            _layout.addWidget(selecBox);
-            _paramsVector.push_back(selecBox);
-        }
-        else if(str.contains(QLatin1String("%cst")))
-        {
-            ParamCostume* selecBox = new ParamCostume(this, _sprite);
-            _layout.addWidget(selecBox);
-            _paramsVector.push_back(selecBox);
-        }
-        else if(str.contains(QLatin1String("%eff")))
-        {
-            ParamEffect* selecBox = new ParamEffect(this);
-            _layout.addWidget(selecBox);
-            _paramsVector.push_back(selecBox);
-        }
-        else if(str.contains(QLatin1String("%col")))
-        {
-            ParamTouch* selecBox = new ParamTouch(this);
-            _layout.addWidget(selecBox);
-            _paramsVector.push_back(selecBox);
-        }
-        else if(str.contains(QLatin1String("%clr")))
-        {
-            ParamColor* selecBox = new ParamColor(this);
-            _layout.addWidget(selecBox);
-            _paramsVector.push_back(selecBox);
-        }
-        else if(str.contains(QLatin1String("%snd")))
-        {
-            ParamSound* selecBox = new ParamSound(this);
-            _layout.addWidget(selecBox);
-            _paramsVector.push_back(selecBox);
-        }
-        else if(str.contains(QLatin1String("%fun")))
-        {
-            ParamMath* selecBox = new ParamMath(this);
-            _layout.addWidget(selecBox);
-            _paramsVector.push_back(selecBox);
-        }
-        else if(str.contains(QLatin1String("%words")))
-        {
-            ParamJoinWords* selecBox = new ParamJoinWords(this);
-            _layout.addWidget(selecBox);
-            _paramsVector.push_back(selecBox);
-        }
-        else if(str.contains(QLatin1String("%typ")))
-        {
-            ParamType* selecBox = new ParamType(this);
-            _layout.addWidget(selecBox);
-            _paramsVector.push_back(selecBox);
-        }
-        else if(str.contains(QLatin1String("%delim")))
-        {
-            ParamDelim* selecBox = new ParamDelim(this);
-            _layout.addWidget(selecBox);
-            _paramsVector.push_back(selecBox);
-        }
-        else if(str.contains(QLatin1String("%var")))
-        {
-            ParamVariables* selecBox = new ParamVariables(this);
-            _layout.addWidget(selecBox);
-            _paramsVector.push_back(selecBox);
-        }
-        else if(str.contains(QLatin1String("%idx")))
-        {
-            ParamListId* tE = new ParamListId(this);
-            _layout.addWidget(tE);
-            _paramsVector.push_back(tE);
-        }
-        else if(str.contains(QLatin1String("%n")))
-        {
-            ParamNumber* tE = new ParamNumber(this);
-            _layout.addWidget(tE);
-            _paramsVector.push_back(tE);
-        }
-        else if(str.contains(QLatin1String("%s")))
-        {
-            ParamString* tE = new ParamString(this);
-            _layout.addWidget(tE);
-            _paramsVector.push_back(tE);
-        }
-        else if(str.contains(QLatin1String("%l")))
-        {
-            ParamListSelec* tE = new ParamListSelec(this);
-            _layout.addWidget(tE);
-            _paramsVector.push_back(tE);
-        }
-        else if(str.contains(QLatin1String("%b")))
-        {
-            ParamDock* dock = new ParamDock(_color, _sprite, this);
-            _layout.addWidget(dock);
-            _paramsVector.push_back(dock);
+            _layout.addWidget(param->getWidget());
+            _paramsVector.push_back(param);
         }
         else
         {
@@ -312,6 +204,12 @@ void DraggableElement::contextMenuRequested(const QPoint &pos)
 
 DraggableElement::~DraggableElement()
 {
+    while (!_paramsVector.empty())
+    {
+        delete _paramsVector.back();
+        _paramsVector.pop_back();
+    }
+
     if(_sprite)
         _sprite->removeElement(this);
 }

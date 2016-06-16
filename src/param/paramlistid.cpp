@@ -1,20 +1,15 @@
+#include <QComboBox>
+
 #include "paramlistid.h"
 
-ParamListId::ParamListId(QWidget *parent) : QComboBox(parent)
+// TODO: round corners
+ParamListId::ParamListId(QWidget *parent) : ParamComboBox(parent)
 {
-    addItem("1");
-    setMinimumWidth(30);
+    _comboBox->addItem("1");
+    _comboBox->setMinimumWidth(30);
     //#warning "Add ListId list to ParamListId"
-}
-
-QString ParamListId::getString() const
-{
-    return "ParamListId";
 }
 
 ParamListId::~ParamListId()
 {
-
 }
-
-

@@ -1,34 +1,22 @@
+#include <QComboBox>
+
 #include "paramdestination.h"
 
 #include "mainwindow.h"
 #include "sprite.h"
-#include "spriteselect.h"
 
 extern MainWindow* sMainWindow;
 
-ParamDestination::ParamDestination(QWidget *parent) : QComboBox(parent)
+ParamDestination::ParamDestination(QWidget *parent) : ParamComboBox(parent)
 {
-    addItem("mouse");
+    _comboBox->addItem("mouse");
     const SpriteVector* sV = sMainWindow->getSpriteVector();
     for (SpriteVector::const_iterator it = sV->begin(); it != sV->end(); it++)
     {
-        addItem((*it)->getName());
+        _comboBox->addItem((*it)->getName());
     }
-}
-
-bool ParamDestination::setValue(const QString &val)
-{
-    setCurrentText(val);
-    return true;
-}
-
-QString ParamDestination::getString() const
-{
-    return currentText();
 }
 
 ParamDestination::~ParamDestination()
 {
-
 }
-

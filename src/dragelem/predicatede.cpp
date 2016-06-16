@@ -4,7 +4,7 @@
 #include "sprite.h"
 
 PredicateDE::PredicateDE(const QString& identifier, const QString& text, const QColor& color, Sprite* sprite, QWidget* parent) :
-    DraggableElement(identifier, text, color, DraggableElement::Predicate, sprite, parent)
+    DraggableElement(identifier, text, color, sprite, parent)
 {
     _currentDock = 0;
     _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);

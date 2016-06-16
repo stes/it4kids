@@ -1,13 +1,13 @@
 #ifndef PARAMCOSTUME_H
 #define PARAMCOSTUME_H
 
-#include <QComboBox>
+#include <QObject>
 
-#include "param.h"
+#include "paramcombobox.h"
 
 class Sprite;
 
-class ParamCostume : public QComboBox, public ParamBaseStr
+class ParamCostume : public QObject, public ParamComboBox
 {
     Q_OBJECT
 
@@ -15,14 +15,9 @@ class ParamCostume : public QComboBox, public ParamBaseStr
 
 public:
     ParamCostume(QWidget* parent, Sprite *sprite);
-    ~ParamCostume();
-
-    bool setValue(const QString &);
+    virtual ~ParamCostume();
 
 public slots:
     void updateCostumeList();
-
-protected:
-    QString getString() const;
 };
 #endif // PARAMCOSTUME_H

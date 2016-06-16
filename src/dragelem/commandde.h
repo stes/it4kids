@@ -20,6 +20,8 @@ public:
 
     virtual ScriptDock *getDock(ScriptDock::Type type);
 
+    Type getType() const { return Command; };
+
     ~CommandDE();
 protected:
     DraggableElement* getCurrentElement(Sprite *sprite, QWidget* parent);

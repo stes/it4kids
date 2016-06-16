@@ -1,18 +1,13 @@
+#include <QComboBox>
+
 #include "paramlistselec.h"
 
-ParamListSelec::ParamListSelec(QWidget *parent) : QComboBox(parent)
+ParamListSelec::ParamListSelec(QWidget *parent) : ParamComboBox(parent)
 {
-    addItem("a");
+    _comboBox->addItem("a");
     //#warning "Add ListSelec list to ParamListSelec"
 }
-
-QString ParamListSelec::getString() const
-{
-    return "ParamListSelec";
-}
-
 ParamListSelec::~ParamListSelec()
 {
 
 }
-

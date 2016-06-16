@@ -1,24 +1,15 @@
+#include <QComboBox>
+
 #include "parameffect.h"
 
-ParamEffect::ParamEffect(QWidget *parent) : QComboBox(parent)
+ParamEffect::ParamEffect(QWidget *parent) : ParamComboBox(parent)
 {
-    addItem("ghost");
-    addItem("brightness");
-    addItem("negative");
-    addItem("comic");
-    addItem("duplicate");
-    addItem("confetti");
-}
-
-bool ParamEffect::setValue(const QString &val)
-{
-    setCurrentText(val);
-    return true;
-}
-
-QString ParamEffect::getString() const
-{
-    return currentText();
+    _comboBox->addItem("ghost");
+    _comboBox->addItem("brightness");
+    _comboBox->addItem("negative");
+    _comboBox->addItem("comic");
+    _comboBox->addItem("duplicate");
+    _comboBox->addItem("confetti");
 }
 
 ParamEffect::~ParamEffect()

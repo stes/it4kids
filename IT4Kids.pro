@@ -75,7 +75,9 @@ SOURCES += src/main.cpp\
     src/teacher/student.cpp \
     src/teacher/teacher.cpp \
     src/teacherlogin.cpp \
-    src/pythoncontroller.cpp
+    src/pythoncontroller.cpp \
+    src/param/paramcombobox.cpp \
+    src/param/param.cpp
 
 HEADERS  += src/mainwindow.h \
     src/scene.h \
@@ -129,7 +131,8 @@ HEADERS  += src/mainwindow.h \
     src/teacher/student.h \
     src/teacher/teacher.h \
     src/teacherlogin.h \
-    src/pythoncontroller.h
+    src/pythoncontroller.h \
+    src/param/paramcombobox.h
 
 FORMS    += src/mainwindow.ui \
     src/newspritename.ui \

@@ -4,28 +4,16 @@
 
 #include "paramcolor.h"
 
-ParamColor::ParamColor(QWidget *parent) : QWidget(parent), _color("#ff00ff"), _active(false)
+ColorWidget::ColorWidget(QWidget* parent) : QWidget(parent), _color("#ff00ff"), _active(false)
 {
     setFixedSize(15, 15);
 }
 
-bool ParamColor::setValue(const QString &val)
+ColorWidget::~ColorWidget()
 {
-    _color = QColor(val);
-    return true;
 }
 
-QString ParamColor::getString() const
-{
-    return _color.name();
-}
-
-ParamColor::~ParamColor()
-{
-
-}
-
-void ParamColor::mousePressEvent(QMouseEvent*)
+void ColorWidget::mousePressEvent(QMouseEvent*)
 {
     if(!_active)
     {
@@ -35,7 +23,7 @@ void ParamColor::mousePressEvent(QMouseEvent*)
     }
 }
 
-void ParamColor::mouseMoveEvent(QMouseEvent* event)
+void ColorWidget::mouseMoveEvent(QMouseEvent* event)
 {
     if(_active)
     {
@@ -44,7 +32,7 @@ void ParamColor::mouseMoveEvent(QMouseEvent* event)
     }
 }
 
-void ParamColor::mouseReleaseEvent(QMouseEvent *)
+void ColorWidget::mouseReleaseEvent(QMouseEvent *)
 {
     if(_active)
     {
@@ -53,7 +41,7 @@ void ParamColor::mouseReleaseEvent(QMouseEvent *)
     }
 }
 
-void ParamColor::paintEvent(QPaintEvent *)
+void ColorWidget::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
 
@@ -69,4 +57,23 @@ void ParamColor::paintEvent(QPaintEvent *)
     // Draw polygon
     painter.fillRect(QRect(0, 0, 15, 15), brush);
     painter.setBackgroundMode(Qt::TransparentMode);
+}
+
+ParamColor::ParamColor(QWidget *parent) : _colorWidget(new ColorWidget(parent))
+{
+}
+
+bool ParamColor::setValue(const QString &val)
+{
+    _colorWidget->setColor(QColor(val));
+    return true;
+}
+
+QString ParamColor::getString() const
+{
+    return _colorWidget->getColor().name();
+}
+
+ParamColor::~ParamColor()
+{
 }

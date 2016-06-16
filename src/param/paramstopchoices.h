@@ -1,21 +1,13 @@
 #ifndef PARAMSTOPCHOICES_H
 #define PARAMSTOPCHOICES_H
 
-#include <QComboBox>
+#include "paramcombobox.h"
 
-#include "param.h"
-
-class ParamStopChoices : public QComboBox, public ParamBaseStr
+class ParamStopChoices : public ParamComboBox
 {
-    Q_OBJECT
 public:
     ParamStopChoices(QWidget* parent);
-    ~ParamStopChoices();
-
-    bool setValue(const QString &);
-
-protected:
-    QString getString() const;
+    virtual ~ParamStopChoices();
 };
 
 #endif // PARAMSTOPCHOICES_H

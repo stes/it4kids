@@ -9,7 +9,6 @@
 #include <QHBoxLayout>
 #include <QMouseEvent>
 #include <QPainterPath>
-#include <QDebug>
 
 #include "scriptdock.h"
 
@@ -30,7 +29,15 @@ public:
         Reporter
     };
 
-    DraggableElement(const QString& identifier, const QString& text, const QColor& color, Type type, Sprite* sprite = 0, QWidget* parent = 0);
+    static DraggableElement* createNewElement(
+            const QString& type,
+            const QString& identifier,
+            const QString& text,
+            const QColor& color,
+            Sprite* sprite = 0,
+            QWidget* parent = 0);
+
+    DraggableElement(const QString& identifier, const QString& text, const QColor& color, Sprite* sprite = 0, QWidget* parent = 0);
     virtual ~DraggableElement();
 
     inline void setCurrentDock(DockingArea* dock) {_currentDock = dock;}
@@ -63,7 +70,7 @@ public:
 
     virtual void removeChildDragElems() = 0;
 
-    Type getType() const { return _type; }
+    virtual Type getType() const = 0;
     virtual DraggableElement* getCurrentElement(Sprite *sprite, QWidget* parent) = 0;
 
     DraggableElement *copyParams(DraggableElement *dst);
@@ -89,7 +96,6 @@ protected:
     Sprite* _sprite;
 
     QPainterPath _path;
-    Type _type;
 
     QHBoxLayout _layout;
 

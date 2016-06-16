@@ -13,6 +13,8 @@ public:
 
     virtual void removeChildDragElems();
 
+    Type getType() const { return Reporter; };
+
     ~ReporterDE();
 protected:
     DraggableElement* getCurrentElement(Sprite *sprite, QWidget* parent);

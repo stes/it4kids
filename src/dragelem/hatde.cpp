@@ -3,7 +3,7 @@
 #include "sprite.h"
 
 HatDE::HatDE(const QString& identifier, const QString& text, const QColor& color, Sprite* sprite, QWidget* parent) :
-     DraggableElement(identifier, text, color, DraggableElement::Hat, sprite, parent),
+     DraggableElement(identifier, text, color, sprite, parent),
      _lowerDock(ScriptDock::Lower, sprite, this)
 {
     _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);

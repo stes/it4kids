@@ -1,19 +1,13 @@
 #ifndef PARAMVARIABLES_H
 #define PARAMVARIABLES_H
 
-#include <QComboBox>
+#include "paramcombobox.h"
 
-#include "param.h"
-
-class ParamVariables : public QComboBox, public ParamBaseStr
+class ParamVariables : public ParamComboBox
 {
-    Q_OBJECT
 public:
     ParamVariables(QWidget* parent);
-    ~ParamVariables();
-
-protected:
-    QString getString() const;
+    virtual ~ParamVariables();
 };
 
 #endif // PARAMVARIABLES_H

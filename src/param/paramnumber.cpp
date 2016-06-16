@@ -2,27 +2,35 @@
 
 #include "paramnumber.h"
 
-ParamNumber::ParamNumber(QWidget* parent) : QLineEdit(parent)
+NumberWidget::~NumberWidget()
+{
+}
+
+ParamNumber::ParamNumber(QWidget* parent) : _lineEdit(new NumberWidget(parent))
 {
     //setInputMask("9999");
-    setValidator(new QDoubleValidator());
-    setFixedSize(20, 15);
-    setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    setFont(QFont("Courier", 7));
+    _lineEdit->setValidator(new QDoubleValidator());
+    _lineEdit->setFixedSize(20, 15);
+    _lineEdit->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    _lineEdit->setFont(QFont("Courier", 7));
 }
 
 double ParamNumber::getNumber() const
 {
-    return text().toDouble();
+    return _lineEdit->text().toDouble();
 }
 
 bool ParamNumber::setValue(const QString& value)
 {
-    setText(value);
+    _lineEdit->setText(value);
     return 1;
 }
 
+QWidget* ParamNumber::getWidget()
+{
+    return _lineEdit;
+};
+
 ParamNumber::~ParamNumber()
 {
-
 }

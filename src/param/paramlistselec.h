@@ -1,19 +1,13 @@
 #ifndef PARAMLISTSELEC_H
 #define PARAMLISTSELEC_H
 
-#include <QComboBox>
+#include "paramcombobox.h"
 
-#include "param.h"
-
-class ParamListSelec : public QComboBox, public ParamBaseStr
+class ParamListSelec : public ParamComboBox
 {
-    Q_OBJECT
 public:
     ParamListSelec(QWidget* parent);
-    ~ParamListSelec();
-
-protected:
-    QString getString() const;
+    virtual ~ParamListSelec();
 };
 
 #endif // PARAMLISTSELEC_H

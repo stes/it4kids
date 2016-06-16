@@ -1,28 +1,32 @@
+#include <QComboBox>
+
 #include "parammath.h"
 
-ParamMath::ParamMath(QWidget *parent) : QComboBox(parent)
+ParamMath::ParamMath(QWidget *parent) : _comboBox(new QComboBox(parent))
 {
-    addItem("sin");
-    addItem("cos");
-    addItem("tan");
-    addItem("cotan");
-    addItem("e^");
+    _comboBox->addItem("sin");
+    _comboBox->addItem("cos");
+    _comboBox->addItem("tan");
+    _comboBox->addItem("cotan");
+    _comboBox->addItem("e^");
 }
 
 bool ParamMath::setValue(const QString &val)
 {
-    setCurrentText(val);
+    _comboBox->setCurrentText(val);
     return true;
 }
 
 QString ParamMath::getValue() const
 {
-    return currentText();
+    return _comboBox->currentText();
 }
+
+QWidget* ParamMath::getWidget()
+{
+    return _comboBox;
+};
 
 ParamMath::~ParamMath()
 {
-
 }
-
-

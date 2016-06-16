@@ -3,7 +3,7 @@
 #include "sprite.h"
 
 ReporterDE::ReporterDE(const QString& identifier, const QString& text, const QColor& color, Sprite* sprite, QWidget* parent) :
-     DraggableElement(identifier, text, color, DraggableElement::Reporter, sprite, parent)
+     DraggableElement(identifier, text, color, sprite, parent)
 {
     _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     _layout.setContentsMargins(4, 4, 0, 0);

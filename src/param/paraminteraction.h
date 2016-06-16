@@ -1,21 +1,13 @@
 #ifndef PARAMINTERACTION_H
 #define PARAMINTERACTION_H
 
-#include <QComboBox>
+#include "paramcombobox.h"
 
-#include "param.h"
-
-class ParamInteraction : public QComboBox, public ParamBaseStr
+class ParamInteraction : public ParamComboBox
 {
-    Q_OBJECT
 public:
     ParamInteraction(QWidget* parent);
-    ~ParamInteraction();
-
-    bool setValue(const QString &);
-
-protected:
-    QString getString() const;
+    virtual ~ParamInteraction();
 };
 
 #endif // PARAMINTERACTION_H

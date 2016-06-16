@@ -15,6 +15,8 @@ public:
 
     virtual void removeChildDragElems();
 
+    Type getType() const { return Predicate; };
+
     ~PredicateDE();
 protected:
     DraggableElement* getCurrentElement(Sprite *sprite, QWidget* parent);

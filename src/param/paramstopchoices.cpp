@@ -1,28 +1,16 @@
+#include <QComboBox>
+
 #include "paramstopchoices.h"
 
-ParamStopChoices::ParamStopChoices(QWidget *parent) : QComboBox(parent)
+ParamStopChoices::ParamStopChoices(QWidget *parent) : ParamComboBox(parent)
 {
-    addItem("all");
-    addItem("this Script");
-    addItem("this Block");
-    addItem("all but this Script");
-    addItem("other Scripts in Sprite");
-}
-
-bool ParamStopChoices::setValue(const QString &val)
-{
-    setCurrentText(val);
-    return true;
-}
-
-QString ParamStopChoices::getString() const
-{
-    return currentText();
+    _comboBox->addItem("all");
+    _comboBox->addItem("this Script");
+    _comboBox->addItem("this Block");
+    _comboBox->addItem("all but this Script");
+    _comboBox->addItem("other Scripts in Sprite");
 }
 
 ParamStopChoices::~ParamStopChoices()
 {
-
 }
-
-

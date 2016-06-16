@@ -7,19 +7,32 @@
 #include "param.h"
 #include "paramstring.h"
 
-class ParamJoinWords : public QWidget, public ParamBaseStr
+class JoinWordsWidget : public QWidget
 {
     Q_OBJECT
+
 public:
-    ParamJoinWords(QWidget* parent);
-    ~ParamJoinWords();
+    JoinWordsWidget(QWidget* parent);
+    virtual ~JoinWordsWidget();
 
 protected:
     ParamString _first;
     ParamString _second;
 
     QHBoxLayout _layout;
+};
 
+class ParamJoinWords : public ParamBaseStr
+{
+    JoinWordsWidget* _joinWordsWidget;
+
+public:
+    ParamJoinWords(QWidget* parent);
+    virtual ~ParamJoinWords();
+
+    QWidget* getWidget() { return _joinWordsWidget; };
+
+protected:
     QString getString() const;
 };
 

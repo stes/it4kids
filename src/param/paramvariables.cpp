@@ -1,17 +1,13 @@
+#include <QComboBox>
+
 #include "paramvariables.h"
 
-ParamVariables::ParamVariables(QWidget *parent) : QComboBox(parent)
+ParamVariables::ParamVariables(QWidget *parent) : ParamComboBox(parent)
 {
-    addItem("a");
+    _comboBox->addItem("a");
     //#warning "Add Variables list to ParamVariables"
-}
-
-QString ParamVariables::getString() const
-{
-    return "ParamVariables";
 }
 
 ParamVariables::~ParamVariables()
 {
-
 }

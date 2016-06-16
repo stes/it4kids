@@ -3,7 +3,7 @@
 #include "sprite.h"
 
 WrapperDE::WrapperDE(const QString& identifier, const QString& text, const QColor& color, Sprite *sprite, QWidget* parent) :
-    DraggableElement(identifier, QString(text).remove(QStringLiteral("%c")), color, DraggableElement::Wrapper, sprite, parent),
+    DraggableElement(identifier, QString(text).remove(QStringLiteral("%c")), color, sprite, parent),
     _label(new QWidget(this)),
     _upperDock(ScriptDock::Upper, sprite, this),
     _lowerDock(ScriptDock::Lower, sprite, this),

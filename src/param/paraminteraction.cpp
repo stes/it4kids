@@ -1,24 +1,14 @@
+#include <QComboBox>
+
 #include "paraminteraction.h"
 
-ParamInteraction::ParamInteraction(QWidget *parent) : QComboBox(parent)
+ParamInteraction::ParamInteraction(QWidget *parent) : ParamComboBox(parent)
 {
-    addItem("clicked");
-    addItem("dragged");
-    addItem("dropped");
-    addItem("hover");
+    _comboBox->addItem("clicked");
+    _comboBox->addItem("dragged");
+    _comboBox->addItem("dropped");
+    _comboBox->addItem("hover");
 }
-
-bool ParamInteraction::setValue(const QString &val)
-{
-    setCurrentText(val);
-    return true;
-}
-
-QString ParamInteraction::getString() const
-{
-    return currentText();
-}
-
 ParamInteraction::~ParamInteraction()
 {
 

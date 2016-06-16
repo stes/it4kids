@@ -24,6 +24,8 @@ public:
 
     virtual ScriptDock *getDock(ScriptDock::Type type);
 
+    Type getType() const { return Wrapper; };
+
     ~WrapperDE();
 protected:
     DraggableElement* getCurrentElement(Sprite *sprite, QWidget* parent);

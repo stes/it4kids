@@ -7,6 +7,7 @@
 #include "audio/audioengine.h"
 #include "codegenerator.h"
 #include "pythoncontroller.h"
+#include "saveloadclass.h"
 
 class Costume;
 class DragElemCategory;
@@ -31,8 +32,6 @@ public:
     void addSprite(Sprite *sprite);
     Sprite* getCurrentSprite() { return _currentSprite; }
     Sprite* getBackgroundSprite() { return _backgroundSprite; }
-
-    DraggableElement* createNewElement(QString ident, Sprite *sprite);
 
     QRect getScriptAreaRect();
 
@@ -84,7 +83,7 @@ private slots:
 
 private:
     void InitializeDragElem(const QString& path);
-    DragElemCategory* GetCategoryByName(const QString& name);
+    DragElemCategory* getCategoryByName(const QString& name);
     void cleanTempDir();
 
     Ui::MainWindow *ui;
@@ -100,8 +99,7 @@ private:
     AudioEngine _audioEngine;
     CodeGenerator _Cgen;
     PythonController _pyController;
-
-    std::vector<DraggableElement*> _LoadableElems;
+	SaveLoadClass _slc;
 
     QDir _appDir;
     QDir _tmpDir;

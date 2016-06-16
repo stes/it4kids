@@ -1,21 +1,13 @@
 #ifndef PARAMDELIM_H
 #define PARAMDELIM_H
 
-#include <QComboBox>
+#include "paramcombobox.h"
 
-#include "param.h"
-
-class ParamDelim : public QComboBox, public ParamBaseStr
+class ParamDelim : public ParamComboBox
 {
-    Q_OBJECT
 public:
     ParamDelim(QWidget* parent);
-    ~ParamDelim();
-
-    bool setValue(const QString &);
-
-protected:
-    QString getString() const;
+    virtual ~ParamDelim();
 };
 
 #endif // PARAMDELIM_H
