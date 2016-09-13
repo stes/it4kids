@@ -5,9 +5,10 @@
 #include <QListWidgetItem>
 #include <QPainterPath>
 #include <QRadioButton>
-#include <QDebug>
 #include <QXmlStreamReader>
 #include <QStandardPaths>
+
+#include <QtDebug>
 
 #include <Qsci/qscilexerpython.h>
 

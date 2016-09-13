@@ -1,6 +1,7 @@
-#include <QDebug>
 #include <QPainter>
 #include <QStringList>
+
+#include <QtDebug>
 
 #include "wavfile.h"
 
