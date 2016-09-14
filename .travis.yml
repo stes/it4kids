@@ -1,22 +1,18 @@
 language: cpp
 sudo: required
 dist: trusty
-
+compiler:
+- gcc
+- clang
 os:
   - linux
 
 install:
-  - sudo apt-add-repository -y ppa:beineri/opt-qt542-trusty
+  - sudo apt-add-repository -y ppa:beineri/opt-qt551-trusty
   - sudo apt-get -qq update
-  - sudo apt-get -qq install g++-4.8 libc6-i386 qt54location qt54multimedia qt54sensors qt54svg qt54tools qt54webchannel qt54webkit 
-  - sudo apt-get install -y qtbase5-dev qtdeclarative5-dev libqt5webkit5-dev
-  - sudo apt-get install -y libqt5scintilla2-dev
-  - sudo apt-get install -y qt5-default qttools5-dev-tools
-  - sudo apt-get install -y libqt5opengl5-dev 
-  - sudo apt-get -qq install g++-4.8 libc6-i386
-  - sudo apt-get -qq install qt54base qt54connectivity qt54declarative qt54doc qt54graphicaleffects qt54imageformats qt54location qt54multimedia qt54quick1 qt54quickcontrols qt54script qt54sensors qt54serialport qt54svg qt54tools qt54translations qt54webchannel qt54webengine qt54webkit-examples qt54websockets qt54x11extras qt54xmlpatterns
+  - sudo apt-get -qq install qt55base qt55connectivity qt55declarative qt55doc qt55graphicaleffects qt55imageformats qt55location qt55multimedia qt55quick1 qt55quickcontrols qt55script qt55sensors qt55serialport qt55svg qt55tools qt55translations qt55webchannel qt55webengine qt55webkit-examples qt55websockets qt55x11extras qt55xmlpatterns
 
 script:
-    - source /opt/qt54/bin/qt54-env.sh
+    - source /opt/qt55/bin/qt55-env.sh
     - qmake "INCLUDEPATH += /usr/include/qt5" "LIBS += -lqt5scintilla2"
     - make
