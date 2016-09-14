@@ -155,6 +155,14 @@
             "code": ["self.penUp()"]
         },
         {
+            "name": "setSize",
+            "code": ["self.setPenSize(%1)"]
+        },
+        {
+            "name": "changeSize",
+            "code": ["self.changePenSize(%1)"]
+        },
+        {
             "name": "clear",
             "code": ["self.penClear()"]
         },

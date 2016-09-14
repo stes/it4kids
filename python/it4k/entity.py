@@ -11,6 +11,7 @@ class EntityData:
         self.costume = ""
         self.visible = True
         self.pen_down = False
+        self.pen_size = 1
 
 class Entity(pyglet.event.EventDispatcher):
     
@@ -57,7 +58,7 @@ class Entity(pyglet.event.EventDispatcher):
     def draw_pen_line(self, pos1, pos2):
         if self.data.pen_down:
             global pen
-            pen.add_line(pos1 + pos2)
+            pen.add_line(pos1 + pos2, self.data.pen_size)
     
     def move(self, x, y):
         prev_pos = (self.data.x, self.data.y)
@@ -134,6 +135,12 @@ class Entity(pyglet.event.EventDispatcher):
 
     def penUp(self):
         self.data.pen_down = False
+    
+    def setPenSize(self, size):
+        self.data.pen_size = max(size, 0)
+    
+    def changePenSize(self, size):
+        self.data.pen_size = max(self.data.pen_size+size, 0)
 
     def penClear(self):
         global pen

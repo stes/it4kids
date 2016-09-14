@@ -76,8 +76,8 @@ class Pen:
     def init_fbo(self):
         self.fbo = FBO(*app_size)
     
-    def add_line(self, line):
-        self.pending_actions.append((Pen.Action.Line, line))
+    def add_line(self, line, size):
+        self.pending_actions.append((Pen.Action.Line, line, size))
     
     def clear(self):
         self.pending_actions = [(Pen.Action.Clear,)]
@@ -88,6 +88,7 @@ class Pen:
                 while self.pending_actions:
                     action = self.pending_actions.pop()
                     if action[0] == Pen.Action.Line:
+                        gl.glLineWidth(action[2])
                         pyglet.graphics.draw(2, gl.GL_LINES, ('v2f', action[1]))
                     else:
                         gl.glClearColor(0, 0, 0, 0)
