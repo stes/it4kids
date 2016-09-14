@@ -155,6 +155,10 @@
             "code": ["self.penUp()"]
         },
         {
+            "name": "setColor",
+            "code": ["self.setPenColor(%1)"]
+        },
+        {
             "name": "setSize",
             "code": ["self.setPenSize(%1)"]
         },

@@ -12,6 +12,7 @@ class EntityData:
         self.visible = True
         self.pen_down = False
         self.pen_size = 1
+        self.pen_color = (0, 0, 0)
 
 class Entity(pyglet.event.EventDispatcher):
     
@@ -58,7 +59,7 @@ class Entity(pyglet.event.EventDispatcher):
     def draw_pen_line(self, pos1, pos2):
         if self.data.pen_down:
             global pen
-            pen.add_line(pos1 + pos2, self.data.pen_size)
+            pen.add_line(pos1 + pos2, self.data.pen_size, self.data.pen_color)
     
     def move(self, x, y):
         prev_pos = (self.data.x, self.data.y)
@@ -135,6 +136,9 @@ class Entity(pyglet.event.EventDispatcher):
 
     def penUp(self):
         self.data.pen_down = False
+    
+    def setPenColor(self, color):
+        self.data.pen_color = hex_to_rgb(color)
     
     def setPenSize(self, size):
         self.data.pen_size = max(size, 0)

@@ -65,6 +65,11 @@ class FBO:
     def __exit__(self, *unused):
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, gl.GLuint(self.current_fbo.value))
 
+def hex_to_rgb(value):
+    value = value.lstrip('#')
+    lv = len(value)
+    return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
+
 class Pen:
     class Action:
         Line, Clear = range(2)
@@ -76,8 +81,8 @@ class Pen:
     def init_fbo(self):
         self.fbo = FBO(*app_size)
     
-    def add_line(self, line, size):
-        self.pending_actions.append((Pen.Action.Line, line, size))
+    def add_line(self, line, size, color):
+        self.pending_actions.append((Pen.Action.Line, line, size, color))
     
     def clear(self):
         self.pending_actions = [(Pen.Action.Clear,)]
@@ -89,7 +94,7 @@ class Pen:
                     action = self.pending_actions.pop()
                     if action[0] == Pen.Action.Line:
                         gl.glLineWidth(action[2])
-                        pyglet.graphics.draw(2, gl.GL_LINES, ('v2f', action[1]))
+                        pyglet.graphics.draw(2, gl.GL_LINES, ('v2f', action[1]), ('c3B', 2*action[3]))
                     else:
                         gl.glClearColor(0, 0, 0, 0)
                         gl.glClear(gl.GL_COLOR_BUFFER_BIT)
