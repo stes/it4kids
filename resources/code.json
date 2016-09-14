@@ -145,6 +145,14 @@
         {
             "name": "hide",
             "code": ["self.hide()"]
+        },
+        {
+            "name": "penDown",
+            "code": ["self.penDown()"]
+        },
+        {
+            "name": "penUp",
+            "code": ["self.penUp()"]
         }
     ],
 

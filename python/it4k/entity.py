@@ -9,12 +9,13 @@ class EntityData:
         self.rotation = 0
         self.costume = ""
         self.visible = True
+        self.pen_down = False
 
 class Entity(pyglet.event.EventDispatcher):
     
     _speed = 40
     
-    def __init__(self, group=foreground, draggable=True):
+    def __init__(self, group=layer1, draggable=True):
         self.group = group
         self.costumes = []
         self.draggable = draggable
@@ -34,7 +35,9 @@ class Entity(pyglet.event.EventDispatcher):
         self.set_costume(self.data.costume)
     
     def add_costume(self, name, file):
-        image = pyglet.resource.image(file)
+        self.add_costume_memory(name, pyglet.resource.image(file))
+    
+    def add_costume_memory(self, name, image):
         image.anchor_x = image.width / 2
         image.anchor_y = image.height / 2
         self.costume_images[name] = image
@@ -50,17 +53,24 @@ class Entity(pyglet.event.EventDispatcher):
             return data[3] > 0
         return False
     
+    def draw_pen_line(self, pos1, pos2):
+        global pen_fbo
+        with pen_fbo:
+            pyglet.graphics.draw(2, gl.GL_LINES, ('v2f', pos1 + pos2))
+    
     def move(self, x, y):
+        prev_pos = (self.data.x, self.data.y)
         self.data.x += x
         self.data.y += y
+        if self.data.pen_down:
+            self.draw_pen_line(prev_pos, (self.data.x, self.data.y))
     
     def move_to(self, x, y):
-        self.data.x = x - app_size[0] / 2
-        self.data.y = y - app_size[1] / 2
-    
-    def world_move_to(self, x, y):
+        prev_pos = (self.data.x, self.data.y)
         self.data.x = x
         self.data.y = y
+        if self.data.pen_down:
+            self.draw_pen_line(prev_pos, (self.data.x, self.data.y))
     
     def set_group(self, group=None):
         if group:
@@ -78,8 +88,8 @@ class Entity(pyglet.event.EventDispatcher):
         self.handlers += 1
     
     def invalidate(self, running=True):
-        self.sprite.x = self.data.x + app_size[0] / 2
-        self.sprite.y = self.data.y + app_size[1] / 2
+        self.sprite.x = self.data.x
+        self.sprite.y = self.data.y
         self.sprite.rotation = self.data.rotation
         self.sprite.visible = self.data.visible
         if running:
@@ -111,9 +121,16 @@ class Entity(pyglet.event.EventDispatcher):
             self.dispatch_event('on_interaction', 'clicked')
     
     # block methods
+    def penDown(self):
+        self.data.pen_down = True
+
+    def penUp(self):
+        self.data.pen_down = False
+
     def forward(self, len):
-        self.data.x += len * math.cos(math.radians(self.data.rotation))
-        self.data.y += len * math.sin(-math.radians(self.data.rotation))
+        dx = len * math.cos(math.radians(self.data.rotation))
+        dy = len * math.sin(-math.radians(self.data.rotation))
+        self.move(dx, dy)
         hook()
     
     def turnRight(self, degrees):
@@ -125,7 +142,7 @@ class Entity(pyglet.event.EventDispatcher):
         hook()
     
     def gotoXY(self, x, y):
-        self.world_move_to(x, y)
+        self.move_to(x, y)
         hook()
     
     def doGlide(self, seconds, x, y):
@@ -136,7 +153,7 @@ class Entity(pyglet.event.EventDispatcher):
             for i in range(steps):
                 self.move(diffX, diffY)
                 self.invalidate() # animation
-        self.world_move_to(x, y)
+        self.move_to(x, y)
         self.invalidate(False)
         hook()
     

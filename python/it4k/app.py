@@ -20,7 +20,17 @@ class App(pyglet.event.EventDispatcher):
         self.state = app_state
         self.mouse_pressed = False # TODO: rework this
         
+        gl.glMatrixMode(gl.GL_PROJECTION)
+        gl.glLoadIdentity()
+        gl.glOrtho(-app_size[0]/2, app_size[0]/2, -app_size[1]/2, app_size[1]/2, -1, 1)
+        
+        init_pen()
+        
         self.entities = []
+        
+        pen_entity = Entity(layer0, draggable=False)
+        pen_entity.add_costume_memory("pen", pen_fbo.texture)
+        self.add_entity(pen_entity)
     
     def init_context(self):
         self.window = pyglet.window.Window(resizable=True)
@@ -57,6 +67,7 @@ class App(pyglet.event.EventDispatcher):
     
     def on_draw(self):
         self.update()
+        gl.glViewport(0, 0, int(app_size[0]*self._scale), int(app_size[1]*self._scale))
         if self.window:
             self.window.clear()
         self.batch.draw()
@@ -102,14 +113,8 @@ class App(pyglet.event.EventDispatcher):
     def on_resize(self, width, height):
         screenratio = width / height
         appratio = app_size[0] / app_size[1]
-        gl.glViewport(0, 0, width, height)
-        gl.glMatrixMode(gl.GL_PROJECTION)
-        gl.glLoadIdentity()
         if screenratio < appratio:
-            App._scale = width/app_size[0]
-            gl.glOrtho(0, app_size[0], 0, app_size[0]/screenratio, -1, 1)
+            self._scale = width/app_size[0]
         else:
-            App._scale = height/app_size[1]
-            gl.glOrtho(0, app_size[1]*screenratio, 0, app_size[1], -1, 1)
-        gl.glMatrixMode(gl.GL_MODELVIEW)
+            self._scale = height/app_size[1]
         return True

@@ -1,10 +1,13 @@
 import pyglet
+from pyglet import gl
 from struct import unpack
 from threading import Thread, Event
+import ctypes
 
 background = pyglet.graphics.OrderedGroup(0)
-foreground = pyglet.graphics.OrderedGroup(1)
-overlay = pyglet.graphics.OrderedGroup(2)
+layer0 = pyglet.graphics.OrderedGroup(1)
+layer1 = pyglet.graphics.OrderedGroup(2)
+overlay = pyglet.graphics.OrderedGroup(3)
 
 app_size = (480, 360)
 
@@ -34,6 +37,37 @@ class AppState(object):
         self.stopping = False
 
 app_state = AppState()
+
+class FBO:
+    def create(self, width, height):
+        self.fbo = gl.GLuint(0)
+
+        gl.glGenFramebuffers(1, ctypes.byref(self.fbo))
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.fbo)
+        
+        self.texture = pyglet.image.Texture.create(width, height)
+        gl.glBindTexture(self.texture.target, 0)
+        gl.glFramebufferTexture2D(gl.GL_FRAMEBUFFER, gl.GL_COLOR_ATTACHMENT0, gl.GL_TEXTURE_2D, self.texture.id, 0)
+        
+        draw_buffers = (gl.GLenum * 1)(gl.GL_COLOR_ATTACHMENT0)
+        gl.glDrawBuffers(1, draw_buffers)
+
+        assert gl.glCheckFramebufferStatus(gl.GL_FRAMEBUFFER) == gl.GL_FRAMEBUFFER_COMPLETE
+
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
+
+    def __enter__(self):
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.fbo)
+        gl.glViewport(0, 0, self.texture.width, self.texture.height)
+
+    def __exit__(self, *unused):
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
+
+pen_fbo = FBO()
+
+def init_pen():
+    global pen_fbo
+    pen_fbo.create(*app_size)
 
 # TODO: rework this
 class SigStop(Exception):

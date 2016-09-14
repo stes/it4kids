@@ -106,8 +106,8 @@
 	<dragableelement name="getTempo" category="sound" type="reporter" spec="tempo" />
 	<dragableelement name="reportSounds" category="sound" type="reporter" spec="jukebox" />
 	<dragableelement name="clear" category="pen" type="command" spec="clear" />
-	<dragableelement name="down" category="pen" type="command" spec="pen down" only="SpriteMorph" />
-	<dragableelement name="up" category="pen" type="command" spec="pen up" only="SpriteMorph" />
+        <dragableelement name="penDown" category="pen" type="command" spec="pen down" only="SpriteMorph" />
+        <dragableelement name="penUp" category="pen" type="command" spec="pen up" only="SpriteMorph" />
 	<dragableelement name="setColor" category="pen" type="command" spec="set pen color to %clr" only="SpriteMorph" />
 	<dragableelement name="changeHue" category="pen" type="command" spec="change pen color by %n" only="SpriteMorph">
 		 <parameter default="10" />
