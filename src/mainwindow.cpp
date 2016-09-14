@@ -51,8 +51,8 @@ MainWindow::MainWindow(QWidget *parent) :
     _appDir.mkdir("tmp");
     _tmpDir = QDir(_appDir.filePath("tmp"));
 
-    qInfo() << "app dir:" << _appDir.absolutePath();
-    qInfo() << "temp dir:" << _tmpDir.absolutePath();
+    //qInfo() << "app dir:" << _appDir.absolutePath();
+    //qInfo() << "temp dir:" << _tmpDir.absolutePath();
 
     cleanTempDir();
 
@@ -83,7 +83,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ((QHBoxLayout*) ui->selectionBackground->layout())->insertWidget(0, _backgroundSprite);
 
     InitializeDragElem(":/blocks.xml");
-    qInfo() << "loaded drag elements";
+    //qInfo() << "loaded drag elements";
 
     connect(this, SIGNAL(newSound()), ui->soundSelect, SLOT(updateSoundList()));
     connect(this, SIGNAL(newCostume()), ui->costumeSelect, SLOT(updateCostumeList()));
@@ -196,7 +196,7 @@ void MainWindow::initPython()
     _pyController.init();
     _pyController.addMediaPath(_tmpDir.absolutePath().toLatin1().data());
     reloadCodeAll();
-    qInfo() << "initialized python app";
+    //qInfo() << "initialized python app";
 }
 
 void MainWindow::reindexMedia()
@@ -289,7 +289,7 @@ void MainWindow::loadFromFile()
     _loading = false;
     reloadCodeAll();
 
-    qInfo() << "loaded file:" << file;
+    //qInfo() << "loaded file:" << file;
 }
 
 void MainWindow::saveToFile()
@@ -297,7 +297,7 @@ void MainWindow::saveToFile()
     QString file = QStringLiteral("project.json");
     _slc.saveScratch(_appDir.filePath(file), ui->spriteSelect);
 
-    qInfo() << "saved file:" << file;
+    //qInfo() << "saved file:" << file;
 }
 
 void MainWindow::exportAsPython()
@@ -335,7 +335,7 @@ void MainWindow::exportAsPython()
             (*cIt)->exportFile(media);
     }
 
-    qInfo() << "exported python app:" << out.absolutePath();
+    //qInfo() << "exported python app:" << out.absolutePath();
 }
 
 void MainWindow::on_soundFromFile_clicked()
