@@ -157,6 +157,14 @@
         {
             "name": "clear",
             "code": ["self.penClear()"]
+        },
+        {
+            "name": "setScale",
+            "code": ["self.setScale(%1)"]
+        },
+        {
+            "name": "changeScale",
+            "code": ["self.changeScale(%1)"]
         }
     ],
 

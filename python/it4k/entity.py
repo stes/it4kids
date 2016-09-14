@@ -7,6 +7,7 @@ class EntityData:
         self.x = 0
         self.y = 0
         self.rotation = 0
+        self.scale = 1
         self.costume = ""
         self.visible = True
         self.pen_down = False
@@ -89,6 +90,7 @@ class Entity(pyglet.event.EventDispatcher):
         self.sprite.x = self.data.x
         self.sprite.y = self.data.y
         self.sprite.rotation = self.data.rotation
+        self.sprite.scale = self.data.scale
         self.sprite.visible = self.data.visible
         if running:
             if self._speed > 0:
@@ -119,6 +121,14 @@ class Entity(pyglet.event.EventDispatcher):
             self.dispatch_event('on_interaction', 'clicked')
     
     # block methods
+    def setScale(self, scale):
+        self.data.scale = scale/100
+        hook()
+    
+    def changeScale(self, scale):
+        self.data.scale += scale/100
+        hook()
+    
     def penDown(self):
         self.data.pen_down = True
 
