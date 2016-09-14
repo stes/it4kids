@@ -153,6 +153,10 @@
         {
             "name": "penUp",
             "code": ["self.penUp()"]
+        },
+        {
+            "name": "clear",
+            "code": ["self.penClear()"]
         }
     ],
 

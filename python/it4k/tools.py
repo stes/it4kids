@@ -39,7 +39,7 @@ class AppState(object):
 app_state = AppState()
 
 class FBO:
-    def create(self, width, height):
+    def __init__(self, width, height):
         self.fbo = gl.GLuint(0)
 
         gl.glGenFramebuffers(1, ctypes.byref(self.fbo))
@@ -57,17 +57,43 @@ class FBO:
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
 
     def __enter__(self):
+        self.current_fbo = (gl.GLint)()
+        gl.glGetIntegerv(gl.GL_FRAMEBUFFER_BINDING, self.current_fbo);
         gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, self.fbo)
         gl.glViewport(0, 0, self.texture.width, self.texture.height)
 
     def __exit__(self, *unused):
-        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, 0)
+        gl.glBindFramebuffer(gl.GL_FRAMEBUFFER, gl.GLuint(self.current_fbo.value))
 
-pen_fbo = FBO()
+class Pen:
+    class Action:
+        Line, Clear = range(2)
 
-def init_pen():
-    global pen_fbo
-    pen_fbo.create(*app_size)
+    def __init__(self):
+        self.fbo = None
+        self.pending_actions = []
+    
+    def init_fbo(self):
+        self.fbo = FBO(*app_size)
+    
+    def add_line(self, line):
+        self.pending_actions.append((Pen.Action.Line, line))
+    
+    def clear(self):
+        self.pending_actions = [(Pen.Action.Clear,)]
+    
+    def update(self):
+        if self.pending_actions:
+            with self.fbo:
+                while self.pending_actions:
+                    action = self.pending_actions.pop()
+                    if action[0] == Pen.Action.Line:
+                        pyglet.graphics.draw(2, gl.GL_LINES, ('v2f', action[1]))
+                    else:
+                        gl.glClearColor(0, 0, 0, 0)
+                        gl.glClear(gl.GL_COLOR_BUFFER_BIT)
+
+pen = Pen()
 
 # TODO: rework this
 class SigStop(Exception):

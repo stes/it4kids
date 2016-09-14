@@ -54,23 +54,21 @@ class Entity(pyglet.event.EventDispatcher):
         return False
     
     def draw_pen_line(self, pos1, pos2):
-        global pen_fbo
-        with pen_fbo:
-            pyglet.graphics.draw(2, gl.GL_LINES, ('v2f', pos1 + pos2))
+        if self.data.pen_down:
+            global pen
+            pen.add_line(pos1 + pos2)
     
     def move(self, x, y):
         prev_pos = (self.data.x, self.data.y)
         self.data.x += x
         self.data.y += y
-        if self.data.pen_down:
-            self.draw_pen_line(prev_pos, (self.data.x, self.data.y))
+        self.draw_pen_line(prev_pos, (self.data.x, self.data.y))
     
     def move_to(self, x, y):
         prev_pos = (self.data.x, self.data.y)
         self.data.x = x
         self.data.y = y
-        if self.data.pen_down:
-            self.draw_pen_line(prev_pos, (self.data.x, self.data.y))
+        self.draw_pen_line(prev_pos, (self.data.x, self.data.y))
     
     def set_group(self, group=None):
         if group:
@@ -126,6 +124,10 @@ class Entity(pyglet.event.EventDispatcher):
 
     def penUp(self):
         self.data.pen_down = False
+
+    def penClear(self):
+        global pen
+        pen.clear()
 
     def forward(self, len):
         dx = len * math.cos(math.radians(self.data.rotation))

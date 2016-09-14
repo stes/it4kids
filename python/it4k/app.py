@@ -24,12 +24,13 @@ class App(pyglet.event.EventDispatcher):
         gl.glLoadIdentity()
         gl.glOrtho(-app_size[0]/2, app_size[0]/2, -app_size[1]/2, app_size[1]/2, -1, 1)
         
-        init_pen()
+        global pen
+        pen.init_fbo()
         
         self.entities = []
         
         pen_entity = Entity(layer0, draggable=False)
-        pen_entity.add_costume_memory("pen", pen_fbo.texture)
+        pen_entity.add_costume_memory("pen", pen.fbo.texture)
         self.add_entity(pen_entity)
     
     def init_context(self):
@@ -67,6 +68,8 @@ class App(pyglet.event.EventDispatcher):
     
     def on_draw(self):
         self.update()
+        global pen
+        pen.update()
         gl.glViewport(0, 0, int(app_size[0]*self._scale), int(app_size[1]*self._scale))
         if self.window:
             self.window.clear()
