@@ -13,19 +13,17 @@ class sprite(it4k.Entity):
         self.register(on_start=self.receiveGo1)
         self.register(on_interaction=self.receiveInteraction1)
 
-    @it4k.block
     def receiveGo1(self):
         while self.forever():
             self.forward(10)
             self.turnRight(15)
 
-    @it4k.block
     def receiveInteraction1(self, type):
         if type != "clicked":
             return
         self.setDirection("right")
         self.turnRight(20)
-        while self.forever():
+        for n in self.range(20):
             self.forward(10)
             self.bounceOffEdge()
 

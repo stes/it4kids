@@ -108,17 +108,17 @@ class SigStop(Exception):
 def block_wrapper(func, *args, **kwargs):
     try:
         func(*args, **kwargs)
-        args[0].invalidate()
+        func.__self__.invalidate()
     except SigStop:
         pass
 
-def block(func):
-    def async_func(*args, **kwargs):
+def threaded(func):
+    def threaded_func(*args, **kwargs):
         global app_state
         func_th = Thread(target = block_wrapper, args = (func,) + args, kwargs = kwargs)
         app_state.running.append(func_th)
         func_th.start()
-    return async_func
+    return threaded_func
 
 def get_pixel(image, x, y):
     rawimage = image.get_image_data()

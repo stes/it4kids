@@ -84,8 +84,10 @@ class Entity(pyglet.event.EventDispatcher):
         for i in range(self.handlers):
             self.pop_handlers()
     
-    def register(self, *args, **kwargs):
-        self.push_handlers(*args, **kwargs)
+    def register(self, **kwargs):
+        for key in kwargs.keys():
+            kwargs[key] = threaded(kwargs[key])
+        self.push_handlers(**kwargs)
         self.handlers += 1
     
     def invalidate(self, running=True):

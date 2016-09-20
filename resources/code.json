@@ -34,13 +34,11 @@
         {
             "name": "main",
             "code": [
-                "def update(dt):",
-                "    pass\n",
                 "if __name__ ==  \"__main__\":",
                 "    myApp = it4k.init()",
                 "    myApp.add_media_path('media')",
                 "%content%",
-                "    pyglet.clock.schedule_interval(update, 1/60.0)",
+                "    pyglet.clock.schedule_interval(lambda dt:None, 1/60.0)",
                 "    pyglet.app.run()"
             ]
         },
@@ -62,7 +60,6 @@
         {
             "name": "receiveGo",
             "code": [
-                "@it4k.block",
                 "def receiveGo%counter%(self):",
                 "%content%"
             ],

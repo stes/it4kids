@@ -1,6 +1,6 @@
 from .app import App, mainApp
 from .entity import Entity
-from .tools import block, background
+from .tools import background
 
 def init():
     global mainApp
