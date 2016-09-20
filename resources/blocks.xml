@@ -187,13 +187,13 @@
 		 <parameter default="10" />
 	</dragableelement>
 	<dragableelement name="reportModulus" category="operators" type="reporter" spec="%n mod %n" />
-	<dragableelement name="reportLessThan" category="operators" type="predicate" spec="%s &lt; %s" />
+        <dragableelement name="reportLessThan" category="operators" type="predicate" spec="%n &lt; %n" />
 	<dragableelement name="reportRandom" category="operators" type="reporter" spec="pick random %n to %n">
 		 <parameter default="1" />
 		 <parameter default="10" />
 	</dragableelement>
-	<dragableelement name="reportEquals" category="operators" type="predicate" spec="%s = %s" />
-	<dragableelement name="reportGreaterThan" category="operators" type="predicate" spec="%s &gt; %s" />
+        <dragableelement name="reportEquals" category="operators" type="predicate" spec="%n = %n" />
+        <dragableelement name="reportGreaterThan" category="operators" type="predicate" spec="%n &gt; %n" />
 	<dragableelement name="reportAnd" category="operators" type="predicate" spec="%b and %b" />
 	<dragableelement name="reportOr" category="operators" type="predicate" spec="%b or %b" />
 	<dragableelement name="reportNot" category="operators" type="predicate" spec="not %b" />

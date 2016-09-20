@@ -19,7 +19,11 @@ public:
     };
 
     // TODO: remove sprite and color
-    static ParamBase* createParam(const QString &str, QWidget *parent = 0, class Sprite *sprite = 0, QColor color = QColor());
+    static ParamBase* createParam(const QString &str,
+                                  QWidget *parent = 0,
+                                  class Sprite *sprite = 0,
+                                  class DraggableElement *elem = 0,
+                                  QColor color = QColor());
 
     virtual ~ParamBase() { }
 
@@ -56,6 +60,15 @@ public:
 
 protected:
     virtual double getNumber() const = 0;
+};
+
+class ParamBaseExp : public ParamBase
+{
+public:
+    virtual ~ParamBaseExp() { }
+
+    Type getType() const { return Expression; }
+    virtual const class DraggableElement* getDragElem() const = 0;
 };
 
 #endif // PARAM_H

@@ -88,8 +88,8 @@ void Sprite::performHitTest(DraggableElement* elem)
     {
         if((*it)->isActive() && (*it)->getRect()->intersects(rectDE) && (*it)->getParent()->getRoot() != elem)
         {
-            (*it)->dock(elem);
-            break;
+            if((*it)->dock(elem))
+                return;
         }
     }
 }

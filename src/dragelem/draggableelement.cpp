@@ -73,8 +73,8 @@ DraggableElement *DraggableElement::copyParams(DraggableElement *dst)
 DraggableElement *DraggableElement::getRoot()
 {
     DraggableElement *root = this;
-    while(root->_prevElem)
-        root = root->_prevElem;
+    while(root->_currentDock && root->_currentDock->getParent())
+        root = root->_currentDock->getParent();
     return root;
 }
 
@@ -181,7 +181,7 @@ void DraggableElement::parseText(const QString &text)
             continue;
         }
 
-        ParamBase *param = ParamBase::createParam(str, this, _sprite, _color);
+        ParamBase *param = ParamBase::createParam(str, this, _sprite, this, _color);
 
         if(param)
         {

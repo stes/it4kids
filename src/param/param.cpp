@@ -23,7 +23,11 @@
 #include "param/paramtype.h"
 #include "param/paramvariables.h"
 
-ParamBase* ParamBase::createParam(const QString &str, QWidget *parent, class Sprite *sprite, QColor color)
+ParamBase* ParamBase::createParam(const QString &str,
+                                  QWidget *parent,
+                                  class Sprite *sprite,
+                                  class DraggableElement *elem,
+                                  QColor color)
 {
     if(str.contains(QLatin1String("%dir")))
         return new ParamDirection(parent);
@@ -68,6 +72,6 @@ ParamBase* ParamBase::createParam(const QString &str, QWidget *parent, class Spr
     if(str.contains(QLatin1String("%l")))
         return new ParamListSelec(parent);
     if(str.contains(QLatin1String("%b")))
-        return new ParamDock(color, sprite, parent);
+        return new ParamDock(color, sprite, elem, parent);
     return 0;
 }

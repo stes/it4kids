@@ -177,6 +177,57 @@
         }
     ],
 
+    "expressions": [
+        {
+            "name": "reportTrue",
+            "code": "True"
+        },
+        {
+            "name": "reportFalse",
+            "code": "False"
+        },
+        {
+            "name": "reportAnd",
+            "code": "(%1 and %2)"
+        },
+        {
+            "name": "reportOr",
+            "code": "(%1 or %2)"
+        },
+        {
+            "name": "reportNot",
+            "code": "(not %1)"
+        },
+        {
+            "name": "reportEquals",
+            "code": "(%1 == %2)"
+        },
+        {
+            "name": "reportGreaterThan",
+            "code": "(%1 > %2)"
+        },
+        {
+            "name": "reportLessThan",
+            "code": "(%1 < %2)"
+        },
+        {
+            "name": "reportSum",
+            "code": "(%1 + %2)"
+        },
+        {
+            "name": "reportDifference",
+            "code": "(%1 - %2)"
+        },
+        {
+            "name": "reportProduct",
+            "code": "(%1 * %2)"
+        },
+        {
+            "name": "reportQuotient",
+            "code": "(%1 / %2)"
+        }
+    ],
+
     "controls": [
         {
             "name": "doRepeat",
@@ -189,6 +240,13 @@
             "name": "doForever",
             "code": [
                 "while self.forever():",
+                "%content%"
+            ]
+        },
+        {
+            "name": "doIf",
+            "code": [
+                "if %1:",
                 "%content%"
             ]
         }

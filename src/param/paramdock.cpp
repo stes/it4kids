@@ -1,11 +1,14 @@
-#include <QApplication>
 #include <QPainter>
 
 #include "dragelem/draggableelement.h"
+#include "mainwindow.h"
 #include "paramdock.h"
 #include "sprite.h"
 
-DockWidget::DockWidget(QColor color, Sprite *sprite, QWidget *parent) : QWidget(parent), DockingArea(sprite)
+extern MainWindow* sMainWindow;
+
+DockWidget::DockWidget(QColor color, Sprite *sprite, DraggableElement *elemParent, QWidget *parent)
+    : QWidget(parent), DockingArea(sprite, elemParent)
 {
     _color = color.darker(130);
 
@@ -19,62 +22,51 @@ DockWidget::DockWidget(QColor color, Sprite *sprite, QWidget *parent) : QWidget(
     setFixedSize(24, 12);
 }
 
-void DockWidget::dock(DraggableElement* dragElem)
+bool DockWidget::dock(DraggableElement* elem)
 {
-    // TODO: rework this
-    if(dragElem != parent())
-    {
-        QString elemClass(dragElem->metaObject()->className());
-        if(elemClass == "PredicateDE")
-        {
-            _dockedElem = dragElem;
-            _dockedElem->setCurrentDock(this);
-            int index = ((QBoxLayout*) (parentWidget()->layout()))->indexOf(this);
-            ((QBoxLayout*) (parentWidget()->layout()))->removeWidget(this);
-            ((QBoxLayout*) (parentWidget()->layout()))->insertWidget(index, _dockedElem);
-            _dockedElem->setParent(parentWidget());
-            _dockedElem->show();
-            hide();
-            QString className(parentWidget()->metaObject()->className());
-            if(className == "QWidget")
-            {
-                ((DraggableElement*) parentWidget()->parentWidget())->resize();
-                ((DraggableElement*) parentWidget()->parentWidget())->show();
-            }
-            else
-            {
-                ((DraggableElement*) parentWidget())->resize();
-                ((DraggableElement*) parentWidget())->show();
-            }
-        }
-    }
-    // TODO: reload the code
+    if(elem->getType() != DraggableElement::Predicate)
+        return false;
+
+    // init docked element
+    _dockedElem = elem;
+    _dockedElem->setCurrentDock(this);
+    _dockedElem->setParent(_parent);
+    // remove dock
+    int index = ((QBoxLayout*) (parentWidget()->layout()))->indexOf(this);
+    ((QBoxLayout*) (parentWidget()->layout()))->removeWidget(this);
+    // insert docked element
+    ((QBoxLayout*) (parentWidget()->layout()))->insertWidget(index, _dockedElem);
+    hide();
+    _parent->resize();
+
+    deactivate();
+    if(elem->getRoot()->getType() == DraggableElement::Hat)
+        sMainWindow->reloadCodeSprite(getSprite());
+
+    return true;
 }
 
 void DockWidget::undock()
 {
+    // remove docked element
     int index = ((QBoxLayout*) (parentWidget()->layout()))->indexOf(_dockedElem);
     ((QBoxLayout*) (parentWidget()->layout()))->removeWidget(_dockedElem);
-    QPoint pos = _dockedElem->mapToGlobal(_dockedElem->pos());
+    QPoint pos = _dockedElem->mapToGlobal(QPoint(0, 0));
+    // reset docked element
     _dockedElem->setCurrentDock(0);
-    _dockedElem->setParent(QApplication::activeWindow());
-    _dockedElem->move(_dockedElem->mapFromGlobal(pos));
+    _dockedElem->setParent(sMainWindow);
+    _dockedElem->move(pos);
     _dockedElem->show();
+    _dockedElem = 0;
+    // insert dock
     ((QBoxLayout*) (parentWidget()->layout()))->insertWidget(index, this);
     show();
-    QString className(parentWidget()->metaObject()->className());
-    if(className == "QWidget")
-    {
-        ((DraggableElement*) parentWidget()->parentWidget())->resize();
-        ((DraggableElement*) parentWidget()->parentWidget())->resize();
-        ((DraggableElement*) parentWidget()->parentWidget())->show();
-    }
-    else
-    {
-        ((DraggableElement*) parentWidget())->resize();
-        ((DraggableElement*) parentWidget())->resize();
-        ((DraggableElement*) parentWidget())->show();
-    }
+    _parent->resize();
+
+    activate();
+    //_parent->getRoot()->rearrangeLowerElems();
+    if(_parent->getRoot()->getType() == DraggableElement::Hat)
+        sMainWindow->reloadCodeSprite(getSprite());
 }
 
 DockWidget::~DockWidget()
@@ -104,18 +96,20 @@ QString DockWidget::getDockedElemIdent() const
 {
     // TODO
     if(_dockedElem) return _dockedElem->getIdentifier();
-    return "empty";
+    return "None";
 }
 
-ParamDock::ParamDock(QColor color, Sprite *sprite, QWidget *parent) : _dockWidget(new DockWidget(color, sprite, parent))
+ParamDock::ParamDock(QColor color, Sprite *sprite, DraggableElement *elemParent, QWidget *parent)
+    : _dockWidget(new DockWidget(color, sprite, elemParent, parent))
 {
 }
 
 ParamDock::~ParamDock()
 {
+    if(_dockWidget->getDockedElem()) _dockWidget->getDockedElem()->removeChildDragElems();
 }
 
-QString ParamDock::getString() const
+QString ParamDock::getValue() const
 {
     return _dockWidget->getDockedElemIdent();
 }

@@ -15,10 +15,10 @@ class DockWidget : public QWidget, public DockingArea
     QColor _color;
 
 public:
-    DockWidget(QColor color, Sprite *sprite, QWidget *parent = 0);
+    DockWidget(QColor color, Sprite *sprite, DraggableElement *elemParent, QWidget *parent = 0);
     virtual ~DockWidget();
 
-    void dock(DraggableElement* dragelem);
+    bool dock(DraggableElement* dragelem);
     void undock();
 
     QString getDockedElemIdent() const;
@@ -27,16 +27,18 @@ protected:
     void paintEvent(QPaintEvent*);
 };
 
-class ParamDock : public ParamBaseStr
+class ParamDock : public ParamBaseExp
 {
     DockWidget* _dockWidget;
 
 public:
-    ParamDock(QColor color, Sprite *sprite, QWidget *parent = 0);
+    ParamDock(QColor color, Sprite *sprite, DraggableElement *elemParent, QWidget *parent = 0);
     virtual ~ParamDock();
 
-    QString getString() const;
+    QString getValue() const;
     QWidget* getWidget() { return _dockWidget; };
+
+    const DraggableElement* getDragElem() const { return _dockWidget->getDockedElem(); }
 };
 
 #endif // PARAMDOCK_H

@@ -6,7 +6,7 @@
 extern MainWindow* sMainWindow;
 
 ScriptDock::ScriptDock(Type type, Sprite *sprite, DraggableElement* parent) :
-    DockingArea(sprite), _type(type), _parent(parent)
+    DockingArea(sprite, parent), _type(type)
 {
 }
 
@@ -19,7 +19,7 @@ void ScriptDock::connect(DraggableElement *upper, DraggableElement *lower)
         upper->setNextElem(lower);
 }
 
-void ScriptDock::dock(DraggableElement* elem)
+bool ScriptDock::dock(DraggableElement* elem)
 {
     ScriptDock *otherDock;
 
@@ -27,7 +27,7 @@ void ScriptDock::dock(DraggableElement* elem)
     {
         otherDock = elem->getDock(Lower);
         if(!otherDock)
-            return;
+            return false;
         otherDock->connect(elem, _parent);
         _parent->rearrangeUpperElems();
     }
@@ -35,18 +35,19 @@ void ScriptDock::dock(DraggableElement* elem)
     {
         otherDock = elem->getDock(Upper);
         if(!otherDock)
-            return;
+            return false;
         connect(_parent, elem);
         elem->getRoot()->rearrangeLowerElems();
     }
     else
-        return;
+        return false;
 
     otherDock->deactivate();
     deactivate();
 
     if(elem->getRoot()->getType() == DraggableElement::Hat)
         sMainWindow->reloadCodeSprite(getSprite());
+    return true;
 }
 
 void ScriptDock::undock()

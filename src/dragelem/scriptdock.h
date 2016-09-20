@@ -23,16 +23,13 @@ public:
 
     ScriptDock(Type type, Sprite *sprite, DraggableElement *parent);
 
-    inline DraggableElement* getParent() {return _parent;}
-
-    virtual void dock(DraggableElement* elem);
+    virtual bool dock(DraggableElement* elem);
     virtual void undock();
 
     ~ScriptDock();
 
 protected:
     Type _type;
-    DraggableElement* _parent;
 };
 
 #endif // SCRIPTDOCK_H

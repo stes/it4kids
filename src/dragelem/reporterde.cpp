@@ -44,11 +44,6 @@ void ReporterDE::removeChildDragElems()
     delete this;
 }
 
-void ReporterDE::hitTest()
-{
-
-}
-
 ReporterDE::~ReporterDE()
 {
 

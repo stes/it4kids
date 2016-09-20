@@ -20,7 +20,6 @@ public:
     ~PredicateDE();
 protected:
     DraggableElement* getCurrentElement(Sprite *sprite, QWidget* parent);
-    void hitTest();
 };
 
 #endif // PREDICATEDE_H

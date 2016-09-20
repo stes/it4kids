@@ -1,22 +1,13 @@
 #ifndef PARAMMATH_H
 #define PARAMMATH_H
 
-#include "param.h"
+#include "paramcombobox.h"
 
-class ParamMath : public ParamBase
+class ParamMath : public ParamComboBox
 {
-    class QComboBox* _comboBox;
-
 public:
     ParamMath(QWidget* parent);
     virtual ~ParamMath();
-
-    bool setValue(const QString &);
-
-    QString getValue() const;
-    QWidget* getWidget();
-
-    Type getType() const { return Expression; };
 };
 
 #endif // PARAMMATH_H

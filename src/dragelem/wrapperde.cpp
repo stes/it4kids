@@ -14,6 +14,7 @@ WrapperDE::WrapperDE(const QString& identifier, const QString& text, const QColo
     _width = 0;
     _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
     _layout.setContentsMargins(0, 0, 0, 0);
+    _layout.setSizeConstraint(QLayout::SetFixedSize);
 
     _label->move(4, 3);
     _label->setLayout(&_layout);

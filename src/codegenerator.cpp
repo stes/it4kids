@@ -196,7 +196,7 @@ QString CodeGenerator::generateCode(const DraggableElement* element, int sub)
         const std::vector<ParamBase*>* params = next->getParamsVector();
         for(std::vector<ParamBase*>::const_iterator it = params->begin(); it != params->end(); it++)
         {
-            tmp = tmp.arg((*it)->getValue());
+            tmp = tmp.arg(generateParam(*it));
         }
 
         str += tmp;
@@ -210,9 +210,35 @@ QString CodeGenerator::generateCode(const DraggableElement* element, int sub)
     return str;
 }
 
+QString CodeGenerator::generateParam(const ParamBase* param)
+{
+    if(param->getType() == ParamBase::Type::Expression)
+    {
+        const DraggableElement* element = ((ParamBaseExp*)param)->getDragElem();
+
+        if (element && (element->getType() == DraggableElement::Predicate || element->getType() == DraggableElement::Reporter)
+                && _expressions.contains(element->getIdentifier()))
+        {
+            QString tmp = _expressions[element->getIdentifier()];
+
+            const std::vector<ParamBase*>* params = element->getParamsVector();
+            for(std::vector<ParamBase*>::const_iterator it = params->begin(); it != params->end(); it++)
+            {
+                tmp = tmp.arg(generateParam(*it));
+            }
+
+            return tmp;
+        }
+
+        return "None";
+    }
+    else
+        return param->getValue();
+}
+
 bool CodeGenerator::supported(const QString &ident)
 {
-    return _events.contains(ident) || _controls.contains(ident) || _commands.contains(ident);
+    return _events.contains(ident) || _controls.contains(ident) || _commands.contains(ident) || _expressions.contains(ident);
 }
 
 QStringList CodeGenerator::processCodeField(const QJsonArray &Code)
@@ -247,6 +273,7 @@ void CodeGenerator::generateMap()
     QJsonArray Events = Main["events"].toArray();
     QJsonArray Commands = Main["commands"].toArray();
     QJsonArray Controls = Main["controls"].toArray();
+    QJsonArray Expressions = Main["expressions"].toArray();
 
     for (QJsonArray::const_iterator it = Snippets.constBegin(); it != Snippets.constEnd(); it++)
     {
@@ -271,5 +298,11 @@ void CodeGenerator::generateMap()
     {
         QJsonObject Control = it->toObject();
         _controls[Control["name"].toString()] = processCodeField(Control["code"].toArray());
+    }
+
+    for (QJsonArray::const_iterator it = Expressions.constBegin(); it != Expressions.constEnd(); it++)
+    {
+        QJsonObject Expression = it->toObject();
+        _expressions[Expression["name"].toString()] = Expression["code"].toString();
     }
 }

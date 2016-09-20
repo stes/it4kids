@@ -37,6 +37,7 @@ private:
     QString addQuotes(const QString &str);
 
     QString generateCode(const DraggableElement* element, int sub);
+    QString generateParam(const class ParamBase* param);
     QString indent(int indent);
     QString indentCode(const QStringList *code, int indent = 0, const QString &content = QString());
 
@@ -50,5 +51,6 @@ private:
     QMap<QString, Event> _events;
     QMap<QString, QStringList> _commands;
     QMap<QString, QStringList> _controls;
+    QMap<QString, QString> _expressions;
 };
 #endif // CODEGENERATOR_H
