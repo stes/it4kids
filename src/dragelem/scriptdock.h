@@ -13,6 +13,8 @@ class ScriptDock : public DockingArea
 {
     void connect(DraggableElement *upper, DraggableElement *lower);
 
+    QPoint _dockingPos;
+
 public:
     enum Type
     {
@@ -25,6 +27,9 @@ public:
 
     virtual bool dock(DraggableElement* elem);
     virtual void undock();
+
+    void setDock(const QPoint& pos, int width);
+    QPoint getDockingPos() { return _dockingPos; }
 
     ~ScriptDock();
 

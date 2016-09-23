@@ -40,16 +40,17 @@ DraggableElement::DraggableElement(const QString& identifier, const QString& tex
     _text(text),
     _identifier(identifier),
     _static(false),
-    _width(0),
-    _height(0),
     _sprite(sprite),
     _path(QPoint(0, 0)),
     _currentDock(0),
     _prevElem(0),
     _nextElem(0)
 {
-    _layout.setSpacing(5);
-    setLayout(&_layout);
+    _paramLayout = new QHBoxLayout();
+    _paramLayout->setSpacing(5);
+    _paramLayout->setSizeConstraint(QLayout::SetFixedSize);
+    _paramLayout->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+
     hide();
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextMenuRequested(QPoint)));
@@ -76,6 +77,18 @@ DraggableElement *DraggableElement::getRoot()
     while(root->_currentDock && root->_currentDock->getParent())
         root = root->_currentDock->getParent();
     return root;
+}
+
+DraggableElement *DraggableElement::getOuter()
+{
+    DraggableElement *out = this;
+    while(out->_prevElem)
+    {
+        if(out->_prevElem->_nextElem != out)
+            return out->_prevElem;
+        out = out->_prevElem;
+    }
+    return 0;
 }
 
 void DraggableElement::mousePressEvent(QMouseEvent *event)
@@ -108,7 +121,6 @@ void DraggableElement::mouseMoveEvent(QMouseEvent *event)
         move(mapToParent(event->pos() - _offset));
         rearrangeLowerElems();
         if(!isVisible()) show();
-        update();
     }
 }
 
@@ -149,16 +161,14 @@ void DraggableElement::paintEvent(QPaintEvent*)
     painter.setBackgroundMode(Qt::TransparentMode);
 }
 
-void DraggableElement::getLayoutSize()
+void DraggableElement::resizeEvent(QResizeEvent* event)
 {
-    _width = 0;
-    _height = 0;
-    for(int i = 0; i < _layout.count(); i++)
-    {
-        _width += _layout.itemAt(i)->widget()->width() + 5;
-        _height = _layout.itemAt(i)->widget()->height() > _height ? _layout.itemAt(i)->widget()->height() : _height;
-    }
-    _layout.setSizeConstraint(QLayout::SetNoConstraint);
+    QWidget::resizeEvent(event);
+    updateDocks();
+    rearrangeLowerElems();
+    DraggableElement *outer = getOuter();
+    if(outer)
+        outer->updateSize();
 }
 
 void DraggableElement::parseText(const QString &text)
@@ -177,7 +187,7 @@ void DraggableElement::parseText(const QString &text)
             pixmap->setPixmap(image.scaled(15, 15, Qt::KeepAspectRatio));
             pixmap->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             pixmap->setStyleSheet("background-color: none;");
-            _layout.addWidget(pixmap);
+            _paramLayout->addWidget(pixmap);
             continue;
         }
 
@@ -185,14 +195,14 @@ void DraggableElement::parseText(const QString &text)
 
         if(param)
         {
-            _layout.addWidget(param->getWidget());
+            _paramLayout->addWidget(param->getWidget());
             _paramsVector.push_back(param);
         }
         else
         {
             QLabel* text = new QLabel(str, this);
             text->setFont(QFont("Helvetica", -1, QFont::Bold));
-            _layout.addWidget(text);
+            _paramLayout->addWidget(text);
         }
     }
 }

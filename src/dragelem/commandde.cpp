@@ -7,11 +7,8 @@ CommandDE::CommandDE(const QString& identifier, const QString& text, const QColo
     _upperDock(ScriptDock::Upper, sprite, this),
     _lowerDock(ScriptDock::Lower, sprite, this)
 {
-    _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-    _layout.setContentsMargins(4, 0, 0, 0);
-    _layout.setSizeConstraint(QLayout::SetFixedSize);
-
-    resize();
+    _paramLayout->setContentsMargins(8,6,8,6+4);
+    setLayout(_paramLayout);
 }
 
 DraggableElement* CommandDE::getCurrentElement(Sprite *sprite, QWidget *parent)
@@ -26,47 +23,40 @@ void CommandDE::rearrangeUpperElems()
     if(prevElem)
     {
         prevElem->raise();
-        prevElem->move(_upperDock.getRect()->topLeft() + prevElem->getUpperOffsett());
+        prevElem->move(_upperDock.getDockingPos() - QPoint(0, prevElem->size().height()-4));
         prevElem->rearrangeUpperElems();
     }
 }
 
 void CommandDE::rearrangeLowerElems()
 {
-    if(!isVisible()) moveEvent(0); // force dock update
-
     DraggableElement* nextElem = _nextElem;
 
     if(nextElem)
     {
         nextElem->raise();
-        nextElem->move(_lowerDock.getRect()->topLeft() + nextElem->getLowerOffsett());
+        nextElem->move(_lowerDock.getDockingPos());
         nextElem->rearrangeLowerElems();
     }
 }
 
-void CommandDE::resize()
+void CommandDE::resizeEvent(QResizeEvent* event)
 {
-    bool visible = isVisible();
-    if(!visible) show();
+    DraggableElement::resizeEvent(event);
+    QSize size = event->size();
 
-    getLayoutSize();
     _path = QPainterPath();
     _path.lineTo(7, 0);
     _path.lineTo(11, 4);
     _path.lineTo(21, 4);
     _path.lineTo(25, 0);
-    _path.lineTo(_width+5, 0);
-    _path.lineTo(_width+5, _height+5);
-    _path.lineTo(25, _height+5);
-    _path.lineTo(22, _height+9);
-    _path.lineTo(11, _height+9);
-    _path.lineTo(7, _height+5);
-    _path.lineTo(0, _height+5);
-
-    setFixedSize(_width+5, _height+9);
-
-    if(!visible) hide();
+    _path.lineTo(size.width(), 0);
+    _path.lineTo(size.width(), size.height()-4);
+    _path.lineTo(25, size.height()-4);
+    _path.lineTo(22, size.height());
+    _path.lineTo(11, size.height());
+    _path.lineTo(7, size.height()-4);
+    _path.lineTo(0, size.height()-4);
 }
 
 void CommandDE::removeChildDragElems()
@@ -85,10 +75,10 @@ ScriptDock *CommandDE::getDock(ScriptDock::Type type)
     return 0;
 }
 
-void CommandDE::moveEvent(QMoveEvent*)
+void CommandDE::updateDocks()
 {
-    _upperDock.setRect(QRect(mapToGlobal(QPoint(0, 0)) - QPoint(0, 10), QSize(_width, _height)));
-    _lowerDock.setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(0, _height), QSize(_width, _height)));
+    _upperDock.setDock(mapToGlobal(QPoint(0,0)), size().width());
+    _lowerDock.setDock(mapToGlobal(QPoint(0,size().height()-4)), size().width());
 }
 
 CommandDE::~CommandDE()

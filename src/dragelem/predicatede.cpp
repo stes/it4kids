@@ -6,31 +6,23 @@
 PredicateDE::PredicateDE(const QString& identifier, const QString& text, const QColor& color, Sprite* sprite, QWidget* parent) :
     DraggableElement(identifier, text, color, sprite, parent)
 {
-    _currentDock = 0;
-    _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-    _layout.setContentsMargins(10, 0, 0, 0);
-
-    resize();
+    _paramLayout->setContentsMargins(8,3,8,3);
+    setLayout(_paramLayout);
 }
 
-void PredicateDE::resize()
+void PredicateDE::resizeEvent(QResizeEvent* event)
 {
-    bool visible = isVisible();
-    if(!visible) show();
+    DraggableElement::resizeEvent(event);
+    QSize size = event->size();
 
-    getLayoutSize();
     _path = QPainterPath();
-    _path.moveTo(0, (_height+4)/2);
+    _path.moveTo(0, size.height()/2);
     _path.lineTo(10, 0);
-    _path.lineTo(_width+5, 0);
-    _path.lineTo(_width+15, (_height+4)/2);
-    _path.lineTo(_width+5, _height+4);
-    _path.lineTo(10, _height+4);
-    _path.lineTo(0, (_height+4)/2);
-    _layout.setSizeConstraint(QLayout::SetNoConstraint);
-    setFixedSize(_width+20, _height+4);
-
-    if(!visible) hide();
+    _path.lineTo(size.width()-10, 0);
+    _path.lineTo(size.width(), size.height()/2);
+    _path.lineTo(size.width()-10, size.height());
+    _path.lineTo(10, size.height());
+    _path.lineTo(0, size.height()/2);
 }
 
 void PredicateDE::removeChildDragElems()

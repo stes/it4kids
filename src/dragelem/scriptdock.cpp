@@ -37,7 +37,10 @@ bool ScriptDock::dock(DraggableElement* elem)
         if(!otherDock)
             return false;
         connect(_parent, elem);
-        elem->getRoot()->rearrangeLowerElems();
+        _parent->rearrangeLowerElems();
+        DraggableElement *outer = elem->getOuter();
+        if(outer)
+            outer->updateSize();
     }
     else
         return false;
@@ -55,6 +58,8 @@ void ScriptDock::undock()
     if((_type != Lower && _type != Inner) || !_dockedElem)
         return;
 
+    DraggableElement *outer = _dockedElem->getOuter();
+
     _dockedElem->getDock(Upper)->activate();
     _dockedElem->setPrevElem(0);
     _dockedElem->setCurrentDock(0);
@@ -63,9 +68,22 @@ void ScriptDock::undock()
         _parent->setNextElem(0);
 
     activate();
-    _parent->getRoot()->rearrangeLowerElems();
+    if(outer)
+        outer->updateSize();
+
     if(_parent->getRoot()->getType() == DraggableElement::Hat)
         sMainWindow->reloadCodeSprite(getSprite());
+}
+
+void ScriptDock::setDock(const QPoint& pos, int width)
+{
+    _dockingPos = pos;
+    if(_type == Upper)
+        setRect(QRect(pos + QPoint(0,-20), QSize(width, 25)));
+    else if(_type == Lower)
+        setRect(QRect(pos + QPoint(0,-5), QSize(width, 25)));
+    else if(_type == Inner)
+        setRect(QRect(pos, QSize(width, 20)));
 }
 
 ScriptDock::~ScriptDock()

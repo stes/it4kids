@@ -11,8 +11,6 @@ class PredicateDE : public DraggableElement
 public:
     PredicateDE(const QString& identifier, const QString& text, const QColor& color, Sprite *sprite = 0, QWidget* parent = 0);
 
-    void resize();
-
     virtual void removeChildDragElems();
 
     Type getType() const { return Predicate; };
@@ -20,6 +18,8 @@ public:
     ~PredicateDE();
 protected:
     DraggableElement* getCurrentElement(Sprite *sprite, QWidget* parent);
+
+    void resizeEvent(QResizeEvent*);
 };
 
 #endif // PREDICATEDE_H

@@ -9,8 +9,6 @@ class ReporterDE : public DraggableElement
 public:
     ReporterDE(const QString& identifier, const QString& text, const QColor& color, Sprite *sprite = 0, QWidget* parent = 0);
 
-    void resize();
-
     virtual void removeChildDragElems();
 
     Type getType() const { return Reporter; };
@@ -18,6 +16,8 @@ public:
     ~ReporterDE();
 protected:
     DraggableElement* getCurrentElement(Sprite *sprite, QWidget* parent);
+
+    void resizeEvent(QResizeEvent*);
 };
 
 #endif // REPORTERDE_H

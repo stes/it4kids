@@ -4,23 +4,24 @@
 
 WrapperDE::WrapperDE(const QString& identifier, const QString& text, const QColor& color, Sprite *sprite, QWidget* parent) :
     DraggableElement(identifier, QString(text).remove(QStringLiteral("%c")), color, sprite, parent),
-    _label(new QWidget(this)),
     _upperDock(ScriptDock::Upper, sprite, this),
     _lowerDock(ScriptDock::Lower, sprite, this),
     _innerDock(ScriptDock::Inner, sprite, this)
 {
     _text = text;
 
-    _width = 0;
-    _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-    _layout.setContentsMargins(0, 0, 0, 0);
-    _layout.setSizeConstraint(QLayout::SetFixedSize);
+    _innerSpace = new QSpacerItem(-1, -1);
+    _paramLayout->setContentsMargins(8,6,8,6+4);
 
-    _label->move(4, 3);
-    _label->setLayout(&_layout);
-    _label->show();
+    _layout = new QVBoxLayout();
+    _layout->setContentsMargins(0, 0, 0, 0);
+    _layout->setSpacing(0);
+    _layout->addLayout(_paramLayout);
+    _layout->addSpacerItem(_innerSpace);
+    _layout->setSizeConstraint(QLayout::SetFixedSize);
+    setLayout(_layout);
 
-    resize();
+    updateSize();
 }
 
 DraggableElement* WrapperDE::getCurrentElement(Sprite *sprite, QWidget *parent)
@@ -37,24 +38,21 @@ void WrapperDE::rearrangeUpperElems()
     if(prevElem)
     {
         prevElem->raise();
-        prevElem->move(_upperDock.getRect()->topLeft() + prevElem->getUpperOffsett());
+        prevElem->move(_upperDock.getDockingPos() - QPoint(0, prevElem->size().height()-4));
         prevElem->rearrangeUpperElems();
     }
 }
 
 void WrapperDE::rearrangeLowerElems()
 {
-    if(!isVisible()) moveEvent(0); // force dock update
-
     rearrangeInnerElems();
-    resize();
 
     DraggableElement* nextElem = _nextElem;
 
     if(nextElem)
     {
         nextElem->raise();
-        nextElem->move(_lowerDock.getRect()->topLeft() + nextElem->getLowerOffsett());
+        nextElem->move(_lowerDock.getDockingPos());
         nextElem->rearrangeLowerElems();
     }
 }
@@ -66,58 +64,54 @@ void WrapperDE::rearrangeInnerElems()
     if(innerElem)
     {
         innerElem->raise();
-        innerElem->move(_innerDock.getRect()->topLeft() + innerElem->getLowerOffsett());
+        innerElem->move(_innerDock.getDockingPos());
         innerElem->rearrangeLowerElems();
     }
 }
 
-void WrapperDE::resize()
+void WrapperDE::updateSize()
 {
-    bool visible = isVisible();
-    if(!visible) show();
+    DraggableElement* innerElem = _innerDock.getDockedElem();
 
-    getLayoutSize();
+    int height = 0;
+    while(innerElem)
+    {
+        height += innerElem->size().height()-4;
+        innerElem = innerElem->getNextElem();
+    }
+
+    _innerSpace->changeSize(15, qMax(height, 8)+22+4, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    _layout->invalidate();
+}
+
+void WrapperDE::resizeEvent(QResizeEvent* event)
+{
+    DraggableElement::resizeEvent(event);
+    QSize size = event->size();
+    QSize paramSize = _paramLayout->sizeHint();
+
     _path = QPainterPath();
     _path.lineTo(7, 0);
     _path.lineTo(11, 4);
     _path.lineTo(21, 4);
     _path.lineTo(25, 0);
-    _path.lineTo(_width+5, 0);
-    _path.lineTo(_width+5, _height+5);
-    _path.lineTo(40, _height+5);
-    _path.lineTo(37, 4+_height+5);
-    _path.lineTo(26, 4+_height+5);
-    _path.lineTo(22, _height+5);
-    _path.lineTo(15, _height+5);
+    _path.lineTo(paramSize.width(), 0);
+    _path.lineTo(paramSize.width(), paramSize.height()-4);
+    _path.lineTo(40, paramSize.height()-4);
+    _path.lineTo(37, paramSize.height());
+    _path.lineTo(26, paramSize.height());
+    _path.lineTo(22, paramSize.height()-4);
+    _path.lineTo(15, paramSize.height()-4);
 
-    _innerHeight = 0;
-    DraggableElement* inner = _innerDock.getDockedElem();
-    while(inner)
-    {
-        _innerHeight += inner->getHeight()+5;
-        inner = inner->getNextElem();
-    }
+    _path.lineTo(15, size.height()-4-22);
+    _path.lineTo(paramSize.width(), size.height()-4-22);
+    _path.lineTo(paramSize.width(), size.height()-4);
 
-    if(!_innerHeight) _innerHeight = 8;
-    _path.lineTo(15, _height+_innerHeight+5);
-    _path.lineTo(_width+20, _height+_innerHeight+5);
-    _path.lineTo(_width+20, _height+22+_innerHeight+5);
-
-    _path.lineTo(25, _height+22+_innerHeight+5);
-    _path.lineTo(22, _height+22+_innerHeight+9);
-    _path.lineTo(11, _height+22+_innerHeight+9);
-    _path.lineTo(7, _height+22+_innerHeight+5);
-    _path.lineTo(0, _height+22+_innerHeight+5);
-
-    _layout.setSizeConstraint(QLayout::SetNoConstraint);
-    setFixedSize(_width+5, 22+_innerHeight+_height+9);
-    _label->setMinimumWidth(_width+5);
-
-    _upperDock.setRect(QRect(mapToGlobal(QPoint(0, 0)) - QPoint(0, 10), QSize(_width, _height)));
-    _innerDock.setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(15, _height), QSize(_width, _height)));
-    _lowerDock.setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(0, _height+22+_innerHeight), QSize(_width, _height)));
-
-    if(!visible) hide();
+    _path.lineTo(25, size.height()-4);
+    _path.lineTo(22, size.height());
+    _path.lineTo(11, size.height());
+    _path.lineTo(7, size.height()-4);
+    _path.lineTo(0, size.height()-4);
 }
 
 void WrapperDE::removeChildDragElems()
@@ -139,11 +133,11 @@ ScriptDock *WrapperDE::getDock(ScriptDock::Type type)
     return 0;
 }
 
-void WrapperDE::moveEvent(QMoveEvent*)
+void WrapperDE::updateDocks()
 {
-    _upperDock.setRect(QRect(mapToGlobal(QPoint(0, 0)) - QPoint(0, 10), QSize(_width, _height)));
-    _innerDock.setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(15, _height), QSize(_width, _height)));
-    _lowerDock.setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(0, _height+22+_innerHeight), QSize(_width, _height)));
+    _upperDock.setDock(mapToGlobal(QPoint(0,0)), size().width());
+    _innerDock.setDock(mapToGlobal(QPoint(15,_paramLayout->sizeHint().height()-4)), size().width());
+    _lowerDock.setDock(mapToGlobal(QPoint(0,size().height()-4)), size().width());
 }
 
 const DraggableElement* WrapperDE::getWrapElem() const

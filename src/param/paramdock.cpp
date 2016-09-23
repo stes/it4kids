@@ -32,12 +32,11 @@ bool DockWidget::dock(DraggableElement* elem)
     _dockedElem->setCurrentDock(this);
     _dockedElem->setParent(_parent);
     // remove dock
-    int index = ((QBoxLayout*) (parentWidget()->layout()))->indexOf(this);
-    ((QBoxLayout*) (parentWidget()->layout()))->removeWidget(this);
+    int index = _parent->getParamLayout()->indexOf(this);
+    _parent->getParamLayout()->removeWidget(this);
     // insert docked element
-    ((QBoxLayout*) (parentWidget()->layout()))->insertWidget(index, _dockedElem);
+    _parent->getParamLayout()->insertWidget(index, _dockedElem);
     hide();
-    _parent->resize();
 
     deactivate();
     if(elem->getRoot()->getType() == DraggableElement::Hat)
@@ -49,8 +48,8 @@ bool DockWidget::dock(DraggableElement* elem)
 void DockWidget::undock()
 {
     // remove docked element
-    int index = ((QBoxLayout*) (parentWidget()->layout()))->indexOf(_dockedElem);
-    ((QBoxLayout*) (parentWidget()->layout()))->removeWidget(_dockedElem);
+    int index = _parent->getParamLayout()->indexOf(_dockedElem);
+    _parent->getParamLayout()->removeWidget(_dockedElem);
     QPoint pos = _dockedElem->mapToGlobal(QPoint(0, 0));
     // reset docked element
     _dockedElem->setCurrentDock(0);
@@ -59,12 +58,10 @@ void DockWidget::undock()
     _dockedElem->show();
     _dockedElem = 0;
     // insert dock
-    ((QBoxLayout*) (parentWidget()->layout()))->insertWidget(index, this);
+    _parent->getParamLayout()->insertWidget(index, this);
     show();
-    _parent->resize();
 
     activate();
-    //_parent->getRoot()->rearrangeLowerElems();
     if(_parent->getRoot()->getType() == DraggableElement::Hat)
         sMainWindow->reloadCodeSprite(getSprite());
 }

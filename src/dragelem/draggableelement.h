@@ -54,28 +54,27 @@ public:
     inline const QString &getIdentifier() const {return _identifier;}
     inline const std::vector<ParamBase*>* getParamsVector() const { return &_paramsVector; }
 
-    virtual inline int getHeight() const { return _height; }
-    virtual inline int getWidth() const  { return _width; }
     bool isStatic() const { return _static; }
     void makeStatic() { _static = true; }
 
-    virtual void resize() = 0;
     virtual const DraggableElement* getWrapElem() const { return 0; }
 
     virtual void rearrangeLowerElems() { };
     virtual void rearrangeUpperElems() { };
 
-    virtual QPoint getLowerOffsett() const { return LOWEROFFSET; }
-    virtual QPoint getUpperOffsett() const { return UPPEROFFSET; }
+    virtual void updateDocks() { };
+    virtual void updateSize() { };
 
     virtual void removeChildDragElems() = 0;
 
     virtual Type getType() const = 0;
     virtual DraggableElement* getCurrentElement(Sprite *sprite, QWidget* parent) = 0;
+    QHBoxLayout* getParamLayout() { return _paramLayout; }
 
     DraggableElement *copyParams(DraggableElement *dst);
 
     DraggableElement *getRoot();
+    DraggableElement *getOuter();
 
     virtual ScriptDock *getDock(ScriptDock::Type) { return 0; }
 
@@ -90,14 +89,12 @@ protected:
     QString _identifier;
     QPoint _offset;
     bool _static;
-    int _width;
-    int _height;
 
     Sprite* _sprite;
 
     QPainterPath _path;
 
-    QHBoxLayout _layout;
+    QHBoxLayout* _paramLayout;
 
     std::vector<ParamBase*> _paramsVector;
 
@@ -110,8 +107,8 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent*);
 
     virtual void paintEvent(QPaintEvent*);
-
-    void getLayoutSize();
+    virtual void moveEvent(QMoveEvent*) { updateDocks(); }
+    virtual void resizeEvent(QResizeEvent*);
 
     void parseText(const QString& text);
 };

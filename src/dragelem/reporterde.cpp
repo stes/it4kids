@@ -5,11 +5,8 @@
 ReporterDE::ReporterDE(const QString& identifier, const QString& text, const QColor& color, Sprite* sprite, QWidget* parent) :
      DraggableElement(identifier, text, color, sprite, parent)
 {
-    _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-    _layout.setContentsMargins(4, 4, 0, 0);
-    _layout.setSizeConstraint(QLayout::SetFixedSize);
-
-    resize();
+    _paramLayout->setContentsMargins(8,3,8,3);
+    setLayout(_paramLayout);
 }
 
 DraggableElement* ReporterDE::getCurrentElement(Sprite *sprite, QWidget* parent)
@@ -17,25 +14,21 @@ DraggableElement* ReporterDE::getCurrentElement(Sprite *sprite, QWidget* parent)
     return copyParams(new ReporterDE(_identifier, _text, _color, sprite, parent));
 }
 
-void ReporterDE::resize()
+void ReporterDE::resizeEvent(QResizeEvent* event)
 {
-    bool visible = isVisible();
-    if(!visible) show();
+    DraggableElement::resizeEvent(event);
+    QSize size = event->size();
 
-    getLayoutSize();
     _path = QPainterPath();
-    _path.moveTo(5, (_height+5)/2);
-    _path.arcTo(0, 0, 10, _height+5, 90, 180);
-    _path.moveTo(_width+5-5, (_height+5)/2);
-    _path.arcTo(_width+5-10, 0, 10, _height+5, 270, 180);
+    _path.moveTo(5, size.height()/2);
+    _path.arcTo(0, 0, 10, size.height(), 90, 180);
+    _path.moveTo(size.width()-5, size.height()/2);
+    _path.arcTo(size.width()-10, 0, 10, size.height(), 270, 180);
     _path.moveTo(5, 0);
-    _path.lineTo(_width+5-5, 0);
-    _path.lineTo(_width+5-5, _height+5);
-    _path.lineTo(5, _height+5);
+    _path.lineTo(size.width()-5, 0);
+    _path.lineTo(size.width()-5, size.height());
+    _path.lineTo(5, size.height());
     _path.lineTo(5, 0);
-    setFixedSize(_width+10, _height+5);
-
-    if(!visible) hide();
 }
 
 void ReporterDE::removeChildDragElems()

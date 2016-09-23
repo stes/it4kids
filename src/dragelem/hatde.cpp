@@ -6,11 +6,8 @@ HatDE::HatDE(const QString& identifier, const QString& text, const QColor& color
      DraggableElement(identifier, text, color, sprite, parent),
      _lowerDock(ScriptDock::Lower, sprite, this)
 {
-    _layout.setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
-    _layout.setContentsMargins(4, 4, 0, 0);
-    _layout.setSizeConstraint(QLayout::SetFixedSize);
-
-    resize();
+    _paramLayout->setContentsMargins(8,6+10,8,6+4);
+    setLayout(_paramLayout);
 }
 
 DraggableElement* HatDE::getCurrentElement(Sprite *sprite, QWidget* parent)
@@ -20,38 +17,32 @@ DraggableElement* HatDE::getCurrentElement(Sprite *sprite, QWidget* parent)
 
 void HatDE::rearrangeLowerElems()
 {
-    if(!isVisible()) moveEvent(0); // force dock update
-
     DraggableElement* nextElem = _nextElem;
 
     if(nextElem)
     {
         nextElem->raise();
-        nextElem->move(_lowerDock.getRect()->topLeft() + nextElem->getLowerOffsett());
+        nextElem->move(_lowerDock.getDockingPos());
         nextElem->rearrangeLowerElems();
     }
 }
 
-void HatDE::resize()
+void HatDE::resizeEvent(QResizeEvent* event)
 {
-    bool visible = isVisible();
-    if(!visible) show();
+    DraggableElement::resizeEvent(event);
+    QSize size = event->size();
 
-    getLayoutSize();
     _path = QPainterPath();
     _path.moveTo(30, 10);
     _path.arcTo(0, 0, 60, 20, 180, -180);
     _path.moveTo(0, 10);
-    _path.lineTo(_width+5, 10);
-    _path.lineTo(_width+5, 16+_height);
-    _path.lineTo(25, 16+_height);
-    _path.lineTo(22, 20+_height);
-    _path.lineTo(11, 20+_height);
-    _path.lineTo(7, 16+_height);
-    _path.lineTo(0, 16+_height);
-    setFixedSize(_width+5, _height+20);
-
-    if(!visible) hide();
+    _path.lineTo(size.width(), 10);
+    _path.lineTo(size.width(), size.height()-4);
+    _path.lineTo(25, size.height()-4);
+    _path.lineTo(22, size.height());
+    _path.lineTo(11, size.height());
+    _path.lineTo(7, size.height()-4);
+    _path.lineTo(0, size.height()-4);
 }
 
 void HatDE::removeChildDragElems()
@@ -68,7 +59,7 @@ ScriptDock *HatDE::getDock(ScriptDock::Type type)
     return 0;
 }
 
-void HatDE::moveEvent(QMoveEvent *)
+void HatDE::updateDocks()
 {
-    _lowerDock.setRect(QRect(mapToGlobal(QPoint(0, 0)) + QPoint(0, _height+10), QSize(_width, _height)));
+    _lowerDock.setDock(mapToGlobal(QPoint(0,size().height()-4)), size().width());
 }

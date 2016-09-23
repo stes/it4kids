@@ -14,11 +14,10 @@ public:
     void rearrangeUpperElems();
     void rearrangeLowerElems();
 
-    void resize();
-
     virtual void removeChildDragElems();
 
     virtual ScriptDock *getDock(ScriptDock::Type type);
+    void updateDocks();
 
     Type getType() const { return Command; };
 
@@ -26,7 +25,7 @@ public:
 protected:
     DraggableElement* getCurrentElement(Sprite *sprite, QWidget* parent);
 
-    void moveEvent(QMoveEvent*);
+    void resizeEvent(QResizeEvent*);
 
     ScriptDock _upperDock;
     ScriptDock _lowerDock;
