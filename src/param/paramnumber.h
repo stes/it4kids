@@ -10,20 +10,14 @@ class NumberWidget : public QLineEdit
 {
 	Q_OBJECT
 
-    ParamDock _dock;
-
 public:
-    NumberWidget(Sprite *sprite, DraggableElement *elemParent, QWidget* parent = 0);
+    NumberWidget(QWidget* parent = 0);
 	virtual ~NumberWidget();
-
-    ParamDock* getDock() { return &_dock; }
-
-protected:
-    void paintEvent(QPaintEvent*);
 };
 
 class ParamNumber : public ParamBaseNum
 {
+    DockWrapperWidget* _dockWidget;
     NumberWidget* _lineEdit;
 
 public:
@@ -31,9 +25,9 @@ public:
     virtual ~ParamNumber();
 
     bool setValue(const QString& value);
-    QWidget* getWidget();
+    QWidget* getWidget() { return _dockWidget; };
 
-    const DraggableElement* getDragElem() const { return _lineEdit->getDock()->getDockedElem(); }
+    const DraggableElement* getDragElem() const { return _dockWidget->getDock()->getDockedElem(); }
 
 protected:
     double getNumber() const;

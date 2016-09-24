@@ -2,8 +2,7 @@
 
 #include "parampredicate.h"
 
-PredicateWidget::PredicateWidget(Sprite *sprite, DraggableElement *elemParent, QColor color, QWidget *parent)
-    : QWidget(parent), _dock(sprite, elemParent, this, DraggableElement::Predicate)
+PredicateWidget::PredicateWidget(QColor color, QWidget *parent) : QWidget(parent)
 {
     _color = color.darker(130);
 
@@ -37,22 +36,14 @@ void PredicateWidget::paintEvent(QPaintEvent*)
     // Draw polygon
     painter.fillPath(_path, brush);
     painter.setBackgroundMode(Qt::TransparentMode);
-
-    // TODO: move somewhere else
-    _dock.setRect(QRect(mapToGlobal(QPoint(0, 0)), QSize(24, 12)));
 }
 
 ParamPredicate::ParamPredicate(QColor color, Sprite *sprite, DraggableElement *elemParent, QWidget *parent)
-    : _dockWidget(new PredicateWidget(sprite, elemParent, color, parent))
 {
+    _predicateWidget = new PredicateWidget(color, parent);
+    _dockWidget = new DockWrapperWidget(sprite, elemParent, _predicateWidget, DraggableElement::Predicate);
 }
 
 ParamPredicate::~ParamPredicate()
 {
-    if(_dockWidget->getDock()->getDockedElem()) _dockWidget->getDock()->getDockedElem()->removeChildDragElems();
-}
-
-QString ParamPredicate::getValue() const
-{
-    return "None";
 }

@@ -56,3 +56,24 @@ void ParamDock::undock()
 ParamDock::~ParamDock()
 {
 }
+
+DockWrapperWidget::DockWrapperWidget(Sprite *sprite, DraggableElement *elemParent, QWidget *innerWidget, DraggableElement::Type type, QWidget* parent)
+    : QWidget(parent), _dock(sprite, elemParent, this, type), _innerWidget(innerWidget)
+{
+    new QHBoxLayout(this);
+    layout()->setContentsMargins(0,0,0,0);
+    layout()->setSizeConstraint(QLayout::SetFixedSize);
+    layout()->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
+    layout()->addWidget(_innerWidget);
+}
+
+DockWrapperWidget::~DockWrapperWidget()
+{
+    if(_dock.getDockedElem())
+        _dock.getDockedElem()->removeChildDragElems();
+}
+void DockWrapperWidget::paintEvent(QPaintEvent*)
+{
+    // TODO: move somewhere else
+    _dock.setRect(QRect(mapToGlobal(QPoint(0, 0)), size()));
+}

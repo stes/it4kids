@@ -18,4 +18,21 @@ protected:
     DraggableElement::Type _type;
 };
 
+class DockWrapperWidget : public QWidget
+{
+    Q_OBJECT
+
+    ParamDock _dock;
+    QWidget* _innerWidget;
+
+public:
+    DockWrapperWidget(Sprite *sprite, DraggableElement *elemParent, QWidget *innerWidget, DraggableElement::Type type, QWidget* parent = 0);
+    virtual ~DockWrapperWidget();
+
+    ParamDock* getDock() { return &_dock; }
+
+protected:
+    void paintEvent(QPaintEvent*);
+};
+
 #endif // PARAMDOCK_H

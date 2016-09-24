@@ -11,16 +11,12 @@ class PredicateWidget : public QWidget
 {
     Q_OBJECT
 
-    ParamDock _dock;
-
     QPainterPath _path;
     QColor _color;
 
 public:
-    PredicateWidget(Sprite *sprite, DraggableElement *elemParent, QColor color, QWidget *parent = 0);
+    PredicateWidget(QColor color, QWidget *parent = 0);
     virtual ~PredicateWidget();
-
-    ParamDock* getDock() { return &_dock; }
 
 protected:
     void paintEvent(QPaintEvent*);
@@ -28,13 +24,14 @@ protected:
 
 class ParamPredicate : public ParamBaseExp
 {
-    PredicateWidget* _dockWidget;
+    DockWrapperWidget* _dockWidget;
+    PredicateWidget* _predicateWidget;
 
 public:
     ParamPredicate(QColor color, Sprite *sprite, DraggableElement *elemParent, QWidget *parent = 0);
     virtual ~ParamPredicate();
 
-    QString getValue() const;
+    QString getValue() const { return "None"; }
     QWidget* getWidget() { return _dockWidget; };
 
     const DraggableElement* getDragElem() const { return _dockWidget->getDock()->getDockedElem(); }
