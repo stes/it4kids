@@ -1,6 +1,5 @@
 #include "predicatede.h"
 
-#include "param/paramdock.h"
 #include "sprite.h"
 
 PredicateDE::PredicateDE(const QString& identifier, const QString& text, const QColor& color, Sprite* sprite, QWidget* parent) :

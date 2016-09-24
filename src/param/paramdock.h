@@ -1,45 +1,21 @@
 #ifndef PARAMDOCK_H
 #define PARAMDOCK_H
 
-#include <QWidget>
-#include <QPainterPath>
-
+#include "dragelem/draggableelement.h"
 #include "dockingarea.h"
-#include "param.h"
 
-class DockWidget : public QWidget, public DockingArea
+class ParamDock : public DockingArea
 {
-    Q_OBJECT
-
-    QPainterPath _path;
-    QColor _color;
-
+    QWidget* _widget;
 public:
-    DockWidget(QColor color, Sprite *sprite, DraggableElement *elemParent, QWidget *parent = 0);
-    virtual ~DockWidget();
+    ParamDock(Sprite *sprite, DraggableElement *elemParent, QWidget *widget, DraggableElement::Type type);
+    virtual ~ParamDock();
 
     bool dock(DraggableElement* dragelem);
     void undock();
 
-    QString getDockedElemIdent() const;
-
 protected:
-    void paintEvent(QPaintEvent*);
-};
-
-class ParamDock : public ParamBaseExp
-{
-    DockWidget* _dockWidget;
-
-public:
-    ParamDock(QColor color, Sprite *sprite, DraggableElement *elemParent, QWidget *parent = 0);
-    virtual ~ParamDock();
-
-    QString getValue() const;
-    QWidget* getWidget() { return _dockWidget; };
-
-    const DraggableElement* getDragElem() const { return _dockWidget->getDockedElem(); }
+    DraggableElement::Type _type;
 };
 
 #endif // PARAMDOCK_H
-

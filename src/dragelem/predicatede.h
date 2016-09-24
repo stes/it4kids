@@ -3,8 +3,6 @@
 
 #include "draggableelement.h"
 
-class ParamDock;
-
 class PredicateDE : public DraggableElement
 {
     Q_OBJECT

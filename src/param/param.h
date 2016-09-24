@@ -32,6 +32,8 @@ public:
 
     virtual Type getType() const = 0;
     virtual QWidget* getWidget() = 0;
+
+    virtual const class DraggableElement* getDragElem() const { return 0; };
 };
 
 class ParamBaseStr : public ParamBase
@@ -68,7 +70,6 @@ public:
     virtual ~ParamBaseExp() { }
 
     Type getType() const { return Expression; }
-    virtual const class DraggableElement* getDragElem() const = 0;
 };
 
 #endif // PARAM_H

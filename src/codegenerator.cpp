@@ -212,9 +212,9 @@ QString CodeGenerator::generateCode(const DraggableElement* element, int sub)
 
 QString CodeGenerator::generateParam(const ParamBase* param)
 {
-    if(param->getType() == ParamBase::Type::Expression)
+    if(param->getDragElem())
     {
-        const DraggableElement* element = ((ParamBaseExp*)param)->getDragElem();
+        const DraggableElement* element = param->getDragElem();
 
         if (element && (element->getType() == DraggableElement::Predicate || element->getType() == DraggableElement::Reporter)
                 && _expressions.contains(element->getIdentifier()))
@@ -229,11 +229,8 @@ QString CodeGenerator::generateParam(const ParamBase* param)
 
             return tmp;
         }
-
-        return "None";
     }
-    else
-        return param->getValue();
+    return param->getValue();
 }
 
 bool CodeGenerator::supported(const QString &ident)

@@ -2,11 +2,25 @@
 
 #include "paramnumber.h"
 
+NumberWidget::NumberWidget(Sprite *sprite, DraggableElement *elemParent, QWidget* parent)
+    : QLineEdit(parent), _dock(sprite, elemParent, this, DraggableElement::Reporter)
+{
+}
+
 NumberWidget::~NumberWidget()
 {
 }
 
-ParamNumber::ParamNumber(QWidget* parent) : _lineEdit(new NumberWidget(parent))
+void NumberWidget::paintEvent(QPaintEvent* event)
+{
+    QLineEdit::paintEvent(event);
+
+    // TODO: move somewhere else
+    _dock.setRect(QRect(mapToGlobal(QPoint(0, 0)), size()));
+}
+
+ParamNumber::ParamNumber(Sprite *sprite, DraggableElement *elemParent, QWidget* parent)
+    : _lineEdit(new NumberWidget(sprite, elemParent, parent))
 {
     //setInputMask("9999");
     _lineEdit->setValidator(new QDoubleValidator());
@@ -29,8 +43,9 @@ bool ParamNumber::setValue(const QString& value)
 QWidget* ParamNumber::getWidget()
 {
     return _lineEdit;
-};
+}
 
 ParamNumber::~ParamNumber()
 {
+    if(_lineEdit->getDock()->getDockedElem()) _lineEdit->getDock()->getDockedElem()->removeChildDragElems();
 }

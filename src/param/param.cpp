@@ -6,7 +6,6 @@
 #include "param/paramdelim.h"
 #include "param/paramdestination.h"
 #include "param/paramdirection.h"
-#include "param/paramdock.h"
 #include "param/parameffect.h"
 #include "param/paraminteraction.h"
 #include "param/paramjoinwords.h"
@@ -16,6 +15,7 @@
 #include "param/parammath.h"
 #include "param/parammessage.h"
 #include "param/paramnumber.h"
+#include "param/parampredicate.h"
 #include "param/paramsound.h"
 #include "param/paramstopchoices.h"
 #include "param/paramstring.h"
@@ -66,12 +66,12 @@ ParamBase* ParamBase::createParam(const QString &str,
     if(str.contains(QLatin1String("%idx")))
         return new ParamListId(parent);
     if(str.contains(QLatin1String("%n")))
-        return new ParamNumber(parent);
+        return new ParamNumber(sprite, elem, parent);
     if(str.contains(QLatin1String("%s")))
         return new ParamString(parent);
     if(str.contains(QLatin1String("%l")))
         return new ParamListSelec(parent);
     if(str.contains(QLatin1String("%b")))
-        return new ParamDock(color, sprite, elem, parent);
+        return new ParamPredicate(color, sprite, elem, parent);
     return 0;
 }

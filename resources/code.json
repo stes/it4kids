@@ -225,6 +225,14 @@
         {
             "name": "reportQuotient",
             "code": "(%1 / %2)"
+        },
+        {
+            "name": "xPosition",
+            "code": "self.x"
+        },
+        {
+            "name": "yPosition",
+            "code": "self.y"
         }
     ],
 
