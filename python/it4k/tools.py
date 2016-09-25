@@ -3,6 +3,7 @@ from pyglet import gl
 from struct import unpack
 from threading import Thread, Event
 import ctypes
+import math
 
 background = pyglet.graphics.OrderedGroup(0)
 layer0 = pyglet.graphics.OrderedGroup(1)
@@ -133,3 +134,29 @@ def hook():
     if app_state.stopping:
         raise SigStop()
     app_state.paused.wait()
+
+def calcFunction(func, arg):
+    if func == "abs":
+        return math.fabs(arg)
+    if func == "floor":
+        return math.floor(arg)
+    if func == "ceil":
+        return math.ceil(arg)
+    if func == "sqrt":
+        return math.sqrt(arg)
+    if func == "sin":
+        return math.sin(math.radians(arg))
+    if func == "cos":
+        return math.cos(math.radians(arg))
+    if func == "tan":
+        return math.tan(math.radians(arg))
+    if func == "asin":
+        return math.degrees(math.asin(arg))
+    if func == "acos":
+        return math.degrees(math.acos(arg))
+    if func == "atan":
+        return math.degrees(math.atan(arg))
+    if func == "ln":
+        return math.log(arg)
+    if func == "e^":
+        return math.exp(arg)

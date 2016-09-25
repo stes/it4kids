@@ -182,11 +182,11 @@
 	<dragableelement name="reportProduct" category="operators" type="reporter" spec="%n * %n" />
 	<dragableelement name="reportQuotient" category="operators" type="reporter" spec="%n / %n" />
 	<dragableelement name="reportRound" category="operators" type="reporter" spec="round %n" />
-	<dragableelement name="reportMonadic" category="operators" type="reporter" spec="%fun of %n">
+        <dragableelement name="reportFunction" category="operators" type="reporter" spec="%fun of %n">
 		 <parameter default="null" />
 		 <parameter default="10" />
 	</dragableelement>
-	<dragableelement name="reportModulus" category="operators" type="reporter" spec="%n mod %n" />
+        <dragableelement name="reportModulo" category="operators" type="reporter" spec="%n mod %n" />
         <dragableelement name="reportLessThan" category="operators" type="predicate" spec="%n &lt; %n" />
 	<dragableelement name="reportRandom" category="operators" type="reporter" spec="pick random %n to %n">
 		 <parameter default="1" />

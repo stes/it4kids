@@ -13,7 +13,10 @@
         },
         {
             "name": "import",
-            "code": ["import it4k\n"]
+            "code": [
+                "import it4k",
+                "import random # TODO\n"
+            ]
         },
         {
             "name": "construct",
@@ -233,6 +236,26 @@
         {
             "name": "yPosition",
             "code": "self.y"
+        },
+        {
+            "name": "reportRound",
+            "code": "round(%1)"
+        },
+        {
+            "name": "reportModulo",
+            "code": "(%1 % %2)"
+        },
+        {
+            "name": "reportRandom",
+            "code": "random.randint(%1,%2)"
+        },
+        {
+            "name": "reportRandom",
+            "code": "random.randint(%1,%2)"
+        },
+        {
+            "name": "reportFunction",
+            "code": "it4k.calcFunction(%1,%2)"
         }
     ],
 
