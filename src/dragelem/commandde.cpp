@@ -57,6 +57,7 @@ void CommandDE::resizeEvent(QResizeEvent* event)
     _path.lineTo(11, size.height());
     _path.lineTo(7, size.height()-4);
     _path.lineTo(0, size.height()-4);
+    _path.closeSubpath();
 }
 
 void CommandDE::removeChildDragElems()

@@ -145,20 +145,15 @@ void DraggableElement::mouseReleaseEvent(QMouseEvent* event)
 
 void DraggableElement::paintEvent(QPaintEvent*)
 {
+    // TODO: bigger border
+    QPen pen(_color.darker(120), 1, Qt::SolidLine, Qt::SquareCap, Qt::MiterJoin);
+    QBrush brush(_color);
+
     QPainter painter(this);
-
-    // style(), width(), brush(), capStyle() and joinStyle().
-    QPen pen(_color, 0, Qt::SolidLine, Qt::SquareCap, Qt::RoundJoin);
+    painter.setRenderHint(QPainter::Antialiasing);
     painter.setPen(pen);
-
-    // Brush
-    QBrush brush;
-    brush.setColor(_color);
-    brush.setStyle(Qt::SolidPattern);
-
-    // Draw polygon
-    painter.fillPath(_path, brush);
-    painter.setBackgroundMode(Qt::TransparentMode);
+    painter.setBrush(brush);
+    painter.drawPath(_path);
 }
 
 void DraggableElement::resizeEvent(QResizeEvent* event)
@@ -185,8 +180,6 @@ void DraggableElement::parseText(const QString &text)
             QLabel* pixmap = new QLabel(this);
             QPixmap image(pixmapPath);
             pixmap->setPixmap(image.scaled(15, 15, Qt::KeepAspectRatio));
-            pixmap->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-            pixmap->setStyleSheet("background-color: none;");
             _paramLayout->addWidget(pixmap);
             continue;
         }
@@ -195,13 +188,13 @@ void DraggableElement::parseText(const QString &text)
 
         if(param)
         {
+            param->getWidget()->setStyleSheet(QString("border-color: %1").arg(_color.darker(120).name()));
             _paramLayout->addWidget(param->getWidget());
             _paramsVector.push_back(param);
         }
         else
         {
             QLabel* text = new QLabel(str, this);
-            text->setFont(QFont("Helvetica", -1, QFont::Bold));
             _paramLayout->addWidget(text);
         }
     }

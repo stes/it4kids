@@ -80,7 +80,7 @@ void WrapperDE::updateSize()
         innerElem = innerElem->getNextElem();
     }
 
-    _innerSpace->changeSize(15, qMax(height, 8)+22+4, QSizePolicy::Fixed, QSizePolicy::Fixed);
+    _innerSpace->changeSize(15, qMax(height, 12)+22+4, QSizePolicy::Fixed, QSizePolicy::Fixed);
     _layout->invalidate();
 }
 
@@ -112,6 +112,7 @@ void WrapperDE::resizeEvent(QResizeEvent* event)
     _path.lineTo(11, size.height());
     _path.lineTo(7, size.height()-4);
     _path.lineTo(0, size.height()-4);
+    _path.closeSubpath();
 }
 
 void WrapperDE::removeChildDragElems()

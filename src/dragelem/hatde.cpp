@@ -33,9 +33,8 @@ void HatDE::resizeEvent(QResizeEvent* event)
     QSize size = event->size();
 
     _path = QPainterPath();
-    _path.moveTo(30, 10);
-    _path.arcTo(0, 0, 60, 20, 180, -180);
     _path.moveTo(0, 10);
+    _path.arcTo(0, 0, 60, 20, 180, -180);
     _path.lineTo(size.width(), 10);
     _path.lineTo(size.width(), size.height()-4);
     _path.lineTo(25, size.height()-4);
@@ -43,6 +42,7 @@ void HatDE::resizeEvent(QResizeEvent* event)
     _path.lineTo(11, size.height());
     _path.lineTo(7, size.height()-4);
     _path.lineTo(0, size.height()-4);
+    _path.closeSubpath();
 }
 
 void HatDE::removeChildDragElems()

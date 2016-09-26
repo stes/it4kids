@@ -5,7 +5,7 @@
 ReporterDE::ReporterDE(const QString& identifier, const QString& text, const QColor& color, Sprite* sprite, QWidget* parent) :
      DraggableElement(identifier, text, color, sprite, parent)
 {
-    _paramLayout->setContentsMargins(8,3,8,3);
+    _paramLayout->setContentsMargins(8, 3, 8, 3);
     setLayout(_paramLayout);
 }
 
@@ -20,15 +20,11 @@ void ReporterDE::resizeEvent(QResizeEvent* event)
     QSize size = event->size();
 
     _path = QPainterPath();
-    _path.moveTo(5, size.height()/2);
-    _path.arcTo(0, 0, 10, size.height(), 90, 180);
-    _path.moveTo(size.width()-5, size.height()/2);
-    _path.arcTo(size.width()-10, 0, 10, size.height(), 270, 180);
-    _path.moveTo(5, 0);
-    _path.lineTo(size.width()-5, 0);
-    _path.lineTo(size.width()-5, size.height());
-    _path.lineTo(5, size.height());
-    _path.lineTo(5, 0);
+    _path.moveTo(size.height()/2, 0);
+    _path.arcTo(0, 0, size.height(), size.height(), 90, 180);
+    _path.lineTo(size.width() - size.height()/2, size.height());
+    _path.arcTo(size.width() - size.height(), 0, size.height(), size.height(), 270, 180);
+    _path.closeSubpath();
 }
 
 void ReporterDE::removeChildDragElems()

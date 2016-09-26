@@ -43,18 +43,13 @@ void ColorWidget::mouseReleaseEvent(QMouseEvent *)
 
 void ColorWidget::paintEvent(QPaintEvent *)
 {
-    QPainter painter(this);
-
-    // style(), width(), brush(), capStyle() and joinStyle().
-    QPen pen(_color, 0, Qt::SolidLine, Qt::SquareCap, Qt::RoundJoin);
-    painter.setPen(pen);
-
     // Brush
     QBrush brush;
     brush.setColor(_color);
     brush.setStyle(Qt::SolidPattern);
 
     // Draw polygon
+    QPainter painter(this);
     painter.fillRect(QRect(0, 0, 15, 15), brush);
     painter.setBackgroundMode(Qt::TransparentMode);
 }

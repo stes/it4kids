@@ -64,22 +64,28 @@ DragElemList QWidget#elemListWidget {
 	background-color: #e7e9e9;
 }
 
+DraggableElement QWidget {
+	font-weight: bold;
+}
 
 DraggableElement QLabel {
 	background-color: none;
 	color: #ffffff;
+	min-height: 16px;
+	max-height: 16px;
 }
+
 DraggableElement QComboBox {
-	min-height: 15px;
-	max-height: 15px;
-	font-family: "Courier";
-	font-size: 10px;
+	border-width: 2px;
+	min-height: 18px;
+	max-height: 18px;
 }
 
-NumberWidget {
-	border-radius: 6px;
+DraggableElement NumberWidget {
+	border-width: 2px;
+	border-style: solid;
+	border-radius: 10px;
 }
-
 
 SpriteSelect {
 	border: 1px solid #d0d1d2;

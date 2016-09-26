@@ -15,9 +15,8 @@ ParamNumber::ParamNumber(Sprite *sprite, DraggableElement *elemParent, QWidget* 
     //setInputMask("9999");
     _lineEdit = new NumberWidget(parent);
     _lineEdit->setValidator(new QDoubleValidator());
-    _lineEdit->setFixedSize(20, 15);
-    _lineEdit->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    _lineEdit->setFont(QFont("Courier", 7));
+    _lineEdit->setFixedSize(30, 20);
+    _lineEdit->setAlignment(Qt::AlignCenter);
     _dockWidget = new DockWrapperWidget(sprite, elemParent, _lineEdit, DraggableElement::Reporter);
 
 }
