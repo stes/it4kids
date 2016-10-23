@@ -15,5 +15,5 @@ install:
 
 script:
     - source /opt/qt55/bin/qt55-env.sh
-    - qmake "INCLUDEPATH += /usr/include/qt5" "LIBS += -lqt5scintilla2"
+    - cmake .
     - make
