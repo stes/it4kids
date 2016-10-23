@@ -23,6 +23,7 @@ find_package(PythonLibs 3 REQUIRED)
 
 include_directories(src)
 include_directories(${PYTHON_INCLUDE_DIRS})
+include_directories(${QSCINTILLA_INCLUDE_DIR})
 
 file(GLOB_RECURSE sources src/*.cpp src/*.h)
 
