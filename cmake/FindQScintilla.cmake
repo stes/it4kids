@@ -33,11 +33,11 @@ ELSE(EXISTS QSCINTILLA_VERSION_STR)
       /usr/include
     )
 
-  if(ENABLE_QT5)
+  if(Qt5Widgets_FOUND)
     set(QSCINTILLA_LIBRARY_NAMES qscintilla2-qt5 libqt5scintilla2 libqscintilla2-qt5 qt5scintilla2 libqscintilla2-qt5.dylib)
-  else(ENABLE_QT5)
+  else(Qt5Widgets_FOUND)
     set(QSCINTILLA_LIBRARY_NAMES qscintilla2 libqscintilla2 libqscintilla2.dylib)
-  endif(ENABLE_QT5)
+  endif(Qt5Widgets_FOUND)
 
   find_library(QSCINTILLA_LIBRARY
     NAMES ${QSCINTILLA_LIBRARY_NAMES}
