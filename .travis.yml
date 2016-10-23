@@ -3,7 +3,6 @@ sudo: required
 dist: trusty
 compiler:
 - gcc
-- clang
 os:
   - linux
 
@@ -15,5 +14,5 @@ install:
 
 script:
     - source /opt/qt55/bin/qt55-env.sh
-    - cmake . -L
+    - cmake . -DQSCINTILLA_INCLUDE_DIR:PATH=/usr/include/qt5
     - make
