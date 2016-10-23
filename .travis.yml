@@ -11,8 +11,10 @@ install:
   - sudo apt-get -qq update
   - sudo apt-get install -y libqt5scintilla2-dev
   - sudo apt-get -qq install qt55base qt55connectivity qt55declarative qt55doc qt55graphicaleffects qt55imageformats qt55location qt55multimedia qt55quick1 qt55quickcontrols qt55script qt55sensors qt55serialport qt55svg qt55tools qt55translations qt55webchannel qt55webengine qt55webkit-examples qt55websockets qt55x11extras qt55xmlpatterns
+  - source /opt/qt55/bin/qt55-env.sh
+  - sudo ln -s /usr/include/qt5/Qsci $QT_BASE_DIR/include/Qsci
 
 script:
     - source /opt/qt55/bin/qt55-env.sh
-    - cmake . -DQSCINTILLA_INCLUDE_DIR:PATH=/usr/include/qt5
+    - cmake .
     - make
