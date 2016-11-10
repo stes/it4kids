@@ -1,6 +1,6 @@
-# IT4Kids Code Editor und Kurshandbuch
+# IT4Kids Code Editor
 
-[![master](https://travis-ci.org/stes/it4kids.svg?branch=master)](https://travis-ci.org/stes/it4kids)
+[![Build Status](https://travis-ci.org/IT4Kids/it4kids.svg?branch=master)](https://travis-ci.org/IT4Kids/it4kids)
 
 Du hast gerade das Repo von **IT4Kids** gefunden!
 
@@ -25,7 +25,8 @@ Bevor das Programm erstellt werden kann, müssen folgende Abhängigkeiten erfül
 
 - python>=3.3
 - pyglet
-- Qt>=5.4
+- Qt>=5.5
+- QScintilla2
 
 Für den Buildprozess muss zusätzlich **qmake** installiert sein.
 
@@ -50,22 +51,6 @@ ausgeführt werden.
 ### Aktueller Stand
 
 Aktuell befindet sich der Editor in aktiver Entwicklung. Eine erste Alpha Version wird voraussichtlich im Januar 2016 erscheinen.
-
-|    Build Status der einzelnen Zweige                                                                                ||
-|-------|--------------------------------------------------------------------------------------------------------------|
-|master | [![master](https://travis-ci.org/stes/it4kids.svg?branch=master)](https://travis-ci.org/stes/it4kids)        |
-|pyglet | [![dev-pyglet](https://travis-ci.org/stes/it4kids.svg?branch=dev-pyglet)](https://travis-ci.org/stes/it4kids)|
-|GUI    | [![GUI](https://travis-ci.org/stes/it4kids.svg?branch=GUI)](https://travis-ci.org/stes/it4kids)       |
-|devKM  | [![devKM](https://travis-ci.org/stes/it4kids.svg?branch=devKM)](https://travis-ci.org/stes/it4kids)       |
-
-## Das IT4Kids Lehrkonzept
-
-Unser Lehrkonzept ist unser der Creative Commons Lizenz verfügbar und findet sich hier im Repository im Ordner
-```
-docs
-```
-
-Das Material wird [auf unserer Homepage](www.it-for-kids.org/projects) gesammelt. Auf dieser Grundlage wird in regelmäßigen Abständen der Inhalt im Repo aktualisiert. Wir arbeiten an einer Synchronisation zwischen dem Inhalt auf unserer Homepage, unserem Repository und dem [deutschsprachigen Scratch-Wiki](http://scratch-dach.info/wiki/Kategorie:IT4Kids_Projektsammlung).
 
 ## Kontakt
 
