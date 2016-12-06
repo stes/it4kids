@@ -30,6 +30,8 @@ public:
     virtual QString getValue() const = 0;
     virtual bool setValue(const QString&) { return 0; }
 
+    virtual void addOption(const QString &) { }
+
     virtual Type getType() const = 0;
     virtual QWidget* getWidget() = 0;
 

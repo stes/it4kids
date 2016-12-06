@@ -28,7 +28,6 @@ public:
     explicit MainWindow(QWidget *parent = 0);
 
     const SpriteVector* getSpriteVector();
-    void addSprite(Sprite *sprite);
     Sprite* getCurrentSprite() { return _currentSprite; }
     Sprite* getBackgroundSprite() { return _backgroundSprite; }
 
@@ -73,7 +72,6 @@ private slots:
 
 private:
     void InitializeDragElem(const QString& path);
-    DragElemCategory* getCategoryByName(const QString& name);
     void cleanTempDir();
 
     Ui::MainWindow *ui;
@@ -81,6 +79,8 @@ private:
 #ifdef CONF_CODE_EDITOR
     class QsciScintilla *_codeEditor;
 #endif
+
+    class SpriteModel *_spriteModel;
 
     Sprite* _currentSprite;
     Sprite* _backgroundSprite;

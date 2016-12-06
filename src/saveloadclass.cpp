@@ -6,9 +6,9 @@
 
 #include "costume/costume.h"
 #include "dragelem/draggableelement.h"
+#include "model/spritemodel.h"
 #include "param/param.h"
 #include "sprite.h"
-#include "spriteselect.h"
 
 DraggableElement* SaveLoadClass::createElement(const QString &ident, Sprite *sprite)
 {
@@ -29,7 +29,7 @@ void SaveLoadClass::registerElement(DraggableElement* element)
 	_LoadableElems.push_back(element);
 }
 
-bool SaveLoadClass::loadScratch(const QString &path, SpriteSelect *spriteSelect)
+bool SaveLoadClass::loadScratch(const QString &path, SpriteModel *spriteModel)
 {
     QFile loadFile(path);
     if (!loadFile.open(QIODevice::ReadOnly))
@@ -48,7 +48,7 @@ bool SaveLoadClass::loadScratch(const QString &path, SpriteSelect *spriteSelect)
     }
 
     // clear the vector
-    spriteSelect->clear();
+    spriteModel->clear();
 
     //get main object
     QJsonArray Main = JDoc.array();
@@ -69,7 +69,7 @@ bool SaveLoadClass::loadScratch(const QString &path, SpriteSelect *spriteSelect)
             costume->open("Assets/Costumes/dog2-a.png");
             costume->hide();
             sprite->setCurrentCostume(costume);
-            spriteSelect->addSprite(sprite);
+            spriteModel->addSprite(sprite);
         }
     }
 
@@ -147,12 +147,12 @@ DraggableElement* SaveLoadClass::handleBlockTuple(const QJsonArray &a, class Spr
     return ele;
 }
 
-bool SaveLoadClass::saveScratch(const QString &path, const SpriteSelect *spriteSelect)
+bool SaveLoadClass::saveScratch(const QString &path, const SpriteModel *spriteModel)
 {
     QJsonArray Main;
 
     //every sprite
-    const SpriteVector *spriteVec = spriteSelect->getSpriteVector();
+    const SpriteVector *spriteVec = spriteModel->getSpriteVector();
     for(SpriteVector::const_iterator it = spriteVec->begin(); it != spriteVec->end(); it++)
     {
         QJsonObject Sprite;

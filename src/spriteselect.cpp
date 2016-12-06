@@ -1,29 +1,27 @@
 #include "spriteselect.h"
 
+#include "model/spritemodel.h"
 #include "sprite.h"
 
-SpriteSelect::SpriteSelect(QWidget *parent) : QWidget(parent)
+SpriteSelect::SpriteSelect(QWidget *parent) : QWidget(parent), _spriteModel(0)
 {
     setLayout(&_layout);
     show();
 }
 
-void SpriteSelect::showEvent(QShowEvent*)
+void SpriteSelect::setSpriteModel(const SpriteModel *model)
 {
-    int i = 0;
-    for(SpriteVector::const_iterator it = _spriteVector.begin(); it != _spriteVector.end(); ++it)
-    {
-        _layout.addWidget(*it, i/4, i % 4, Qt::AlignLeft | Qt::AlignTop);
-        ++i;
-    }
+    _spriteModel = model;
+    connect(_spriteModel, SIGNAL(updateSprites()), this, SLOT(updateSprites()));
 }
 
-void SpriteSelect::clear()
+void SpriteSelect::updateSprites()
 {
-    while (!_spriteVector.empty())
+    int i = 0;
+    for(SpriteVector::const_iterator it = _spriteModel->getSpriteVector()->begin(); it != _spriteModel->getSpriteVector()->end(); it++)
     {
-        delete _spriteVector.back();
-        _spriteVector.pop_back();
+        _layout.addWidget(*it, i/4, i % 4, Qt::AlignLeft | Qt::AlignTop);
+        i++;
     }
 }
 

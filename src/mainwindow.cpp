@@ -18,7 +18,9 @@
 
 #include "costume/costume.h"
 #include "dragelem/dragelemcategory.h"
+#include "model/spritemodel.h"
 #include "param/param.h"
+#include "param/paramcombobox.h"
 #include "teacher/student.h"
 #include "teacher/teacher.h"
 #include "sprite.h"
@@ -29,12 +31,7 @@ MainWindow* sMainWindow = 0;
 
 const SpriteVector* MainWindow::getSpriteVector()
 {
-    return ui->spriteSelect->getSpriteVector();
-}
-
-void MainWindow::addSprite(Sprite *sprite)
-{
-    return ui->spriteSelect->addSprite(sprite);
+    return _spriteModel->getSpriteVector();
 }
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -90,6 +87,9 @@ MainWindow::MainWindow(QWidget *parent) :
     _codeEditor->setLexer(&lexer);
 #endif
 
+    _spriteModel = new SpriteModel(this);
+    ui->spriteSelect->setSpriteModel(_spriteModel);
+
     connect(this, SIGNAL(currentSpriteChanged(Sprite*)), &_audioEngine, SLOT(setCurrentSprite(Sprite*)));
 
     Sprite* sprite = new Sprite("sprite", this);
@@ -98,7 +98,7 @@ MainWindow::MainWindow(QWidget *parent) :
     costume->hide();
     sprite->setCurrentCostume(costume);
 
-    ui->spriteSelect->addSprite(sprite);
+    _spriteModel->addSprite(sprite);
     _currentSprite = sprite;
     emit changeCurrentSprite(sprite);
 
@@ -127,25 +127,34 @@ void MainWindow::InitializeDragElem(const QString& path)
     QString xml = QLatin1String(styleSheet.readAll());
 
     QXmlStreamReader xmlReader(xml);
-    QXmlStreamAttributes attributes;
 
+    DragElemCategory* lastCategory = 0;
     DraggableElement* lastElement = 0;
+    int lastParam = -1;
 
-    uint paramIndex = 0;
     while(!xmlReader.atEnd())
     {
         if(xmlReader.readNext() == QXmlStreamReader::StartElement)
         {
             QString type = xmlReader.name().toString();
-            if(type == QLatin1String("dragableelement"))
+            if(type == QLatin1String("dragelemcategory"))
             {
-                paramIndex = 0;
-                attributes = xmlReader.attributes();
-                DragElemCategory* category = getCategoryByName(attributes.value(QLatin1String("category")).toString());
+                lastElement = 0;
+                lastParam = -1;
+                QXmlStreamAttributes attributes = xmlReader.attributes();
+                QString name = attributes.value(QLatin1String("name")).toString();
+                QColor color = QColor(attributes.value(QLatin1String("color")).toString());
+                lastCategory = new DragElemCategory(ui->elementList, name, color, this);
+                ui->categorySelect->getCategoryList()->push_back(lastCategory);
+            }
+            else if(lastCategory && type == QLatin1String("dragableelement"))
+            {
+                lastParam = -1;
+                QXmlStreamAttributes attributes = xmlReader.attributes();
                 QString type = attributes.value(QLatin1String("type")).toString();
                 QString name = attributes.value(QLatin1String("name")).toString();
                 QString spec = attributes.value(QLatin1String("spec")).toString();
-                QColor color = category->getColor();
+                QColor color = lastCategory->getColor();
 
                 if(!_Cgen.supported(name))
                     color = QColor();
@@ -155,25 +164,33 @@ void MainWindow::InitializeDragElem(const QString& path)
                     continue;
 
                 lastElement->makeStatic();
-                category->getElemList()->push_back(lastElement);
+                lastCategory->getElemList()->push_back(lastElement);
                 _slc.registerElement(lastElement);
             }
             else if(lastElement && type == QLatin1String("parameter"))
             {
-                attributes = xmlReader.attributes();
-                QString def = attributes.value(QLatin1String("default")).toString();
-                const std::vector<ParamBase*> *vec = lastElement->getParamsVector();
-                while(paramIndex < vec->size() && !vec->at(paramIndex)->setValue(def))
-                    paramIndex++;
-                paramIndex++;
+                lastParam++;
+                ParamBase *param = lastElement->getParamsVector()->at(lastParam);
+                if(param)
+                {
+                    QXmlStreamAttributes attributes = xmlReader.attributes();
+                    QString defaultVal = attributes.value(QLatin1String("default")).toString();
+                    QString model = attributes.value(QLatin1String("model")).toString();
+                    if(!defaultVal.isEmpty())
+                        param->setValue(defaultVal);
+                    if(model == QLatin1String("sprite"))
+                    {
+                        ((ParamComboBox*)param)->setModel(_spriteModel);
+                    }
+                }
             }
-            else if(type == QLatin1String("dragelemcategory"))
+            else if(lastParam >= 0 && type == QLatin1String("option"))
             {
-                attributes = xmlReader.attributes();
-                QString name = attributes.value(QLatin1String("name")).toString();
-                QColor color = QColor(attributes.value(QLatin1String("color")).toString());
-                DragElemCategory* category = new DragElemCategory(ui->elementList, name, color, this);
-                ui->categorySelect->getCategoryList()->push_back(category);
+                ParamBase *param = lastElement->getParamsVector()->at(lastParam);
+                QXmlStreamAttributes attributes = xmlReader.attributes();
+                QString value = attributes.value(QLatin1String("value")).toString();
+                if(!value.isEmpty())
+                    param->addOption(value);
             }
         }
     }
@@ -240,17 +257,6 @@ void MainWindow::reloadCodeSprite(Sprite *sprite)
     _pyController.loadEntity(name.toLatin1().data(), sprite->getName().toLatin1().data(), code.toLatin1().data());
 }
 
-DragElemCategory* MainWindow::getCategoryByName(const QString& name)
-{
-    CategoryList *list = ui->categorySelect->getCategoryList();
-    for(CategoryList::const_iterator category = list->begin(); category != list->end(); category++)
-    {
-        if((*category)->getName() == name)
-            return *category;
-    }
-    return 0;
-}
-
 void MainWindow::cleanTempDir()
 {
     QStringList tmpFiles = _tmpDir.entryList(QDir::Files);
@@ -310,7 +316,7 @@ void MainWindow::on_buttonScriptStop_clicked()
 
 void MainWindow::on_buttonAddDragElem_clicked()
 {
-    const QString dir;
+    /*const QString dir;
     const QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Open XML file"), dir, "*.xml");
     if (fileNames.count())
     {
@@ -334,7 +340,7 @@ void MainWindow::on_buttonAddDragElem_clicked()
             }
         }
         setCurrentStudent(true);
-    }
+    }*/
 }
 
 void MainWindow::on_spriteFromFile_clicked()
@@ -349,7 +355,7 @@ void MainWindow::on_spriteFromFile_clicked()
     if (fileNames.count())
     {
         Sprite* sprite = new Sprite(name, this);
-        ui->spriteSelect->addSprite(sprite);
+        _spriteModel->addSprite(sprite);
 
         Costume* costume = new Costume(sprite);
         costume->open(fileNames.front(), true);
@@ -432,7 +438,7 @@ void MainWindow::on_actionOpen_triggered()
     // TODO
     ui->scriptArea->setCurrentSprite(0);
     _pyController.resetApp();
-    if(_slc.loadScratch(_appDir.filePath(file), ui->spriteSelect))
+    if(_slc.loadScratch(_appDir.filePath(file), _spriteModel))
     {
         _currentSprite = getSpriteVector()->at(0);
         emit changeCurrentSprite(_currentSprite);
@@ -447,7 +453,7 @@ void MainWindow::on_actionOpen_triggered()
 void MainWindow::on_actionSave_triggered()
 {
     QString file = QStringLiteral("project.json");
-    _slc.saveScratch(_appDir.filePath(file), ui->spriteSelect);
+    _slc.saveScratch(_appDir.filePath(file), _spriteModel);
 
     qInfo() << "saved file:" << file;
 }

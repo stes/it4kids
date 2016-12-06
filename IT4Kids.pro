@@ -36,28 +36,10 @@ SOURCES += src/main.cpp\
     src/dockingarea.cpp \
     src/spriteselect.cpp \
     src/sprite.cpp \
-    src/param/paramclone.cpp \
     src/param/paramcolor.cpp \
-    src/param/paramcostume.cpp \
-    src/param/paramdelim.cpp \
-    src/param/paramdestination.cpp \
-    src/param/paramdirection.cpp \
     src/param/paramdock.cpp \
-    src/param/parameffect.cpp \
-    src/param/paraminteraction.cpp \
-    src/param/paramjoinwords.cpp \
-    src/param/paramkey.cpp \
-    src/param/paramlistid.cpp \
-    src/param/paramlistselec.cpp \
-    src/param/parammath.cpp \
-    src/param/parammessage.cpp \
     src/param/paramnumber.cpp \
-    src/param/paramsound.cpp \
-    src/param/paramstopchoices.cpp \
     src/param/paramstring.cpp \
-    src/param/paramtouch.cpp \
-    src/param/paramtype.cpp \
-    src/param/paramvariables.cpp \
     src/audio/audioengine.cpp \
     src/audio/wavfile.cpp \
     src/audio/soundselect.cpp \
@@ -83,7 +65,8 @@ SOURCES += src/main.cpp\
     src/pythoncontroller.cpp \
     src/param/paramcombobox.cpp \
     src/param/param.cpp \
-    src/param/parampredicate.cpp
+    src/param/parampredicate.cpp \
+    src/model/spritemodel.cpp
 
 HEADERS  += src/mainwindow.h \
     src/scene.h \
@@ -93,28 +76,10 @@ HEADERS  += src/mainwindow.h \
     src/spriteselect.h \
     src/sprite.h \
     src/param/param.h \
-    src/param/paramclone.h \
     src/param/paramcolor.h \
-    src/param/paramcostume.h \
-    src/param/paramdelim.h \
-    src/param/paramdestination.h \
-    src/param/paramdirection.h \
     src/param/paramdock.h \
-    src/param/parameffect.h \
-    src/param/paraminteraction.h \
-    src/param/paramjoinwords.h \
-    src/param/paramkey.h \
-    src/param/paramlistid.h \
-    src/param/paramlistselec.h \
-    src/param/parammath.h \
-    src/param/parammessage.h \
     src/param/paramnumber.h \
-    src/param/paramsound.h \
-    src/param/paramstopchoices.h \
     src/param/paramstring.h \
-    src/param/paramtouch.h \
-    src/param/paramtype.h \
-    src/param/paramvariables.h \
     src/audio/audioengine.h \
     src/audio/wavfile.h \
     src/audio/soundselect.h \
@@ -139,7 +104,8 @@ HEADERS  += src/mainwindow.h \
     src/teacherlogin.h \
     src/pythoncontroller.h \
     src/param/paramcombobox.h \
-    src/param/parampredicate.h
+    src/param/parampredicate.h \
+    src/model/spritemodel.h
 
 FORMS    += src/mainwindow.ui \
     src/newspritename.ui \

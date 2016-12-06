@@ -12,6 +12,9 @@ public:
     bool setValue(const QString &);
     QWidget* getWidget();
 
+    void addOption(const QString &text);
+    void setModel(class QAbstractItemModel *model);
+
 protected:
     QString getString() const;
 

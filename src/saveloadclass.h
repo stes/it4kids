@@ -6,7 +6,7 @@
 
 class DraggableElement;
 class Sprite;
-class SpriteSelect;
+class SpriteModel;
 class QWidget;
 
 class SaveLoadClass
@@ -16,8 +16,8 @@ class SaveLoadClass
 
 public:
     SaveLoadClass(QWidget *elemParent) : _elemParent(elemParent) { }
-    bool loadScratch(const QString &path, SpriteSelect *spriteSelect);
-    bool saveScratch(const QString &path, const SpriteSelect *spriteSelect);
+    bool loadScratch(const QString &path, SpriteModel *spriteModel);
+    bool saveScratch(const QString &path, const SpriteModel *spriteModel);
 
 	void registerElement(DraggableElement* element);
 

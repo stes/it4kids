@@ -22,6 +22,16 @@ QWidget* ParamComboBox::getWidget()
     return _comboBox;
 };
 
+void ParamComboBox::addOption(const QString &text)
+{
+    _comboBox->addItem(text);
+}
+
+void ParamComboBox::setModel(QAbstractItemModel *model)
+{
+    _comboBox->setModel(model);
+}
+
 ParamComboBox::~ParamComboBox()
 {
 }
