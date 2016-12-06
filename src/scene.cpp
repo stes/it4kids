@@ -1,3 +1,4 @@
+#include <QMenu>
 #include <QTimer>
 
 #include "scene.h"
@@ -57,4 +58,11 @@ void Scene::mouseMoveEvent(QMouseEvent* event)
 
     _prevMouseX = event->x();
     _prevMouseY = height() - event->y();
+}
+
+void Scene::contextMenuEvent(QContextMenuEvent *event)
+{
+    QMenu myMenu(this);
+    myMenu.addAction(tr("save picture of stage"));
+    myMenu.exec(event->globalPos());
 }

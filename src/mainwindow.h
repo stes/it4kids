@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QMenu>
 
 #include "audio/audioengine.h"
 #include "codegenerator.h"
@@ -55,8 +54,6 @@ signals:
 private slots:
     void on_soundFromFile_clicked();
     void on_costumeFromFile_clicked();
-    void on_buttonFile_clicked();
-    void on_buttonEdit_clicked();
     void on_buttonAddDragElem_clicked();
     void on_spriteFromFile_clicked();
 
@@ -65,21 +62,14 @@ private slots:
 
     void on_logInTeacher_clicked();
 
-    void on_scriptArea_customContextMenuRequested(const QPoint &pos);
-    void on_listAddDragElem_customContextMenuRequested(const QPoint &pos);
-
     void changeCurrentSprite(Sprite* sprite);
-    void eraseItemAddDragElem();
     void setCurrentCostume(Costume* costume);
     void setCurrentStudent(bool);
-    void dragElemContextMenuRequested(const QPoint &pos, DraggableElement* elem);
-    void spriteContextMenuRequested(const QPoint &pos, Sprite* sprite);
-    void on_scene_customContextMenuRequested(const QPoint &pos);
 
-    void loadFromFile();
-    void saveToFile();
-
-    void exportAsPython();
+    void on_actionNew_triggered();
+    void on_actionOpen_triggered();
+    void on_actionSave_triggered();
+    void on_actionPython_triggered();
 
 private:
     void InitializeDragElem(const QString& path);
@@ -94,9 +84,6 @@ private:
 
     Sprite* _currentSprite;
     Sprite* _backgroundSprite;
-
-    QMenu _fileMenu;
-    QMenu _editMenu;
 
     bool _loading;
 

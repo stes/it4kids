@@ -1,4 +1,5 @@
 #include <QLabel>
+#include <QMenu>
 #include <QPainter>
 #include <QStyleOption>
 
@@ -26,9 +27,6 @@ Sprite::Sprite(const QString &name, QWidget* parent) : QWidget(parent),
     _label.setAlignment(Qt::AlignHCenter);
 
     _label.setText(_name);
-    setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextMenuRequested(QPoint)));
-    connect(this, SIGNAL(spriteContextMenuRequested(QPoint,Sprite*)), sMainWindow, SLOT(spriteContextMenuRequested(QPoint,Sprite*)));
 }
 
 Sprite::Sprite(QWidget* parent) : QWidget(parent)
@@ -100,14 +98,20 @@ void Sprite::OverrideParents()
         (*it)->setParent(this);
 }
 
-void Sprite::contextMenuRequested(const QPoint &pos)
-{
-    emit spriteContextMenuRequested(pos, this);
-}
-
 void Sprite::mousePressEvent(QMouseEvent*)
 {
     emit spriteSelected(this);
+}
+
+void Sprite::contextMenuEvent(QContextMenuEvent *event)
+{
+    QMenu myMenu(this);
+    myMenu.addAction(tr("info"));
+    myMenu.addAction(tr("duplicate"));
+    myMenu.addAction(tr("delete"));
+    myMenu.addAction(tr("save to local file"));
+    myMenu.addAction(tr("hide"));
+    myMenu.exec(event->globalPos());
 }
 
 Sprite::~Sprite()

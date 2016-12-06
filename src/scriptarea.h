@@ -34,6 +34,7 @@ protected:
     virtual void hideEvent(QHideEvent*);
     virtual void showEvent(QShowEvent*);
     void paintEvent(QPaintEvent* event);
+    void contextMenuEvent(QContextMenuEvent*);
 };
 
 #endif // SCRIPTAREA_H

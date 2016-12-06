@@ -2,6 +2,13 @@ QMainWindow#MainWindow {
 	background-color: #ffffff;
 }
 
+QMenuBar
+{
+	color: #ffffff;
+	background-color: #9c9ea2;
+	font-weight: bold;
+}
+
 QMenu
 {
 	color: #ffffff;

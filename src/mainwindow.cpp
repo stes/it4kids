@@ -2,8 +2,6 @@
 #include <QFileDialog>
 #include <QFont>
 #include <QFontMetrics>
-#include <QListWidgetItem>
-#include <QPainterPath>
 #include <QRadioButton>
 #include <QXmlStreamReader>
 #include <QStandardPaths>
@@ -42,8 +40,6 @@ void MainWindow::addSprite(Sprite *sprite)
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    _fileMenu(this),
-    _editMenu(this),
     _audioEngine(this),
 	_slc(this),
     _appDir(QStandardPaths::writableLocation(QStandardPaths::AppDataLocation)) // TODO: make configurable
@@ -118,18 +114,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(this, SIGNAL(newSound()), ui->soundSelect, SLOT(updateSoundList()));
     connect(this, SIGNAL(newCostume()), ui->costumeSelect, SLOT(updateCostumeList()));
-
-    _fileMenu.addAction(tr("New"));
-    _fileMenu.addAction(tr("Open"), this, SLOT(loadFromFile()));
-    _fileMenu.addAction(tr("Save"), this, SLOT(saveToFile()));
-    QMenu *exportMenu = _fileMenu.addMenu(tr("Export"));
-    _fileMenu.addAction(tr("Reset"));
-
-    exportMenu->addAction(tr("Python"), this, SLOT(exportAsPython()));
-
-    _editMenu.addAction(tr("Undelete"));
-    _editMenu.addAction(tr("Small stage layout"));
-    _editMenu.addAction(tr("Turbo mode"));
 
     _loading = false;
 
@@ -287,71 +271,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::loadFromFile()
-{
-    QString file = QStringLiteral("project.json");
-    _loading = true;
-    // TODO
-    ui->scriptArea->setCurrentSprite(0);
-    _pyController.resetApp();
-    if(_slc.loadScratch(_appDir.filePath(file), ui->spriteSelect))
-    {
-        _currentSprite = getSpriteVector()->at(0);
-        emit changeCurrentSprite(_currentSprite);
-    }
-
-    _loading = false;
-    reloadCodeAll();
-
-    qInfo() << "loaded file:" << file;
-}
-
-void MainWindow::saveToFile()
-{
-    QString file = QStringLiteral("project.json");
-    _slc.saveScratch(_appDir.filePath(file), ui->spriteSelect);
-
-    qInfo() << "saved file:" << file;
-}
-
-void MainWindow::exportAsPython()
-{
-    _appDir.mkdir("out");
-    QDir out(_appDir.filePath("out"));
-
-    // code
-    _Cgen.generateAllFiles(out, getBackgroundSprite(), getSpriteVector());
-
-    // lib
-    out.mkdir("it4k");
-    QDir libDst(out.filePath("it4k"));
-    QDir libSrc("python/it4k");
-
-    QStringList libFiles = libSrc.entryList(QDir::Files);
-    for (QStringList::const_iterator it = libFiles.constBegin(); it != libFiles.constEnd(); it++)
-    {
-        QString file = (*it);
-        QFile::copy(libSrc.filePath(file), libDst.filePath(file));
-    }
-
-    // media
-    out.mkdir("media");
-    QDir media(out.filePath("media"));
-
-    const CostumeVector *cVec = getBackgroundSprite()->getCostumeVector();
-    for (CostumeVector::const_iterator cIt = cVec->begin(); cIt != cVec->end(); cIt++)
-        (*cIt)->exportFile(media);
-
-    for (SpriteVector::const_iterator spIt = getSpriteVector()->begin(); spIt != getSpriteVector()->end(); spIt++)
-    {
-        const CostumeVector *cVec = (*spIt)->getCostumeVector();
-        for (CostumeVector::const_iterator cIt = cVec->begin(); cIt != cVec->end(); cIt++)
-            (*cIt)->exportFile(media);
-    }
-
-    qInfo() << "exported python app:" << out.absolutePath();
-}
-
 void MainWindow::on_soundFromFile_clicked()
 {
     const QString dir;
@@ -375,16 +294,6 @@ void MainWindow::on_costumeFromFile_clicked()
         emit newCostume();
         reloadCodeSprite(_currentSprite);
     }
-}
-
-void MainWindow::on_buttonFile_clicked()
-{
-    _fileMenu.popup(ui->buttonFile->pos()+QPoint(0, 23));
-}
-
-void MainWindow::on_buttonEdit_clicked()
-{
-    _editMenu.popup(ui->buttonEdit->pos()+QPoint(0, 23));
 }
 
 void MainWindow::on_buttonScriptStart_clicked()
@@ -478,27 +387,6 @@ void MainWindow::on_logInTeacher_clicked()
                                      QString::number(currentOnline), QString::number(_currentTeacher->getStudentVector()->size())));
 }
 
-void MainWindow::on_scriptArea_customContextMenuRequested(const QPoint &pos)
-{
-    QPoint globalPos = ui->scriptArea->mapToGlobal(pos);
-
-    QMenu myMenu;
-    myMenu.addAction(tr("clean up"));
-    myMenu.addAction(tr("add comment"));
-
-    myMenu.exec(globalPos);
-}
-
-void MainWindow::on_listAddDragElem_customContextMenuRequested(const QPoint &pos)
-{
-    QPoint globalPos = ui->listAddDragElem->mapToGlobal(pos);
-
-    QMenu myMenu;
-    myMenu.addAction(tr("delete"), this, SLOT(eraseItemAddDragElem()));
-
-    myMenu.exec(globalPos);
-}
-
 void MainWindow::changeCurrentSprite(Sprite *sprite)
 {
     _currentSprite = sprite;
@@ -507,12 +395,6 @@ void MainWindow::changeCurrentSprite(Sprite *sprite)
     _codeEditor->setText(_Cgen.generateSprite(sprite));
 #endif
     emit currentSpriteChanged(sprite);
-}
-
-
-void MainWindow::eraseItemAddDragElem()
-{
-    qDeleteAll(ui->listAddDragElem->selectedItems());
 }
 
 void MainWindow::setCurrentCostume(Costume *costume)
@@ -539,51 +421,71 @@ void MainWindow::setCurrentStudent(bool)
     emit currentStudentChanged(student);
 }
 
-void MainWindow::dragElemContextMenuRequested(const QPoint &pos, DraggableElement *elem)
+void MainWindow::on_actionNew_triggered()
 {
-    if(!elem->isStatic())
-    {
-        QPoint globalPos = elem->mapToGlobal(pos);
-
-        QMenu myMenu;
-        myMenu.addAction(tr("duplicate"));
-        myMenu.addAction(tr("delete"));
-        myMenu.addAction(tr("add comment"));
-        myMenu.addAction(tr("help"));
-
-        myMenu.exec(globalPos);
-    }
-    else
-    {
-        QPoint globalPos = elem->mapToGlobal(pos);
-
-        QMenu myMenu;
-        myMenu.addAction(tr("help"));
-
-        myMenu.exec(globalPos);
-    }
 }
 
-void MainWindow::spriteContextMenuRequested(const QPoint &pos, Sprite *sprite)
+void MainWindow::on_actionOpen_triggered()
 {
-    QPoint globalPos = sprite->mapToGlobal(pos);
+    QString file = QStringLiteral("project.json");
+    _loading = true;
+    // TODO
+    ui->scriptArea->setCurrentSprite(0);
+    _pyController.resetApp();
+    if(_slc.loadScratch(_appDir.filePath(file), ui->spriteSelect))
+    {
+        _currentSprite = getSpriteVector()->at(0);
+        emit changeCurrentSprite(_currentSprite);
+    }
 
-    QMenu myMenu;
-    myMenu.addAction(tr("info"));
-    myMenu.addAction(tr("duplicate"));
-    myMenu.addAction(tr("delete"));
-    myMenu.addAction(tr("save to local file"));
-    myMenu.addAction(tr("hide"));
+    _loading = false;
+    reloadCodeAll();
 
-    myMenu.exec(globalPos);
+    qInfo() << "loaded file:" << file;
 }
 
-void MainWindow::on_scene_customContextMenuRequested(const QPoint &pos)
+void MainWindow::on_actionSave_triggered()
 {
-    QPoint globalPos = ui->scene->mapToGlobal(pos);
+    QString file = QStringLiteral("project.json");
+    _slc.saveScratch(_appDir.filePath(file), ui->spriteSelect);
 
-    QMenu myMenu;
-    myMenu.addAction(tr("save picture of stage"));
+    qInfo() << "saved file:" << file;
+}
 
-    myMenu.exec(globalPos);
+void MainWindow::on_actionPython_triggered()
+{
+    _appDir.mkdir("out");
+    QDir out(_appDir.filePath("out"));
+
+    // code
+    _Cgen.generateAllFiles(out, getBackgroundSprite(), getSpriteVector());
+
+    // lib
+    out.mkdir("it4k");
+    QDir libDst(out.filePath("it4k"));
+    QDir libSrc("python/it4k");
+
+    QStringList libFiles = libSrc.entryList(QDir::Files);
+    for (QStringList::const_iterator it = libFiles.constBegin(); it != libFiles.constEnd(); it++)
+    {
+        QString file = (*it);
+        QFile::copy(libSrc.filePath(file), libDst.filePath(file));
+    }
+
+    // media
+    out.mkdir("media");
+    QDir media(out.filePath("media"));
+
+    const CostumeVector *cVec = getBackgroundSprite()->getCostumeVector();
+    for (CostumeVector::const_iterator cIt = cVec->begin(); cIt != cVec->end(); cIt++)
+        (*cIt)->exportFile(media);
+
+    for (SpriteVector::const_iterator spIt = getSpriteVector()->begin(); spIt != getSpriteVector()->end(); spIt++)
+    {
+        const CostumeVector *cVec = (*spIt)->getCostumeVector();
+        for (CostumeVector::const_iterator cIt = cVec->begin(); cIt != cVec->end(); cIt++)
+            (*cIt)->exportFile(media);
+    }
+
+    qInfo() << "exported python app:" << out.absolutePath();
 }

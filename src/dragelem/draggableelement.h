@@ -78,11 +78,6 @@ public:
 
     virtual ScriptDock *getDock(ScriptDock::Type) { return 0; }
 
-signals:
-    void dragElemContextMenuRequested(const QPoint& pos, DraggableElement* elem);
-public slots:
-    void contextMenuRequested(const QPoint& pos);
-
 protected:
     QColor _color;
     QString _text;
@@ -109,6 +104,8 @@ protected:
     virtual void paintEvent(QPaintEvent*);
     virtual void moveEvent(QMoveEvent*) { updateDocks(); }
     virtual void resizeEvent(QResizeEvent*);
+    virtual void contextMenuEvent(QContextMenuEvent*);
+
 
     void parseText(const QString& text);
 };

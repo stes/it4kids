@@ -28,6 +28,7 @@ public:
     void mousePressEvent(QMouseEvent* event);
     void mouseReleaseEvent(QMouseEvent* event);
     void mouseMoveEvent(QMouseEvent* event);
+    void contextMenuEvent(QContextMenuEvent*);
 };
 
 #endif // SCENE_H

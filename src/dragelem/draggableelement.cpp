@@ -1,3 +1,4 @@
+#include <QMenu>
 #include <QPainter>
 
 #include "draggableelement.h"
@@ -52,9 +53,6 @@ DraggableElement::DraggableElement(const QString& identifier, const QString& tex
     _paramLayout->setAlignment(Qt::AlignVCenter | Qt::AlignLeft);
 
     hide();
-    setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(contextMenuRequested(QPoint)));
-    connect(this, SIGNAL(dragElemContextMenuRequested(QPoint,DraggableElement*)), sMainWindow, SLOT(dragElemContextMenuRequested(QPoint,DraggableElement*)));
 
     if(_sprite)
         _sprite->addElement(this);
@@ -166,6 +164,23 @@ void DraggableElement::resizeEvent(QResizeEvent* event)
         outer->updateSize();
 }
 
+void DraggableElement::contextMenuEvent(QContextMenuEvent *event)
+{
+    QMenu myMenu(this);
+    if(!isStatic())
+    {
+        myMenu.addAction(tr("duplicate"));
+        myMenu.addAction(tr("delete"));
+        myMenu.addAction(tr("add comment"));
+        myMenu.addAction(tr("help"));
+    }
+    else
+    {
+        myMenu.addAction(tr("help"));
+    }
+    myMenu.exec(event->globalPos());
+}
+
 void DraggableElement::parseText(const QString &text)
 {
     QStringList stringList = text.split(' ', QString::SkipEmptyParts);
@@ -198,11 +213,6 @@ void DraggableElement::parseText(const QString &text)
             _paramLayout->addWidget(text);
         }
     }
-}
-
-void DraggableElement::contextMenuRequested(const QPoint &pos)
-{
-    emit dragElemContextMenuRequested(pos, this);
 }
 
 DraggableElement::~DraggableElement()

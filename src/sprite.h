@@ -51,14 +51,13 @@ public:
 signals:
     void spriteSelected(Sprite* sprite);
     void currentCostumeChanged(Sprite* sprite);
-    void spriteContextMenuRequested(const QPoint& pos, Sprite* elem);
 
 public slots:
     void setCurrentCostume(Costume* costume);
-    void contextMenuRequested(const QPoint& pos);
 
 protected:
     void mousePressEvent(QMouseEvent*);
+    void contextMenuEvent(QContextMenuEvent*);
 
     QString _name;
     QLabel _imageLabel;

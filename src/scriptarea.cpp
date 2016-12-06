@@ -1,3 +1,5 @@
+#include <QMenu>
+
 #include "scriptarea.h"
 
 #include "dragelem/draggableelement.h"
@@ -54,6 +56,14 @@ void ScriptArea::paintEvent(QPaintEvent*)
     QPainter painter(this);
     painter.setBrush(QBrush(QColor("#dddede")));
     painter.drawRect(contentsRect());
+}
+
+void ScriptArea::contextMenuEvent(QContextMenuEvent *event)
+{
+    QMenu myMenu(this);
+    myMenu.addAction(tr("clean up"));
+    myMenu.addAction(tr("add comment"));
+    myMenu.exec(event->globalPos());
 }
 
 ScriptArea::~ScriptArea()
