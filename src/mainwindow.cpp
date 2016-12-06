@@ -10,7 +10,10 @@
 
 #include <QtDebug>
 
+#ifdef CONF_CODE_EDITOR
+#include <Qsci/qsciscintilla.h>
 #include <Qsci/qscilexerpython.h>
+#endif
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -63,6 +66,34 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->scene->setPyController(&_pyController);
 
+#ifdef CONF_CODE_EDITOR
+    QFont font;
+    font.setFamily("Consolas");
+    font.setFixedPitch(true);
+    font.setPointSize(10);
+
+    _codeEditor = new QsciScintilla(ui->tabCode);
+    _codeEditor->setObjectName(QStringLiteral("codeEditor"));
+    ui->tabCode->layout()->addWidget(_codeEditor);
+
+    QFontMetrics fm = QFontMetrics(font);
+    _codeEditor->setFont(font);
+    _codeEditor->setMarginsFont(font);
+    _codeEditor->setMarginWidth(0, fm.width( "00000" ) + 5);
+    _codeEditor->setMarginLineNumbers(0, true);
+    _codeEditor->setFolding(QsciScintilla::BoxedTreeFoldStyle);
+    _codeEditor->setBraceMatching(QsciScintilla::SloppyBraceMatch);
+    _codeEditor->setCaretLineVisible(true);
+    _codeEditor->setCaretLineBackgroundColor(QColor("#ffe4e4"));
+    _codeEditor->setMarginsBackgroundColor(QColor("#333333"));
+    _codeEditor->setMarginsForegroundColor(QColor("#CCCCCC"));
+    _codeEditor->setFoldMarginColors(QColor("#99CC66"), QColor("#333300"));
+
+    QsciLexerPython lexer;
+    lexer.setDefaultFont(font);
+    _codeEditor->setLexer(&lexer);
+#endif
+
     connect(this, SIGNAL(currentSpriteChanged(Sprite*)), &_audioEngine, SLOT(setCurrentSprite(Sprite*)));
 
     Sprite* sprite = new Sprite("sprite", this);
@@ -87,27 +118,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(this, SIGNAL(newSound()), ui->soundSelect, SLOT(updateSoundList()));
     connect(this, SIGNAL(newCostume()), ui->costumeSelect, SLOT(updateCostumeList()));
-
-    QFont font;
-    font.setFamily("Consolas");
-    font.setFixedPitch(true);
-    font.setPointSize(10);
-    QFontMetrics fm = QFontMetrics(font);
-    ui->codeEditor->setFont(font);
-    ui->codeEditor->setMarginsFont(font);
-    ui->codeEditor->setMarginWidth(0, fm.width( "00000" ) + 5);
-    ui->codeEditor->setMarginLineNumbers(0, true);
-    ui->codeEditor->setFolding(QsciScintilla::BoxedTreeFoldStyle);
-    ui->codeEditor->setBraceMatching(QsciScintilla::SloppyBraceMatch);
-    ui->codeEditor->setCaretLineVisible(true);
-    ui->codeEditor->setCaretLineBackgroundColor(QColor("#ffe4e4"));
-    ui->codeEditor->setMarginsBackgroundColor(QColor("#333333"));
-    ui->codeEditor->setMarginsForegroundColor(QColor("#CCCCCC"));
-    ui->codeEditor->setFoldMarginColors(QColor("#99CC66"), QColor("#333300"));
-
-    QsciLexerPython lexer;
-    lexer.setDefaultFont(font);
-    ui->codeEditor->setLexer(&lexer);
 
     _fileMenu.addAction(tr("New"));
     _fileMenu.addAction(tr("Open"), this, SLOT(loadFromFile()));
@@ -214,8 +224,10 @@ void MainWindow::reloadCodeAll()
     if(_loading)
         return;
     // TODO
+#ifdef CONF_CODE_EDITOR
     if(_currentSprite)
-        ui->codeEditor->setText(_Cgen.generateSprite(_currentSprite));
+        _codeEditor->setText(_Cgen.generateSprite(_currentSprite));
+#endif
 
     QString name = "sprite_" + getBackgroundSprite()->getName();
     QString code = _Cgen.generateSprite(getBackgroundSprite(), true);
@@ -234,8 +246,10 @@ void MainWindow::reloadCodeSprite(Sprite *sprite)
     if(_loading)
         return;
     // TODO
+#ifdef CONF_CODE_EDITOR
     if(_currentSprite == sprite)
-        ui->codeEditor->setText(_Cgen.generateSprite(_currentSprite));
+        _codeEditor->setText(_Cgen.generateSprite(_currentSprite));
+#endif
 
     QString name = "sprite_" + sprite->getName();
     QString code = _Cgen.generateSprite(sprite);
@@ -489,7 +503,9 @@ void MainWindow::changeCurrentSprite(Sprite *sprite)
 {
     _currentSprite = sprite;
     setCurrentCostume(sprite->getCostumeVector()->at(0));
-    ui->codeEditor->setText(_Cgen.generateSprite(sprite));
+#ifdef CONF_CODE_EDITOR
+    _codeEditor->setText(_Cgen.generateSprite(sprite));
+#endif
     emit currentSpriteChanged(sprite);
 }
 

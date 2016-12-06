@@ -8,7 +8,12 @@ QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 CONFIG += c++11
-CONFIG += qscintilla2
+
+exists($$[QT_INSTALL_HEADERS]/Qsci/qsciglobal.h) {
+    message(Found QScintilla2)
+    CONFIG += qscintilla2
+    DEFINES += CONF_CODE_EDITOR
+}
 
 INCLUDEPATH += src
 DESTDIR=bin #Target file directory
@@ -166,7 +171,7 @@ win32:{
         CONFIG(debug, debug|release):PY_LIB_BASENAME = $${PY_LIB_BASENAME}_d
         INCLUDEPATH *= $$PY_HOME\\include
         LIBS *= -L$$PY_HOME\\libs -l$${PY_LIB_BASENAME}
-        message(Python$$PY_VERSION found at $$PY_HOME)
+        message(Found Python$$PY_VERSION at $$PY_HOME)
         break()
    }
 }

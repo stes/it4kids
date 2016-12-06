@@ -88,6 +88,10 @@ private:
 
     Ui::MainWindow *ui;
 
+#ifdef CONF_CODE_EDITOR
+    class QsciScintilla *_codeEditor;
+#endif
+
     Sprite* _currentSprite;
     Sprite* _backgroundSprite;
 

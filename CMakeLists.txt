@@ -17,13 +17,17 @@ find_package(Qt5Gui REQUIRED)
 find_package(Qt5Multimedia REQUIRED)
 find_package(Qt5PrintSupport REQUIRED)
 
-find_package(QScintilla REQUIRED)
+find_package(QScintilla)
 
 find_package(PythonLibs 3 REQUIRED)
 
 include_directories(src)
 include_directories(${PYTHON_INCLUDE_DIRS})
-include_directories(${QSCINTILLA_INCLUDE_DIR})
+
+if(QSCINTILLA_FOUND)
+	add_definitions(-DCONF_CODE_EDITOR)
+	include_directories(${QSCINTILLA_INCLUDE_DIR})
+endif()
 
 file(GLOB_RECURSE sources src/*.cpp src/*.h)
 
@@ -34,13 +38,16 @@ add_custom_command(TARGET it4kids POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/python ${PROJECT_BINARY_DIR}/python
 	)
 
-# TODO: debug
-target_link_libraries(it4kids
+set(LIBS ${LIBS}
 	Qt5::Widgets
 	Qt5::Core
 	Qt5::Gui
 	Qt5::Multimedia
 	Qt5::PrintSupport
-	${QSCINTILLA_LIBRARY}
-	${PYTHON_LIBRARIES}
-	)
+	${PYTHON_LIBRARIES})
+
+if(QSCINTILLA_FOUND)
+	set(LIBS ${LIBS} ${QSCINTILLA_LIBRARY})
+endif()
+
+target_link_libraries(it4kids ${LIBS})
